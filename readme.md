@@ -10,7 +10,7 @@ This is where commands are entered from.
 This is where commands which have been entered are POSTed to /commands.
 
 **/routes/index.js**  
-This defines which urls the webapp uses, and their behavior.
+This defines which URLs the webapp uses, and their behavior.
 
 * **GET /**  
 Shows you the command entry text field.
