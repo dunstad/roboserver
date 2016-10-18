@@ -1,6 +1,7 @@
 ## Roboserver
 
-This is a web server which OpenComputers robots can read and execute commands from.
+This is a web server which OpenComputers robots can read and execute commands from.  
+To run: `npm start` or `npm run dev` from the root directory.
 
 **/views/index.ejs**  
 This is where commands are entered from.
@@ -9,7 +10,7 @@ This is where commands are entered from.
 This is where commands which have been entered are POSTed to /commands.
 
 **/routes/index.js**  
-This defines which URLs the webapp uses, and their behavior.
+This defines which urls the webapp uses, and their behavior.
 
 * **GET /**  
 Shows you the command entry text field.
