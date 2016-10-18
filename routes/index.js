@@ -4,8 +4,11 @@ var router = express.Router();
 var commands = [];
 
 // test page
-router.get('/test', function(req, res, next) {
-  res.render('test', { title: 'Test!' });
+router.get('/voxelpainter', function(req, res, next) {
+  res.render('voxelpainter', {map: {
+    data: [[0, 1, 0], [0, 1, 0], [0, 1, 0], [0, 1, 0]],
+    rowLength: 2
+  }});
 });
 
 // main page where you enter commands
