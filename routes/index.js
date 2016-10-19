@@ -2,13 +2,17 @@ var express = require('express');
 var router = express.Router();
 
 var commands = [];
+var map = [];
 
-// test page
-router.get('/voxelpainter', function(req, res, next) {
-  res.render('voxelpainter', {map: {
-    data: [[0, 1, 0], [0, 1, 0], [0, 1, 0], [0, 1, 0]],
-    rowLength: 2
-  }});
+// render posted map data
+router.get('/map', function(req, res, next) {
+  res.render('map', {map: map});
+});
+
+// add more data to the current map
+router.post('/map', function(req, res, next) {
+  map = (JSON.parse(req.body.map));
+  res.sendStatus(200);
 });
 
 // main page where you enter commands
@@ -27,5 +31,6 @@ router.post('/commands', function(req, res, next) {
   commands.push(req.body.command);
   res.sendStatus(200);
 });
+
 
 module.exports = router;
