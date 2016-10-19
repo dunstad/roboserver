@@ -71,14 +71,6 @@
 
 			}
 
-      // test
-      function addBox(x, y, z) {
-        var voxel = new THREE.Mesh( cubeGeo, cubeMaterial );
-        voxel.position.set(x, y, z);
-        scene.add( voxel );
-      }
-      setInterval(render, 100);
-
 			function onWindowResize() {
 
 				camera.aspect = window.innerWidth / window.innerHeight;
@@ -93,6 +85,50 @@
 				renderer.render( scene, camera );
 
 			}
+
+			function addVoxel(x, y, z) {
+				var voxel = new THREE.Mesh( cubeGeo, cubeMaterial );
+				voxel.position.set(x, y, z);
+				scene.add( voxel );
+			}
+
+			function makeColumn(x, z) {
+				var col = {};
+				col.x = x;
+				col.z = z;
+				col.data = [];
+				var number;
+				for (var i = 0; i < 64; i++) {
+					if (i > 32) {number = 0;}
+					else {
+						number = Math.round(Math.random());
+					}
+					col.data.push(number);
+				}
+				return col;
+			}
+
+			function addColumnVoxels(col) {
+				voxelSideLength = 50;
+				var yOffset = 32;
+				for (var i = 0; i < col.data.length; i++) {
+					if (col.data[i]) {
+						addVoxel(
+							col.x * voxelSideLength,
+							(i - yOffset)  * voxelSideLength,
+							col.z  * voxelSideLength
+						);
+					}
+				}
+			}
+
+			for (var x = -10; x <= 10; x++) {
+				for (var z = -10; z <= 10; z++) {
+					addColumnVoxels(makeColumn(x, z));
+				}
+			}
+
+			setInterval(render, 100);
 
 		</script>
 
