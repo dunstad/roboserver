@@ -1,9 +1,26 @@
+make git issues for these things
+
+Renderer:
+  improve camera controls
+  color cubes based on hardness
+  switch over to whatever the new data format will be
+  don't add to the scene any voxels which are surrounded? (difficult with multiple nearby scans)
+  
+Scanner:
+  figure out new data format to allow various scan volumes
+  make the data format smaller as well?
+  see if code can be optimized to use less memory
+  send scans in smaller batches
+  detect maximum batch size based on available memory
+
 Have robots send command results back to the server
 Add ability to send commands to different robots
+add ability to send scans to different maps
+add dead reckoning for robots
 Set up database
 Add password to commands, different per robot
-Add hardness map renderer
 Add buttons for commonly used robot commands (i.e. forward, back)
+persistent server side maps that robots can read
 
 distant future:
 neural network to help predict block ids from hardness maps
