@@ -15,3 +15,7 @@ function sendCommand(commandString) {
   .then(console.dir)
   .catch(console.dir);
 }
+
+var socket = io();
+socket.on('message', console.dir);
+socket.send('ping');
