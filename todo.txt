@@ -1,27 +1,36 @@
-make git issues for these things
-make a modded 1.10.2 world with opencomputers and mekanism
+socket.io for real time client updates?
 
-Renderer:
-  improve camera controls
-  color cubes based on hardness
-  switch over to whatever the new data format will be
-  don't add to the scene any voxels which are surrounded? (difficult with multiple nearby scans)
-  
-Scanner:
-  figure out new data format to allow various scan volumes
-  make the data format smaller as well?
-  see if code can be optimized to use less memory
-  send scans in smaller batches
+Pre-meeting:
+
+  Renderer:
+    improve camera controls
+    color cubes based on hardness
+    switch over to whatever the new data format will be
+
+  Scanner:
+    figure out new data format to allow various scan volumes
+    make the data format smaller as well?
+    see if code can be optimized to use less memory
+    send scans in smaller batches
+
+  Have robots send command results back to the server
+
+  add dead reckoning for robots
+
+  Add buttons for commonly used robot commands (i.e. forward, back)
+
+
+
+Post-meeting:
+
+  Set up database
+  persistent server side maps that robots can read
+  Add ability to send commands to different robots
+  add ability to send scans to different maps
+  Add password to commands, different per robot
   detect maximum batch size based on available memory
+  don't add to the scene any voxels which are surrounded?
 
-Have robots send command results back to the server
-Add ability to send commands to different robots
-add ability to send scans to different maps
-add dead reckoning for robots
-Set up database
-Add password to commands, different per robot
-Add buttons for commonly used robot commands (i.e. forward, back)
-persistent server side maps that robots can read
 
 distant future:
 neural network to help predict block ids from hardness maps
