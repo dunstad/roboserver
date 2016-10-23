@@ -1,7 +1,10 @@
 Pre-meeting:
 
-  socket.io for web client to web server communication
   tcp for robot to web server communication
+    see if tcp and socket.io can run at once
+    then send return values of commands that are run
+  socket.io for web client to web server communication
+    ping/pong complete, next send commands via socket
 
   Have robots send command results back to the server
     display them on client

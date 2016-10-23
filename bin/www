@@ -21,7 +21,7 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
-// add socket.io
+// add socket.io and handlers
 var io = require('socket.io')(server);
 io.on('connection', function (socket) {
   console.log('a user connected');
@@ -30,6 +30,16 @@ io.on('connection', function (socket) {
     console.log('a user disconnected');
   });
 });
+
+// listen for tcp connections from robots
+var net = require('net');
+
+var server = net.createServer(function(socket) {
+	socket.write('Echo server\r\n');
+	socket.pipe(socket);
+});
+
+server.listen(1337, '127.0.0.1');
 
 /**
  * Listen on provided port, on all network interfaces.
