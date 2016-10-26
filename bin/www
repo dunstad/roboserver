@@ -25,21 +25,27 @@ var server = http.createServer(app);
 var io = require('socket.io')(server);
 io.on('connection', function (socket) {
   console.log('a user connected');
-  socket.on('message', ()=>{socket.send('pong');});
+  socket.on('message', (data)=>{
+    console.dir(data);
+    socket.send('pong');
+  });
+
+  // relay command results to the web client
+  socket.on('command result', (data)=>{
+    console.dir(data);
+    io.emit('command result', data);
+  });
+
+  // relay commands to the tcp server
+  socket.on('command', (data)=>{
+    console.dir(data);
+    io.emit('command', data);
+  });
+
   socket.on('disconnect', function () {
     console.log('a user disconnected');
   });
 });
-
-// listen for tcp connections from robots
-var net = require('net');
-
-var server = net.createServer(function(socket) {
-	socket.write('Echo server\r\n');
-	socket.pipe(socket);
-});
-
-server.listen(1337, '127.0.0.1');
 
 /**
  * Listen on provided port, on all network interfaces.
