@@ -28,7 +28,7 @@
 
 			var container;
 			var camera, scene, renderer;
-			var controls;
+			var controls, time = Date.now();
 			var cube;
 
 			var cubeGeo, cubeMaterial;
@@ -42,8 +42,8 @@
 				document.body.appendChild( container );
 
 				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 10000 );
-				camera.position.set( 500, 800, 1300 );
-				camera.lookAt( new THREE.Vector3() );
+				// camera.position.set( 50, 80, 130 );
+				// camera.lookAt( new THREE.Vector3() );
 
 				scene = new THREE.Scene();
 
@@ -85,8 +85,10 @@
 			}
 
 			function render() {
-				controls.update();
+				// use # of ms since last update as delta
+				controls.update(Date.now() - time);
 				renderer.render(scene, camera);
+				time = Date.now();
 			}
 
       // code for drawing minecraft maps
@@ -140,13 +142,17 @@
       // add the map data to the scene
 			// should probably be in init
 			addVoxel(0, 0, 0);
+			addVoxel(100, 0, 100);
+			addVoxel(-100, 0, 100);
+			addVoxel(100, 0, -100);
+			addVoxel(-100, 0, -100);
       for (var col of map) {
         addColumnVoxels(col);
       }
 
 			render();
 			// after the first time, render only while controls are active
-      setInterval(function() {controls.enabled ? render() : false}, 100);
+      setInterval(function() {controls.enabled ? render() : false}, 1000 / 60);
 
 		</script>
 
