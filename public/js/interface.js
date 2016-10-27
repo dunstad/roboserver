@@ -22,11 +22,4 @@ commandInput.addEventListener("change", (event)=>{
 function sendCommand(commandString) {
   commandJSON = JSON.stringify({command: commandString});
   console.dir(commandJSON);
-  fetchPromise('/commands', {
-    method: 'post',
-    body: commandJSON,
-    headers: {'Content-Type': 'application/json'}
-  })
-  .then(console.dir)
-  .catch(console.dir);
 }
