@@ -19,6 +19,7 @@
 	<body>
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r81/three.min.js"></script>
+		<script src="/js/PointerLockControls.js"></script>
 		<!-- <script src="/js/three.js-master/build/three.js"></script> -->
 
 		<script>
@@ -27,6 +28,7 @@
 
 			var container;
 			var camera, scene, renderer;
+			var controls, time = Date.now();
 			var cube;
 
 			var cubeGeo, cubeMaterial;
@@ -40,10 +42,14 @@
 				document.body.appendChild( container );
 
 				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 10000 );
-				camera.position.set( 500, 800, 1300 );
-				camera.lookAt( new THREE.Vector3() );
+				// camera.position.set( 50, 80, 130 );
+				// camera.lookAt( new THREE.Vector3() );
 
 				scene = new THREE.Scene();
+
+				// controls
+				controls = new PointerLockControls(camera);
+				scene.add(controls.getObject());
 
 				// cubes
 
@@ -79,9 +85,10 @@
 			}
 
 			function render() {
-
-				renderer.render( scene, camera );
-
+				// use # of ms since last update as delta
+				controls.update(Date.now() - time);
+				renderer.render(scene, camera);
+				time = Date.now();
 			}
 
       // code for drawing minecraft maps
@@ -107,30 +114,45 @@
 				}
 			}
 
-      // reaaaaally simple camera controls
-      function keyPressHandler(e) {
-        var keyCode = e.which;
-        console.log(keyCode);
-        // w
-        if (keyCode == 119) {
-          camera.translateY(-50);
-          render();
-        }
-        // s
-        if (keyCode == 115) {
-          camera.translateY(50);
-          render();
-        }
-      }
+			// locking/unlocking the cursor, enabling/disabling controls
+			var havePointerLock = 'pointerLockElement' in document;
 
-      document.addEventListener('keypress', keyPressHandler);
+			if (havePointerLock) {
+
+				var element = document.body;
+
+				function pointerLockChangeCB(event) {
+					if (document.pointerLockElement === element) {controls.enabled = true;}
+					else {controls.enabled = false;}
+				}
+
+				// Hook pointer lock state change events
+				document.addEventListener( 'pointerlockchange', pointerLockChangeCB, false );
+				document.addEventListener( 'pointerlockerror', console.dir, false );
+
+				element.addEventListener('click', function(event) {
+					element.requestPointerLock();
+				}, false);
+
+			}
+			else {alert('Your browser doesn\'t seem to support Pointer Lock API');}
+
+
 
       // add the map data to the scene
+			// should probably be in init
+			addVoxel(0, 0, 0);
+			addVoxel(100, 0, 100);
+			addVoxel(-100, 0, 100);
+			addVoxel(100, 0, -100);
+			addVoxel(-100, 0, -100);
       for (var col of map) {
         addColumnVoxels(col);
       }
 
-      render();
+			render();
+			// after the first time, render only while controls are active
+      setInterval(function() {controls.enabled ? render() : false}, 1000 / 60);
 
 		</script>
 

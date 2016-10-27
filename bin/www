@@ -26,8 +26,11 @@ var io = require('socket.io')(server);
 io.on('connection', function (socket) {
   console.log('a user connected');
   socket.on('message', (data)=>{
-    console.dir(data);
+    console.log(data);
     socket.send('pong');
+  });
+  socket.on('disconnect', function () {
+    console.log('a user disconnected');
   });
 
   // relay command results to the web client
