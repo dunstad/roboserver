@@ -1,9 +1,10 @@
 Pre-meeting:
 
-  send commands from web client to robot
-  send results from robot to web client
-
-  distinguish between types of clients for http server?
+  no longer using heroku, so need to merge http and tcp server back together
+  remove polling code, urls
+  put map viewer into same page as command input
+  render responses to commands on web client
+  render map data that gets sent to web client
 
   Scanner:
     figure out new data format to allow various scan volumes
@@ -12,8 +13,8 @@ Pre-meeting:
     see if code can be optimized to use less memory
 
   Renderer:
+    add up and down to camera controls
     switch over to whatever the new data format will be
-    improve camera controls
     color cubes based on hardness
 
   Add buttons for commonly used robot commands (i.e. forward, back, place, dig)
