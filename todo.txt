@@ -1,8 +1,6 @@
 Pre-meeting:
 
-  no longer using heroku, so need to merge http and tcp server back together
-  remove polling code, urls
-  put map viewer into same page as command input
+  update readme
   render responses to commands on web client
   render map data that gets sent to web client
 
