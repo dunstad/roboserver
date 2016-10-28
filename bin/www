@@ -21,34 +21,8 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
-// add socket.io and handlers
-var io = require('socket.io')(server);
-io.on('connection', function (socket) {
-  console.log('a user connected');
-  socket.on('message', (data)=>{
-    console.log(data);
-    socket.send('pong');
-  });
-  socket.on('disconnect', function () {
-    console.log('a user disconnected');
-  });
-
-  // relay command results to the web client
-  socket.on('command result', (data)=>{
-    console.dir(data);
-    io.emit('command result', data);
-  });
-
-  // relay commands to the tcp server
-  socket.on('command', (data)=>{
-    console.dir(data);
-    io.emit('command', data);
-  });
-
-  socket.on('disconnect', function () {
-    console.log('a user disconnected');
-  });
-});
+// add socket.io handlers and create tcp server
+require('../public/js/customizeServer.js')(server);
 
 /**
  * Listen on provided port, on all network interfaces.
