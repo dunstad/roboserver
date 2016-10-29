@@ -7,6 +7,9 @@ var host = '127.0.0.1';
 
 var client = new net.Socket();
 client.connect(port, host, function() {
+	client.write(JSON.stringify({
+		'message': 'hi'
+	}));
 	console.log('Connected');
 });
 

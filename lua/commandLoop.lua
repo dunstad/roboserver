@@ -1,27 +1,30 @@
-local inet = require("internet");
-local JSON = assert(loadfile "JSON.lua")();
+dofile "tcp.lua"; -- todo: properly package this stuff
+
+-- todo: properly set environment for load
 robot = require("robot");
 
-function getCommands()
-  local req = inet.request("https://roboserver.herokuapp.com/commands");
-  local serverJson = "";
-  for line in req do
-    serverJson = serverJson .. line .. "\n"
-  end
-
-  local commands = JSON:decode(serverJson)
-  for i = 1, #commands do
-    local command = load(commands[i], nil, "t", _ENV);
-    local status, err = pcall(command);
-    if status then
-      print(commands[i]);
-    else
-      print(err);
+-- wait until a command exists, grab it, execute it, and send result back
+function executeCommand()
+  local data = tcpRead();
+  for k, v in pairs(data) do
+    if k == 'message' then
+      print(v);
+    end
+    if k == 'command' then
+      local command = load(v, nil, "t", _ENV);
+      local status, result = pcall(command);
+      print(v);
+      if result then
+        print(result);
+        tcpWrite({['command result']=result});
+      else
+        tcpWrite({['command result']='OK'});
+      end
     end
   end
 end
 
+-- todo allow breaking this loop somehow
 while true do
-  getCommands();
-  os.sleep(3);
+  executeCommand();
 end

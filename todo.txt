@@ -1,7 +1,8 @@
 Pre-meeting:
 
+  allow breaking out of command loop on robot
+  return values of some commands are being reported strangely, test with robot.up() etc
   update readme
-  render responses to commands on web client
   render map data that gets sent to web client
 
   Scanner:
@@ -11,19 +12,20 @@ Pre-meeting:
     see if code can be optimized to use less memory
 
   Renderer:
-    add up and down to camera controls
     switch over to whatever the new data format will be
     color cubes based on hardness
 
   Add buttons for commonly used robot commands (i.e. forward, back, place, dig)
-  update scene with new scan data after moving
 
 
 Post-meeting:
 
+  stop command input from sending on blur (caused by using change event)
+
   mapping:
-    Set up database
     add dead reckoning for robots
+    update scene with new scan data after moving
+    Set up database
     persistent server side maps that robots can read
     add ability to send scans to different maps
     detect maximum scan batch size based on available memory

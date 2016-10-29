@@ -6,20 +6,30 @@ socket.send('ping');
 // display command results received from robot
 socket.on('command result', (data)=>{
   console.dir(data);
+  addMessage(data, false);
 });
 
 // add functionality to command input field
 var commandInput = document.getElementById('commandInput');
 commandInput.addEventListener("change", (event)=>{
-  sendCommand(event.target.value);
+
+  // display command
+  addMessage(event.target.value, true);
 
   // send command to the web server
   socket.emit('command', event.target.value);
 
+  // clear input text
   event.target.value = '';
+
 });
 
-function sendCommand(commandString) {
-  commandJSON = JSON.stringify({command: commandString});
-  console.dir(commandJSON);
+function addMessage(text, isInput) {
+  var subClass = isInput ? 'input' : 'output';
+  var element = document.createElement('div');
+  element.appendChild(document.createTextNode(text));
+  element.classList.add('message');
+  element.classList.add(subClass);
+  document.getElementById('messageContainer').insertBefore(element, commandInput);
+  document.getElementById('messageContainer').insertBefore(document.createElement('br'), commandInput);
 }

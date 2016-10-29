@@ -1,8 +1,9 @@
 var container;
 var camera, scene, renderer;
-var controls, time = Date.now();
+var controls;
 var cube;
 var cubeGeo, cubeMaterial;
+var framerate = 1000/60;
 
 init();
 render();
@@ -52,14 +53,14 @@ function onWindowResize() {
   camera.updateProjectionMatrix();
 
   renderer.setSize( window.innerWidth, window.innerHeight );
+  render();
 
 }
 
 function render() {
   // use # of ms since last update as delta
-  controls.update(Date.now() - time);
+  controls.update(framerate);
   renderer.render(scene, camera);
-  time = Date.now();
 }
 
 // code for drawing minecraft maps
@@ -88,11 +89,14 @@ function addColumnVoxels(col) {
 // locking/unlocking the cursor, enabling/disabling controls
 if ('pointerLockElement' in document) {
 
-  var element = document.body;
+  var element = renderer.domElement;
 
   function pointerLockChangeCB(event) {
     if (document.pointerLockElement === element) {controls.enabled = true;}
-    else {controls.enabled = false;}
+    else {
+      controls.enabled = false;
+      document.getElementById('commandInput').focus();
+    }
   }
 
   // Hook pointer lock state change events
@@ -121,4 +125,4 @@ addVoxel(-100, 0, -100);
 
 render();
 // after the first time, render only while controls are active
-setInterval(function() {controls.enabled ? render() : false}, 1000 / 60);
+setInterval(function() {controls.enabled ? render() : false}, framerate);

@@ -36,7 +36,8 @@ function main(server) {
   	console.log(message);
   	console.log('total clients: ' + clientList.length);
   	clientList.forEach(function (client) {
-  		client.write(message);
+      // newlines delimit messages
+  		client.write(message + '\r\n');
   	});
     return clientList.length;
   }
@@ -52,7 +53,10 @@ function main(server) {
   	clients.push(tcpSocket);
   	console.log('client added. total clients: ' + clients.length);
 
-  	tcpSocket.write('Echo server\r\n');
+    // test write
+  	tcpSocket.write(
+      JSON.stringify({message: "hello, it's the tcp server!"}) + '\r\n'
+    );
 
   	// relay command results from robot to web server
   	tcpSocket.on('data', (data)=>{
