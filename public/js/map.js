@@ -71,6 +71,24 @@ function addVoxel(x, y, z) {
   scene.add( voxel );
 }
 
+function addShapeVoxels(shape) {
+  voxelSideLength = 50;
+  var yOffset = 32;
+  // lua sends data in a weird format
+  for (var i = 1; i <= shape.data.n; i++) {
+    if (shape.data[i]) {
+      addVoxel(
+        // todo: add in shape.x, y and z for offsets later
+        // todo: write an explanation of the math here
+        // todo: fix this
+        ((i - 1) % shape.w) * voxelSideLength,
+        (Math.floor((i - 1) / (shape.w * shape.d)) - yOffset)  * voxelSideLength,
+        ((i - 1) % (shape.w * shape.d))  * voxelSideLength
+      );
+    }
+  }
+}
+
 function addColumnVoxels(col) {
   voxelSideLength = 50;
   var yOffset = 32;

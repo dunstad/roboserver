@@ -9,6 +9,12 @@ socket.on('command result', (data)=>{
   addMessage(data, false);
 });
 
+// display command results received from robot
+socket.on('map data', (data)=>{
+  console.dir(data);
+  addShapeVoxels(data);
+});
+
 // add functionality to command input field
 var commandInput = document.getElementById('commandInput');
 commandInput.addEventListener("change", (event)=>{
