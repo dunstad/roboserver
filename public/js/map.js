@@ -74,32 +74,23 @@ function addVoxel(x, y, z) {
 function addShapeVoxels(shape) {
   voxelSideLength = 50;
   var yOffset = 32;
-  // lua sends data in a weird format
-  for (var i = 1; i <= shape.data.n; i++) {
-    if (shape.data[i]) {
-      addVoxel(
-        // todo: add in shape.x, y and z for offsets later
-        // todo: write an explanation of the math here
-        // todo: fix this
-        ((i - 1) % shape.w) * voxelSideLength,
-        (Math.floor((i - 1) / (shape.w * shape.d)) - yOffset)  * voxelSideLength,
-        ((i - 1) % (shape.w * shape.d))  * voxelSideLength
-      );
-    }
-  }
-}
-
-function addColumnVoxels(col) {
-  voxelSideLength = 50;
-  var yOffset = 32;
-  // lua sends data in a weird format
-  for (var i = 1; i <= col.data.n; i++) {
-    if (col.data[i]) {
-      addVoxel(
-        col.x * voxelSideLength,
-        (i - yOffset)  * voxelSideLength,
-        col.z  * voxelSideLength
-      );
+  // todo: add in shape.x, y and z for offsets later
+  for(var x = 0; x < shape.w; x++) {
+    for(var z = 0; z < shape.d; z++) {
+      for(var y = 0; y < (shape.data.n / (shape.w * shape.d)); y++) {
+        // this is how the geolyzer reports 3d data in a 1d array
+        // also lua is indexed from 1
+        index = (x + 1) + z*shape.w + y*shape.w*shape.d;
+        if(shape.data[index]) {
+          // subtract one because lua starts at 1 but three.js doesn't
+          addVoxel(
+            x * voxelSideLength,
+            // todo: remove yOffset after changing camera start location
+            (y - yOffset) * voxelSideLength,
+            z * voxelSideLength
+          );
+        }
+      }
     }
   }
 }
@@ -127,19 +118,6 @@ if ('pointerLockElement' in document) {
 
 }
 else {alert("Your browser doesn't seem to support Pointer Lock API");}
-
-
-
-// add the map data to the scene
-// should probably be in init
-addVoxel(0, 0, 0);
-addVoxel(100, 0, 100);
-addVoxel(-100, 0, 100);
-addVoxel(100, 0, -100);
-addVoxel(-100, 0, -100);
-
-// todo: draw whatever data gets sent in from the socket
-
 
 render();
 // after the first time, render only while controls are active

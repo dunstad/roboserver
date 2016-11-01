@@ -3,28 +3,36 @@ Pre-meeting:
   allow breaking out of command loop on robot
   return values of some commands are being reported strangely, test with robot.up() etc
   update readme
-  render map data that gets sent to web client
 
   Scanner:
-    figure out new data format to allow various scan volumes
-    make the data format smaller as well?
-    send scans in smaller batches
-    see if code can be optimized to use less memory
+    write function to scan a horizontal plane
+    update format used to send data (add width, depth, y coordinate)
+    have robot mark itself in scans
 
   Renderer:
-    switch over to whatever the new data format will be
     color cubes based on hardness
 
   Add buttons for commonly used robot commands (i.e. forward, back, place, dig)
 
+  add dead reckoning for robots
+  send new scan data after moving
+    write function to scan 3 columns in front or behind
+    for up or down, send the whole layer
+    buttons for movement with scanning and movement without scanning
 
 Post-meeting:
 
   stop command input from sending on blur (caused by using change event)
 
+  scanner:
+    make the data format smaller? (i.e. ignore 0's)
+    send scans in smaller batches
+    see if code can be optimized to use less memory
+
+  renderer:
+    display coordinates of the voxel being looked at
+
   mapping:
-    add dead reckoning for robots
-    update scene with new scan data after moving
     Set up database
     persistent server side maps that robots can read
     add ability to send scans to different maps

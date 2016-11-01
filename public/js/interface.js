@@ -9,7 +9,7 @@ socket.on('command result', (data)=>{
   addMessage(data, false);
 });
 
-// display command results received from robot
+// render map data received from robot
 socket.on('map data', (data)=>{
   console.dir(data);
   addShapeVoxels(data);

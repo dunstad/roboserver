@@ -16,7 +16,6 @@ client.connect(port, host, function() {
 client.on('data', (data)=>{
 	console.log('Received: ' + data);
 	data = JSON.parse(data);
-	// if the data is probably a command
 	if (data.command) {
 		// hard coded test map
 		if (data.command == 'map') {
