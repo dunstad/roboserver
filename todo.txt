@@ -10,7 +10,7 @@ Pre-meeting:
     have robot mark itself in scans via a special hardness value
 
   renderer:
-    fix hardness map to be more like minecraft's
+    use x/y/z for offsets
 
   Add buttons for commonly used robot commands (i.e. forward, back, place, dig)
 

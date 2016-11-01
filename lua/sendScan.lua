@@ -1,23 +1,13 @@
-local inet = require("internet");
-local JSON = assert(loadfile "JSON.lua")();
 local geolyzer = require("component").geolyzer;
+dofile "tcp.lua"; -- todo: properly package this stuff
 
-function scanArea(minX, minZ, maxX, maxZ)
-  local scan = {};
-  for x = minX, maxX do
-    for z = minZ, maxZ do
-      local colTable = {x=x, z=z, data=geolyzer.scan(x, z)};
-      table.insert(scan, colTable);
-    end
-  end
-  return scan;
+function scanVolume(x, z, y, w, d, h)
+  local result = {x=x, y=y, z=z, w=w, d=d, data=geolyzer.scan(x, z, y, w, d, h)};
+  tcpWrite({['map data']=result});
 end
 
-function sendScan(scan)
-  local req = inet.request("https://roboserver.herokuapp.com/map", {map=JSON:encode(scan)});
-  local serverJson = "";
-  for line in req do
-    serverJson = serverJson .. line .. "\n"
+function scanPlane(y)
+  for x = -32, 31 do
+    scanVolume(x, -32, y, 1, 64, 1);
   end
-  return serverJson;
 end

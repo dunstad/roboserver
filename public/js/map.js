@@ -80,7 +80,6 @@ function addVoxel(x, y, z, color) {
 
 function addShapeVoxels(shape) {
   voxelSideLength = 50;
-  // todo: add in shape.x, y and z for offsets later
   for(var x = 0; x < shape.w; x++) {
     for(var z = 0; z < shape.d; z++) {
       for(var y = 0; y < (shape.data.n / (shape.w * shape.d)); y++) {
@@ -88,11 +87,10 @@ function addShapeVoxels(shape) {
         // also lua is indexed from 1
         index = (x + 1) + z*shape.w + y*shape.w*shape.d;
         if(shape.data[index]) {
-          // subtract one because lua starts at 1 but three.js doesn't
           addVoxel(
-            x * voxelSideLength,
-            y * voxelSideLength,
-            z * voxelSideLength,
+            (x + shape.x) * voxelSideLength,
+            (y + shape.y) * voxelSideLength,
+            (z + shape.z) * voxelSideLength,
             colorFromHardness(shape.data[index])
           );
         }
@@ -107,6 +105,8 @@ function addShapeVoxels(shape) {
 function colorFromHardness(hardness) {
 
   var hardnessToColorMap = {
+    // bedrock
+    '-1': 0x000000,
     // leaves
     0.2: 0x00cc00,
     // glowstone
