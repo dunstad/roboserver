@@ -106,15 +106,35 @@ function addShapeVoxels(shape) {
 // convert ranges of noisy hardness values to specific colors
 function colorFromHardness(hardness) {
 
-  // todo: look up minecraft's actual hardness values
   var hardnessToColorMap = {
-    0.2: 0x002200,
-    0.8: 0x004400,
-    1.0: 0x006600,
-    1.5: 0x008800,
-    2.0: 0x00aa00,
-    3.0: 0x00cc00,
-    5.0: 0x00ff00
+    // leaves
+    0.2: 0x00cc00,
+    // glowstone
+    0.3: 0xffcc00,
+    // netherrack
+    0.4: 0x800000,
+    // dirt or sand
+    0.5: 0xffc140,
+    // grass block
+    0.6: 0xddc100,
+    // sandstone
+    0.8: 0xffff99,
+    // pumpkins or melons
+    1.0: 0xfdca00,
+    // smooth stone
+    1.5: 0xcfcfcf,
+    // cobblestone
+    2.0: 0x959595,
+    // ores
+    3.0: 0x66ffff,
+    // cobwebs
+    4.0: 0xf5f5f5,
+    // ore blocks
+    5.0: 0xc60000,
+    // obsidian
+    50: 0x1f1f1f,
+    // water or lava
+    100: 0x9900cc
   };
 
   var closestMatch = 999; // arbitrarily high number

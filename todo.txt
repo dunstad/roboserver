@@ -9,8 +9,8 @@ Pre-meeting:
     update format used to send data (add width, depth, y coordinate)
     have robot mark itself in scans via a special hardness value
 
-  Renderer:
-    color cubes based on hardness
+  renderer:
+    fix hardness map to be more like minecraft's
 
   Add buttons for commonly used robot commands (i.e. forward, back, place, dig)
 
