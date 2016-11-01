@@ -10,14 +10,18 @@ Pre-meeting:
     have robot mark itself in scans
 
   Renderer:
+    change camera start position
     color cubes based on hardness
 
   Add buttons for commonly used robot commands (i.e. forward, back, place, dig)
 
   add dead reckoning for robots
+    have robot send new location whenever it changes
+    render robot location
+    render robot facing (triangular prism)
   send new scan data after moving
-    write function to scan 3 columns in front or behind
-    for up or down, send the whole layer
+    write function to scan 3 rows in front or behind
+    for up or down, send the whole plane
     buttons for movement with scanning and movement without scanning
 
 Post-meeting:

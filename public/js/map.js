@@ -73,7 +73,6 @@ function addVoxel(x, y, z) {
 
 function addShapeVoxels(shape) {
   voxelSideLength = 50;
-  var yOffset = 32;
   // todo: add in shape.x, y and z for offsets later
   for(var x = 0; x < shape.w; x++) {
     for(var z = 0; z < shape.d; z++) {
@@ -85,14 +84,15 @@ function addShapeVoxels(shape) {
           // subtract one because lua starts at 1 but three.js doesn't
           addVoxel(
             x * voxelSideLength,
-            // todo: remove yOffset after changing camera start location
-            (y - yOffset) * voxelSideLength,
+            y * voxelSideLength,
             z * voxelSideLength
           );
         }
       }
     }
   }
+  // have the shapes appear immediately even if the camera isn't moving
+  render();
 }
 
 // locking/unlocking the cursor, enabling/disabling controls
