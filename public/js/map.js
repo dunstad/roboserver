@@ -2,7 +2,7 @@ var container;
 var camera, scene, renderer;
 var controls;
 var cube;
-var cubeGeo, cubeMaterial;
+var cubeGeo;
 var framerate = 1000/60;
 
 init();
@@ -14,19 +14,24 @@ function init() {
   document.body.appendChild( container );
 
   camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 10000 );
-  // camera.position.set( 50, 80, 130 );
-  // camera.lookAt( new THREE.Vector3() );
 
   scene = new THREE.Scene();
 
   // controls
   controls = new PointerLockControls(camera);
-  scene.add(controls.getObject());
+  var controlsObject = controls.getObject();
+
+  // change the starting position of the camera/controls
+  // above the scene looking down
+  controlsObject.translateZ(200);
+  controlsObject.translateY(800);
+  controlsObject.children[0].rotation.x = -1.5;
+
+  scene.add(controlsObject);
 
   // cubes
 
   cubeGeo = new THREE.BoxGeometry( 50, 50, 50 );
-  cubeMaterial = new THREE.MeshLambertMaterial( { color: 0xfeb74c} );
 
   // Lights
 
@@ -65,10 +70,12 @@ function render() {
 
 // code for drawing minecraft maps
 
-function addVoxel(x, y, z) {
-  var voxel = new THREE.Mesh( cubeGeo, cubeMaterial );
+function addVoxel(x, y, z, color) {
+  // default color is yellow
+  var cubeMaterial = new THREE.MeshLambertMaterial({color: color || 0xfeb74c});
+  var voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
   voxel.position.set(x, y, z);
-  scene.add( voxel );
+  scene.add(voxel);
 }
 
 function addShapeVoxels(shape) {
@@ -85,7 +92,8 @@ function addShapeVoxels(shape) {
           addVoxel(
             x * voxelSideLength,
             y * voxelSideLength,
-            z * voxelSideLength
+            z * voxelSideLength,
+            colorFromHardness(shape.data[index])
           );
         }
       }
@@ -93,6 +101,36 @@ function addShapeVoxels(shape) {
   }
   // have the shapes appear immediately even if the camera isn't moving
   render();
+}
+
+// convert ranges of noisy hardness values to specific colors
+function colorFromHardness(hardness) {
+
+  // todo: look up minecraft's actual hardness values
+  var hardnessToColorMap = {
+    0.2: 0x002200,
+    0.8: 0x004400,
+    1.0: 0x006600,
+    1.5: 0x008800,
+    2.0: 0x00aa00,
+    3.0: 0x00cc00,
+    5.0: 0x00ff00
+  };
+
+  var closestMatch = 999; // arbitrarily high number
+  var oldDifference = Math.abs(closestMatch - hardness);
+  for (var key in hardnessToColorMap) {
+
+    var newDifference = Math.abs(key - hardness);
+    if (newDifference < oldDifference) {
+      closestMatch = key;
+      oldDifference = newDifference;
+    }
+
+  }
+
+  return hardnessToColorMap[closestMatch];
+
 }
 
 // locking/unlocking the cursor, enabling/disabling controls

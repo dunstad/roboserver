@@ -7,10 +7,9 @@ Pre-meeting:
   Scanner:
     write function to scan a horizontal plane
     update format used to send data (add width, depth, y coordinate)
-    have robot mark itself in scans
+    have robot mark itself in scans via a special hardness value
 
   Renderer:
-    change camera start position
     color cubes based on hardness
 
   Add buttons for commonly used robot commands (i.e. forward, back, place, dig)
