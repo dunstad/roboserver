@@ -4,14 +4,6 @@ Pre-meeting:
   return values of some commands are being reported strangely, test with robot.up() etc
   update readme
 
-  Scanner:
-    write function to scan a horizontal plane
-    update format used to send data (add width, depth, y coordinate)
-    have robot mark itself in scans via a special hardness value
-
-  renderer:
-    use x/y/z for offsets
-
   Add buttons for commonly used robot commands (i.e. forward, back, place, dig)
 
   add dead reckoning for robots
@@ -20,17 +12,13 @@ Pre-meeting:
     render robot facing (triangular prism)
   send new scan data after moving
     write function to scan 3 rows in front or behind
+      scan appears to be independent of robot facing, how to deal with it?
     for up or down, send the whole plane
     buttons for movement with scanning and movement without scanning
 
 Post-meeting:
 
   stop command input from sending on blur (caused by using change event)
-
-  scanner:
-    make the data format smaller? (i.e. ignore 0's)
-    send scans in smaller batches
-    see if code can be optimized to use less memory
 
   renderer:
     display coordinates of the voxel being looked at
