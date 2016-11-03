@@ -1,13 +1,24 @@
-local geolyzer = require("component").geolyzer;
-dofile "tcp.lua"; -- todo: properly package this stuff
+local geolyzer = require('component').geolyzer;
+dofile 'tcp.lua'; -- todo: properly package this stuff
+dofile 'trackPosition.lua';
 
 function weightedAverage(n1, w1, n2, w2)
   return (n1*w1 + n2*w2)/(w1 + w2);
 end
 
 function scanVolume(x, z, y, w, d, h, times)
+  -- default to 0 (which is true in lua)
   times = (times - 1) or 0;
-  local result = {x=x, y=y, z=z, w=w, d=d, data=geolyzer.scan(x, z, y, w, d, h)};
+
+  local pos = getPosition();
+  local result = {
+    x = x + pos.x,
+    y = y + pos.y,
+    z = z + pos.z,
+    w=w,
+    d=d,
+    data=geolyzer.scan(x, z, y, w, d, h)};
+
   local weight = 1;
   for i = 1, times do
 
@@ -26,7 +37,7 @@ end
 
 function scanPlane(y, times)
   times = (times - 1) or 0;
-  for x = -32, 31 do
+  for x = -32, 32 do
     scanVolume(x, -32, y, 1, 64, 1, times);
   end
 end

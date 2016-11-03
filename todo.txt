@@ -1,5 +1,7 @@
 Pre-meeting:
 
+  fix times parameter default value (can't subtract 1 from nil)
+
   command-loop
     allow breaking out of command loop on robot
     return values of some commands are being reported strangely, test with robot.up() etc
@@ -19,6 +21,9 @@ Pre-meeting:
   send new scan data after moving
     for up or down, send the whole plane
     buttons for movement with scanning and movement without scanning
+
+  camera
+    go to robot location?
 
 Post-meeting:
 
