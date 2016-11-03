@@ -1,17 +1,19 @@
 local orient = require('trackOrientation');
 local scan = require('sendScan');
 
-local function makeScanner(x, z, w, d)
+local M = {};
+
+function M.makeScanner(x, z, w, d)
   return function(y, times)
     return scan.scanVolume(x, z, y, w, d, 1, times);
   end;
 end
 
 -- functions to scan one row at the end of an axis
-local scanZPos = makeScanner(-32, 32, 64, 1);
-local scanZNeg = makeScanner(-32, -32, 64, 1);
-local scanXPos = makeScanner(32, -32, 1, 64);
-local scanXNeg = makeScanner(-32, -32, 1, 64);
+local scanZPos = M.makeScanner(-32, 32, 64, 1);
+local scanZNeg = M.makeScanner(-32, -32, 64, 1);
+local scanXPos = M.makeScanner(32, -32, 1, 64);
+local scanXNeg = M.makeScanner(-32, -32, 1, 64);
 
 local scanForwardMap = {
   [0]=scanZPos,
@@ -26,8 +28,6 @@ local scanBackMap = {
   [2]=scanZPos,
   [3]=scanXPos
 };
-
-local M = {};
 
 -- orientation is from trackOrientation.lua
 function M.scanForward(y, times)

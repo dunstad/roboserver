@@ -44,7 +44,7 @@ function M.forward()
     for axis, change in pairs(forwardMap[orient.get()]) do
       position[axis] = position[axis] + change;
     end
-    sendLocation();
+    M.sendLocation();
     return position;
   end
   -- if the movement failed
@@ -56,7 +56,7 @@ function M.back()
     for axis, change in pairs(backwardMap[orient.get()]) do
       position[axis] = position[axis] + change;
     end
-    sendLocation();
+    M.sendLocation();
     return position;
   end
   return false;
@@ -65,7 +65,7 @@ end
 function M.up()
   if (robot.up()) then
     position.y = position.y + 1;
-    sendLocation();
+    M.sendLocation();
     return position;
   end
   return false;
@@ -74,13 +74,13 @@ end
 function M.down()
   if (robot.down()) then
     position.y = position.y - 1;
-    sendLocation();
+    M.sendLocation();
     return position;
   end
   return false;
 end
 
-local function sendLocation()
+function M.sendLocation()
   return tcp.write({['robot position']=position});
 end
 

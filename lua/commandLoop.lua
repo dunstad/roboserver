@@ -1,6 +1,9 @@
-local tcp = require('tcp');
-
 -- todo: properly set environment for load
+tcp = require('tcp');
+orient = require('trackOrientation');
+pos = require('trackPosition');
+sendScan = require('sendScan');
+scanDirection = require('scanDirection');
 robot = require("robot");
 
 -- wait until a command exists, grab it, execute it, and send result back

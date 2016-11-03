@@ -2,11 +2,11 @@ local geolyzer = require('component').geolyzer;
 local tcp = require('tcp');
 local pos = require('trackPosition');
 
-local function weightedAverage(n1, w1, n2, w2)
+local M = {};
+
+function M.weightedAverage(n1, w1, n2, w2)
   return (n1*w1 + n2*w2)/(w1 + w2);
 end
-
-local M = {};
 
 function M.scanVolume(x, z, y, w, d, h, times)
   -- default to 0 (which is true in lua)
@@ -32,7 +32,7 @@ function M.scanVolume(x, z, y, w, d, h, times)
 
     -- average all data points using weights
     for j = 1, result.data.n do
-      result.data[j] = weightedAverage(result.data[j], weight, newScan[j], 1);
+      result.data[j] = M.weightedAverage(result.data[j], weight, newScan[j], 1);
     end
 
     weight = weight + 1;
@@ -43,11 +43,11 @@ end
 
 function M.scanPlane(y, times)
   for x = -32, 32 do
-    scanVolume(x, -32, y, 1, 64, 1, times);
+    M.scanVolume(x, -32, y, 1, 64, 1, times);
   end
   -- max shape volume is 64, but we can scan from -32 to 32, inclusive
   -- that's 65, so we have one row we miss in the previous loop to scan
-  scanVolume(-32, 32, y, 64, 1, 1, times);
+  M.scanVolume(-32, 32, y, 64, 1, 1, times);
 end
 
 return M;
