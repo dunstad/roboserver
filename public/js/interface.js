@@ -15,6 +15,11 @@ socket.on('map data', (data)=>{
   addShapeVoxels(data);
 });
 
+// render map data received from robot
+socket.on('robot location', (data)=>{
+  console.dir(data);
+});
+
 // add functionality to command input field
 var commandInput = document.getElementById('commandInput');
 commandInput.addEventListener("change", (event)=>{

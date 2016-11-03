@@ -1,25 +1,5 @@
-local robot = require("robot");
+dofile 'trackOrientation.lua' -- todo: properly package this stuff
 dofile 'sendScan.lua' -- todo: properly package this stuff
-
-local orientation = 0;
--- 0: z+, south
--- 1: x+, east
--- 2: z-, north
--- 3: x-, west
-
--- start using these functions when the robot is facing south.
--- don't revert to using normal turn functions or they'll stop being accurate
-function trackTurnLeft()
-  robot.turnLeft();
-  orientation = (orientation + 1) % 4;
-  return orientation;
-end
-
-function trackTurnRight()
-  robot.turnRight();
-  orientation = (orientation - 1) % 4;
-  return orientation;
-end
 
 function makeScanner(x, z, w, d)
   return function(y, times)
@@ -47,6 +27,7 @@ local scanBackwardMap = {
   [3]=scanXPos
 };
 
+-- orientation is from trackOrientation.lua
 function scanForward(y, times)
   return scanForwardMap[orientation](y, times);
 end

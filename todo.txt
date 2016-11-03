@@ -1,22 +1,28 @@
 Pre-meeting:
 
-  allow breaking out of command loop on robot
-  return values of some commands are being reported strangely, test with robot.up() etc
+  command-loop
+    allow breaking out of command loop on robot
+    return values of some commands are being reported strangely, test with robot.up() etc
+    fix command loop environment
+
   update readme
 
   Add buttons for commonly used robot commands (i.e. forward, back, place, dig)
 
   add dead reckoning for robots
     have robot send new location whenever it changes
+  renderer
     render robot location
+    merge meshes together to speed up rendering
+    make water/lava transparent
     render robot facing (triangular prism)
   send new scan data after moving
-    write function to scan 3 rows in front or behind
-      scan appears to be independent of robot facing, how to deal with it?
     for up or down, send the whole plane
     buttons for movement with scanning and movement without scanning
 
 Post-meeting:
+
+  store robot orientation and position on hard disk, not just in memory
 
   stop command input from sending on blur (caused by using change event)
 
