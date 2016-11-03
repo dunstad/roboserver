@@ -1,29 +1,27 @@
 Pre-meeting:
 
-  fix times parameter default value (can't subtract 1 from nil)
-
   command-loop
+    fix command loop environment
     allow breaking out of command loop on robot
     return values of some commands are being reported strangely, test with robot.up() etc
-    fix command loop environment
-
-  update readme
 
   Add buttons for commonly used robot commands (i.e. forward, back, place, dig)
 
-  add dead reckoning for robots
-    have robot send new location whenever it changes
   renderer
-    render robot location
     merge meshes together to speed up rendering
     make water/lava transparent
     render robot facing (triangular prism)
+
+
   send new scan data after moving
     for up or down, send the whole plane
     buttons for movement with scanning and movement without scanning
 
   camera
     go to robot location?
+
+  update readme
+  how to remember to add code directory to package.path so requires work?
 
 Post-meeting:
 

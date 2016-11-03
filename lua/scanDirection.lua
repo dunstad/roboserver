@@ -1,9 +1,9 @@
-dofile 'trackOrientation.lua' -- todo: properly package this stuff
-dofile 'sendScan.lua' -- todo: properly package this stuff
+local orient = require('trackOrientation');
+local scan = require('sendScan');
 
 function makeScanner(x, z, w, d)
   return function(y, times)
-    return scanVolume(x, z, y, w, d, 1, times);
+    return scan.scanVolume(x, z, y, w, d, 1, times);
   end;
 end
 
@@ -20,18 +20,22 @@ local scanForwardMap = {
   [3]=scanXNeg
 };
 
-local scanBackwardMap = {
+local scanBackMap = {
   [0]=scanZNeg,
   [1]=scanXNeg,
   [2]=scanZPos,
   [3]=scanXPos
 };
 
+local M = {};
+
 -- orientation is from trackOrientation.lua
-function scanForward(y, times)
-  return scanForwardMap[getOrientation()](y, times);
+function M.scanForward(y, times)
+  return scanForwardMap[orient.get()](y, times);
 end
 
-function scanBackward(y, times)
-  return scanBackwardMap[getOrientation()](y, times);
+function M.scanBack(y, times)
+  return scanBackMap[orient.get()](y, times);
 end
+
+return M;

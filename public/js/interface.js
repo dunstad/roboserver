@@ -16,8 +16,9 @@ socket.on('map data', (data)=>{
 });
 
 // render map data received from robot
-socket.on('robot location', (data)=>{
-  console.dir(data);
+socket.on('robot position', (pos)=>{
+  console.dir(pos);
+  moveRobotVoxel(pos);
 });
 
 // add functionality to command input field

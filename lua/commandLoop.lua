@@ -1,4 +1,4 @@
-dofile "tcp.lua"; -- todo: properly package this stuff
+local tcp = require('tcp');
 
 -- todo: properly set environment for load
 robot = require("robot");
@@ -16,9 +16,9 @@ function executeCommand()
       print(v);
       if result then
         print(result);
-        tcpWrite({['command result']=result});
+        tcp.write({['command result']=result});
       else
-        tcpWrite({['command result']='OK'});
+        tcp.write({['command result']='OK'});
       end
     end
   end

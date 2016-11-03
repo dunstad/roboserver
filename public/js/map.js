@@ -4,6 +4,8 @@ var controls;
 var cube;
 var cubeGeo;
 var framerate = 1000/60;
+var voxelSideLength = 50;
+var robotVoxel;
 
 init();
 render();
@@ -77,16 +79,35 @@ function render() {
 
 // code for drawing minecraft maps
 
+// robotVoxel is global
+function moveRobotVoxel(pos) {
+  if (!robotVoxel) {
+    robotVoxel = addVoxel(
+      pos.x * voxelSideLength,
+      pos.y * voxelSideLength,
+      pos.z * voxelSideLength,
+      0xff9999
+    );
+  }
+  else {
+    // robotVoxel.position is a Vector3, pos is not
+    robotVoxel.position.x = pos.x * voxelSideLength;
+    robotVoxel.position.y = pos.y * voxelSideLength;
+    robotVoxel.position.z = pos.z * voxelSideLength;
+  }
+  render();
+}
+
 function addVoxel(x, y, z, color) {
   // default color is yellow
   var cubeMaterial = new THREE.MeshLambertMaterial({color: color || 0xfeb74c});
   var voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
   voxel.position.set(x, y, z);
   scene.add(voxel);
+  return voxel;
 }
 
 function addShapeVoxels(shape) {
-  voxelSideLength = 50;
   for(var x = 0; x < shape.w; x++) {
     for(var z = 0; z < shape.d; z++) {
       for(var y = 0; y < (shape.data.n / (shape.w * shape.d)); y++) {

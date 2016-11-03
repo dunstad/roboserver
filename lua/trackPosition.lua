@@ -1,17 +1,19 @@
 local robot = require("robot");
-dofile "tcp.lua"; -- todo: properly package this stuff
-dofile 'trackOrientation.lua' -- todo: properly package this stuff
+local tcp = require('tcp');
+local orient = require('trackOrientation');
 
 -- wherever you start using these functions is considered 0, 0, 0
 -- don't stop using them once you start or they won't be accurate
 local position = {x=0, y=0, z=0};
 
-function setPosition(x, y, z)
+local M = {};
+
+function M.set(x, y, z)
   position = {x=x, y=y, z=z};
   return position;
 end
 
-function getPosition()
+function M.get()
   return position;
 end
 
@@ -35,11 +37,11 @@ local backwardMap = {
 };
 
 -- orientation comes from trackOrientation.lua
-function trackForward()
+function M.forward()
   -- the loop will only perform one iteration
   -- this is just a way to treat the properties generically
   if (robot.forward()) then
-    for axis, change in pairs(forwardMap[getOrientation()]) do
+    for axis, change in pairs(forwardMap[orient.get()]) do
       position[axis] = position[axis] + change;
     end
     sendLocation();
@@ -49,9 +51,9 @@ function trackForward()
   return false;
 end
 
-function trackBack()
+function M.back()
   if (robot.back()) then
-    for axis, change in pairs(backwardMap[getOrientation()]) do
+    for axis, change in pairs(backwardMap[orient.get()]) do
       position[axis] = position[axis] + change;
     end
     sendLocation();
@@ -60,7 +62,7 @@ function trackBack()
   return false;
 end
 
-function trackUp()
+function M.up()
   if (robot.up()) then
     position.y = position.y + 1;
     sendLocation();
@@ -69,7 +71,7 @@ function trackUp()
   return false;
 end
 
-function trackDown()
+function M.down()
   if (robot.down()) then
     position.y = position.y - 1;
     sendLocation();
@@ -79,5 +81,7 @@ function trackDown()
 end
 
 function sendLocation()
-  return tcpWrite({['robot position']=position});
+  return tcp.write({['robot position']=position});
 end
+
+return M;
