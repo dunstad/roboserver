@@ -1,9 +1,18 @@
+local robot = require("robot");
 dofile "tcp.lua"; -- todo: properly package this stuff
 dofile 'trackOrientation.lua' -- todo: properly package this stuff
 
 -- wherever you start using these functions is considered 0, 0, 0
 -- don't stop using them once you start or they won't be accurate
 local position = {x=0, y=0, z=0};
+
+function setPosition(x, y, z)
+  position = {x=x, y=y, z=z};
+end
+
+function getPosition()
+  return position;
+end
 
 -- how to change coordinates based on orientation
 -- 0: z+, south

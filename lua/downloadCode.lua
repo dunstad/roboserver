@@ -1,6 +1,6 @@
 local os = require('os');
 
-local url = 'https://github.com/dunstad/roboserver/tree/master/lua/';
+local url = 'https://raw.githubusercontent.com/dunstad/roboserver/master/lua/';
 local filenames = {
   'commandLoop.lua',
   'json.lua',
@@ -11,6 +11,12 @@ local filenames = {
   'trackOrientation.lua',
 };
 
-for index, name in pairs(filenames) do
+function downloadAll()
+  for index, name in pairs(filenames) do
+    os.execute('wget -f ' .. url .. name);
+  end
+end
+
+function download(name)
   os.execute('wget -f ' .. url .. name);
 end
