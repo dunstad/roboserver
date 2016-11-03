@@ -8,7 +8,11 @@ end
 
 function scanVolume(x, z, y, w, d, h, times)
   -- default to 0 (which is true in lua)
-  times = (times - 1) or 0;
+  if times then
+    times = times - 1;
+  else
+    times = 0;
+  end
 
   local pos = getPosition();
   local result = {
@@ -36,8 +40,10 @@ function scanVolume(x, z, y, w, d, h, times)
 end
 
 function scanPlane(y, times)
-  times = (times - 1) or 0;
   for x = -32, 32 do
     scanVolume(x, -32, y, 1, 64, 1, times);
   end
+  -- max shape volume is 64, but we can scan from -32 to 32, inclusive
+  -- that's 65, so we have one row we miss in the previous loop to scan
+  scanVolume(-32, 32, y, 64, 1, 1, times);
 end
