@@ -1,7 +1,7 @@
 local orient = require('trackOrientation');
 local scan = require('sendScan');
 
-function makeScanner(x, z, w, d)
+local function makeScanner(x, z, w, d)
   return function(y, times)
     return scan.scanVolume(x, z, y, w, d, 1, times);
   end;

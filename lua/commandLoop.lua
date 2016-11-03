@@ -5,7 +5,7 @@ robot = require("robot");
 
 -- wait until a command exists, grab it, execute it, and send result back
 function executeCommand()
-  local data = tcpRead();
+  local data = tcp.read();
   for k, v in pairs(data) do
     if k == 'message' then
       print(v);

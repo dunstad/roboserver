@@ -80,7 +80,7 @@ function M.down()
   return false;
 end
 
-function sendLocation()
+local function sendLocation()
   return tcp.write({['robot position']=position});
 end
 

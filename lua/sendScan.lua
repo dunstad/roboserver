@@ -2,7 +2,7 @@ local geolyzer = require('component').geolyzer;
 local tcp = require('tcp');
 local pos = require('trackPosition');
 
-function weightedAverage(n1, w1, n2, w2)
+local function weightedAverage(n1, w1, n2, w2)
   return (n1*w1 + n2*w2)/(w1 + w2);
 end
 
