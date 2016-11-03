@@ -7,16 +7,18 @@ local filenames = {
   'scanDirection.lua',
   'sendScan.lua',
   'tcp.lua',
-  'trackLocation.lua',
+  'trackPosition.lua',
   'trackOrientation.lua',
 };
 
+-- rapid reuse may result in receiving cached pages
 function downloadAll()
   for index, name in pairs(filenames) do
     os.execute('wget -f ' .. url .. name);
   end
 end
 
+-- rapid reuse may result in receiving cached pages
 function download(name)
   os.execute('wget -f ' .. url .. name);
 end

@@ -8,6 +8,7 @@ local position = {x=0, y=0, z=0};
 
 function setPosition(x, y, z)
   position = {x=x, y=y, z=z};
+  return position;
 end
 
 function getPosition()
@@ -37,33 +38,44 @@ local backwardMap = {
 function trackForward()
   -- the loop will only perform one iteration
   -- this is just a way to treat the properties generically
-  for axis, change in pairs(forwardMap[orientation]) do
-    position[axis] = position[axis] + change;
+  if (robot.forward()) then
+    for axis, change in pairs(forwardMap[getOrientation()]) do
+      position[axis] = position[axis] + change;
+    end
+    sendLocation();
+    return position;
   end
-  sendLocation();
-  return position;
+  -- if the movement failed
+  return false;
 end
 
 function trackBack()
-  -- the loop will only perform one iteration
-  -- this is just a way to treat the properties generically
-  for axis, change in pairs(backwardMap[orientation]) do
-    position[axis] = position[axis] + change;
+  if (robot.back()) then
+    for axis, change in pairs(backwardMap[getOrientation()]) do
+      position[axis] = position[axis] + change;
+    end
+    sendLocation();
+    return position;
   end
-  sendLocation();
-  return position;
+  return false;
 end
 
 function trackUp()
-  position.y = position.y + 1;
-  sendLocation();
-  return position;
+  if (robot.up()) then
+    position.y = position.y + 1;
+    sendLocation();
+    return position;
+  end
+  return false;
 end
 
 function trackDown()
-  position.y = position.y - 1;
-  sendLocation();
-  return position;
+  if (robot.down()) then
+    position.y = position.y - 1;
+    sendLocation();
+    return position;
+  end
+  return false;
 end
 
 function sendLocation()

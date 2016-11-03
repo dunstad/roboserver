@@ -29,9 +29,9 @@ local scanBackwardMap = {
 
 -- orientation is from trackOrientation.lua
 function scanForward(y, times)
-  return scanForwardMap[orientation](y, times);
+  return scanForwardMap[getOrientation()](y, times);
 end
 
 function scanBackward(y, times)
-  return scanBackwardMap[orientation](y, times);
+  return scanBackwardMap[getOrientation()](y, times);
 end
