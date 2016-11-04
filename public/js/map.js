@@ -25,16 +25,16 @@ function init() {
 
   // change the starting position of the camera/controls
   // settings for 0, 0
-  // controlsObject.translateZ(200);
-  // controlsObject.translateY(800);
-  // controlsObject.children[0].rotation.x = -1.5;
+  controlsObject.translateZ(200);
+  controlsObject.translateY(800);
+  controlsObject.children[0].rotation.x = -1.5;
 
   // settings for 235, 63, 366
-  controlsObject.position.x = 9137.7;
-  controlsObject.position.y = 4234.5;
-  controlsObject.position.z = 18416.7;
-  controlsObject.rotation.y = -13.886;
-  controlsObject.children[0].rotation.x = -.8112;
+  // controlsObject.position.x = 9137.7;
+  // controlsObject.position.y = 4234.5;
+  // controlsObject.position.z = 18416.7;
+  // controlsObject.rotation.y = -13.886;
+  // controlsObject.children[0].rotation.x = -.8112;
 
   scene.add(controlsObject);
 

@@ -1,9 +1,9 @@
 Pre-meeting:
 
   command-loop
-    fix command loop environment
     allow breaking out of command loop on robot
     return values of some commands are being reported strangely, test with robot.up() etc
+    make command loop environment modules not global
 
   Add buttons for commonly used robot commands (i.e. forward, back, place, dig)
 
