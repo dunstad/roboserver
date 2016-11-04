@@ -40,5 +40,9 @@ input {
 /* button display styles */
 
 #buttonContainer {
+  float: right;
+}
 
+#buttonContainer > button {
+  width: 100%;
 }

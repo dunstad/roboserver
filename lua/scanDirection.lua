@@ -5,7 +5,7 @@ local M = {};
 
 function M.makeScanner(x, z, w, d)
   return function(y, times)
-    return scan.scanVolume(x, z, y, w, d, 1, times);
+    return scan.volume(x, z, y, w, d, 1, times);
   end;
 end
 
@@ -30,11 +30,11 @@ local scanBackMap = {
 };
 
 -- orientation is from trackOrientation.lua
-function M.scanForward(y, times)
+function M.forward(y, times)
   return scanForwardMap[orient.get()](y, times);
 end
 
-function M.scanBack(y, times)
+function M.back(y, times)
   return scanBackMap[orient.get()](y, times);
 end
 

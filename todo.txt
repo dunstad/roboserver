@@ -9,6 +9,9 @@ Pre-meeting:
     for up or down, send the whole plane
     buttons for movement with scanning and movement without scanning
 
+  add inventory information
+  add crafting program
+
   update readme
 
 Post-meeting:
