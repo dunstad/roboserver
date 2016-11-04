@@ -1,29 +1,37 @@
 Pre-meeting:
 
-  command-loop
-    allow breaking out of command loop on robot
-    return values of some commands are being reported strangely, test with robot.up() etc
-    make command loop environment modules not global
-
   Add buttons for commonly used robot commands (i.e. forward, back, place, dig)
 
   renderer
     merge meshes together to speed up rendering
-    make water/lava transparent
-    render robot facing (triangular prism)
-
 
   send new scan data after moving
     for up or down, send the whole plane
     buttons for movement with scanning and movement without scanning
 
+  update readme
+
+Post-meeting:
+
+  goto command, raytrace from mouse?
+
   camera
     go to robot location?
 
-  update readme
+  make water/lava transparent
+
+  render robot facing (triangular prism)
+
+  command-loop
+    allow breaking out of command loop on robot
+    return values of some commands are being reported strangely, test with robot.up() etc
+    make command loop environment modules not global
+
+  zero self out of scans
+
   how to remember to add code directory to package.path so requires work?
 
-Post-meeting:
+  implement command history
 
   store robot orientation and position on hard disk, not just in memory
 
