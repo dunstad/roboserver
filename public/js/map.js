@@ -2,8 +2,8 @@ var container;
 var camera, scene, renderer;
 var controls;
 var cube;
-var cubeGeo;
-var framerate = 1000/60;
+var cubeGeo, cubeMat;
+var framerate = 1000/30;
 var voxelSideLength = 50;
 var robotVoxel;
 
@@ -41,6 +41,7 @@ function init() {
   // cubes
 
   cubeGeo = new THREE.BoxGeometry( 50, 50, 50 );
+  cubeMat = new THREE.MeshLambertMaterial({color: 0xfeb74c});
 
   // Lights
 
@@ -86,7 +87,7 @@ function moveRobotVoxel(pos) {
       pos.x * voxelSideLength,
       pos.y * voxelSideLength,
       pos.z * voxelSideLength,
-      0xff9999
+      new THREE.MeshLambertMaterial({color:0xff9999})
     );
   }
   else {
@@ -98,10 +99,9 @@ function moveRobotVoxel(pos) {
   render();
 }
 
-function addVoxel(x, y, z, color) {
+function addVoxel(x, y, z, material) {
   // default color is yellow
-  var cubeMaterial = new THREE.MeshLambertMaterial({color: color || 0xfeb74c});
-  var voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
+  var voxel = new THREE.Mesh(cubeGeo, material || cubeMat);
   voxel.position.set(x, y, z);
   scene.add(voxel);
   return voxel;
@@ -134,35 +134,35 @@ function colorFromHardness(hardness) {
 
   var hardnessToColorMap = {
     // bedrock
-    '-1': 0x000000,
+    '-1': new THREE.MeshLambertMaterial({color:0x000000}),
     // leaves
-    0.2: 0x00cc00,
+    0.2: new THREE.MeshLambertMaterial({color:0x00cc00}),
     // glowstone
-    0.3: 0xffcc00,
+    0.3: new THREE.MeshLambertMaterial({color:0xffcc00}),
     // netherrack
-    0.4: 0x800000,
+    0.4: new THREE.MeshLambertMaterial({color:0x800000}),
     // dirt or sand
-    0.5: 0xffc140,
+    0.5: new THREE.MeshLambertMaterial({color:0xffc140}),
     // grass block
-    0.6: 0xddc100,
+    0.6: new THREE.MeshLambertMaterial({color:0xddc100}),
     // sandstone
-    0.8: 0xffff99,
+    0.8: new THREE.MeshLambertMaterial({color:0xffff99}),
     // pumpkins or melons
-    1.0: 0xfdca00,
+    1.0: new THREE.MeshLambertMaterial({color:0xfdca00}),
     // smooth stone
-    1.5: 0xcfcfcf,
+    1.5: new THREE.MeshLambertMaterial({color:0xcfcfcf}),
     // cobblestone
-    2.0: 0x959595,
+    2.0: new THREE.MeshLambertMaterial({color:0x959595}),
     // ores
-    3.0: 0x66ffff,
+    3.0: new THREE.MeshLambertMaterial({color:0x66ffff}),
     // cobwebs
-    4.0: 0xf5f5f5,
+    4.0: new THREE.MeshLambertMaterial({color:0xf5f5f5}),
     // ore blocks
-    5.0: 0xc60000,
+    5.0: new THREE.MeshLambertMaterial({color:0xc60000}),
     // obsidian
-    50: 0x1f1f1f,
+    50: new THREE.MeshLambertMaterial({color:0x1f1f1f}),
     // water or lava
-    100: 0x9900cc
+    100: new THREE.MeshLambertMaterial({color:0x9900cc})
   };
 
   var closestMatch = 999; // arbitrarily high number

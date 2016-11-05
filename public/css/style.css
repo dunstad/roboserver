@@ -40,7 +40,8 @@ input {
 /* button display styles */
 
 #buttonContainer {
-  float: right;
+  position: absolute;
+  right: 0%;
 }
 
 #buttonContainer > button {

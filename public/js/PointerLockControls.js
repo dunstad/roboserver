@@ -133,7 +133,7 @@ var PointerLockControls = function ( camera ) {
 		velocity.z += ( - velocity.z ) * 0.08 * delta;
 		velocity.y += ( - velocity.y ) * 0.08 * delta;
 
-		var speed = 0.36;
+		var speed = 2;
 
 		if ( moveForward ) velocity.z -= speed * delta;
 		if ( moveBackward ) velocity.z += speed * delta;

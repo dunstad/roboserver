@@ -1,32 +1,26 @@
-Pre-meeting:
+now:
 
-  Add buttons for commonly used robot commands (i.e. forward, back, place, dig)
+  goto command, raytrace from mouse?
+    highlight selected square, raytrace from cursor or camera vector
+    simple goto command, little to no obstacle avoidance
 
-  renderer
-    merge meshes together to speed up rendering
-
-  send new scan data after moving
-    for up or down, send the whole plane
-    buttons for movement with scanning and movement without scanning
+  set view distance for scanForward and scanArea
 
   add inventory information
   add crafting program
 
   update readme
 
-Post-meeting:
-
-  goto command, raytrace from mouse?
+later:
 
   camera
-    go to robot location?
+    go to robot location/follow robot?
 
   make water/lava transparent
 
   render robot facing (triangular prism)
 
   command-loop
-    allow breaking out of command loop on robot
     return values of some commands are being reported strangely, test with robot.up() etc
     make command loop environment modules not global
 

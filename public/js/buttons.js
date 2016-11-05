@@ -14,6 +14,7 @@ function addButton(name, codeString) {
 
 var codeStrings = {
   scanArea: 'for i=-1,7 do sendScan.plane(i); end',
+  scanClose: 'for i=-2,3 do sendScan.volume(-3, -3, i, 8, 8, 1) end',
   forwardScan: 'pos.forward(); for i=-1,7 do scanDirection.forward(i); end',
   forward: 'pos.forward();',
   backScan: 'pos.back(); for i=-1,7 do scanDirection.back(i); end',

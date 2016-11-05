@@ -47,6 +47,7 @@ function M.plane(y, times)
   end
   -- max shape volume is 64, but we can scan from -32 to 32, inclusive
   -- that's 65, so we have one row we miss in the previous loop to scan
+  -- still missing one cube after this final row, but oh well
   M.volume(-32, 32, y, 64, 1, 1, times);
 end
 

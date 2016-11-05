@@ -27,7 +27,13 @@ function executeCommand()
   end
 end
 
--- todo allow breaking this loop somehow
-while true do
-  executeCommand();
+continueLoop = true;
+while continueLoop do
+  if not pcall(executeCommand) then
+    package.loaded.tcp = nil;
+    -- wait for server to finish restarting
+    os.sleep(5);
+    -- reconnect to server
+    tcp = require('tcp');
+  end
 end
