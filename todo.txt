@@ -4,6 +4,8 @@ now:
     highlight selected square, raytrace from cursor or camera vector
     simple goto command, little to no obstacle avoidance
 
+  tcp module renew handle upon error
+
   set view distance for scanForward and scanArea
 
   add inventory information
@@ -19,6 +21,7 @@ later:
   make water/lava transparent
 
   render robot facing (triangular prism)
+    send orientation
 
   command-loop
     return values of some commands are being reported strangely, test with robot.up() etc

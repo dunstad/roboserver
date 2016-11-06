@@ -84,4 +84,59 @@ function M.sendLocation()
   return tcp.write({['robot position']=position});
 end
 
+-- try to reach the desired coordinate until it fails
+function M.approach(target, current, faceAxis)
+  if target ~= current then
+    local dist = target - current;
+    faceAxis(dist);
+    for i = 1, math.abs(dist) do
+      if not M.forward() then return false; end
+    end
+  end
+  return true;
+end
+
+-- try to reach the desired Y coordinate until it fails
+function M.approachY(target)
+  if target ~= position.y then
+
+    local dist = target - position.y;
+
+    local toward;
+    if dist > 0 then
+      toward = M.up;
+    else
+      toward = M.down;
+    end
+
+    for i = 1, math.abs(dist) do
+      if not toward() then return false; end
+    end
+
+  end
+  return true;
+end
+
+-- attempt to go to coordinate until we get stuck
+function M.to(x, y, z)
+  local start = {
+    x = position.x,
+    y = position.y,
+    z = position.z,
+  };
+  local xReached = M.approach(x, position.x, orient.faceX);
+  local zReached = M.approach(z, position.z, orient.faceZ);
+  local yReached = M.approachY(y);
+  if xReached and zReached and yReached then
+    return true;
+  elseif
+    start.x == position.x and
+    start.y == position.y and
+    start.z == position.z then
+    return false;
+  else
+    return M.to(x, y, z);
+  end
+end
+
 return M;

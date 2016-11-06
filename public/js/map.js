@@ -3,9 +3,12 @@ var camera, scene, renderer;
 var controls;
 var cube;
 var cubeGeo, cubeMat;
+var rollOverGeo, rollOverMesh, rollOverMaterial;
 var framerate = 1000/30;
 var voxelSideLength = 50;
 var robotVoxel;
+var raycaster;
+var voxels = [];
 
 init();
 render();
@@ -38,10 +41,18 @@ function init() {
 
   scene.add(controlsObject);
 
+  // raycaster
+  raycaster = new THREE.Raycaster();
+
   // cubes
 
   cubeGeo = new THREE.BoxGeometry( 50, 50, 50 );
   cubeMat = new THREE.MeshLambertMaterial({color: 0xfeb74c});
+
+  rollOverGeo = new THREE.BoxGeometry( 50, 50, 50 );
+  rollOverMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff, opacity: 0.5, transparent: true });
+	rollOverMesh = new THREE.Mesh(rollOverGeo, rollOverMaterial);
+	scene.add(rollOverMesh);
 
   // Lights
 
@@ -72,8 +83,31 @@ function onWindowResize() {
 
 }
 
+// determine where the hover guide should be
+function placeSelector() {
+
+  var fromScreenCenter = new THREE.Vector2(
+    ((renderer.domElement.clientWidth / 2) / renderer.domElement.width) * 2 - 1,
+    -(((renderer.domElement.clientHeight / 2) / renderer.domElement.height) * 2 - 1)
+  );
+
+  raycaster.setFromCamera(fromScreenCenter, camera);
+
+  var intersects = raycaster.intersectObjects(voxels);
+  if (intersects.length > 0) {
+
+    var intersect = intersects[0];
+    var normal = intersect.face.normal.clone();
+    normal.multiplyScalar(50);
+    rollOverMesh.position.copy(intersect.object.position).add(normal);
+
+  }
+
+}
+
 function render() {
   // use # of ms since last update as delta
+  placeSelector();
   controls.update(framerate);
   renderer.render(scene, camera);
 }
@@ -103,6 +137,7 @@ function addVoxel(x, y, z, material) {
   // default color is yellow
   var voxel = new THREE.Mesh(cubeGeo, material || cubeMat);
   voxel.position.set(x, y, z);
+  voxels.push(voxel);
   scene.add(voxel);
   return voxel;
 }
@@ -204,6 +239,11 @@ if ('pointerLockElement' in document) {
 
 }
 else {alert("Your browser doesn't seem to support Pointer Lock API");}
+
+// send command to goto coordinate on click
+renderer.domElement.addEventListener('click', ()=>{
+  console.log(rollOverMesh.position.divideScalar(50).round());
+});
 
 render();
 // after the first time, render only while controls are active
