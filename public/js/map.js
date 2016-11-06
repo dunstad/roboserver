@@ -165,6 +165,7 @@ function addShapeVoxels(shape) {
 }
 
 // convert ranges of noisy hardness values to specific colors
+// todo: make this look better
 function colorFromHardness(hardness) {
 
   var hardnessToColorMap = {
@@ -242,7 +243,13 @@ else {alert("Your browser doesn't seem to support Pointer Lock API");}
 
 // send command to goto coordinate on click
 renderer.domElement.addEventListener('click', ()=>{
-  console.log(rollOverMesh.position.divideScalar(50).round());
+  if (controls.enabled) {
+    var coord = rollOverMesh.position.divideScalar(50).round();
+    console.log(coord);
+    var luaString = 'return pos.to(' + coord.x + ', ' + coord.y + ', ' + coord.z + ');'
+    addMessage(luaString, true);
+    socket.emit('command', luaString);
+  }
 });
 
 render();

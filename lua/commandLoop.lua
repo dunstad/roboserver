@@ -15,14 +15,10 @@ function executeCommand()
     end
     if k == 'command' then
       local command = load(v, nil, "t", _ENV);
-      local status, result = pcall(command);
       print(v);
-      if result then
-        print(result);
-        tcp.write({['command result']=result});
-      else
-        tcp.write({['command result']='OK'});
-      end
+      local status, result = pcall(command);
+      print(status, result);
+      tcp.write({['command result']={status, result}});
     end
   end
 end
@@ -31,9 +27,13 @@ continueLoop = true;
 while continueLoop do
   if not pcall(executeCommand) then
     package.loaded.tcp = nil;
+    package.loaded.sendScan = nil;
+    package.loaded.trackPosition = nil;
     -- wait for server to finish restarting
     os.sleep(5);
     -- reconnect to server
     tcp = require('tcp');
+    pos = require('trackPosition');
+    sendScan = require('sendScan');
   end
 end

@@ -1,11 +1,5 @@
 now:
 
-  goto command, raytrace from mouse?
-    highlight selected square, raytrace from cursor or camera vector
-    simple goto command, little to no obstacle avoidance
-
-  tcp module renew handle upon error
-
   set view distance for scanForward and scanArea
 
   add inventory information
@@ -39,6 +33,7 @@ later:
 
   renderer:
     display coordinates of the voxel being looked at
+    improve rendering color schemes
 
   mapping:
     Set up database
