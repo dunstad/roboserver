@@ -1,39 +1,41 @@
 now:
 
+  sendScan and scanDirection: descriptive error when geolyzer not present
+
   set view distance for scanForward and scanArea
+  toggle for scanning with goto command
 
   add inventory information
+    display contents of robot inventory and current selected space
+
   add crafting program
+
+  how to specify areas to dig?
 
   update readme
 
 later:
 
   camera
-    go to robot location/follow robot?
-
-  make water/lava transparent
-
-  render robot facing (triangular prism)
-    send orientation
+    go to robot location
 
   command-loop
-    return values of some commands are being reported strangely, test with robot.up() etc
     make command loop environment modules not global
 
-  zero self out of scans
-
   how to remember to add code directory to package.path so requires work?
-
-  implement command history
 
   store robot orientation and position on hard disk, not just in memory
 
   stop command input from sending on blur (caused by using change event)
 
   renderer:
+    store all voxels by coordinates
+    update existing voxels instead of placing a new one on top of old ones
+    render robot facing (triangular prism)
+      send orientation
     display coordinates of the voxel being looked at
     improve rendering color schemes
+    make water/lava transparent
 
   mapping:
     Set up database
@@ -47,11 +49,7 @@ later:
     store hashed password with random salt in db
     also store hash on robot, check only that hash for commands
 
-  display contents of robot inventory and current selected space
-
-
 distant future:
   implement minecraft player style inventory manipulation on web-client
-  prediction for inventory and movement?
   blueprint storage and rendering
   neural network to help predict block ids from hardness maps
