@@ -65,17 +65,10 @@ client.on('data', (data)=>{
 	console.log('Received: ' + data);
 	data = JSON.parse(data);
 	if (data.command) {
-		// hard coded test map
-		if (data.command == 'map') {
-			console.log('sending map!')
-			client.write(JSON.stringify(testScan));
-		}
-		else {
-			console.log('responding to command: ' + data.command)
-			client.write(JSON.stringify({
-				'command result': 'response to command: ' + data.command
-			}));
-		}
+		console.log('responding to command: ' + data.command)
+		client.write(JSON.stringify({
+			'command result': 'response to command: ' + data.command
+		}));
 	}
 });
 
