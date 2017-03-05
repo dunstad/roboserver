@@ -1,4 +1,8 @@
-local geolyzer = require('component').geolyzer;
+local component = require('component');
+if not component.isAvailable("geolyzer") then
+  error("Geolyzer not found");
+end
+local geolyzer = component.geolyzer;
 local tcp = require('tcp');
 local pos = require('trackPosition');
 
