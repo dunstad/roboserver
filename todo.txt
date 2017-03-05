@@ -1,6 +1,10 @@
 now:
 
+  fix socket.io url in index view (only works when host is on the same box as the client)
+
   sendScan and scanDirection: descriptive error when geolyzer not present
+
+  
 
   set view distance for scanForward and scanArea
   toggle for scanning with goto command
@@ -12,8 +16,6 @@ now:
 
   how to specify areas to dig?
 
-  update readme
-
 later:
 
   camera
@@ -21,8 +23,6 @@ later:
 
   command-loop
     make command loop environment modules not global
-
-  how to remember to add code directory to package.path so requires work?
 
   store robot orientation and position on hard disk, not just in memory
 

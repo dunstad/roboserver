@@ -1,5 +1,5 @@
 local internet = require('internet');
-local JSON = require("json.lua");
+local JSON = require("json");
 
 local handle = internet.open('127.0.0.1', 3001);
 handle:setvbuf('line');
