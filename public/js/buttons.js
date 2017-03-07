@@ -23,8 +23,8 @@ var codeStrings = {
   turnRight: 'orient.turnRight(); return true;',
   forwardScanBig: 'local p = pos.forward(); for i=-1,7 do scanDirection.forwardBig(i); end return p;',
   backScanBig: 'local p = pos.back(); for i=-1,7 do scanDirection.backBig(i); end return p;',
-  forwardScanSmall: '',
-  backScanSmall: '',
+  forwardScanSmall: 'local p = pos.forward(); scanDirection.forwardSmall(); return p;',
+  backScanSmall: 'local p = pos.back(); scanDirection.backSmall(); return p;',
   scanUp: 'local p = pos.up(); sendScan.plane(7); return p;',
   scanDown: 'local p = pos.down(); sendScan.plane(-1); return p;',
 };
