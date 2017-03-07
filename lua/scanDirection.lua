@@ -15,6 +15,19 @@ local scanZNegBig = M.makeScanner(-32, -32, 64, 1);
 local scanXPosBig = M.makeScanner(32, -32, 1, 64);
 local scanXNegBig = M.makeScanner(-32, -32, 1, 64);
 
+local scanBigMap = {
+  [0]=scanZPosBig,
+  [1]=scanZNegBig,
+  [2]=scanXPosBig,
+  [3]=scanXNegBig
+};
+
+-- functions to scan a small plane in a particular direction
+local scanZPosSmall = M.makeScanner(-32, 32, 64, 1);
+local scanZNegSmall = M.makeScanner(-32, -32, 64, 1);
+local scanXPosSmall = M.makeScanner(32, -32, 1, 64);
+local scanXNegSmall = M.makeScanner(-32, -32, 1, 64);
+
 local scanForwardMap = {
   [0]=0,
   [1]=2,
@@ -29,28 +42,6 @@ local scanBackMap = {
   [3]=2
 };
 
-local scanBigMap = {
-  [0]=scanZPosBig,
-  [1]=scanZNegBig,
-  [2]=scanXPosBig,
-  [3]=scanXNegBig
-};
-
-
--- local scanForwardBigMap = {
---   [0]=scanZPosBig,
---   [1]=scanXPosBig,
---   [2]=scanZNegBig,
---   [3]=scanXNegBig
--- };
---
--- local scanBackBigMap = {
---   [0]=scanZNegBig,
---   [1]=scanXNegBig,
---   [2]=scanZPosBig,
---   [3]=scanXPosBig
--- };
-
 -- orientation is from trackOrientation.lua
 function M.forwardBig(y, times)
   return scanBigMap[scanForwardMap[orient.get()]](y, times);
@@ -58,6 +49,14 @@ end
 
 function M.backBig(y, times)
   return scanBigMap[scanBackMap[orient.get()]](y, times);
+end
+
+function M.forwardSmall(times)
+  return scanSmallMap[scanForwardMap[orient.get()]](y, times);
+end
+
+function M.forwardSmall(times)
+  return scanSmallMap[scanBackMap[orient.get()]](y, times);
 end
 
 return M;
