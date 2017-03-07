@@ -45,18 +45,32 @@ commandInput.addEventListener("keypress", (event)=>{
 });
 
 function addMessage(text, isInput) {
-  var subClass = isInput ? 'input' : 'output';
   var element = document.createElement('div');
-  element.appendChild(document.createTextNode(text));
   element.classList.add('message');
-  element.classList.add(subClass);
-  document.getElementById('messageContainer').insertBefore(element, commandInput);
-  document.getElementById('messageContainer').insertBefore(document.createElement('br'), commandInput);
   if (isInput) {
+    var subClass = 'input';
     element.addEventListener('click', (event)=>{
       var commandInput = document.getElementById('commandInput');
       commandInput.value = event.target.firstChild.textContent;
       commandInput.focus();
     });
+    element.appendChild(document.createTextNode(text));
   }
+  else {
+    var subClass = 'output';
+    element.appendChild(renderCommandResponse(text));
+  }
+  element.classList.add(subClass);
+  document.getElementById('messageContainer').insertBefore(element, commandInput);
+  document.getElementById('messageContainer').insertBefore(document.createElement('br'), commandInput);
+}
+
+function renderCommandResponse(text) {
+  var outputMessageDiv = document.createElement('div');
+  text = text.replace(/,/, '\n');
+  for (line of text.split('\n')) {
+    outputMessageDiv.appendChild(document.createTextNode(line));
+    outputMessageDiv.appendChild(document.createElement('br'));
+  }
+  return outputMessageDiv;
 }

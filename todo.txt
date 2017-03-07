@@ -1,7 +1,6 @@
 now:
 
-  focus command input after clicking a message
-  light up on hover for commands in interface to show they can be clicked
+  render newlines properly
 
   toggle for scanning with movement commands
 
