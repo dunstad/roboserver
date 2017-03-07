@@ -1,16 +1,14 @@
 now:
 
-  does scanForward actually work?
-
   set view distance for scanForward and scanArea
   toggle for scanning with goto command
 
+  write digging program
+
   add inventory information
-    display contents of robot inventory and current selected space
+  display contents of robot inventory and current selected space
 
   add crafting program
-
-  how to specify areas to dig?
 
 later:
 
