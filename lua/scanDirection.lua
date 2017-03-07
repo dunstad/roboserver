@@ -30,10 +30,10 @@ end
 
 -- scan.volume(-3, -3, 8, 8)
 -- functions to scan a small plane in a particular direction
-local scanZPosSmall = M.makeSmallScanner(-3, 5, 8, 1);
-local scanZNegSmall = M.makeSmallScanner(-3, -4, 8, 1);
-local scanXPosSmall = M.makeSmallScanner(5, -3, 1, 8);
-local scanXNegSmall = M.makeSmallScanner(-4, -3, 1, 8);
+local scanZPosSmall = M.makeSmallScanner(-3, 4, 8, 1);
+local scanZNegSmall = M.makeSmallScanner(-3, -3, 8, 1);
+local scanXPosSmall = M.makeSmallScanner(4, -3, 1, 8);
+local scanXNegSmall = M.makeSmallScanner(-3, -3, 1, 8);
 
 local scanSmallMap = {
   [0]=scanZPosSmall,
