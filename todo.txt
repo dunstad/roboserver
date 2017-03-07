@@ -1,7 +1,13 @@
 now:
 
-  set view distance for scanForward and scanArea
-  toggle for scanning with goto command
+  add smaller scanForward/scanBack sizes
+  toggle for scanning with movement commands
+
+  add bash shell mode:
+    local file = assert(io.popen('ls /', 'r'));
+    local output = file:read('*all');
+    file:close();
+    print(output);
 
   write digging program
 
@@ -11,6 +17,8 @@ now:
   add crafting program
 
 later:
+
+  allow limited functionality without geolyzer
 
   move ip address information to a settings file
 
