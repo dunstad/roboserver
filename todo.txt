@@ -1,7 +1,7 @@
 now:
 
-  click on message to return it to the command box
-  stop command input from sending on blur (caused by using change event)
+  focus command input after clicking a message
+  light up on hover for commands in interface to show they can be clicked
 
   toggle for scanning with movement commands
 
@@ -13,6 +13,8 @@ now:
   add crafting program
 
 later:
+
+  tab to switch between lua mode and terminal mode for commandInput
 
   make scanClose the same height as scanForwardSmall/scanBackSmall
 

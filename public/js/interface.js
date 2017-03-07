@@ -54,7 +54,9 @@ function addMessage(text, isInput) {
   document.getElementById('messageContainer').insertBefore(document.createElement('br'), commandInput);
   if (isInput) {
     element.addEventListener('click', (event)=>{
-      document.getElementById('commandInput').value = event.target.firstChild.textContent;
+      var commandInput = document.getElementById('commandInput');
+      commandInput.value = event.target.firstChild.textContent;
+      commandInput.focus();
     });
   }
 }
