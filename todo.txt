@@ -1,15 +1,9 @@
 now:
 
-  add bash shell mode:
-    local file = assert(io.popen('ls /', 'r'));
-    local output = file:read('*all');
-    file:close();
-    print(output);
-
-  toggle for scanning with movement commands
-
   click on message to return it to the command box
   stop command input from sending on blur (caused by using change event)
+
+  toggle for scanning with movement commands
 
   write digging program
 

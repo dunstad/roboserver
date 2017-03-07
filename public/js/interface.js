@@ -23,23 +23,24 @@ socket.on('robot position', (pos)=>{
 
 // add functionality to command input field
 var commandInput = document.getElementById('commandInput');
-commandInput.addEventListener("change", (event)=>{
+commandInput.addEventListener("keypress", (event)=>{
+  if (event.keyCode == 13) {
+    var baseText = event.target.value;
+    var commandText = baseText;
+    if (document.getElementById('runInTerminal').checked) {
+      commandText = "runInTerminal('" + commandText + "')";
+    }
+    commandText = "return " + commandText;
 
-  var commandText = event.target.value;
-  if (document.getElementById('runInTerminal').checked) {
-    commandText = "runInTerminal('" + commandText + "')";
+    // display command
+    addMessage(baseText, true);
+
+    // send command to the web server
+    socket.emit('command', commandText);
+
+    // clear input text
+    event.target.value = '';
   }
-  commandText = "return " + commandText;
-
-  // display command
-  addMessage(commandText, true);
-
-  // send command to the web server
-  socket.emit('command', commandText);
-
-  // clear input text
-  event.target.value = '';
-
 });
 
 function addMessage(text, isInput) {
@@ -50,4 +51,7 @@ function addMessage(text, isInput) {
   element.classList.add(subClass);
   document.getElementById('messageContainer').insertBefore(element, commandInput);
   document.getElementById('messageContainer').insertBefore(document.createElement('br'), commandInput);
+  element.addEventListener('click', (event)=>{
+    document.getElementById('commandInput').value = event.target.firstChild.textContent;
+  });
 }
