@@ -25,11 +25,16 @@ socket.on('robot position', (pos)=>{
 var commandInput = document.getElementById('commandInput');
 commandInput.addEventListener("change", (event)=>{
 
+  var commandText = event.target.value;
+  if (document.getElementById('runInTerminal').checked) {
+    commandText = "runInTerminal('" + commandText + "')";
+  }
+
   // display command
-  addMessage(event.target.value, true);
+  addMessage(commandText, true);
 
   // send command to the web server
-  socket.emit('command', event.target.value);
+  socket.emit('command', commandText);
 
   // clear input text
   event.target.value = '';

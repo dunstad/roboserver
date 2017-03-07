@@ -1,13 +1,15 @@
 now:
 
-  add smaller scanForward/scanBack sizes
-  toggle for scanning with movement commands
-
   add bash shell mode:
     local file = assert(io.popen('ls /', 'r'));
     local output = file:read('*all');
     file:close();
     print(output);
+
+  toggle for scanning with movement commands
+
+  click on message to return it to the command box
+  stop command input from sending on blur (caused by using change event)
 
   write digging program
 
@@ -17,6 +19,8 @@ now:
   add crafting program
 
 later:
+
+  make scanClose the same height as scanForwardSmall/scanBackSmall
 
   allow limited functionality without geolyzer
 
@@ -29,8 +33,6 @@ later:
     make command loop environment modules not global
 
   store robot orientation and position on hard disk, not just in memory
-
-  stop command input from sending on blur (caused by using change event)
 
   renderer:
     store all voxels by coordinates

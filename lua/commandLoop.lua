@@ -6,6 +6,13 @@ sendScan = require('sendScan');
 scanDirection = require('scanDirection');
 robot = require("robot");
 
+function runInTerminal(commandText)
+  local file = assert(io.popen(commandText, 'r'));
+  local output = file:read('*all');
+  file:close();
+  return output;
+end
+
 -- wait until a command exists, grab it, execute it, and send result back
 function executeCommand()
   local data = tcp.read();
