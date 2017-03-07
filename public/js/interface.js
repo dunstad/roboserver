@@ -25,6 +25,7 @@ socket.on('robot position', (pos)=>{
 var commandInput = document.getElementById('commandInput');
 commandInput.addEventListener("keypress", (event)=>{
   if (event.keyCode == 13) {
+    event.preventDefault();
     var baseText = event.target.value;
     var commandText = baseText;
     if (document.getElementById('runInTerminal').checked) {
@@ -51,7 +52,9 @@ function addMessage(text, isInput) {
   element.classList.add(subClass);
   document.getElementById('messageContainer').insertBefore(element, commandInput);
   document.getElementById('messageContainer').insertBefore(document.createElement('br'), commandInput);
-  element.addEventListener('click', (event)=>{
-    document.getElementById('commandInput').value = event.target.firstChild.textContent;
-  });
+  if (isInput) {
+    element.addEventListener('click', (event)=>{
+      document.getElementById('commandInput').value = event.target.firstChild.textContent;
+    });
+  }
 }
