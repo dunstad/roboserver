@@ -1,7 +1,5 @@
 now:
 
-  render newlines properly
-
   toggle for scanning with movement commands
 
   write digging program

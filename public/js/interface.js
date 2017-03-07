@@ -44,7 +44,7 @@ commandInput.addEventListener("keypress", (event)=>{
   }
 });
 
-function addMessage(text, isInput) {
+function addMessage(data, isInput) {
   var element = document.createElement('div');
   element.classList.add('message');
   if (isInput) {
@@ -54,20 +54,20 @@ function addMessage(text, isInput) {
       commandInput.value = event.target.firstChild.textContent;
       commandInput.focus();
     });
-    element.appendChild(document.createTextNode(text));
+    element.appendChild(document.createTextNode(data));
   }
   else {
     var subClass = 'output';
-    element.appendChild(renderCommandResponse(text));
+    element.appendChild(renderCommandResponse(data));
   }
   element.classList.add(subClass);
   document.getElementById('messageContainer').insertBefore(element, commandInput);
   document.getElementById('messageContainer').insertBefore(document.createElement('br'), commandInput);
 }
 
-function renderCommandResponse(text) {
+function renderCommandResponse(data) {
   var outputMessageDiv = document.createElement('div');
-  text = text.replace(/,/, '\n');
+  var text = data[0] + '\n' + data[1];
   for (line of text.split('\n')) {
     outputMessageDiv.appendChild(document.createTextNode(line));
     outputMessageDiv.appendChild(document.createElement('br'));
