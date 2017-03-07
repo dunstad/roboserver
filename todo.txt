@@ -1,7 +1,5 @@
 now:
 
-  does scanForward actually work?
-
   set view distance for scanForward and scanArea
   toggle for scanning with goto command
 
@@ -13,6 +11,8 @@ now:
   how to specify areas to dig?
 
 later:
+
+  allow limited functionality without geolyzer
 
   move ip address information to a settings file
 
