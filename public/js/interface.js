@@ -29,6 +29,7 @@ commandInput.addEventListener("change", (event)=>{
   if (document.getElementById('runInTerminal').checked) {
     commandText = "runInTerminal('" + commandText + "')";
   }
+  commandText += "return ";
 
   // display command
   addMessage(commandText, true);
