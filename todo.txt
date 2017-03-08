@@ -1,7 +1,5 @@
 now:
 
-  add up and down scans for goto command
-
   write digging program (reuse blueprint scan program?)
 
   add inventory information

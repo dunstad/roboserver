@@ -12,27 +12,27 @@ local directionToNoScanMap = {
   ["forward"] = doNothing,
   ["back"] = doNothing,
   ["up"] = doNothing,
-  ["down"] = doNothing
+  ["down"] = doNothing,
 };
 
 local directionToScanSmallMap = {
   ["forward"] = scan.forwardSmall,
   ["back"] = scan.backSmall,
-  ["up"] = doNothing,
-  ["down"] = doNothing
+  ["up"] = scan.upSmall,
+  ["down"] = scan.downSmall,
 };
 
 local directionToScanBigMap = {
-  ["forward"] = function(times) return scan.forwardBig(0, times); end,
-  ["back"] = function(times) return scan.backBig(0, times); end,
-  ["up"] = doNothing,
-  ["down"] = doNothing
+  ["forward"] = function(times) for i=-1,7 do scan.forwardBig(0, times); end end,
+  ["back"] = function(times) for i=-1,7 do scan.backBig(0, times); end end,
+  ["up"] = scan.upBig,
+  ["down"] = scan.downBig,
 };
 
 local scanTypeMap = {
   [0] = directionToNoScanMap,
   [1] = directionToScanSmallMap,
-  [2] = directionToScanBigMap
+  [2] = directionToScanBigMap,
 };
 
 local directionToMoveFunctionMap = {

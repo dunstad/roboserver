@@ -66,12 +66,28 @@ function M.backBig(y, times)
   return scanBigMap[scanBackMap[orient.get()]](y, times);
 end
 
+function M.upBig(times)
+  return scan.plane(7);
+end;
+
+function M.downBig(times)
+  return scan.plane(-1);
+end;
+
 function M.forwardSmall(times)
   return scanSmallMap[scanForwardMap[orient.get()]](y, times);
 end
 
 function M.backSmall(times)
   return scanSmallMap[scanBackMap[orient.get()]](y, times);
+end
+
+function M.upSmall(times)
+  return scan.volume(-3, -3, 5, 8, 8, 1, times);
+end
+
+function M.downSmall(times)
+  return scan.volume(-3, -3, -2, 8, 8, 1, times);
 end
 
 return M;
