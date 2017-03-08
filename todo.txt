@@ -16,8 +16,6 @@ now:
 
 later:
 
-  tab to switch between lua mode and terminal mode for commandInput
-
   make scanClose the same height as scanForwardSmall/scanBackSmall
 
   allow limited functionality without geolyzer
