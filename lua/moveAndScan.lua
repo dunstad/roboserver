@@ -49,32 +49,32 @@ function M.moveAndScan(direction, scanType, times)
 end
 
 -- try to reach the desired X or Z coordinate until it fails
-function M.approach(target, current, faceAxis)
+function M.approach(target, current, faceAxis, scanType, times)
   if target ~= current then
     local dist = target - current;
     faceAxis(dist);
     for i = 1, math.abs(dist) do
-      if not pos.forward() then return false; end
+      if not M.moveAndScan('forward', scanType, times) then return false; end
     end
   end
   return true;
 end
 
 -- try to reach the desired Y coordinate until it fails
-function M.approachY(target)
+function M.approachY(target, scanType, times)
   if target ~= position.y then
 
     local dist = target - position.y;
 
-    local toward;
+    local direction;
     if dist > 0 then
-      toward = pos.up;
+      direction = 'up';
     else
-      toward = pos.down;
+      direction = 'down';
     end
 
     for i = 1, math.abs(dist) do
-      if not toward() then return false; end
+      if not M.moveAndScan(direction, scanType, times) then return false; end
     end
 
   end
@@ -82,15 +82,15 @@ function M.approachY(target)
 end
 
 -- attempt to go to coordinate until we get stuck
-function M.to(x, y, z)
+function M.to(x, y, z, scanType, times)
   local start = {
     x = position.x,
     y = position.y,
     z = position.z,
   };
-  local xReached = M.approach(x, position.x, orient.faceX);
-  local zReached = M.approach(z, position.z, orient.faceZ);
-  local yReached = M.approachY(y);
+  local xReached = M.approach(x, position.x, orient.faceX, scanType, times);
+  local zReached = M.approach(z, position.z, orient.faceZ, scanType, times);
+  local yReached = M.approachY(y, scanType, times);
   if xReached and zReached and yReached then
     return true;
   elseif

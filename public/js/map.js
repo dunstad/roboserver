@@ -246,8 +246,8 @@ renderer.domElement.addEventListener('click', ()=>{
   if (controls.enabled) {
     var coord = rollOverMesh.position.divideScalar(50).round();
     console.log(coord);
-
-    var luaString = 'return moveAndScan.to(' + [coord.x, coord.y, coord.z, ] + ');'
+    var scanLevel = document.getElementById('scanWhileMoving').checked ? 1 : 0;
+    var luaString = 'return mas.to(' + [coord.x, coord.y, coord.z, scanLevel] + ');'
     addMessage(luaString, true);
     socket.emit('command', luaString);
   }
