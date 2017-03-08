@@ -44,6 +44,7 @@ commandInput.addEventListener("keypress", (event)=>{
     event.target.value = '';
   }
   else if (event.keyCode == 9) { // tab
+    event.preventDefault();
     runInTerminal.checked = !runInTerminal.checked;
   }
 });
