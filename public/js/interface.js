@@ -28,13 +28,14 @@ commandInput.addEventListener("keypress", (event)=>{
     event.preventDefault();
     var baseText = event.target.value;
     var commandText = baseText;
-    if (document.getElementById('runInTerminal').checked) {
+    var runInTerminal = document.getElementById('runInTerminal').checked;
+    if (runInTerminal) {
       commandText = "runInTerminal('" + commandText + "')";
     }
     commandText = "return " + commandText;
 
     // display command
-    addMessage(baseText, true);
+    addMessage(baseText, true, runInTerminal);
 
     // send command to the web server
     socket.emit('command', commandText);
@@ -44,25 +45,40 @@ commandInput.addEventListener("keypress", (event)=>{
   }
 });
 
-function addMessage(data, isInput) {
+function addMessage(data, isInput, checked) {
+
   var element = document.createElement('div');
   element.classList.add('message');
+
   if (isInput) {
     var subClass = 'input';
+    element.setAttribute("data-checked", checked);
+
     element.addEventListener('click', (event)=>{
+
       var commandInput = document.getElementById('commandInput');
       commandInput.value = event.target.firstChild.textContent;
       commandInput.focus();
+
+      var checkData = event.target.getAttribute("data-checked");
+      var wasChecked = checkData == "true" ? true : false;
+      var runInTerminal = document.getElementById("runInTerminal");
+      runInTerminal.checked = wasChecked;
+
     });
+
     element.appendChild(document.createTextNode(data));
   }
+
   else {
     var subClass = 'output';
     element.appendChild(renderCommandResponse(data));
   }
+
   element.classList.add(subClass);
   document.getElementById('messageContainer').insertBefore(element, commandInput);
   document.getElementById('messageContainer').insertBefore(document.createElement('br'), commandInput);
+
 }
 
 function renderCommandResponse(data) {
@@ -72,5 +88,6 @@ function renderCommandResponse(data) {
     outputMessageDiv.appendChild(document.createTextNode(line));
     outputMessageDiv.appendChild(document.createElement('br'));
   }
+  outputMessageDiv.lastChild.remove();
   return outputMessageDiv;
 }
