@@ -23,7 +23,7 @@ socket.on('robot position', (pos)=>{
 
 // add functionality to command input field
 var commandInput = document.getElementById('commandInput');
-commandInput.addEventListener("keypress", (event)=>{
+commandInput.addEventListener("keydown", (event)=>{
   var runInTerminal = document.getElementById('runInTerminal');
   if (event.keyCode == 13) { // enter
     event.preventDefault();
