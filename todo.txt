@@ -1,8 +1,6 @@
 now:
 
-  at home:
-    fix crashed robot (problem with new trackPosition code?)
-    test moveAndScan
+  fix scanForwardBig in moveAndScan
 
   toggle for scanning with movement commands
   add up and down scans for goto command
@@ -15,6 +13,10 @@ now:
   add crafting program
 
 later:
+
+  message div blocking click to engage camera control
+
+  stop robot from losing contact through code updates
 
   make scanClose the same height as scanForwardSmall/scanBackSmall
 

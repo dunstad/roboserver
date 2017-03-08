@@ -23,8 +23,8 @@ local directionToScanSmallMap = {
 };
 
 local directionToScanBigMap = {
-  ["forward"] = scan.forwardBig,
-  ["back"] = scan.backBig,
+  ["forward"] = function(times) return scan.forwardBig(0, times); end,
+  ["back"] = function(times) return scan.backBig(0, times); end,
   ["up"] = doNothing,
   ["down"] = doNothing
 };
@@ -42,9 +42,9 @@ local directionToMoveFunctionMap = {
   ["down"] = pos.down
 };
 
-function M.moveAndScan(direction, scanType)
+function M.moveAndScan(direction, scanType, times)
   local p = directionToMoveFunctionMap[direction]();
-  scanTypeMap[scanType][direction]();
+  scanTypeMap[scanType][direction](times);
   return p;
 end
 
