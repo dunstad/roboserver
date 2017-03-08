@@ -24,24 +24,27 @@ socket.on('robot position', (pos)=>{
 // add functionality to command input field
 var commandInput = document.getElementById('commandInput');
 commandInput.addEventListener("keypress", (event)=>{
-  if (event.keyCode == 13) {
+  var runInTerminal = document.getElementById('runInTerminal');
+  if (event.keyCode == 13) { // enter
     event.preventDefault();
     var baseText = event.target.value;
     var commandText = baseText;
-    var runInTerminal = document.getElementById('runInTerminal').checked;
-    if (runInTerminal) {
+    if (runInTerminal.checked) {
       commandText = "runInTerminal('" + commandText + "')";
     }
     commandText = "return " + commandText;
 
     // display command
-    addMessage(baseText, true, runInTerminal);
+    addMessage(baseText, true, runInTerminal.checked);
 
     // send command to the web server
     socket.emit('command', commandText);
 
     // clear input text
     event.target.value = '';
+  }
+  else if (event.keyCode == 9) { // tab
+    runInTerminal.checked = !runInTerminal.checked;
   }
 });
 
