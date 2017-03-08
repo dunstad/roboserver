@@ -1,6 +1,7 @@
 now:
 
   toggle for scanning with movement commands
+  add up and down scans for goto command
 
   write digging program
 

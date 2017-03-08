@@ -1,6 +1,7 @@
 local robot = require("robot");
 local tcp = require('tcp');
 local orient = require('trackOrientation');
+local scan = require("scanDirection");
 
 -- wherever you start using these functions is considered 0, 0, 0
 -- don't stop using them once you start or they won't be accurate
@@ -35,6 +36,11 @@ local backwardMap = {
   [2]={z=1},
   [3]={x=1}
 };
+
+
+function M.sendLocation()
+  return tcp.write({['robot position']=position});
+end
 
 -- orientation comes from trackOrientation.lua
 function M.forward()
@@ -80,11 +86,49 @@ function M.down()
   return false;
 end
 
-function M.sendLocation()
-  return tcp.write({['robot position']=position});
+function doNothing() end
+
+local directionToNoScanMap = {
+  ["forward"] = doNothing,
+  ["back"] = doNothing,
+  ["up"] = doNothing,
+  ["down"] = doNothing
+};
+
+local directionToScanSmallMap = {
+  ["forward"] = scan.forwardSmall,
+  ["back"] = scan.backSmall,
+  ["up"] = doNothing,
+  ["down"] = doNothing
+};
+
+local directionToScanBigMap = {
+  ["forward"] = scan.forwardBig,
+  ["back"] = scan.backBig,
+  ["up"] = doNothing,
+  ["down"] = doNothing
+};
+
+local scanTypeMap = {
+  [0] = directionToNoScanMap,
+  [1] = directionToScanSmallMap,
+  [2] = directionToScanBigMap
+};
+
+local directionToMoveFunctionMap = {
+  ["forward"] = M.forward,
+  ["back"] = M.back,
+  ["up"] = M.up,
+  ["down"] = M.down
+};
+
+function M.moveAndScan(direction, scanType)
+  local p = directionToMoveFunctionMap[direction]();
+  scanTypeMap[scanType][direction]();
+  return p;
 end
 
--- try to reach the desired coordinate until it fails
+-- try to reach the desired X or Z coordinate until it fails
 function M.approach(target, current, faceAxis)
   if target ~= current then
     local dist = target - current;
