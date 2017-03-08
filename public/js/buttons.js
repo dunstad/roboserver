@@ -1,26 +1,26 @@
 var buttonContainer = document.getElementById('buttonContainer');
 
-function addButton(name, codeString) {
+function addButton(name, codeStringFunction) {
   var button = document.createElement('button');
   button.innerHTML = name;
   button.addEventListener('click', ()=>{
-    addMessage(codeString, true);
-    socket.emit('command', codeString);
+    addMessage(codeStringFunction(), true);
+    socket.emit('command', codeStringFunction());
   });
   buttonContainer.appendChild(button);
   buttonContainer.appendChild(document.createElement('br'));
 };
 
-var scanLevel = document.getElementById('scanWhileMoving').value;
+var scanSelect = document.getElementById('scanWhileMoving');
 var codeStrings = {
-  scanArea: 'for i=-1,7 do sendScan.plane(i); end return true;',
-  scanClose: 'for i=-2,3 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;',
-  forward: 'return mas.moveAndScan("forward", '+ scanLevel +');',
-  back: 'return mas.moveAndScan("back", '+ scanLevel +');',
-  up: 'return mas.moveAndScan("up", '+ scanLevel +');',
-  down: 'return mas.moveAndScan("down", '+ scanLevel +');',
-  turnLeft: 'orient.turnLeft(); return true;',
-  turnRight: 'orient.turnRight(); return true;',
+  scanArea: ()=>{return 'for i=-1,7 do sendScan.plane(i); end return true;';},
+  scanClose: ()=>{return 'for i=-2,3 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;';},
+  forward: ()=>{return 'return mas.moveAndScan("forward", ' + scanSelect.value + ');';},
+  back: ()=>{return 'return mas.moveAndScan("back", ' + scanSelect.value + ');';},
+  up: ()=>{return 'return mas.moveAndScan("up", ' + scanSelect.value + ');';},
+  down: ()=>{return 'return mas.moveAndScan("down", ' + scanSelect.value + ');';},
+  turnLeft: ()=>{return 'orient.turnLeft(); return true;';},
+  turnRight: ()=>{return 'orient.turnRight(); return true;';},
 };
 
 for (name in codeStrings) {
