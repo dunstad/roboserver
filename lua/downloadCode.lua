@@ -9,6 +9,7 @@ local filenames = {
   'tcp.lua',
   'trackPosition.lua',
   'trackOrientation.lua',
+  'moveAndScan.lua',
 };
 
 -- rapid reuse may result in receiving cached pages

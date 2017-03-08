@@ -5,7 +5,8 @@ pos = require('trackPosition');
 sendScan = require('sendScan');
 scanDirection = require('scanDirection');
 mas = require('moveAndScan');
-robot = require("robot");
+robot = require('robot');
+dl = require('downloadCode');
 
 function runInTerminal(commandText)
   local file = assert(io.popen(commandText, 'r'));
@@ -22,7 +23,7 @@ function executeCommand()
       print(v);
     end
     if k == 'command' then
-      local command = load(v, nil, "t", _ENV);
+      local command = load(v, nil, 't', _ENV);
       print(v);
       local status, result = pcall(command);
       print(status, result);
