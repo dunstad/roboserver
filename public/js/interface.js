@@ -43,7 +43,7 @@ commandInput.addEventListener("keypress", (event)=>{
     // clear input text
     event.target.value = '';
   }
-  else if (event.keyCode == 9) { // tab
+  else if (event.key == "Tab") {
     event.preventDefault();
     runInTerminal.checked = !runInTerminal.checked;
   }
