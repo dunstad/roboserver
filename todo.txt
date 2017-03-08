@@ -1,7 +1,5 @@
 now:
 
-  make buttons obey scan level
-
   write digging program (reuse blueprint scan program?)
 
   add inventory information
