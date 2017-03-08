@@ -4,6 +4,7 @@ orient = require('trackOrientation');
 pos = require('trackPosition');
 sendScan = require('sendScan');
 scanDirection = require('scanDirection');
+moveAndScan = require('moveAndScan');
 robot = require("robot");
 
 function runInTerminal(commandText)
