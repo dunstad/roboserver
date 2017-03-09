@@ -1,4 +1,4 @@
-class voxelMap {
+class VoxelMap {
   constructor() {
     this.map = {};
   }

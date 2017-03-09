@@ -9,7 +9,7 @@ var voxelSideLength = 50;
 var robotVoxel;
 var raycaster;
 var voxels = [];
-var voxelMap = new voxelMap();
+var voxelMap = new VoxelMap();
 
 main();
 
