@@ -6,7 +6,7 @@ var cubeGeo, cubeMat;
 var rollOverGeo, rollOverMesh, rollOverMaterial;
 var framerate = 1000/30;
 var voxelSideLength = 50;
-var robotVoxel;
+var robotVoxel = new THREE.MeshLambertMaterial({color:0xff9999});
 var raycaster;
 var voxels = [];
 var voxelMap = new VoxelMap();
@@ -129,22 +129,17 @@ function render() {
 
 // robotVoxel is global
 function moveRobotVoxel(pos) {
-  if (!robotVoxel) {
-    robotVoxel = addVoxel(
-      pos.x * voxelSideLength,
-      pos.y * voxelSideLength,
-      pos.z * voxelSideLength,
-      new THREE.MeshLambertMaterial({color:0xff9999})
-    );
-  }
-  else {
-    var priorVoxel = voxelMap.get(pos.x, pos.y, pos.z);
-    if (priorVoxel) {removeVoxel(pos.x, pos.y, pos.z, priorVoxel);}
-    // robotVoxel.position is a Vector3, pos is not
-    robotVoxel.position.x = pos.x * voxelSideLength;
-    robotVoxel.position.y = pos.y * voxelSideLength;
-    robotVoxel.position.z = pos.z * voxelSideLength;
-  }
+
+  var priorVoxel = voxelMap.get(pos.x, pos.y, pos.z);
+  if (priorVoxel) {removeVoxel(pos.x, pos.y, pos.z, priorVoxel);}
+
+  addVoxel(
+    pos.x * voxelSideLength,
+    pos.y * voxelSideLength,
+    pos.z * voxelSideLength,
+    robotVoxel
+  );
+  
   render();
 }
 
