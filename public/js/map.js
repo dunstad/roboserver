@@ -267,7 +267,7 @@ function initPointerLock() {
 }
 
 function getWorldCoord(mesh) {
-  return mesh.position.divideScalar(50).round();
+  return mesh.clone().position.divideScalar(50).round();
 }
 
 function initMoveOnClick() {

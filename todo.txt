@@ -3,6 +3,11 @@ now:
   store all voxels by coordinates
   update existing voxels instead of placing a new one on top of old ones
 
+  implement goToAdjacent
+    get positions adjacent to target
+    sort by distance
+    return when goto one of the adjacent positions succeeds
+
   write digging program (reuse blueprint scan program?)
 
   add inventory information
