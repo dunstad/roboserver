@@ -9,9 +9,18 @@ var voxelSideLength = 50;
 var robotVoxel;
 var raycaster;
 var voxels = [];
+var voxelMap = new voxelMap();
 
-init();
-render();
+main();
+
+function main() {
+  init();
+  render();
+  initPointerLock();
+  initMoveOnClick()
+  render();
+  setInterval(function() {controls.enabled ? render() : false}, framerate);
+}
 
 function init() {
 
@@ -125,6 +134,8 @@ function moveRobotVoxel(pos) {
     );
   }
   else {
+    var priorVoxel = voxelMap.get(pos.x, pos.y, pos.z);
+    if (priorVoxel) {removeVoxel(pos.x, pos.y, pos.z, priorVoxel);}
     // robotVoxel.position is a Vector3, pos is not
     robotVoxel.position.x = pos.x * voxelSideLength;
     robotVoxel.position.y = pos.y * voxelSideLength;
@@ -134,12 +145,24 @@ function moveRobotVoxel(pos) {
 }
 
 function addVoxel(x, y, z, material) {
-  // default color is yellow
   var voxel = new THREE.Mesh(cubeGeo, material || cubeMat);
   voxel.position.set(x, y, z);
+
+  var coord = getWorldCoord(voxel);
+  var priorVoxel = voxelMap.get(coord.x, coord.y, coord.z);
+  if (priorVoxel) {removeVoxel(coord.x, coord.y, coord.z, priorVoxel);}
+
   voxels.push(voxel);
+  voxelMap.set(coord.x, coord.y, coord.z, voxel);
   scene.add(voxel);
+
   return voxel;
+}
+
+function removeVoxel(x, y, z, voxel) {
+  scene.remove(voxel);
+  voxelMap.set(x, y, z, undefined);
+  voxels.splice(voxels.indexOf(voxel), 1);
 }
 
 function addShapeVoxels(shape) {
@@ -217,42 +240,46 @@ function colorFromHardness(hardness) {
 
 }
 
-// locking/unlocking the cursor, enabling/disabling controls
-if ('pointerLockElement' in document) {
+function initPointerLock() {
+  // locking/unlocking the cursor, enabling/disabling controls
+  if ('pointerLockElement' in document) {
 
-  var element = renderer.domElement;
+    var element = renderer.domElement;
 
-  function pointerLockChangeCB(event) {
-    if (document.pointerLockElement === element) {controls.enabled = true;}
-    else {
-      controls.enabled = false;
-      document.getElementById('commandInput').focus();
+    function pointerLockChangeCB(event) {
+      if (document.pointerLockElement === element) {controls.enabled = true;}
+      else {
+        controls.enabled = false;
+        document.getElementById('commandInput').focus();
+      }
     }
+
+    // Hook pointer lock state change events
+    document.addEventListener( 'pointerlockchange', pointerLockChangeCB, false );
+    document.addEventListener( 'pointerlockerror', console.dir, false );
+
+    element.addEventListener('click', function(event) {
+      element.requestPointerLock();
+    }, false);
+
   }
-
-  // Hook pointer lock state change events
-  document.addEventListener( 'pointerlockchange', pointerLockChangeCB, false );
-  document.addEventListener( 'pointerlockerror', console.dir, false );
-
-  element.addEventListener('click', function(event) {
-    element.requestPointerLock();
-  }, false);
-
+  else {alert("Your browser doesn't seem to support Pointer Lock API");}
 }
-else {alert("Your browser doesn't seem to support Pointer Lock API");}
 
-// send command to goto coordinate on click
-renderer.domElement.addEventListener('click', ()=>{
-  if (controls.enabled) {
-    var coord = rollOverMesh.position.divideScalar(50).round();
-    console.log(coord);
-    var scanLevel = document.getElementById('scanWhileMoving').value;
-    var luaString = 'return mas.to(' + [coord.x, coord.y, coord.z, scanLevel] + ');'
-    addMessage(luaString, true);
-    socket.emit('command', luaString);
-  }
-});
+function getWorldCoord(mesh) {
+  return mesh.position.divideScalar(50).round();
+}
 
-render();
-// after the first time, render only while controls are active
-setInterval(function() {controls.enabled ? render() : false}, framerate);
+function initMoveOnClick() {
+  // send command to goto coordinate on click
+  renderer.domElement.addEventListener('click', ()=>{
+    if (controls.enabled) {
+      var coord = getWorldCoord(rollOverMesh);
+      console.log(coord);
+      var scanLevel = document.getElementById('scanWhileMoving').value;
+      var luaString = 'return mas.to(' + [coord.x, coord.y, coord.z, scanLevel] + ');'
+      addMessage(luaString, true);
+      socket.emit('command', luaString);
+    }
+  });
+}
