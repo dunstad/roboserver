@@ -176,13 +176,17 @@ function addShapeVoxels(shape) {
         // this is how the geolyzer reports 3d data in a 1d array
         // also lua is indexed from 1
         index = (x + 1) + z*shape.w + y*shape.w*shape.d;
+
+        var worldPos = {
+          x: (x + shape.x) * voxelSideLength,
+          y: (y + shape.y) * voxelSideLength,
+          z: (z + shape.z) * voxelSideLength,
+        };
         if(shape.data[index]) {
-          addVoxel(
-            (x + shape.x) * voxelSideLength,
-            (y + shape.y) * voxelSideLength,
-            (z + shape.z) * voxelSideLength,
-            colorFromHardness(shape.data[index])
-          );
+          addVoxel(worldPos.x, worldPos.y, worldPos.z, colorFromHardness(shape.data[index]));
+        }
+        else {
+          removeVoxel(worldPos.x, worldPos.y, worldPos.z, voxelMap.get(worldPos.x, worldPos.y, worldPos.z));
         }
       }
     }
