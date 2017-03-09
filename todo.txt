@@ -1,8 +1,5 @@
 now:
 
-  store all voxels by coordinates
-  update existing voxels instead of placing a new one on top of old ones
-
   implement goToAdjacent
     get positions adjacent to target
     sort by distance
@@ -17,13 +14,11 @@ now:
 
 later:
 
-  render tabs properly in robot responses
+  render \t properly in robot responses
 
   message div blocking click to engage camera control
 
   stop robot from losing contact through code updates
-
-  make scanClose the same height as scanForwardSmall/scanBackSmall
 
   allow limited functionality without geolyzer
 
@@ -32,7 +27,7 @@ later:
   camera
     go to robot location
 
-  command-loop
+  commandLoop
     make command loop environment modules not global
 
   store robot orientation and position on hard disk, not just in memory
@@ -40,7 +35,6 @@ later:
   renderer:
     render robot facing (triangular prism)
       send orientation
-    display coordinates of the voxel being looked at
     improve rendering color schemes
     make water/lava transparent
 

@@ -112,6 +112,10 @@ function placeSelector() {
 
   }
 
+  var worldCoords = getWorldCoord(rollOverMesh);
+  var hoverCoordDiv = document.getElementById('hoverGuideCoordinates');
+  hoverCoordDiv.innerHTML = String([worldCoords.x, worldCoords.y, worldCoords.z]);
+
 }
 
 function render() {

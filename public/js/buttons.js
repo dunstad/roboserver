@@ -14,7 +14,7 @@ function addButton(name, codeStringFunction) {
 var scanSelect = document.getElementById('scanWhileMoving');
 var codeStrings = {
   scanArea: ()=>{return 'for i=-1,7 do sendScan.plane(i); end return true;';},
-  scanClose: ()=>{return 'for i=-2,3 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;';},
+  scanClose: ()=>{return 'for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;';},
   forward: ()=>{return 'return mas.moveAndScan("forward", ' + scanSelect.value + ');';},
   back: ()=>{return 'return mas.moveAndScan("back", ' + scanSelect.value + ');';},
   up: ()=>{return 'return mas.moveAndScan("up", ' + scanSelect.value + ');';},
