@@ -6,7 +6,6 @@ var cubeGeo, cubeMat;
 var rollOverGeo, rollOverMesh, rollOverMaterial;
 var framerate = 1000/30;
 var voxelSideLength = 50;
-var robotVoxel = new THREE.MeshLambertMaterial({color:0xff9999});
 var raycaster;
 var voxels = [];
 var voxelMap = new VoxelMap();
@@ -137,9 +136,9 @@ function moveRobotVoxel(pos) {
     pos.x * voxelSideLength,
     pos.y * voxelSideLength,
     pos.z * voxelSideLength,
-    robotVoxel
+    new THREE.MeshLambertMaterial({color:0xff9999})
   );
-  
+
   render();
 }
 
