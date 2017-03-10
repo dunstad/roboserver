@@ -1,7 +1,6 @@
 now:
 
-  bug: voxels which are no longer present not deleted when scan data received
-  bug: robotVoxel deleted by addVoxel
+  add moveVoxel for robot movement?
 
   implement goToAdjacent
     get positions adjacent to target
