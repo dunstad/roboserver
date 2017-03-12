@@ -141,13 +141,10 @@ function render() {
 
 // code for drawing minecraft maps
 
-<<<<<<< HEAD
 /**
  * Removes the robot voxel and redraws it elsewhere.
  * @param {object} pos 
  */
-=======
->>>>>>> 067a8cc7e986f73a4d85ed66e9d3cef81347d10c
 function moveRobotVoxel(pos) {
 
   newRobot = addVoxel(
