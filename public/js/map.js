@@ -9,6 +9,7 @@ var voxelSideLength = 50;
 var raycaster;
 var voxels = [];
 var voxelMap = new VoxelMap();
+var robotVoxel;
 
 main();
 
@@ -140,21 +141,27 @@ function render() {
 
 // code for drawing minecraft maps
 
+<<<<<<< HEAD
 /**
  * Removes the robot voxel and redraws it elsewhere.
  * @param {object} pos 
  */
+=======
+>>>>>>> 067a8cc7e986f73a4d85ed66e9d3cef81347d10c
 function moveRobotVoxel(pos) {
 
-  var priorVoxel = voxelMap.get(pos.x, pos.y, pos.z);
-  if (priorVoxel) {removeVoxel(pos.x, pos.y, pos.z, priorVoxel);}
-
-  addVoxel(
+  newRobot = addVoxel(
     pos.x * voxelSideLength,
     pos.y * voxelSideLength,
     pos.z * voxelSideLength,
     new THREE.MeshLambertMaterial({color:0xff9999})
   );
+
+  if (robotVoxel) {
+    var robotPos = getWorldCoord(robotVoxel);
+    removeVoxel(robotPos.x, robotPos.y, robotPos.z, robotVoxel);
+  }
+  robotVoxel = newRobot;
 
   render();
 }
@@ -190,9 +197,14 @@ function addVoxel(x, y, z, material) {
  * @param {object} voxel 
  */
 function removeVoxel(x, y, z, voxel) {
-  scene.remove(voxel);
-  voxelMap.set(x, y, z, undefined);
-  voxels.splice(voxels.indexOf(voxel), 1);
+  result = false;
+  if (voxel && voxels.indexOf(voxel) != -1) {
+    scene.remove(voxel);
+    voxelMap.set(x, y, z, undefined);
+    voxels.splice(voxels.indexOf(voxel), 1);
+    result = true;
+  }
+  return result;
 }
 
 /**
