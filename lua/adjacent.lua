@@ -1,3 +1,6 @@
+local orient = require('trackOrientation');
+local pos = require('trackPosition');
+
 local M = {};
 
 function M.getAdjacent(coord)
@@ -21,6 +24,30 @@ end
 
 function M.distanceSort(start, destinations)
   table.sort(destinations, distFromSort(start));
+end
+
+function M.facePoint(point)
+  local start = pos.get();
+  if point.x ~= start.x then
+    orient.faceX(point.x - start.x);
+  else if point.z ~= start.z then
+    orient.faceZ(point.z - start.z);
+  end
+  return orient.get();
+end
+
+function M.adjacentPoints(point)
+  local negXPoint = {point.x-1, point.y, point.z};
+  local posXPoint = {point.x+1, point.y, point.z};
+  local negZPoint = {point.x, point.y, point.z-1};
+  local posZPoint = {point.x, point.y, point.z+1};
+  local negYPoint = {point.x, point.y-1, point.z};
+  local posYPoint = {point.x, point.y+1, point.z};
+  return {negXPoint, posXPoint, negZPoint, posZPoint, negYPoint, posYPoint};
+end
+
+function toAdjacent()
+
 end
 
 return M;
