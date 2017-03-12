@@ -12,6 +12,9 @@ var voxelMap = new VoxelMap();
 
 main();
 
+/**
+ * Runs the rendering and camera control code.
+ */
 function main() {
   init();
   render();
@@ -21,6 +24,9 @@ function main() {
   setInterval(function() {controls.enabled ? render() : false}, framerate);
 }
 
+/**
+ * Sets the initial scene.
+ */
 function init() {
 
   container = document.createElement( 'div' );
@@ -81,6 +87,9 @@ function init() {
 
 }
 
+/**
+ * Makes sure everything looks fine after the window changes size.
+ */
 function onWindowResize() {
 
   camera.aspect = window.innerWidth / window.innerHeight;
@@ -91,7 +100,9 @@ function onWindowResize() {
 
 }
 
-// determine where the hover guide should be
+/**
+ * Determines where to place the hover guide.
+ */
 function placeSelector() {
 
   var fromScreenCenter = new THREE.Vector2(
@@ -117,6 +128,9 @@ function placeSelector() {
 
 }
 
+/**
+ * Places the hover guide, listens for the camera controls, and draws the scene.
+ */
 function render() {
   // use # of ms since last update as delta
   placeSelector();
@@ -126,7 +140,10 @@ function render() {
 
 // code for drawing minecraft maps
 
-// robotVoxel is global
+/**
+ * Removes the robot voxel and redraws it elsewhere.
+ * @param {object} pos 
+ */
 function moveRobotVoxel(pos) {
 
   var priorVoxel = voxelMap.get(pos.x, pos.y, pos.z);
@@ -142,6 +159,14 @@ function moveRobotVoxel(pos) {
   render();
 }
 
+/**
+ * Removes any existing voxel at the coordinates and adds a new one.
+ * @param {number} x 
+ * @param {number} y 
+ * @param {number} z 
+ * @param {object} material 
+ * @returns {object}
+ */
 function addVoxel(x, y, z, material) {
   var voxel = new THREE.Mesh(cubeGeo, material || cubeMat);
   voxel.position.set(x, y, z);
@@ -157,12 +182,23 @@ function addVoxel(x, y, z, material) {
   return voxel;
 }
 
+/**
+ * Removes the voxel at x, y, z if there is one.
+ * @param {number} x 
+ * @param {number} y 
+ * @param {number} z 
+ * @param {object} voxel 
+ */
 function removeVoxel(x, y, z, voxel) {
   scene.remove(voxel);
   voxelMap.set(x, y, z, undefined);
   voxels.splice(voxels.indexOf(voxel), 1);
 }
 
+/**
+ * Used to draw terrain data received from robots.
+ * @param {object} shape 
+ */
 function addShapeVoxels(shape) {
   for(var x = 0; x < shape.w; x++) {
     for(var z = 0; z < shape.d; z++) {
@@ -189,8 +225,11 @@ function addShapeVoxels(shape) {
   render();
 }
 
-// convert ranges of noisy hardness values to specific colors
-// todo: make this look better
+/**
+ * Converts ranges of noisy hardness values to specific colors.
+ * @param {number} hardness 
+ * @returns {object}
+ */
 function colorFromHardness(hardness) {
 
   var hardnessToColorMap = {
@@ -242,6 +281,9 @@ function colorFromHardness(hardness) {
 
 }
 
+/**
+ * Allows enabling and disabling of the camera controls.
+ */
 function initPointerLock() {
   // locking/unlocking the cursor, enabling/disabling controls
   if ('pointerLockElement' in document) {
@@ -268,10 +310,18 @@ function initPointerLock() {
   else {alert("Your browser doesn't seem to support Pointer Lock API");}
 }
 
+/**
+ * Returns the corresponding Minecraft world coordinate of a voxel.
+ * @param {object} mesh 
+ * @returns {object}
+ */
 function getWorldCoord(mesh) {
   return mesh.clone().position.divideScalar(50).round();
 }
 
+/**
+ * Sends a command to robots telling them to move to the coordinate clicked on.
+ */
 function initMoveOnClick() {
   // send command to goto coordinate on click
   renderer.domElement.addEventListener('click', ()=>{

@@ -49,6 +49,12 @@ commandInput.addEventListener("keydown", (event)=>{
   }
 });
 
+/**
+ * Used to display on the web client commands sent to and received from robots.
+ * @param {string | any[]} data 
+ * @param {boolean} isInput 
+ * @param {boolean} checked 
+ */
 function addMessage(data, isInput, checked) {
 
   var element = document.createElement('div');
@@ -85,6 +91,11 @@ function addMessage(data, isInput, checked) {
 
 }
 
+/**
+ * Used by addMessage to ensure newlines in messages sent from robots display properly in the web client.
+ * @param {any[]} data 
+ * @returns {HTMLDivElement}
+ */
 function renderCommandResponse(data) {
   var outputMessageDiv = document.createElement('div');
   var text = data[0] + '\n' + data[1];

@@ -1,3 +1,7 @@
+/**
+ * Starts the TCP server and adds event listeners to the HTTP server.
+ * @param {object} server 
+ */
 function main(server) {
 
   // start http/socket.io server code
@@ -30,7 +34,11 @@ function main(server) {
 
   // start tcp server code
 
-  // send message to every client in clientList
+  /**
+   * 
+   * @param {string} message 
+   * @param {object[]} clientList 
+   */
   function broadcast(message, clientList) {
   	// Log it to the server output too
   	console.log(message);
