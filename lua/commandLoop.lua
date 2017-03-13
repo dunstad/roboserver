@@ -7,6 +7,7 @@ scanDirection = require('scanDirection');
 mas = require('moveAndScan');
 robot = require('robot');
 dl = require('downloadCode');
+adj = require('adjacent');
 
 function runInTerminal(commandText)
   local file = assert(io.popen(commandText, 'r'));
