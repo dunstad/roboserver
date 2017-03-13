@@ -21,7 +21,8 @@ function main() {
   init();
   render();
   initPointerLock();
-  initMoveOnClick()
+  initMoveOnClick();
+  initSelectArea();
   render();
   setInterval(function() {controls.enabled ? render() : false}, framerate);
 }
@@ -382,15 +383,56 @@ function getWorldCoord(mesh) {
  * Sends a command to robots telling them to move to the coordinate clicked on.
  */
 function initMoveOnClick() {
-  // send command to goto coordinate on click
   renderer.domElement.addEventListener('click', ()=>{
-    if (controls.enabled) {
+    var moveToolActive = document.getElementById('moveTool').checked;
+    if (controls.enabled && moveToolActive) {
       var coord = getWorldCoord(rollOverMesh);
       console.log(coord);
       var scanLevel = document.getElementById('scanWhileMoving').value;
       var luaString = 'return mas.to(' + [coord.x, coord.y, coord.z, scanLevel] + ');'
       addMessage(luaString, true);
       socket.emit('command', luaString);
+    }
+  });
+}
+
+var selectStart = {
+  x: document.getElementById('selectStartX'),
+  y: document.getElementById('selectStartY'),
+  z: document.getElementById('selectStartZ')
+};
+var selectEnd = {
+  x: document.getElementById('selectEndX'),
+  y: document.getElementById('selectEndY'),
+  z: document.getElementById('selectEndZ')
+};
+
+/**
+ * Allows specifying an area of voxels. Used for digging.
+ */
+function initSelectArea() {
+  renderer.domElement.addEventListener('click', ()=>{
+    var selectToolActive = document.getElementById('selectTool').checked;
+    if (controls.enabled && selectToolActive) {
+      if (!(selectStart.x.value || selectStart.y.value || selectStart.z.value)) {
+        selectStart.x.value = rollOverMesh.position.x;
+        selectStart.y.value = rollOverMesh.position.y;
+        selectStart.z.value = rollOverMesh.position.z;
+      }
+      else if (!(selectEnd.x.value || selectEnd.y.value || selectEnd.z.value)) {
+        selectEnd.x.value = rollOverMesh.position.x;
+        selectEnd.y.value = rollOverMesh.position.y;
+        selectEnd.z.value = rollOverMesh.position.z;
+      }
+      else {
+        var v1 = new THREE.Vector3(selectStart.x.value, selectStart.y.value, selectStart.z.value);
+        var v2 = new THREE.Vector3(selectEnd.x.value, selectEnd.y.value, selectEnd.z.value);
+        scene.add(makeBoxAround(v1, v2, rollOverMaterial));
+        for (fieldName in selectStart) {
+          selectStart[fieldName].value = '';
+          selectEnd[fieldName].value = '';
+        }
+      }
     }
   });
 }

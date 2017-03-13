@@ -44,6 +44,7 @@ input {
 #buttonContainer {
   position: absolute;
   right: 0%;
+  width:210px;
 }
 
 #buttonContainer > button {
@@ -54,4 +55,8 @@ input {
   background-color: #f0f0f0;
   padding: 4px;
   border-radius: 25px;
+}
+
+input[type=number] {
+  width:50px;
 }
