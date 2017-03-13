@@ -3,9 +3,9 @@
   <head>
     <meta charset='UTF-8'>
     <title>Roboserver!</title>
-    <script src="/js/socket.io.js"></script>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src='/js/socket.io.js'></script>
+    <link rel='stylesheet' href='/css/style.css'>
+    <link rel='stylesheet' href='/css/bootstrap.min.css'>
   </head>
   <body>
 
@@ -15,33 +15,46 @@
     </div>
 
     <div id='buttonContainer'>
-      <div class="btn-group" data-toggle="buttons">
-        <label class="btn btn-primary active">
-          <input type="radio" name="options" id="option1" autocomplete="off" checked> Move
+      <span id='hoverGuideCoordinates'></span>
+      <br>
+      <div class='btn-group' data-toggle='buttons'>
+        <label class='btn btn-primary btn-xs active'>
+          <input type='radio' name='options' id='moveTool' autocomplete='off' checked> Move
         </label>
-        <label class="btn btn-primary">
-          <input type="radio" name="options" id="option2" autocomplete="off"> Select
+        <label class='btn btn-primary btn-xs'>
+          <input type='radio' name='options' id='selectTool' autocomplete='off'> Select
         </label>
       </div>
-      <span id='hoverGuideCoordinates'></span><br>
-      Scan Level:
-      <select id='scanWhileMoving'>
-        <option value='0'>None</option>
-        <option value='1'>Small</option>
-        <option value='2'>Big</option>
-      </select>
+      <br>
+      <div id='moveToolOptions'>
+        Scan Level:
+        <select id='scanWhileMoving'>
+          <option value='0'>None</option>
+          <option value='1'>Small</option>
+          <option value='2'>Big</option>
+        </select>
+      </div>
+      <div id='selectToolOptions'>
+        X: <input type='number' id='selectStartX'>
+        Y: <input type='number' id='selectStartY'>
+        Z: <input type='number' id='selectStartZ'>
+        <br>
+        X: <input type='number' id='selectEndX'>
+        Y: <input type='number' id='selectEndY'>
+        Z: <input type='number' id='selectEndZ'>
+      </div>
     </div>
 
     <script type='text/javascript' src='/js/interface.js'></script>
 
-    <script src="/js/three.js-master/build/three.js"></script>
-		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r81/three.min.js"></script> -->
-		<script src="/js/PointerLockControls.js"></script>
-		<script src="/js/voxelMap.js"></script>
-		<script src="/js/map.js"></script>
-		<script src="/js/buttons.js"></script>
-		<script src="/js/jquery-3.1.1.min.js"></script>
-		<script src="/js/bootstrap.min.js"></script>
+    <script src='/js/three.js-master/build/three.js'></script>
+		<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r81/three.min.js'></script> -->
+		<script src='/js/PointerLockControls.js'></script>
+		<script src='/js/voxelMap.js'></script>
+		<script src='/js/map.js'></script>
+		<script src='/js/buttons.js'></script>
+		<script src='/js/jquery-3.1.1.min.js'></script>
+		<script src='/js/bootstrap.min.js'></script>
 
   </body>
 </html>

@@ -52,6 +52,18 @@ input {
 
 #hoverGuideCoordinates {
   background-color: #f0f0f0;
-  padding: 1px;
+  padding: 4px;
   border-radius: 25px;
+}
+
+#moveToolOptions, #selectToolOptions {
+  display:none;
+}
+
+#moveTool:checked ~ #moveToolOptions {
+  display: block;
+}
+
+#selectTool:checked ~ #selectToolOptions {
+  display: block;
 }
