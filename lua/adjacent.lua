@@ -37,7 +37,7 @@ function M.facePoint(point)
   local start = pos.get();
   if point.x ~= start.x then
     orient.faceX(point.x - start.x);
-  else if point.z ~= start.z then
+  elseif point.z ~= start.z then
     orient.faceZ(point.z - start.z);
   end
   return orient.get();
