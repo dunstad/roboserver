@@ -5,6 +5,7 @@
     <title>Roboserver!</title>
     <script src="/js/socket.io.js"></script>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
   </head>
   <body>
 
@@ -14,7 +15,15 @@
     </div>
 
     <div id='buttonContainer'>
-      <div id='hoverGuideCoordinates'></div>
+      <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-primary active">
+          <input type="radio" name="options" id="option1" autocomplete="off" checked> Move
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="options" id="option2" autocomplete="off"> Select
+        </label>
+      </div>
+      <span id='hoverGuideCoordinates'></span><br>
       Scan Level:
       <select id='scanWhileMoving'>
         <option value='0'>None</option>

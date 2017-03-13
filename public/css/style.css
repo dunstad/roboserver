@@ -49,3 +49,9 @@ input {
 #buttonContainer > button {
   width: 100%;
 }
+
+#hoverGuideCoordinates {
+  background-color: #f0f0f0;
+  padding: 1px;
+  border-radius: 25px;
+}

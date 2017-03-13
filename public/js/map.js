@@ -130,6 +130,15 @@ function placeSelector() {
 
 }
 
+/**
+ * Creates a box. Used to indicate a selected area.
+ * @param {number} length 
+ * @param {number} height 
+ * @param {number} width 
+ * @param {object} material 
+ * @param {object} positionVector 
+ * @returns {object}
+ */
 function makeBox(length, height, width, material, positionVector) {
   var geometry = new THREE.BoxGeometry(length, height, width);
 	var mesh = new THREE.Mesh(geometry, material || cubeMat);
@@ -137,6 +146,12 @@ function makeBox(length, height, width, material, positionVector) {
   return mesh;
 }
 
+/**
+ * Finds the midpoint of two vectors. Used to position boxes between the two voxels at opposite corners.
+ * @param {object} v1 
+ * @param {object} v2 
+ * @returns {object}
+ */
 function getMidpoint(v1, v2) {
   var midpoint = v1.clone();
   midpoint.add(v2);
@@ -144,6 +159,13 @@ function getMidpoint(v1, v2) {
   return midpoint;
 }
 
+/**
+ * Creates a box with the given voxels at opposite corners. Used to indicate a selected area.
+ * @param {object} v1 
+ * @param {object} v2 
+ * @param {object} material
+ * @returns {object}
+ */
 function makeBoxAround(v1, v2, material) {
   var midpoint = getMidpoint(v1, v2);
   var distance = v1.distanceTo(v2);
