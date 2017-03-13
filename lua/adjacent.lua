@@ -52,6 +52,7 @@ function M.toAdjacent(point, scanType, times)
       success = mas.to(adjPoint.x, adjPoint.y, adjPoint.z, scanType, times);
     end
   end
+  M.facePoint(point);
   return success;
 end
 

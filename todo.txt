@@ -1,13 +1,9 @@
 now:
 
-  add moveVoxel for robot movement?
-
-  implement goToAdjacent
-    get positions adjacent to target
-    sort by distance
-    return when goto one of the adjacent positions succeeds
+  fix whatever crashed the robot
 
   write digging program (reuse blueprint scan program?)
+  select area in interface (move tool, select tool)
 
   add inventory information
   display contents of robot inventory and current selected space
@@ -16,11 +12,13 @@ now:
 
 later:
 
+  stop robot from losing contact through code updates
+
+  add moveVoxel for robot movement?
+
   render \t properly in robot responses
 
   message div blocking click to engage camera control
-
-  stop robot from losing contact through code updates
 
   allow limited functionality without geolyzer
 
