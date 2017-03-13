@@ -1,11 +1,8 @@
 local orient = require('trackOrientation');
 local pos = require('trackPosition');
+local mas = require('moveAndScan');
 
 local M = {};
-
-function M.getAdjacent(coord)
-
-end
 
 function M.distance(coord1, coord2)
   local xDist = coord2.x - coord1.x;
@@ -16,14 +13,24 @@ end
 
 function M.distFromSort(coord1)
   return function(coord2, coord3)
-    local dist1 = distance(coord1, coord2);
-    local dist2 = distance(coord1, coord3);
+    local dist1 = M.distance(coord1, coord2);
+    local dist2 = M.distance(coord1, coord3);
     return dist1 < dist2;
   end
 end
 
 function M.distanceSort(start, destinations)
-  table.sort(destinations, distFromSort(start));
+  table.sort(destinations, M.distFromSort(start));
+end
+
+function M.getAdjacentPoints(point)
+  local negXPoint = {x=point.x-1, y=point.y, z=point.z};
+  local posXPoint = {x=point.x+1, y=point.y, z=point.z};
+  local posZPoint = {x=point.x, y=point.y, z=point.z+1};
+  local negZPoint = {x=point.x, y=point.y, z=point.z-1};
+  local negYPoint = {x=point.x, y=point.y-1, z=point.z};
+  local posYPoint = {x=point.x, y=point.y+1, z=point.z};
+  return {negXPoint, posXPoint, negZPoint, posZPoint, negYPoint, posYPoint};
 end
 
 function M.facePoint(point)
@@ -36,18 +43,16 @@ function M.facePoint(point)
   return orient.get();
 end
 
-function M.adjacentPoints(point)
-  local negXPoint = {point.x-1, point.y, point.z};
-  local posXPoint = {point.x+1, point.y, point.z};
-  local negZPoint = {point.x, point.y, point.z-1};
-  local posZPoint = {point.x, point.y, point.z+1};
-  local negYPoint = {point.x, point.y-1, point.z};
-  local posYPoint = {point.x, point.y+1, point.z};
-  return {negXPoint, posXPoint, negZPoint, posZPoint, negYPoint, posYPoint};
-end
-
-function toAdjacent()
-
+function M.toAdjacent(point, scanType, times)
+  local adjacentPoints = M.getAdjacentPoints(point);
+  M.distanceSort(pos.get(), adjacentPoints);
+  local success = false;
+  for index, adjPoint in pairs(adjacentPoints) do
+    if not success then
+      success = mas.to(adjPoint.x, adjPoint.y, adjPoint.z, scanType, times);
+    end
+  end
+  return success;
 end
 
 return M;
