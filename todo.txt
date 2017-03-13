@@ -2,8 +2,11 @@ now:
 
   fix whatever crashed the robot
 
-  write digging program (reuse blueprint scan program?)
   select area in interface (move tool, select tool)
+    midpoint(p1, p2)
+    makeBox(p1, p2)
+    moveBox(p)
+  write digging program (reuse blueprint scan program?)
 
   add inventory information
   display contents of robot inventory and current selected space

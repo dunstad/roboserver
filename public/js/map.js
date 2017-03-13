@@ -6,6 +6,7 @@ var cubeGeo, cubeMat;
 var rollOverGeo, rollOverMesh, rollOverMaterial;
 var framerate = 1000/30;
 var voxelSideLength = 50;
+var voxelDiagonalLength = 86.60254037844386;
 var raycaster;
 var voxels = [];
 var voxelMap = new VoxelMap();
@@ -129,6 +130,33 @@ function placeSelector() {
 
 }
 
+function makeBox(length, height, width, material, positionVector) {
+  var geometry = new THREE.BoxGeometry(length, height, width);
+	var mesh = new THREE.Mesh(geometry, material || cubeMat);
+  if (positionVector) {mesh.position.copy(positionVector);}
+  return mesh;
+}
+
+function getMidpoint(v1, v2) {
+  var midpoint = v1.clone();
+  midpoint.add(v2);
+  midpoint.divideScalar(2);
+  return midpoint;
+}
+
+function makeBoxAround(v1, v2, material) {
+  var midpoint = getMidpoint(v1, v2);
+  var distance = v1.distanceTo(v2);
+  var box = makeBox(
+    Math.abs(v2.x-v1.x) + voxelSideLength,
+    Math.abs(v2.y-v1.y) + voxelSideLength,
+    Math.abs(v2.z-v1.z) + voxelSideLength,
+    material,
+    midpoint
+  );
+  return box;
+}
+
 /**
  * Places the hover guide, listens for the camera controls, and draws the scene.
  */
@@ -143,7 +171,7 @@ function render() {
 
 /**
  * Removes the robot voxel and redraws it elsewhere.
- * @param {object} pos 
+ * @param {object} pos
  */
 function moveRobotVoxel(pos) {
 
@@ -165,10 +193,10 @@ function moveRobotVoxel(pos) {
 
 /**
  * Removes any existing voxel at the coordinates and adds a new one.
- * @param {number} x 
- * @param {number} y 
- * @param {number} z 
- * @param {object} material 
+ * @param {number} x
+ * @param {number} y
+ * @param {number} z
+ * @param {object} material
  * @returns {object}
  */
 function addVoxel(x, y, z, material) {
@@ -188,10 +216,10 @@ function addVoxel(x, y, z, material) {
 
 /**
  * Removes the voxel at x, y, z if there is one.
- * @param {number} x 
- * @param {number} y 
- * @param {number} z 
- * @param {object} voxel 
+ * @param {number} x
+ * @param {number} y
+ * @param {number} z
+ * @param {object} voxel
  */
 function removeVoxel(x, y, z, voxel) {
   result = false;
@@ -206,7 +234,7 @@ function removeVoxel(x, y, z, voxel) {
 
 /**
  * Used to draw terrain data received from robots.
- * @param {object} shape 
+ * @param {object} shape
  */
 function addShapeVoxels(shape) {
   for(var x = 0; x < shape.w; x++) {
@@ -236,7 +264,7 @@ function addShapeVoxels(shape) {
 
 /**
  * Converts ranges of noisy hardness values to specific colors.
- * @param {number} hardness 
+ * @param {number} hardness
  * @returns {object}
  */
 function colorFromHardness(hardness) {
@@ -321,7 +349,7 @@ function initPointerLock() {
 
 /**
  * Returns the corresponding Minecraft world coordinate of a voxel.
- * @param {object} mesh 
+ * @param {object} mesh
  * @returns {object}
  */
 function getWorldCoord(mesh) {
