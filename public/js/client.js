@@ -73,7 +73,7 @@ client.on('data', (data)=>{
 		else {
 			console.log('responding to command: ' + data.command)
 			client.write(JSON.stringify({
-				'command result': 'response to command: ' + data.command
+				'command result': [true, 'received command: ' + data.command]
 			}));
 		}
 	}
