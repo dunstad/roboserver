@@ -18,15 +18,15 @@
       <span id='hoverGuideCoordinates'></span>
       <br>
       <div class='btn-group' data-toggle='buttons'>
-        <label class='btn btn-primary btn-xs active'>
+        <label class='btn btn-primary btn-xs active' data-toggle='collapse' href='#moveToolOptions'>
           <input type='radio' name='options' id='moveTool' autocomplete='off' checked> Move
         </label>
-        <label class='btn btn-primary btn-xs'>
+        <label class='btn btn-primary btn-xs' data-toggle='collapse' href='#selectToolOptions'>
           <input type='radio' name='options' id='selectTool' autocomplete='off'> Select
         </label>
       </div>
       <br>
-      <div id='moveToolOptions'>
+      <div id='moveToolOptions' class='collapse'>
         Scan Level:
         <select id='scanWhileMoving'>
           <option value='0'>None</option>
@@ -34,7 +34,7 @@
           <option value='2'>Big</option>
         </select>
       </div>
-      <div id='selectToolOptions'>
+      <div id='selectToolOptions' class='collapse'>
         X: <input type='number' id='selectStartX'>
         Y: <input type='number' id='selectStartY'>
         Z: <input type='number' id='selectStartZ'>

@@ -55,15 +55,3 @@ input {
   padding: 4px;
   border-radius: 25px;
 }
-
-#moveToolOptions, #selectToolOptions {
-  display:none;
-}
-
-#moveTool:checked ~ #moveToolOptions {
-  display: block;
-}
-
-#selectTool:checked ~ #selectToolOptions {
-  display: block;
-}
