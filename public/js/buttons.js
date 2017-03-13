@@ -3,7 +3,7 @@ var buttonContainer = document.getElementById('buttonContainer');
 /**
  * Adds a button with text 'name' to the web interface. When clicked, sends
  * 'codeStringFunction' to the listening robot to be executed.
- * @param {string} name 
+ * @param {string} name
  * @param {function(): string} codeStringFunction
  */
 function addButton(name, codeStringFunction) {
@@ -29,6 +29,6 @@ var codeStrings = {
   turnRight: ()=>{return 'orient.turnRight(); return true;';},
 };
 
-for (name of codeStrings) {
+for (name in codeStrings) {
   addButton(name, codeStrings[name]);
 }
