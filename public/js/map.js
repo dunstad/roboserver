@@ -425,8 +425,16 @@ function initSelectArea() {
         selectEnd.z.value = rollOverMesh.position.z;
       }
       else {
-        var v1 = new THREE.Vector3(selectStart.x.value, selectStart.y.value, selectStart.z.value);
-        var v2 = new THREE.Vector3(selectEnd.x.value, selectEnd.y.value, selectEnd.z.value);
+        var v1 = new THREE.Vector3(
+          parseInt(selectStart.x.value),
+          parseInt(selectStart.y.value),
+          parseInt(selectStart.z.value)
+        );
+        var v2 = new THREE.Vector3(
+          parseInt(selectEnd.x.value),
+          parseInt(selectEnd.y.value),
+          parseInt(selectEnd.z.value)
+        );
         scene.add(makeBoxAround(v1, v2, rollOverMaterial));
         for (fieldName in selectStart) {
           selectStart[fieldName].value = '';
