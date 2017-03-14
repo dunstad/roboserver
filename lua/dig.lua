@@ -13,7 +13,7 @@ function M.getMinPoint(p1, p2)
 end
 
 function M.getMaxPoint(p1, p2)
-  local maxPoint = {x=0, y=0, z=0};
+  local maxPoint = {x=-1e100, y=-1e100, z=-1e100};
   for axis in pairs(p1) do
     maxPoint[axis] = math.max(maxPoint[axis], p1[axis], p2[axis])
   end
