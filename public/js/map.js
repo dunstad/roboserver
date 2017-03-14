@@ -11,6 +11,17 @@ var raycaster;
 var voxels = [];
 var voxelMap = new VoxelMap();
 var robotVoxel;
+var selectBox;
+var selectStart = new CoordForm(
+  document.getElementById('selectStartX'),
+  document.getElementById('selectStartY'),
+  document.getElementById('selectStartZ')
+);
+var selectEnd = new CoordForm(
+  document.getElementById('selectEndY'),
+  document.getElementById('selectEndX'),
+  document.getElementById('selectEndZ')
+);
 
 main();
 
@@ -108,6 +119,11 @@ function onWindowResize() {
  */
 function placeSelector() {
 
+  if (selectBox) {
+    scene.remove(selectBox);
+    selectBox.geometry.dispose();
+  }
+
   var fromScreenCenter = new THREE.Vector2(
     ((renderer.domElement.clientWidth / 2) / renderer.domElement.width) * 2 - 1,
     -(((renderer.domElement.clientHeight / 2) / renderer.domElement.height) * 2 - 1)
@@ -120,15 +136,32 @@ function placeSelector() {
 
     var intersect = intersects[0];
     var normal = intersect.face.normal.clone();
-    normal.multiplyScalar(50);
-    rollOverMesh.position.copy(intersect.object.position).add(normal);
+    normal.multiplyScalar(voxelSideLength);
+
+    if (selectStart.isComplete() && selectEnd.isComplete() ||
+        selectStart.isEmpty() && selectEnd.isEmpty()) {
+      
+      rollOverMesh.position.copy(intersect.object.position);
+      if (document.getElementById('moveTool').checked) {
+        rollOverMesh.position.add(normal);
+      }
+      
+    }
+    else if (selectStart.isComplete() && !selectEnd.isComplete()) {
+      selectBox = makeBoxAround(selectStart.getVector(), intersect.object.position, rollOverMaterial);
+      scene.add(selectBox);
+    }
+    else if (!selectStart.isComplete() && selectEnd.isComplete()) {
+      var selectBox = makeBoxAround(intersect.object.position, selectEnd.getVector(), rollOverMaterial);
+      scene.add(selectBox);
+    }
 
   }
 
   var worldCoords = getWorldCoord(rollOverMesh);
   var hoverCoordDiv = document.getElementById('hoverGuideCoordinates');
   hoverCoordDiv.innerHTML = String([worldCoords.x, worldCoords.y, worldCoords.z]);
-
+  
 }
 
 /**
@@ -396,17 +429,6 @@ function initMoveOnClick() {
   });
 }
 
-var selectStart = {
-  x: document.getElementById('selectStartX'),
-  y: document.getElementById('selectStartY'),
-  z: document.getElementById('selectStartZ')
-};
-var selectEnd = {
-  x: document.getElementById('selectEndX'),
-  y: document.getElementById('selectEndY'),
-  z: document.getElementById('selectEndZ')
-};
-
 /**
  * Allows specifying an area of voxels. Used for digging.
  */
@@ -414,32 +436,18 @@ function initSelectArea() {
   renderer.domElement.addEventListener('click', ()=>{
     var selectToolActive = document.getElementById('selectTool').checked;
     if (controls.enabled && selectToolActive) {
-      if (!(selectStart.x.value || selectStart.y.value || selectStart.z.value)) {
-        selectStart.x.value = rollOverMesh.position.x;
-        selectStart.y.value = rollOverMesh.position.y;
-        selectStart.z.value = rollOverMesh.position.z;
+      if (!selectStart.isComplete()) {
+        selectStart.setFromVector(rollOverMesh.position);
       }
-      else if (!(selectEnd.x.value || selectEnd.y.value || selectEnd.z.value)) {
-        selectEnd.x.value = rollOverMesh.position.x;
-        selectEnd.y.value = rollOverMesh.position.y;
-        selectEnd.z.value = rollOverMesh.position.z;
+      else if (!selectEnd.isComplete()) {
+        selectEnd.setFromVector(rollOverMesh.position);
       }
       else {
-        var v1 = new THREE.Vector3(
-          parseInt(selectStart.x.value),
-          parseInt(selectStart.y.value),
-          parseInt(selectStart.z.value)
-        );
-        var v2 = new THREE.Vector3(
-          parseInt(selectEnd.x.value),
-          parseInt(selectEnd.y.value),
-          parseInt(selectEnd.z.value)
-        );
+        var v1 = selectStart.getVector();
+        var v2 = selectEnd.getVector();
         scene.add(makeBoxAround(v1, v2, rollOverMaterial));
-        for (fieldName in selectStart) {
-          selectStart[fieldName].value = '';
-          selectEnd[fieldName].value = '';
-        }
+        selectStart.clear();
+        selectEnd.clear();
       }
     }
   });
