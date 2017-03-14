@@ -159,7 +159,7 @@ function placeSelector() {
     scene.add(selectBox);
   }
 
-  var worldCoords = getWorldCoord(rollOverMesh);
+  var worldCoords = getWorldCoord(rollOverMesh.position);
   var hoverCoordDiv = document.getElementById('hoverGuideCoordinates');
   hoverCoordDiv.innerHTML = String([worldCoords.x, worldCoords.y, worldCoords.z]);
   
@@ -245,7 +245,7 @@ function moveRobotVoxel(pos) {
   );
 
   if (robotVoxel) {
-    var robotPos = getWorldCoord(robotVoxel);
+    var robotPos = getWorldCoord(robotVoxel.position);
     removeVoxel(robotPos.x, robotPos.y, robotPos.z, robotVoxel);
   }
   robotVoxel = newRobot;
@@ -265,7 +265,7 @@ function addVoxel(x, y, z, material) {
   var voxel = new THREE.Mesh(cubeGeo, material || cubeMat);
   voxel.position.set(x, y, z);
 
-  var coord = getWorldCoord(voxel);
+  var coord = getWorldCoord(voxel.position);
   var priorVoxel = voxelMap.get(coord.x, coord.y, coord.z);
   if (priorVoxel) {removeVoxel(coord.x, coord.y, coord.z, priorVoxel);}
 
@@ -410,12 +410,12 @@ function initPointerLock() {
 }
 
 /**
- * Returns the corresponding Minecraft world coordinate of a voxel.
- * @param {object} mesh
+ * Returns the corresponding Minecraft world coordinates of a vector.
+ * @param {object} vector
  * @returns {object}
  */
-function getWorldCoord(mesh) {
-  return mesh.clone().position.divideScalar(50).round();
+function getWorldCoord(vector) {
+  return vector.clone().divideScalar(50).round();
 }
 
 /**
@@ -441,7 +441,7 @@ function initMoveOnClick() {
   renderer.domElement.addEventListener('click', ()=>{
     var moveToolActive = document.getElementById('moveTool').checked;
     if (controls.enabled && moveToolActive) {
-      var coord = getWorldCoord(rollOverMesh);
+      var coord = getWorldCoord(rollOverMesh.position);
       console.log(coord);
       var scanLevel = document.getElementById('scanWhileMoving').value;
       var luaString = 'return mas.to(' + [coord.x, coord.y, coord.z, scanLevel] + ');'
@@ -472,8 +472,8 @@ function initSelectArea() {
         scene.add(selection);
         var selectionIndex = addSelection(selections, selection);
         
-        var v1Lua = vectorToLuaString(v1);
-        var v2Lua = vectorToLuaString(v2);
+        var v1Lua = vectorToLuaString(getWorldCoord(v1));
+        var v2Lua = vectorToLuaString(getWorldCoord(v2));
         var scanLevel = document.getElementById('scanWhileMoving').value;
         
         var luaString = 'return dig.digArea(' + [v1Lua, v2Lua, selectionIndex, scanLevel] + ');';

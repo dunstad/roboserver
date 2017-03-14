@@ -1,5 +1,6 @@
 local adj = require('adjacent');
 local robot = require('robot');
+local tcp = require('tcp');
 
 local M = {};
 
