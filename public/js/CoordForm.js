@@ -71,4 +71,15 @@ class CoordForm {
     this.z.value = "";
   }
 
+  /**
+   * Used to add one event listener to all inputs.
+   * @param {string} type
+   * @param {function} listener
+   */
+  addEventListener(type, listener) {
+    this.x.addEventListener(type, listener);
+    this.y.addEventListener(type, listener);
+    this.z.addEventListener(type, listener);
+  }
+
 }

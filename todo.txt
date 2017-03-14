@@ -1,16 +1,5 @@
 now:
 
-  show select area resizing during selection process
-    neither form filled in (click 0): 
-      show single cube hoverguide (as current)
-    only first filled in (click 1):
-      show box hoverguide (form1, guide.pos)
-    only second filled in (click 2):
-      show box hoverguide (guide.pos, form2)
-    first and second filled in (click 3):
-      show single cube hoverguide (as current)
-  fix guide boxes not being removed properly
-
   send command on selection confirm (third click)
     pass which index the job is stored at in the jobs object
   remove selection on success or failure of command

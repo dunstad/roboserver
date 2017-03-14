@@ -6,7 +6,6 @@ var cubeGeo, cubeMat;
 var rollOverGeo, rollOverMesh, rollOverMaterial;
 var framerate = 1000/30;
 var voxelSideLength = 50;
-var voxelDiagonalLength = 86.60254037844386;
 var raycaster;
 var voxels = [];
 var voxelMap = new VoxelMap();
@@ -18,8 +17,8 @@ var selectStart = new CoordForm(
   document.getElementById('selectStartZ')
 );
 var selectEnd = new CoordForm(
-  document.getElementById('selectEndY'),
   document.getElementById('selectEndX'),
+  document.getElementById('selectEndY'),
   document.getElementById('selectEndZ')
 );
 
@@ -60,13 +59,6 @@ function init() {
   controlsObject.translateY(800);
   controlsObject.children[0].rotation.x = -1.5;
 
-  // settings for 235, 63, 366
-  // controlsObject.position.x = 9137.7;
-  // controlsObject.position.y = 4234.5;
-  // controlsObject.position.z = 18416.7;
-  // controlsObject.rotation.y = -13.886;
-  // controlsObject.children[0].rotation.x = -.8112;
-
   scene.add(controlsObject);
 
   // raycaster
@@ -99,6 +91,9 @@ function init() {
 
   window.addEventListener( 'resize', onWindowResize, false );
 
+  selectStart.addEventListener('input', render);
+  selectEnd.addEventListener('input', render);
+
 }
 
 /**
@@ -122,6 +117,7 @@ function placeSelector() {
   if (selectBox) {
     scene.remove(selectBox);
     selectBox.geometry.dispose();
+    selectBox = undefined;
   }
 
   var fromScreenCenter = new THREE.Vector2(
@@ -138,24 +134,28 @@ function placeSelector() {
     var normal = intersect.face.normal.clone();
     normal.multiplyScalar(voxelSideLength);
 
-    if (selectStart.isComplete() && selectEnd.isComplete() ||
-        selectStart.isEmpty() && selectEnd.isEmpty()) {
-      
-      rollOverMesh.position.copy(intersect.object.position);
-      if (document.getElementById('moveTool').checked) {
-        rollOverMesh.position.add(normal);
-      }
-      
+    rollOverMesh.position.copy(intersect.object.position);
+    if (document.getElementById('moveTool').checked) {
+      rollOverMesh.position.add(normal);
     }
-    else if (selectStart.isComplete() && !selectEnd.isComplete()) {
+
+    if (selectStart.isComplete() && !selectEnd.isComplete()) {
+      scene.remove(rollOverMesh);
       selectBox = makeBoxAround(selectStart.getVector(), intersect.object.position, rollOverMaterial);
       scene.add(selectBox);
     }
     else if (!selectStart.isComplete() && selectEnd.isComplete()) {
-      var selectBox = makeBoxAround(intersect.object.position, selectEnd.getVector(), rollOverMaterial);
+      scene.remove(rollOverMesh);
+      selectBox = makeBoxAround(intersect.object.position, selectEnd.getVector(), rollOverMaterial);
       scene.add(selectBox);
     }
 
+  }
+
+  if (selectStart.isComplete() && selectEnd.isComplete()) {
+    scene.add(rollOverMesh);
+    selectBox = makeBoxAround(selectStart.getVector(), selectEnd.getVector(), rollOverMaterial);
+    scene.add(selectBox);
   }
 
   var worldCoords = getWorldCoord(rollOverMesh);
@@ -174,7 +174,12 @@ function placeSelector() {
  * @returns {object}
  */
 function makeBox(length, height, width, material, positionVector) {
-  var geometry = new THREE.BoxGeometry(length, height, width);
+  var preventFlickeringOffset = 1;
+  var geometry = new THREE.BoxGeometry(
+    length + preventFlickeringOffset,
+    height + preventFlickeringOffset,
+    width + preventFlickeringOffset
+  );
 	var mesh = new THREE.Mesh(geometry, material || cubeMat);
   if (positionVector) {mesh.position.copy(positionVector);}
   return mesh;
