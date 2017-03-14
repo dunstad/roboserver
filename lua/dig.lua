@@ -19,8 +19,8 @@ function M.getMaxPoint(p1, p2)
 end
 
 function M.generateBoxPoints(corner1, corner2)
-  local minPoint = getMinPoint(corner1, corner2);
-  local maxPoint = getMaxPoint(corner1, corner2);
+  local minPoint = M.getMinPoint(corner1, corner2);
+  local maxPoint = M.getMaxPoint(corner1, corner2);
   local points = {};
   for x = minPoint.x, maxPoint.x do
     for y = minPoint.y, maxPoint.y do
@@ -30,6 +30,12 @@ function M.generateBoxPoints(corner1, corner2)
     end
   end
   return points;
+end
+
+function M.doToAllPoints(pointList, action)
+  for i = 1, #pointList do
+    action(pointList[i]);
+  end
 end
 
 return M;
