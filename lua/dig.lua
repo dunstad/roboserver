@@ -1,7 +1,7 @@
 local adj = require('adjacent');
 local robot = require('robot');
 local tcp = require('tcp');
-local pos = require('pos');
+local pos = require('trackPosition');
 
 local M = {};
 
@@ -71,6 +71,7 @@ end
 
 function M.digArea(p1, p2, index, scanType, times)
   local pointList = M.generateBoxPoints(p1, p2);
+  adj.distanceSort(pos.get(), pointList);
   local digAction = M.makeApproachAndDig(scanType, times);
   local actionSuccess = M.doToAllPoints(pointList, digAction);
   tcp.write({['delete selection']=index});
