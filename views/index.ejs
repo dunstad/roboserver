@@ -18,16 +18,7 @@
     <div id='buttonContainer'>
       <span id='hoverGuideCoordinates'></span>
       <br>
-      <div class='btn-group' data-toggle='buttons'>
-        <label class='btn btn-primary btn-xs active' data-toggle='collapse' data-target='.moveToolOptions:not(.in),.selectToolOptions.in'>
-          <input type='radio' name='options' id='moveTool' autocomplete='off' checked> Move
-        </label>
-        <label class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.moveToolOptions.in,.selectToolOptions:not(.in)'>
-          <input type='radio' name='options' id='selectTool' autocomplete='off' > Select
-        </label>
-      </div>
-      <br>
-      <div class='moveToolOptions collapse in'>
+      <div>
         Scan Level:
         <select id='scanWhileMoving'>
           <option value='0'>None</option>
@@ -35,6 +26,15 @@
           <option value='2'>Big</option>
         </select>
       </div>
+      <div class='btn-group' data-toggle='buttons'>
+        <label class='btn btn-primary btn-xs active' data-toggle='collapse' data-target='.selectToolOptions.in'>
+          <input type='radio' name='options' id='moveTool' autocomplete='off' checked> Move
+        </label>
+        <label class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.selectToolOptions:not(.in)'>
+          <input type='radio' name='options' id='selectTool' autocomplete='off' > Select
+        </label>
+      </div>
+      <br>
       <div class='selectToolOptions collapse'>
         X: <input type='number' id='selectStartX'>
         Y: <input type='number' id='selectStartY'>
@@ -46,14 +46,13 @@
       </div>
     </div>
 
-    <script type='text/javascript' src='/js/interface.js'></script>
-
     <script src='/js/three.js-master/build/three.js'></script>
     <!--<script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r81/three.min.js'></script> -->
 		<script src='/js/PointerLockControls.js'></script>
 		<script src='/js/VoxelMap.js'></script>
 		<script src='/js/CoordForm.js'></script>
 		<script src='/js/map.js'></script>
+    <script type='text/javascript' src='/js/interface.js'></script>
 		<script src='/js/buttons.js'></script>
 		<script src='/js/jquery-3.1.1.min.js'></script>
 		<script src='/js/bootstrap.min.js'></script>

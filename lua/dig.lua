@@ -1,4 +1,5 @@
 local adj = require('adjacent');
+local robot = require('robot');
 
 local M = {};
 
@@ -33,9 +34,39 @@ function M.generateBoxPoints(corner1, corner2)
 end
 
 function M.doToAllPoints(pointList, action)
+  local success = true;
   for i = 1, #pointList do
-    action(pointList[i]);
+    success = success and action(pointList[i]);
   end
+  return success;
+end
+
+function M.dig()
+  local swingSuccess = robot.swing();
+  local writeSuccess = false;
+  if swingSuccess then
+    writeSuccess = tcp.write({['dig success']=point});
+  end
+  return swingSuccess and writeSuccess;
+end
+
+function M.makeApproachAndDig(scanType, times)
+  return function (point)
+    local moveSuccess = adj.toAdjacent(point, scanType, times);
+    local digSuccess = false;
+    if moveSuccess then
+      digSuccess = M.dig();
+    end
+    return moveSuccess and digSuccess;
+  end
+end
+
+function M.digArea(p1, p2, index, scanType, times)
+  local pointList = M.generateBoxPoints(p1, p2);
+  local digAction = M.makeApproachAndDig(scanType, times);
+  local actionSuccess = M.doToAllPoints(pointList, digAction);
+  local writeSuccess = tcp.write({['delete selection']=index});
+  return actionSuccess and writeSuccess;
 end
 
 return M;

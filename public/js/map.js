@@ -10,6 +10,7 @@ var raycaster;
 var voxels = [];
 var voxelMap = new VoxelMap();
 var robotVoxel;
+var selections = {};
 var selectBox;
 var selectStart = new CoordForm(
   document.getElementById('selectStartX'),
@@ -418,6 +419,22 @@ function getWorldCoord(mesh) {
 }
 
 /**
+ * Serializes vectors to Lua tables. Makes sending commands to robots easier.
+ * @param {object} object 
+ * @returns {string}
+ */
+function vectorToLuaString(object) {
+  var luaString = '{';
+  for (prop in object) {
+    if (object.hasOwnProperty(prop)) {
+      luaString = luaString + prop + '=' + object[prop] + ',';
+    }
+  }
+  luaString = luaString + '}'
+  return luaString;
+}
+
+/**
  * Sends a command to robots telling them to move to the coordinate clicked on.
  */
 function initMoveOnClick() {
@@ -450,10 +467,47 @@ function initSelectArea() {
       else {
         var v1 = selectStart.getVector();
         var v2 = selectEnd.getVector();
-        scene.add(makeBoxAround(v1, v2, rollOverMaterial));
+
+        var selection = makeBoxAround(v1, v2, rollOverMaterial);
+        scene.add(selection);
+        var selectionIndex = addSelection(selections, selection);
+        
+        var v1Lua = vectorToLuaString(v1);
+        var v2Lua = vectorToLuaString(v2);
+        var scanLevel = document.getElementById('scanWhileMoving').value;
+        
+        var luaString = 'return dig.digArea(' + [v1Lua, v2Lua, selectionIndex, scanLevel] + ');';
+        addMessage(luaString, true);
+        socket.emit('command', luaString);
+
         selectStart.clear();
         selectEnd.clear();
       }
     }
   });
+}
+
+/**
+ * Stores a selection so it can be shown until the task it's for is completed.
+ * @param {object} selections 
+ * @param {object} selection 
+ * @returns {number}
+ */
+function addSelection(selections, selection) {
+  var counter = 0;
+  while (selections[counter]) {counter++;}
+  selections[counter] = selection;
+  return counter;
+}
+
+/**
+ * Used to get rid of a selection when the task it's for is completed.
+ * @param {object} selections 
+ * @param {number} index 
+ */
+function deleteSelection(selections, index) {
+  var selection = selections[index];
+  scene.remove(selection);
+  selection.geometry.dispose();
+  delete selections[index];
 }

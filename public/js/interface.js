@@ -21,6 +21,19 @@ socket.on('robot position', (pos)=>{
   moveRobotVoxel(pos);
 });
 
+// remove selection because its task has been completed
+socket.on('delete selection', (index)=>{
+  console.dir(index);
+  deleteSelection(selections, index);
+});
+
+// remove voxels corresponding to successfully dug blocks
+socket.on('dig success', (pos)=>{
+  console.dir(pos);
+  var voxel = voxelMap.get(pos.x, pos.y, pos.z);
+  removeVoxel(pos.x, pos.y, pos.z, voxel);
+});
+
 // add functionality to command input field
 var commandInput = document.getElementById('commandInput');
 commandInput.addEventListener("keydown", (event)=>{
