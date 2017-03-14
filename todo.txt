@@ -1,12 +1,7 @@
 now:
 
-  send command on selection confirm (third click)
-    pass which index the job is stored at in the jobs object
-  remove selection on success or failure of command
-    robot writes completed job number as separate message type
+  fix robot stops when told to dig empty space
     
-  write digging program
-
   add inventory information
   display contents of robot inventory and current selected space
 

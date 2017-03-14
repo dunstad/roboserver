@@ -291,6 +291,7 @@ function removeVoxel(x, y, z, voxel) {
     voxels.splice(voxels.indexOf(voxel), 1);
     result = true;
   }
+  render();
   return result;
 }
 
@@ -510,4 +511,5 @@ function deleteSelection(selections, index) {
   scene.remove(selection);
   selection.geometry.dispose();
   delete selections[index];
+  render();
 }
