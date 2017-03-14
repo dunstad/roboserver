@@ -42,13 +42,13 @@ function M.doToAllPoints(pointList, action)
   return success;
 end
 
-function M.dig()
+function M.dig(point)
   local swingSuccess = robot.swing();
   local writeSuccess = false;
   if swingSuccess then
     writeSuccess = tcp.write({['dig success']=point});
   end
-  return swingSuccess and writeSuccess;
+  return writeSuccess and swingSuccess;
 end
 
 function M.makeApproachAndDig(scanType, times)
@@ -56,7 +56,7 @@ function M.makeApproachAndDig(scanType, times)
     local moveSuccess = adj.toAdjacent(point, scanType, times);
     local digSuccess = false;
     if moveSuccess then
-      digSuccess = M.dig();
+      digSuccess = M.dig(point);
     end
     return moveSuccess and digSuccess;
   end
