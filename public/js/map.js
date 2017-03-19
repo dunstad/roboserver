@@ -33,7 +33,7 @@ main();
 function main() {
   init();
   render();
-  setInterval(function() {controls.enabled ? render() : false}, framerate);
+  setInterval(function() {controls.enabled ? requestAnimationFrame(render) : false}, framerate);
 }
 
 /**
