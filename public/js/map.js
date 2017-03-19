@@ -33,7 +33,7 @@ main();
 function main() {
   init();
   render();
-  setInterval(function() {controls.enabled ? requestAnimationFrame(render) : false}, framerate);
+  setInterval(function() {controls.enabled ? requestAnimationFrame(()=>{render();controls.update(framerate);}) : false}, framerate);
 }
 
 /**
@@ -135,7 +135,7 @@ function onWindowResize() {
   camera.updateProjectionMatrix();
 
   renderer.setSize( window.innerWidth, window.innerHeight );
-  render();
+  requestRender();
 
 }
 
@@ -261,9 +261,14 @@ function makeBoxAround(v1, v2, material) {
  */
 function render() {
   placeSelector();
-  // use # of ms since last update as delta
-  controls.update(framerate);
   renderer.render(scene, camera);
+}
+
+/**
+ * Renders only when controls aren't active. This prevents excessive calls to render.
+ */
+function requestRender() {
+  if (!controls.enabled) {render();}
 }
 
 // code for drawing minecraft maps
@@ -287,7 +292,7 @@ function moveRobotVoxel(pos) {
   }
   robotVoxel = newRobot;
 
-  render();
+  requestRender();
 }
 
 /**
@@ -328,7 +333,7 @@ function removeVoxel(x, y, z, voxel) {
     voxels.splice(voxels.indexOf(voxel), 1);
     result = true;
   }
-  render();
+  requestRender();
   return result;
 }
 
@@ -358,8 +363,8 @@ function addShapeVoxels(shape) {
       }
     }
   }
-  // have the shapes appear immediately even if the camera isn't moving
-  render();
+  // have the shapes appear immediately when the camera isn't moving as well
+  requestRender();
 }
 
 /**
@@ -446,5 +451,5 @@ function deleteSelection(selections, index) {
   scene.remove(selection);
   selection.geometry.dispose();
   delete selections[index];
-  render();
+  requestRender();
 }

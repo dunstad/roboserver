@@ -38,8 +38,8 @@ function main() {
     removeVoxel(pos.x, pos.y, pos.z, voxel);
   });
 
-  selectStart.addEventListener('input', ()=>{removeSelectBox(); render()});
-  selectEnd.addEventListener('input', ()=>{removeSelectBox(); render()});
+  selectStart.addEventListener('input', ()=>{removeSelectBox(); requestRender()});
+  selectEnd.addEventListener('input', ()=>{removeSelectBox(); requestRender()});
 
   // for some reason the click event fires before the checked attribute changes
   // can't find an event for when that attribute changes, so we use setTimeout
@@ -48,11 +48,11 @@ function main() {
     selectStart.clear();
     selectEnd.clear();
     removeSelectBox();
-    setTimeout(render, 10);
+    setTimeout(requestRender, 10);
   });
   var moveToolLabel = document.getElementById('selectTool').parentElement;
   moveToolLabel.addEventListener('click', (e)=>{
-    setTimeout(render, 10);
+    setTimeout(requestRender, 10);
   });
 
   initPointerLock();
