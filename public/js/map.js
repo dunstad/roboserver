@@ -11,6 +11,7 @@ var raycaster;
 var voxels = [];
 var voxelMap = new VoxelMap();
 var robotVoxel;
+var hardnessToColorMap;
 var selections = {};
 var selectBox;
 var selectStart = new CoordForm(
@@ -23,6 +24,7 @@ var selectEnd = new CoordForm(
   document.getElementById('selectEndY'),
   document.getElementById('selectEndZ')
 );
+var timeOfLastUpdate = new Date().getTime();
 
 main();
 
@@ -89,6 +91,39 @@ function init() {
   container.appendChild( renderer.domElement );
 
   window.addEventListener( 'resize', onWindowResize, false );
+
+  hardnessToColorMap = {
+    // bedrock
+    '-1': new THREE.MeshLambertMaterial({color:0x000000}),
+    // leaves
+    0.2: new THREE.MeshLambertMaterial({color:0x00cc00}),
+    // glowstone
+    0.3: new THREE.MeshLambertMaterial({color:0xffcc00}),
+    // netherrack
+    0.4: new THREE.MeshLambertMaterial({color:0x800000}),
+    // dirt or sand
+    0.5: new THREE.MeshLambertMaterial({color:0xffc140}),
+    // grass block
+    0.6: new THREE.MeshLambertMaterial({color:0xddc100}),
+    // sandstone
+    0.8: new THREE.MeshLambertMaterial({color:0xffff99}),
+    // pumpkins or melons
+    1.0: new THREE.MeshLambertMaterial({color:0xfdca00}),
+    // smooth stone
+    1.5: new THREE.MeshLambertMaterial({color:0xcfcfcf}),
+    // cobblestone
+    2.0: new THREE.MeshLambertMaterial({color:0x959595}),
+    // ores
+    3.0: new THREE.MeshLambertMaterial({color:0x66ffff}),
+    // cobwebs
+    4.0: new THREE.MeshLambertMaterial({color:0xf5f5f5}),
+    // ore blocks
+    5.0: new THREE.MeshLambertMaterial({color:0xc60000}),
+    // obsidian
+    50: new THREE.MeshLambertMaterial({color:0x1f1f1f}),
+    // water or lava
+    100: new THREE.MeshLambertMaterial({color:0x9900cc})
+  };
 
 }
 
@@ -226,9 +261,11 @@ function makeBoxAround(v1, v2, material) {
  * Places the hover guide, listens for the camera controls, and draws the scene.
  */
 function render() {
-  // use # of ms since last update as delta
   placeSelector();
-  controls.update(framerate);
+  // use # of ms since last update as delta
+  var now = new Date().getTime();
+  controls.update(now - timeOfLastUpdate);
+  timeOfLastUpdate = now;
   renderer.render(scene, camera);
 }
 
@@ -327,39 +364,6 @@ function addShapeVoxels(shape) {
   // have the shapes appear immediately even if the camera isn't moving
   render();
 }
-
-var hardnessToColorMap = {
-    // bedrock
-    '-1': new THREE.MeshLambertMaterial({color:0x000000}),
-    // leaves
-    0.2: new THREE.MeshLambertMaterial({color:0x00cc00}),
-    // glowstone
-    0.3: new THREE.MeshLambertMaterial({color:0xffcc00}),
-    // netherrack
-    0.4: new THREE.MeshLambertMaterial({color:0x800000}),
-    // dirt or sand
-    0.5: new THREE.MeshLambertMaterial({color:0xffc140}),
-    // grass block
-    0.6: new THREE.MeshLambertMaterial({color:0xddc100}),
-    // sandstone
-    0.8: new THREE.MeshLambertMaterial({color:0xffff99}),
-    // pumpkins or melons
-    1.0: new THREE.MeshLambertMaterial({color:0xfdca00}),
-    // smooth stone
-    1.5: new THREE.MeshLambertMaterial({color:0xcfcfcf}),
-    // cobblestone
-    2.0: new THREE.MeshLambertMaterial({color:0x959595}),
-    // ores
-    3.0: new THREE.MeshLambertMaterial({color:0x66ffff}),
-    // cobwebs
-    4.0: new THREE.MeshLambertMaterial({color:0xf5f5f5}),
-    // ore blocks
-    5.0: new THREE.MeshLambertMaterial({color:0xc60000}),
-    // obsidian
-    50: new THREE.MeshLambertMaterial({color:0x1f1f1f}),
-    // water or lava
-    100: new THREE.MeshLambertMaterial({color:0x9900cc})
-  };
 
 /**
  * Converts ranges of noisy hardness values to specific colors.
