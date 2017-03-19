@@ -387,7 +387,7 @@ function splitCell(fromCell, toCell, amount) {
   if (fromCell.firstChild) {
     var itemData = fromCell.firstChild.itemData;
     if (amount < 1) {;}
-    else if (toCell.firstChild) {success = mergeCells(fromCell, toCell);}
+    else if (toCell.firstChild) {success = mergeCells(fromCell, toCell, amount);}
     else if (amount >= itemData.size) {swapCells(fromCell, toCell);}
     else {
       var newItemData = Object.assign({}, itemData);
@@ -410,7 +410,7 @@ function splitCell(fromCell, toCell, amount) {
   return success;
 }
 
-function mergeCells(fromCell, toCell) {
+function mergeCells(fromCell, toCell, amount) {
   var success = false;
   
   if (!fromCell.firstChild) {;}
@@ -427,27 +427,29 @@ function mergeCells(fromCell, toCell) {
           !data1.hasTag && !data2.hasTag) {
         var data2Space = data2.maxSize - data2.size;
         if (data1.size <= data2Space) {
-          data2.size += data1.size;
+          var amountToTransfer = amount || data1.size;
+          data2.size += amountToTransfer;
           fromCell.removeChild(fromCell.firstChild);
           toCell.removeChild(toCell.firstChild);
           toCell.appendChild(renderItem(data2));
           success = true;
 
-          var luaArgs = [fromCell.getAttribute('data-slotnumber'), toCell.getAttribute('data-slotnumber'), data1.size];
+          var luaArgs = [fromCell.getAttribute('data-slotnumber'), toCell.getAttribute('data-slotnumber'), data1.size, amount];
           var luaString = 'return inv.transfer(' + luaArgs + ');'
           addMessage(luaString, true);
           socket.emit('command', luaString);
         }
         else {
-          data2.size += data2Space;
-          data1.size -= data2Space;
+          var amountToTransfer = amount || data2Space;
+          data2.size += amountToTransfer;
+          data1.size -= amountToTransfer;
           fromCell.removeChild(fromCell.firstChild);
           fromCell.appendChild(renderItem(data1));
           toCell.removeChild(toCell.firstChild);
           toCell.appendChild(renderItem(data2));
           success = true;
 
-          var luaArgs = [fromCell.getAttribute('data-slotnumber'), toCell.getAttribute('data-slotnumber'), data2Space];
+          var luaArgs = [fromCell.getAttribute('data-slotnumber'), toCell.getAttribute('data-slotnumber'), amountToTransfer];
           var luaString = 'return inv.transfer(' + luaArgs + ');'
           addMessage(luaString, true);
           socket.emit('command', luaString);
