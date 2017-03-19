@@ -347,7 +347,7 @@ function addShapeVoxels(shape) {
       for(var y = 0; y < (shape.data.n / (shape.w * shape.d)); y++) {
         // this is how the geolyzer reports 3d data in a 1d array
         // also lua is indexed from 1
-        index = (x + 1) + z*shape.w + y*shape.w*shape.d;
+        var index = (x + 1) + z*shape.w + y*shape.w*shape.d;
 
         var worldPos = {
           x: (x + shape.x) * voxelSideLength,

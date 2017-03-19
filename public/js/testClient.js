@@ -5,6 +5,43 @@ var prod = false;
 var port = 3001;
 var host = '127.0.0.1';
 
+var testInventory = {
+	'inventory data': {
+		'size': 16,
+		'side': -1,
+		'selected': 1,
+		'contents': {
+			1: {
+				'damage': 0,
+				'hasTag': false,
+				'label': "Dirt",
+				'maxDamage': 0,
+				'maxSize': 64,
+				'name': "minecraft:dirt",
+				'size': 64
+			},
+			2: {
+				'damage': 0,
+				'hasTag': false,
+				'label': "Dirt",
+				'maxDamage': 0,
+				'maxSize': 64,
+				'name': "minecraft:dirt",
+				'size': 37
+			},
+			5: {
+				'damage': 0,
+				'hasTag': false,
+				'label': "Stone",
+				'maxDamage': 0,
+				'maxSize': 64,
+				'name': "minecraft:stone",
+				'size': 3
+			}
+		}
+	}
+};
+
 var testScan = {
 	'map data': {
 		x: 0,
@@ -69,6 +106,10 @@ client.on('data', (data)=>{
 		if (data.command == 'map') {
 			console.log('sending map!')
 			client.write(JSON.stringify(testScan));
+		}
+		else if (data.command == 'inventory') {
+			console.log('sending inventory!')
+			client.write(JSON.stringify(testInventory));
 		}
 		else {
 			console.log('responding to command: ' + data.command)

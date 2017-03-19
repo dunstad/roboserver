@@ -1,6 +1,4 @@
 now:
-
-  fix robot stops when told to dig empty space
     
   add inventory information
   display contents of robot inventory and current selected space
@@ -8,8 +6,6 @@ now:
   add crafting program
 
 later:
-
-  camera jumps when adding many voxels to the scene at once
 
   stop robot from losing contact through code updates
 

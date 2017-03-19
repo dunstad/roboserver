@@ -38,6 +38,12 @@ function main() {
     removeVoxel(pos.x, pos.y, pos.z, voxel);
   });
 
+  // render inventory data received from robot
+  socket.on('inventory data', (data)=>{
+    console.dir(data);
+    renderInventory(data);
+  });
+
   selectStart.addEventListener('input', ()=>{removeSelectBox(); requestRender()});
   selectEnd.addEventListener('input', ()=>{removeSelectBox(); requestRender()});
 
@@ -235,4 +241,199 @@ function initPointerLock() {
 
   }
   else {alert("Your browser doesn't seem to support Pointer Lock API");}
+}
+
+
+/**
+ * Creates an interactive visual representation of an inventory.
+ * @param {object} inventoryData 
+ * @returns {HTMLTableElement}
+ */
+function renderInventory(inventoryData) {
+  var table = document.createElement('table');
+  var numCols = 4;
+  var numRows = inventoryData.size / 4;
+  for (var i = 0; i < numRows; i++) {
+    var row = table.insertRow(-1);
+    for (var j = 0; j < numCols; j++) {
+      var cell = row.insertCell(-1);
+      cell.addEventListener('click', changeSelectedSlot);
+      cell.addEventListener('dragover', allowDrop);
+      cell.addEventListener('drop', itemDrop);
+      cell.addEventListener('dragstart', itemDragStart);
+      cell.setAttribute('draggable', true);
+      var slotNumber = (i * numCols) + j + 1;
+      cell.setAttribute('data-slotNumber', slotNumber);
+      if (inventoryData.selected == slotNumber) {
+        cell.setAttribute('data-selected', true);
+      }
+      var slotData = inventoryData.contents[slotNumber];
+      if (slotData) {
+        cell.appendChild(renderItem(slotData));
+      }
+    }
+  }
+
+  var element = document.createElement('div');
+  element.appendChild(table);
+  var commandInput = document.getElementById('commandInput');
+  document.getElementById('messageContainer').insertBefore(element, commandInput);
+  document.getElementById('messageContainer').insertBefore(document.createElement('br'), commandInput);
+
+  return table;
+}
+
+/**
+ * Creates a visual representation of an item.
+ * @param {object} itemData 
+ * @returns {HTMLDivElement}
+ */
+function renderItem(itemData) {
+  var itemDiv = document.createElement('div');
+
+  itemDiv.appendChild(document.createTextNode(itemData.label));
+  itemDiv.appendChild(document.createElement('br'));
+  itemDiv.appendChild(document.createTextNode(itemData.size));
+  itemDiv.itemData = itemData;
+
+  return itemDiv;
+}
+
+var dragStartElement;
+var itemSwapStorage;
+
+/**
+ * Stores item data for transfer.
+ * @param {Event} e 
+ */
+function itemDragStart(e) {
+  dragStartElement = this;
+  if (e.ctrlKey) {
+    e.dataTransfer.setData('text/plain', 'split');
+  }
+  else if (e.altKey) {
+    e.dataTransfer.setData('text/plain', 'merge');
+  }
+  else {
+    e.dataTransfer.setData('text/plain', 'swap');
+  }
+}
+
+/**
+ * Transfers item data.
+ * @param {Event} e 
+ */
+function itemDrop(e) {
+  if (dragStartElement != this) {
+    var operation = e.dataTransfer.getData('text');
+    if (operation == 'swap') {
+      swapCells(dragStartElement, this);
+    }
+    else if (operation == 'split') {
+      splitCell(dragStartElement, this, parseInt(prompt('Number of items to move:')));
+    }
+    else if (operation == 'merge') {
+      mergeCells(dragStartElement, this);
+    }
+  }
+}
+
+/**
+ * Allows table cells to receive drops.
+ * @param {Event} e 
+ */
+function allowDrop(e) {
+  e.preventDefault();
+}
+
+/**
+ * Changes which inventory slot is selected.
+ * @param {Event} e 
+ */
+function changeSelectedSlot(e) {
+  this.parentElement.parentElement.querySelector('[data-selected=true]').removeAttribute('data-selected');
+  this.setAttribute('data-selected', true);
+}
+
+/**
+ * Exchanges the children of two table cells. Used to swap item slots.
+ * @param {HTMLTableCellElement} cell1 
+ * @param {HTMLTableCellElement} cell2 
+ */
+function swapCells(cell1, cell2) {
+  var itemSwapStorage = cell1.firstChild;
+  if (cell1.firstChild) {cell1.removeChild(cell1.firstChild);}
+  if (cell2.firstChild) {cell1.appendChild(cell2.firstChild);}
+  if (itemSwapStorage) {cell2.appendChild(itemSwapStorage);}
+}
+
+/**
+ * Moves amount items from fromCell to toCell.
+ * @param {HTMLTableCellElement} fromCell 
+ * @param {HTMLTableCellElement} toCell 
+ * @param {number} amount 
+ */
+function splitCell(fromCell, toCell, amount) {
+  var success = true;
+  
+  if (fromCell.firstChild) {
+    var itemData = fromCell.firstChild.itemData;
+    if (amount < 1) {;}
+    else if (toCell.firstChild) {success = false;}
+    else if (amount >= itemData.size) {swapCells(fromCell, toCell);}
+    else {
+      var newItemData = Object.assign({}, itemData);
+      
+      itemData.size -= amount;
+      fromCell.removeChild(fromCell.firstChild);
+      fromCell.appendChild(renderItem(itemData));
+
+      newItemData.size = amount;
+      toCell.appendChild(renderItem(newItemData));
+    }
+  }
+  else {success = false;}
+  
+  return success;
+}
+
+function mergeCells(toCell, fromCell) {
+  var success = false;
+  
+  if (!toCell.firstChild) {;}
+  else {
+    if (!fromCell.firstChild) {
+      swapCells(toCell, fromCell);
+      success = true;
+    }
+    else {
+      var data1 = toCell.firstChild.itemData;
+      var data2 = fromCell.firstChild.itemData;
+      if (data1.name == data2.name &&
+          !data1.damage && !data2.damage &&
+          !data1.hasTag && !data2.hasTag) {
+        var data2Space = data2.maxSize - data2.size;
+        if (data1.size <= data2Space) {
+          data2.size += data1.size;
+          toCell.removeChild(toCell.firstChild);
+          fromCell.removeChild(fromCell.firstChild);
+          fromCell.appendChild(renderItem(data2));
+          success = true;
+        }
+        else {
+          data2.size += data2Space;
+          data1.size -= data2Space;
+          toCell.removeChild(toCell.firstChild);
+          toCell.appendChild(renderItem(data1));
+          fromCell.removeChild(fromCell.firstChild);
+          fromCell.appendChild(renderItem(data2));
+          success = true;
+        }
+
+      }
+      else {;}
+    }
+  }
+
+  return success;
 }

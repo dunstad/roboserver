@@ -9,6 +9,7 @@ robot = require('robot');
 dl = require('downloadCode');
 adj = require('adjacent');
 dig = require('dig');
+inv = require('inventory');
 
 function runInTerminal(commandText)
   local file = assert(io.popen(commandText, 'r'));
