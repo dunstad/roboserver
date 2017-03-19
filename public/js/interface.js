@@ -3,7 +3,7 @@ main();
 function main() {
 
   // socket connection to http server
-  var socket = io();
+  socket = io();
   socket.on('message', console.dir);
   socket.send('ping');
 
