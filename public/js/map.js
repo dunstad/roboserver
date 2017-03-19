@@ -24,7 +24,6 @@ var selectEnd = new CoordForm(
   document.getElementById('selectEndY'),
   document.getElementById('selectEndZ')
 );
-var timeOfLastUpdate = new Date().getTime();
 
 main();
 
@@ -263,9 +262,7 @@ function makeBoxAround(v1, v2, material) {
 function render() {
   placeSelector();
   // use # of ms since last update as delta
-  var now = new Date().getTime();
-  controls.update(now - timeOfLastUpdate);
-  timeOfLastUpdate = now;
+  controls.update(framerate);
   renderer.render(scene, camera);
 }
 
