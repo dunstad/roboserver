@@ -16,7 +16,7 @@ function M.sendInventoryData()
     contents = {}
   };
   for i = 1, robot.inventorySize() do
-    contents[i] = getStackInInternalSlot(i);
+    contents[i] = inv.getStackInInternalSlot(i);
   end
   tcp.write({['inventory data']=inventory});
 end
