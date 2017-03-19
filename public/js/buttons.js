@@ -27,6 +27,7 @@ var codeStrings = {
   down: ()=>{return 'return mas.moveAndScan("down", ' + scanSelect.value + ');';},
   turnLeft: ()=>{return 'orient.turnLeft(); return true;';},
   turnRight: ()=>{return 'orient.turnRight(); return true;';},
+  viewInventory: ()=>{return 'inv.sendInventoryData(); return true;';},
 };
 
 for (name in codeStrings) {
