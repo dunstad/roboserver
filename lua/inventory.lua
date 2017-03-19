@@ -21,4 +21,20 @@ function M.sendInventoryData()
   tcp.write({['inventory data']=inventory});
 end
 
+function M.swap(slot1, slot2)
+  local originalSlot = robot.select();
+  robot.select(slot1);
+  local success = robot.transferTo(slot2);
+  robot.select(originalSlot);
+  return success;
+end
+
+function M.transfer(slot1, slot2, amount)
+  local originalSlot = robot.select();
+  robot.select(slot1);
+  local success = robot.transferTo(slot2, amount);
+  robot.select(originalSlot);
+  return success;
+end
+
 return M;

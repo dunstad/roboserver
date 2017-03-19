@@ -353,7 +353,7 @@ function allowDrop(e) {
 function changeSelectedSlot(e) {
   this.parentElement.parentElement.querySelector('[data-selected=true]').removeAttribute('data-selected');
   this.setAttribute('data-selected', true);
-  var luaString = 'return robot.select(' + this.getAttribute('data-slotnumber') + ')';
+  var luaString = 'return robot.select(' + this.getAttribute('data-slotnumber') + ');';
   addMessage(luaString, true);
   socket.emit('command', luaString);
 }
@@ -368,6 +368,11 @@ function swapCells(cell1, cell2) {
   if (cell1.firstChild) {cell1.removeChild(cell1.firstChild);}
   if (cell2.firstChild) {cell1.appendChild(cell2.firstChild);}
   if (itemSwapStorage) {cell2.appendChild(itemSwapStorage);}
+
+  var luaArgs = [cell1.getAttribute('data-slotnumber'), cell2.getAttribute('data-slotnumber')];
+  var luaString = 'return inv.swap(' + luaArgs + ');';
+  addMessage(luaString, true);
+  socket.emit('command', luaString);
 }
 
 /**
@@ -393,6 +398,11 @@ function splitCell(fromCell, toCell, amount) {
 
       newItemData.size = amount;
       toCell.appendChild(renderItem(newItemData));
+
+      var luaArgs = [fromCell.getAttribute('data-slotnumber'), toCell.getAttribute('data-slotnumber'), amount];
+      var luaString = 'return inv.transfer(' + luaArgs + ');'
+      addMessage(luaString, true);
+      socket.emit('command', luaString);
     }
   }
   else {success = false;}
@@ -400,37 +410,47 @@ function splitCell(fromCell, toCell, amount) {
   return success;
 }
 
-function mergeCells(toCell, fromCell) {
+function mergeCells(fromCell, toCell) {
   var success = false;
   
-  if (!toCell.firstChild) {;}
+  if (!fromCell.firstChild) {;}
   else {
-    if (!fromCell.firstChild) {
-      swapCells(toCell, fromCell);
+    if (!toCell.firstChild) {
+      swapCells(fromCell, toCell);
       success = true;
     }
     else {
-      var data1 = toCell.firstChild.itemData;
-      var data2 = fromCell.firstChild.itemData;
+      var data1 = fromCell.firstChild.itemData;
+      var data2 = toCell.firstChild.itemData;
       if (data1.name == data2.name &&
           !data1.damage && !data2.damage &&
           !data1.hasTag && !data2.hasTag) {
         var data2Space = data2.maxSize - data2.size;
         if (data1.size <= data2Space) {
           data2.size += data1.size;
-          toCell.removeChild(toCell.firstChild);
           fromCell.removeChild(fromCell.firstChild);
-          fromCell.appendChild(renderItem(data2));
+          toCell.removeChild(toCell.firstChild);
+          toCell.appendChild(renderItem(data2));
           success = true;
+
+          var luaArgs = [fromCell.getAttribute('data-slotnumber'), toCell.getAttribute('data-slotnumber'), data1.size];
+          var luaString = 'return inv.transfer(' + luaArgs + ');'
+          addMessage(luaString, true);
+          socket.emit('command', luaString);
         }
         else {
           data2.size += data2Space;
           data1.size -= data2Space;
-          toCell.removeChild(toCell.firstChild);
-          toCell.appendChild(renderItem(data1));
           fromCell.removeChild(fromCell.firstChild);
-          fromCell.appendChild(renderItem(data2));
+          fromCell.appendChild(renderItem(data1));
+          toCell.removeChild(toCell.firstChild);
+          toCell.appendChild(renderItem(data2));
           success = true;
+
+          var luaArgs = [fromCell.getAttribute('data-slotnumber'), toCell.getAttribute('data-slotnumber'), data2Space];
+          var luaString = 'return inv.transfer(' + luaArgs + ');'
+          addMessage(luaString, true);
+          socket.emit('command', luaString);
         }
 
       }
