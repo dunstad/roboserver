@@ -1,6 +1,6 @@
 local component = require('component');
-if not component.isAvailable("inventory_controller") then
-  error("Inventory controller not found");
+if not component.isAvailable('inventory_controller') then
+  error('Inventory controller not found');
 end
 local inv = component.inventory_controller;
 local tcp = require('tcp');
@@ -16,7 +16,7 @@ function M.sendInventoryData()
     contents = {}
   };
   for i = 1, robot.inventorySize() do
-    contents[i] = inv.getStackInInternalSlot(i);
+    inventory.contents[i] = inv.getStackInInternalSlot(i);
   end
   tcp.write({['inventory data']=inventory});
 end
