@@ -4,6 +4,7 @@ var controls;
 var cube;
 var cubeGeo, cubeMat;
 var rollOverGeo, rollOverMesh, rollOverMaterial;
+var prevRollOverMeshPos;
 var framerate = 1000/30;
 var voxelSideLength = 50;
 var raycaster;
@@ -30,10 +31,6 @@ main();
  */
 function main() {
   init();
-  render();
-  initPointerLock();
-  initMoveOnClick();
-  initSelectArea();
   render();
   setInterval(function() {controls.enabled ? render() : false}, framerate);
 }
@@ -73,6 +70,7 @@ function init() {
   rollOverGeo = new THREE.BoxGeometry( 50, 50, 50 );
   rollOverMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff, opacity: 0.5, transparent: true });
 	rollOverMesh = new THREE.Mesh(rollOverGeo, rollOverMaterial);
+  prevRollOverMeshPos = rollOverMesh.position.clone();
 	scene.add(rollOverMesh);
 
   // Lights
@@ -91,9 +89,6 @@ function init() {
   container.appendChild( renderer.domElement );
 
   window.addEventListener( 'resize', onWindowResize, false );
-
-  selectStart.addEventListener('input', render);
-  selectEnd.addEventListener('input', render);
 
 }
 
@@ -115,11 +110,11 @@ function onWindowResize() {
  */
 function placeSelector() {
 
-  if (selectBox) {
-    scene.remove(selectBox);
-    selectBox.geometry.dispose();
-    selectBox = undefined;
+  if (selectBox && !(prevRollOverMeshPos.equals(rollOverMesh.position))) {
+    removeSelectBox();
   }
+
+  prevRollOverMeshPos = rollOverMesh.position.clone();
 
   var fromScreenCenter = new THREE.Vector2(
     ((renderer.domElement.clientWidth / 2) / renderer.domElement.width) * 2 - 1,
@@ -142,21 +137,29 @@ function placeSelector() {
 
     if (selectStart.isComplete() && !selectEnd.isComplete()) {
       scene.remove(rollOverMesh);
-      selectBox = makeBoxAround(selectStart.getVector(), intersect.object.position, rollOverMaterial);
-      scene.add(selectBox);
+      if (!selectBox) {
+        selectBox = makeBoxAround(selectStart.getVector(), intersect.object.position, rollOverMaterial);
+        scene.add(selectBox);
+      }
     }
     else if (!selectStart.isComplete() && selectEnd.isComplete()) {
       scene.remove(rollOverMesh);
-      selectBox = makeBoxAround(intersect.object.position, selectEnd.getVector(), rollOverMaterial);
-      scene.add(selectBox);
+      if (!selectBox) {
+        selectBox = makeBoxAround(intersect.object.position, selectEnd.getVector(), rollOverMaterial);
+        scene.add(selectBox);
+      }
+    }
+    else {
+      scene.add(rollOverMesh);
     }
 
   }
 
   if (selectStart.isComplete() && selectEnd.isComplete()) {
-    scene.add(rollOverMesh);
-    selectBox = makeBoxAround(selectStart.getVector(), selectEnd.getVector(), rollOverMaterial);
-    scene.add(selectBox);
+    if (!selectBox) {
+      selectBox = makeBoxAround(selectStart.getVector(), selectEnd.getVector(), rollOverMaterial);
+      scene.add(selectBox);
+    }
   }
 
   var worldCoords = getWorldCoord(rollOverMesh.position);
@@ -381,34 +384,6 @@ function colorFromHardness(hardness) {
 
 }
 
-/**
- * Allows enabling and disabling of the camera controls.
- */
-function initPointerLock() {
-  // locking/unlocking the cursor, enabling/disabling controls
-  if ('pointerLockElement' in document) {
-
-    var element = renderer.domElement;
-
-    function pointerLockChangeCB(event) {
-      if (document.pointerLockElement === element) {controls.enabled = true;}
-      else {
-        controls.enabled = false;
-        document.getElementById('commandInput').focus();
-      }
-    }
-
-    // Hook pointer lock state change events
-    document.addEventListener( 'pointerlockchange', pointerLockChangeCB, false );
-    document.addEventListener( 'pointerlockerror', console.dir, false );
-
-    element.addEventListener('click', function(event) {
-      element.requestPointerLock();
-    }, false);
-
-  }
-  else {alert("Your browser doesn't seem to support Pointer Lock API");}
-}
 
 /**
  * Returns the corresponding Minecraft world coordinates of a vector.
@@ -436,56 +411,14 @@ function vectorToLuaString(object) {
 }
 
 /**
- * Sends a command to robots telling them to move to the coordinate clicked on.
+ * Removes the temporary selected area.
  */
-function initMoveOnClick() {
-  renderer.domElement.addEventListener('click', ()=>{
-    var moveToolActive = document.getElementById('moveTool').checked;
-    if (controls.enabled && moveToolActive) {
-      var coord = getWorldCoord(rollOverMesh.position);
-      console.log(coord);
-      var scanLevel = document.getElementById('scanWhileMoving').value;
-      var luaString = 'return mas.to(' + [coord.x, coord.y, coord.z, scanLevel] + ');'
-      addMessage(luaString, true);
-      socket.emit('command', luaString);
-    }
-  });
-}
-
-/**
- * Allows specifying an area of voxels. Used for digging.
- */
-function initSelectArea() {
-  renderer.domElement.addEventListener('click', ()=>{
-    var selectToolActive = document.getElementById('selectTool').checked;
-    if (controls.enabled && selectToolActive) {
-      if (!selectStart.isComplete()) {
-        selectStart.setFromVector(rollOverMesh.position);
-      }
-      else if (!selectEnd.isComplete()) {
-        selectEnd.setFromVector(rollOverMesh.position);
-      }
-      else {
-        var v1 = selectStart.getVector();
-        var v2 = selectEnd.getVector();
-
-        var selection = makeBoxAround(v1, v2, rollOverMaterial);
-        scene.add(selection);
-        var selectionIndex = addSelection(selections, selection);
-        
-        var v1Lua = vectorToLuaString(getWorldCoord(v1));
-        var v2Lua = vectorToLuaString(getWorldCoord(v2));
-        var scanLevel = document.getElementById('scanWhileMoving').value;
-        
-        var luaString = 'return dig.digArea(' + [v1Lua, v2Lua, selectionIndex, scanLevel] + ');';
-        addMessage(luaString, true);
-        socket.emit('command', luaString);
-
-        selectStart.clear();
-        selectEnd.clear();
-      }
-    }
-  });
+function removeSelectBox() {
+  if (selectBox) {
+    scene.remove(selectBox);
+    selectBox.geometry.dispose();
+    selectBox = undefined;
+  }
 }
 
 /**
@@ -495,6 +428,7 @@ function initSelectArea() {
  * @returns {number}
  */
 function addSelection(selections, selection) {
+  removeSelectBox();
   var counter = 0;
   while (selections[counter]) {counter++;}
   selections[counter] = selection;

@@ -51,9 +51,12 @@ function M.dig(point)
   elseif point.y < robotPos.y then
     swing = robot.swingDown;
   end
-  local swingSuccess = swing();
-  if swingSuccess then
-    tcp.write({['dig success']=point});
+  local swingSuccess = true;
+  if robot.detect() then
+    swingSuccess = swing();
+    if swingSuccess then
+      tcp.write({['dig success']=point});
+    end
   end
   return swingSuccess;
 end
