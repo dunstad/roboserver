@@ -9,6 +9,8 @@ now:
 
 later:
 
+  camera jumps when adding many voxels to the scene at once
+
   stop robot from losing contact through code updates
 
   add moveVoxel for robot movement?

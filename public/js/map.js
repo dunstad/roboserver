@@ -328,14 +328,7 @@ function addShapeVoxels(shape) {
   render();
 }
 
-/**
- * Converts ranges of noisy hardness values to specific colors.
- * @param {number} hardness
- * @returns {object}
- */
-function colorFromHardness(hardness) {
-
-  var hardnessToColorMap = {
+var hardnessToColorMap = {
     // bedrock
     '-1': new THREE.MeshLambertMaterial({color:0x000000}),
     // leaves
@@ -367,6 +360,13 @@ function colorFromHardness(hardness) {
     // water or lava
     100: new THREE.MeshLambertMaterial({color:0x9900cc})
   };
+
+/**
+ * Converts ranges of noisy hardness values to specific colors.
+ * @param {number} hardness
+ * @returns {object}
+ */
+function colorFromHardness(hardness) {
 
   var closestMatch = 999; // arbitrarily high number
   var oldDifference = Math.abs(closestMatch - hardness);
