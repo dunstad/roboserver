@@ -38,8 +38,8 @@ function main() {
     removeVoxel(pos.x, pos.y, pos.z, voxel);
   });
 
-  selectStart.addEventListener('input', render);
-  selectEnd.addEventListener('input', render);
+  selectStart.addEventListener('input', ()=>{removeSelectBox(); render()});
+  selectEnd.addEventListener('input', ()=>{removeSelectBox(); render()});
 
   // for some reason the click event fires before the checked attribute changes
   // can't find an event for when that attribute changes, so we use setTimeout
