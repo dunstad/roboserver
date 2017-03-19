@@ -51,6 +51,12 @@ input {
   width: 100%;
 }
 
+#inventoryContainer {
+  position: absolute;
+  right: 1%;
+  bottom: 1%;
+}
+
 #hoverGuideCoordinates {
   background-color: #f0f0f0;
   padding: 4px;

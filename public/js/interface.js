@@ -274,11 +274,9 @@ function renderInventory(inventoryData) {
     }
   }
 
-  var element = document.createElement('div');
-  element.appendChild(table);
-  var commandInput = document.getElementById('commandInput');
-  document.getElementById('messageContainer').insertBefore(element, commandInput);
-  document.getElementById('messageContainer').insertBefore(document.createElement('br'), commandInput);
+  var inventoryContainer = document.getElementById('inventoryContainer');
+  if (inventoryContainer.firstChild) {inventoryContainer.removeChild(inventoryContainer.firstChild);}
+  inventoryContainer.appendChild(table);
 
   return table;
 }
