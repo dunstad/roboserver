@@ -267,7 +267,7 @@ function renderInventory(inventoryData) {
       if (inventoryData.selected == slotNumber) {
         cell.setAttribute('data-selected', true);
       }
-      var slotData = inventoryData.contents[slotNumber];
+      var slotData = inventoryData.contents[slotNumber - 1];
       if (slotData) {
         cell.appendChild(renderItem(slotData));
       }
@@ -362,15 +362,17 @@ function changeSelectedSlot(e) {
  * @param {HTMLTableCellElement} cell2 
  */
 function swapCells(cell1, cell2) {
-  var itemSwapStorage = cell1.firstChild;
-  if (cell1.firstChild) {cell1.removeChild(cell1.firstChild);}
-  if (cell2.firstChild) {cell1.appendChild(cell2.firstChild);}
-  if (itemSwapStorage) {cell2.appendChild(itemSwapStorage);}
+  if (cell1.firstChild) {
+    var itemSwapStorage = cell1.firstChild;
+    cell1.removeChild(cell1.firstChild);
+    if (cell2.firstChild) {cell1.appendChild(cell2.firstChild);}
+    if (itemSwapStorage) {cell2.appendChild(itemSwapStorage);}
 
-  var luaArgs = [cell1.getAttribute('data-slotnumber'), cell2.getAttribute('data-slotnumber')];
-  var luaString = 'return inv.swap(' + luaArgs + ');';
-  addMessage(luaString, true);
-  socket.emit('command', luaString);
+    var luaArgs = [cell1.getAttribute('data-slotnumber'), cell2.getAttribute('data-slotnumber')];
+    var luaString = 'return inv.swap(' + luaArgs + ');';
+    addMessage(luaString, true);
+    socket.emit('command', luaString);
+  }
 }
 
 /**

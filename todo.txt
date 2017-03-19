@@ -1,7 +1,7 @@
 now:
     
-  add inventory information
-  display contents of robot inventory and current selected space
+  allow transfer to cells of the same item
+  add external inventory support
 
   add crafting program
 
