@@ -387,7 +387,7 @@ function splitCell(fromCell, toCell, amount) {
   if (fromCell.firstChild) {
     var itemData = fromCell.firstChild.itemData;
     if (amount < 1) {;}
-    else if (toCell.firstChild) {success = false;}
+    else if (toCell.firstChild) {success = mergeCells(fromCell, toCell);}
     else if (amount >= itemData.size) {swapCells(fromCell, toCell);}
     else {
       var newItemData = Object.assign({}, itemData);
