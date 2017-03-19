@@ -428,37 +428,34 @@ function mergeCells(fromCell, toCell, amount) {
         var data2Space = data2.maxSize - data2.size;
         if (data1.size <= data2Space) {
           var amountToTransfer = amount || data1.size;
-          data2.size += amountToTransfer;
-          fromCell.removeChild(fromCell.firstChild);
-          toCell.removeChild(toCell.firstChild);
-          toCell.appendChild(renderItem(data2));
-          success = true;
-
-          var luaArgs = [fromCell.getAttribute('data-slotnumber'), toCell.getAttribute('data-slotnumber'), data1.size, amount];
-          var luaString = 'return inv.transfer(' + luaArgs + ');'
-          addMessage(luaString, true);
-          socket.emit('command', luaString);
+          
         }
         else {
           var amountToTransfer = amount || data2Space;
-          data2.size += amountToTransfer;
-          data1.size -= amountToTransfer;
-          fromCell.removeChild(fromCell.firstChild);
-          fromCell.appendChild(renderItem(data1));
-          toCell.removeChild(toCell.firstChild);
-          toCell.appendChild(renderItem(data2));
-          success = true;
-
-          var luaArgs = [fromCell.getAttribute('data-slotnumber'), toCell.getAttribute('data-slotnumber'), amountToTransfer];
-          var luaString = 'return inv.transfer(' + luaArgs + ');'
-          addMessage(luaString, true);
-          socket.emit('command', luaString);
         }
-
+        transferAndUpdate(fromCell, toCell, amountToTransfer);
+        success = true;
       }
       else {;}
     }
   }
 
   return success;
+}
+
+function transferAndUpdate(fromCell, toCell, amount) {
+  var data1 = fromCell.firstChild.itemData;
+  var data2 = toCell.firstChild.itemData;
+
+  data1.size -= amount;
+  data2.size += amount;
+  fromCell.removeChild(fromCell.firstChild);
+  if (data1.size) {fromCell.appendChild(renderItem(data1));}
+  toCell.removeChild(toCell.firstChild);
+  toCell.appendChild(renderItem(data2));
+
+  var luaArgs = [fromCell.getAttribute('data-slotnumber'), toCell.getAttribute('data-slotnumber'), amount];
+  var luaString = 'return inv.transfer(' + luaArgs + ');'
+  addMessage(luaString, true);
+  socket.emit('command', luaString);
 }
