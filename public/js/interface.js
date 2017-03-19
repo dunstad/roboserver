@@ -353,7 +353,7 @@ function allowDrop(e) {
 function changeSelectedSlot(e) {
   this.parentElement.parentElement.querySelector('[data-selected=true]').removeAttribute('data-selected');
   this.setAttribute('data-selected', true);
-  var luaString = 'return robot.select(' + this.getAttribute('data-slotNum') + ')';
+  var luaString = 'return robot.select(' + this.getAttribute('data-slotnumber') + ')';
   addMessage(luaString, true);
   socket.emit('command', luaString);
 }
