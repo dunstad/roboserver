@@ -27,15 +27,21 @@
         </select>
       </div>
       <div class='btn-group' data-toggle='buttons'>
-        <label class='btn btn-primary btn-xs active' data-toggle='collapse' data-target='.selectToolOptions.in'>
+        <label class='btn btn-primary btn-xs active' data-toggle='collapse' data-target='.digToolOptions.in'>
           <input type='radio' name='options' id='moveTool' autocomplete='off' checked> Move
         </label>
-        <label class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.selectToolOptions:not(.in)'>
-          <input type='radio' name='options' id='selectTool' autocomplete='off' > Select
+        <label class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.digToolOptions.in'>
+          <input type='radio' name='options' id='interactTool' autocomplete='off' > Interact
+        </label>
+        <label class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.digToolOptions:not(.in)'>
+          <input type='radio' name='options' id='digTool' autocomplete='off' > Dig
+        </label>
+        <label class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.digToolOptions:not(.in)'>
+          <input type='radio' name='options' id='placeTool' autocomplete='off' > Place
         </label>
       </div>
       <br>
-      <div class='selectToolOptions collapse'>
+      <div class='digToolOptions collapse'>
         X: <input type='number' id='selectStartX'>
         Y: <input type='number' id='selectStartY'>
         Z: <input type='number' id='selectStartZ'>

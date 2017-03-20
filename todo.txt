@@ -1,7 +1,4 @@
 now:
-    
-  dig area behaving strangely (related to air blocks?)
-  add gui support for interact, place, equip
 
   add crafting program
 
@@ -17,7 +14,7 @@ later:
 
   message div blocking click to engage camera control
 
-  allow limited functionality without geolyzer
+  allow limited functionality without geolyzer/other components
 
   move ip address information to a settings file
 
@@ -48,6 +45,5 @@ later:
     also store hash on robot, check only that hash for commands
 
 distant future:
-  implement minecraft player style inventory manipulation on web-client
   blueprint storage and rendering
   neural network to help predict block ids from hardness maps

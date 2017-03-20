@@ -63,25 +63,37 @@ function main() {
     removeSelectBox();
     setTimeout(requestRender, 10);
   });
-  var moveToolLabel = document.getElementById('selectTool').parentElement;
-  moveToolLabel.addEventListener('click', (e)=>{
+  var interactToolLabel = document.getElementById('interactTool').parentElement;
+  interactToolLabel.addEventListener('click', (e)=>{
+    selectStart.clear();
+    selectEnd.clear();
+    removeSelectBox();
+    setTimeout(requestRender, 10);
+  });
+  digToolLabel = document.getElementById('digTool').parentElement;
+  digToolLabel.addEventListener('click', (e)=>{
+    setTimeout(requestRender, 10);
+  });
+  var placeToolLabel = document.getElementById('placeTool').parentElement;
+  placeToolLabel.addEventListener('click', (e)=>{
     setTimeout(requestRender, 10);
   });
 
   initPointerLock();
   initCommandInput();
-  initMoveOnClick();
-  initSelectArea();
+  initClickTools();
+  initSelectAreaTools();
 
 }
 
 /**
  * Allows specifying an area of voxels. Used for digging.
  */
-function initSelectArea() {
+function initSelectAreaTools() {
   renderer.domElement.addEventListener('click', ()=>{
-    var selectToolActive = document.getElementById('selectTool').checked;
-    if (controls.enabled && selectToolActive) {
+    var digToolActive = document.getElementById('digTool').checked;
+    var placeToolActive = document.getElementById('placeTool').checked;
+    if (controls.enabled && (digToolActive || placeToolActive)) {
       if (!selectStart.isComplete()) {
         selectStart.setFromVector(rollOverMesh.position);
       }
@@ -100,7 +112,12 @@ function initSelectArea() {
         var v2Lua = vectorToLuaString(getWorldCoord(v2));
         var scanLevel = document.getElementById('scanWhileMoving').value;
         
-        var luaString = 'return dta.digArea(' + [v1Lua, v2Lua, selectionIndex, scanLevel] + ');';
+        if (digToolActive) {
+          var luaString = 'return dta.digArea(' + [v1Lua, v2Lua, selectionIndex, scanLevel] + ');';
+        }
+        else if (placeToolActive) {
+          var luaString = 'return dta.placeArea(' + [v1Lua, v2Lua, selectionIndex, scanLevel] + ');';
+        }
         addMessage(luaString, true);
         socket.emit('command', luaString);
 
@@ -148,14 +165,20 @@ function initCommandInput() {
 /**
  * Sends a command to robots telling them to move to the coordinate clicked on.
  */
-function initMoveOnClick() {
+function initClickTools() {
   renderer.domElement.addEventListener('click', ()=>{
     var moveToolActive = document.getElementById('moveTool').checked;
-    if (controls.enabled && moveToolActive) {
+    var interactToolActive = document.getElementById('interactTool').checked;
+    if (controls.enabled && (moveToolActive || interactToolActive)) {
       var coord = getWorldCoord(rollOverMesh.position);
       console.log(coord);
       var scanLevel = document.getElementById('scanWhileMoving').value;
-      var luaString = 'return mas.to(' + [coord.x, coord.y, coord.z, scanLevel] + ');'
+      if (moveToolActive) {
+        var luaString = 'return mas.to(' + [coord.x, coord.y, coord.z, scanLevel] + ');'
+      }
+      else if (interactToolActive) {
+        var luaString = 'return int.interact(' + [vectorToLuaString(coord), scanLevel] + ');'
+      }
       addMessage(luaString, true);
       socket.emit('command', luaString);
     }

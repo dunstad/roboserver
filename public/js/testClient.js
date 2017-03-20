@@ -139,11 +139,11 @@ client.on('data', (data)=>{
 	data = JSON.parse(data);
 	if (data.command) {
 		// hard coded test map
-		if (data.command == 'map') {
+		if (data.command == 'for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;') {
 			console.log('sending map!')
 			client.write(JSON.stringify(testScan));
 		}
-		else if (data.command == 'inventory1') {
+		else if (data.command == 'return int.sendInventoryData(-1);') {
 			console.log('sending inventory!')
 			client.write(JSON.stringify(testInventory1));
 		}
