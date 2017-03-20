@@ -21,12 +21,12 @@ var scanSelect = document.getElementById('scanWhileMoving');
 var codeStrings = {
   scanArea: ()=>{return 'for i=-1,7 do sendScan.plane(i); end return true;';},
   scanClose: ()=>{return 'for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;';},
-  forward: ()=>{return 'return mas.moveAndScan("forward", ' + scanSelect.value + ');';},
-  back: ()=>{return 'return mas.moveAndScan("back", ' + scanSelect.value + ');';},
-  up: ()=>{return 'return mas.moveAndScan("up", ' + scanSelect.value + ');';},
-  down: ()=>{return 'return mas.moveAndScan("down", ' + scanSelect.value + ');';},
-  turnLeft: ()=>{return 'orient.turnLeft(); return true;';},
-  turnRight: ()=>{return 'orient.turnRight(); return true;';},
+  // forward: ()=>{return 'return mas.moveAndScan("forward", ' + scanSelect.value + ');';},
+  // back: ()=>{return 'return mas.moveAndScan("back", ' + scanSelect.value + ');';},
+  // up: ()=>{return 'return mas.moveAndScan("up", ' + scanSelect.value + ');';},
+  // down: ()=>{return 'return mas.moveAndScan("down", ' + scanSelect.value + ');';},
+  // turnLeft: ()=>{return 'orient.turnLeft(); return true;';},
+  // turnRight: ()=>{return 'orient.turnRight(); return true;';},
   viewInventory: ()=>{return 'return int.sendInventoryData(-1);';},
   equip: ()=>{return 'return require("component").inventory_controller.equip();';},
 };
