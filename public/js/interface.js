@@ -425,12 +425,15 @@ function transfer(fromCell, toCell, amount) {
   
   if (!fromCell.firstChild) {;}
   else {
+    var data1 = fromCell.firstChild.itemData;
+    if (!amount) {amount = data1.size;}
     if (!toCell.firstChild) {
+      console.dir(data1.size)
+      console.dir(amount)
       transferAndUpdate(fromCell, toCell, amount);
       success = true;
     }
     else {
-      var data1 = fromCell.firstChild.itemData;
       var data2 = toCell.firstChild.itemData;
       if (data1.name == data2.name &&
           !data1.damage && !data2.damage &&
@@ -445,7 +448,11 @@ function transfer(fromCell, toCell, amount) {
         transferAndUpdate(fromCell, toCell, amountToTransfer);
         success = true;
       }
-      else {;}
+      else {
+        if (amount == data1.size) {
+          swapCells(fromCell, toCell);
+        }
+      }
     }
   }
 
@@ -470,8 +477,7 @@ function transferAndUpdate(fromCell, toCell, amount) {
   }
   else {
     var data2 = Object.assign({}, data1);
-    console.dir(data2.size, amount)
-    data2.size += (amount * 2);
+    data2.size = amount;
   }
   toCell.appendChild(renderItem(data2));
 
@@ -494,7 +500,7 @@ function swapCells(cell1, cell2) {
     if (itemSwapStorage) {cell2.appendChild(itemSwapStorage);}
 
     var luaArgs = [cell1.getAttribute('data-slotnumber'), cell2.getAttribute('data-slotnumber')];
-    var luaString = 'return inv.swap(' + luaArgs + ');';
+    var luaString = 'return inv.transfer(' + luaArgs + ');';
     addMessage(luaString, true);
     socket.emit('command', luaString);
   }
