@@ -24,6 +24,7 @@ var selectEnd = new CoordForm(
   document.getElementById('selectEndY'),
   document.getElementById('selectEndZ')
 );
+var altKeyIsPressed;
 
 main();
 
@@ -90,6 +91,14 @@ function init() {
   container.appendChild( renderer.domElement );
 
   window.addEventListener( 'resize', onWindowResize, false );
+
+  document.addEventListener('keydown', (e)=>{
+    if (e.altKey) {e.preventDefault(); altKeyIsPressed = true;}
+  });
+
+  document.addEventListener('keyup', (e)=>{
+    if (!e.altKey) {altKeyIsPressed = false;}
+  });
 
   hardnessToColorMap = {
     // bedrock
@@ -165,21 +174,21 @@ function placeSelector() {
     normal.multiplyScalar(voxelSideLength);
 
     rollOverMesh.position.copy(intersect.object.position);
-    if (document.getElementById('moveTool').checked) {
+    if (!altKeyIsPressed) {
       rollOverMesh.position.add(normal);
     }
 
     if (selectStart.isComplete() && !selectEnd.isComplete()) {
       scene.remove(rollOverMesh);
       if (!selectBox) {
-        selectBox = makeBoxAround(selectStart.getVector(), intersect.object.position, rollOverMaterial);
+        selectBox = makeBoxAround(selectStart.getVector(), rollOverMesh.position, rollOverMaterial);
         scene.add(selectBox);
       }
     }
     else if (!selectStart.isComplete() && selectEnd.isComplete()) {
       scene.remove(rollOverMesh);
       if (!selectBox) {
-        selectBox = makeBoxAround(intersect.object.position, selectEnd.getVector(), rollOverMaterial);
+        selectBox = makeBoxAround(rollOverMesh.position, selectEnd.getVector(), rollOverMaterial);
         scene.add(selectBox);
       }
     }

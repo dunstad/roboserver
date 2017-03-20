@@ -2,6 +2,11 @@ local adj = require('adjacent');
 local robot = require('robot');
 local tcp = require('tcp');
 local pos = require('trackPosition');
+local component = require('component');
+if not component.isAvailable('geolyzer') then
+  error('Geolyzer not found');
+end
+local geolyzer = component.geolyzer;
 
 local M = {};
 
@@ -43,6 +48,28 @@ function M.doToAllPoints(pointList, action)
   return success;
 end
 
+function M.makeApproachAndDoAction(action, scanType, times)
+  return function (point)
+    local moveSuccess = adj.toAdjacent(point, scanType, times);
+    local actionSuccess = false;
+    if moveSuccess then
+      actionSuccess = action(point);
+    end
+    return moveSuccess and actionSuccess;
+  end
+end
+
+function M.makeDoActionToArea(action)
+  return function (p1, p2, index, scanType, times)
+    local pointList = M.generateBoxPoints(p1, p2);
+    adj.distanceSort(pos.get(), pointList);
+    local approachAndDoAction = M.makeApproachAndDoAction(action, scanType, times);
+    local actionSuccess = M.doToAllPoints(pointList, approachAndDoAction);
+    tcp.write({['delete selection']=index});
+    return actionSuccess;
+  end
+end
+
 function M.dig(point)
   local robotPos = pos.get();
   local swing = robot.swing;
@@ -61,24 +88,25 @@ function M.dig(point)
   return swingSuccess;
 end
 
-function M.makeApproachAndDig(scanType, times)
-  return function (point)
-    local moveSuccess = adj.toAdjacent(point, scanType, times);
-    local digSuccess = false;
-    if moveSuccess then
-      digSuccess = M.dig(point);
-    end
-    return moveSuccess and digSuccess;
+M.digArea = M.makeDoActionToArea(M.dig);
+
+function M.place(point)
+  local robotPos = pos.get();
+  local pointSide = 3; -- front
+  if point.y > robotPos.y then
+    pointSide = 1; -- top
+  elseif point.y < robotPos.y then
+    pointSide = 0; -- bottom
   end
+  local placeSuccess = component.robot.place(pointSide);
+  if placeSuccess then
+    local blockData = geolyzer.analyze(pointSide);
+    blockData.point = point;
+    tcp.write({['block data']=blockData});
+  end
+  return placeSuccess;
 end
 
-function M.digArea(p1, p2, index, scanType, times)
-  local pointList = M.generateBoxPoints(p1, p2);
-  adj.distanceSort(pos.get(), pointList);
-  local digAction = M.makeApproachAndDig(scanType, times);
-  local actionSuccess = M.doToAllPoints(pointList, digAction);
-  tcp.write({['delete selection']=index});
-  return actionSuccess;
-end
+M.placeArea = M.makeDoActionToArea(M.place);
 
 return M;

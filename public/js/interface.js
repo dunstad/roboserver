@@ -19,6 +19,11 @@ function main() {
     addShapeVoxels(data);
   });
 
+  // render block data received from robot
+  socket.on('block data', (data)=>{
+    console.dir(data);
+  });
+
   // render map data received from robot
   socket.on('robot position', (pos)=>{
     console.dir(pos);
@@ -94,7 +99,7 @@ function initSelectArea() {
         var v2Lua = vectorToLuaString(getWorldCoord(v2));
         var scanLevel = document.getElementById('scanWhileMoving').value;
         
-        var luaString = 'return dig.digArea(' + [v1Lua, v2Lua, selectionIndex, scanLevel] + ');';
+        var luaString = 'return dta.digArea(' + [v1Lua, v2Lua, selectionIndex, scanLevel] + ');';
         addMessage(luaString, true);
         socket.emit('command', luaString);
 
@@ -450,7 +455,7 @@ function transferAndUpdate(fromCell, toCell, amount) {
       getSide(toCell),
       amount
     ];
-    var luaString = 'return inv.transfer(' + luaArgs + ');'
+    var luaString = 'return int.transfer(' + luaArgs + ');'
     addMessage(luaString, true);
     socket.emit('command', luaString);
   }
@@ -474,7 +479,7 @@ function swapCells(cell1, cell2) {
       cell2.getAttribute('data-slotnumber'),
       getSide(cell2),
     ];
-    var luaString = 'return inv.transfer(' + luaArgs + ');';
+    var luaString = 'return int.transfer(' + luaArgs + ');';
     addMessage(luaString, true);
     socket.emit('command', luaString);
   }

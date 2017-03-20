@@ -55,20 +55,23 @@ function M.transfer(slot1, side1, slot2, side2, amount)
   return success;
 end
 
-function M.openInventory(point, scanType, times)
+function M.interact(point, scanType, times)
   local moveSuccess = adj.toAdjacent(point, scanType, times);
-  local sendSuccess = false;
+  local interactSuccess = false;
   if moveSuccess then
-    local inventorySide = 3; -- front
+    local pointSide = 3; -- front
     local robotPos = pos.get();
     if point.y > robotPos.y then
-      inventorySide = 1; -- top
+      pointSide = 1; -- top
     elseif point.y < robotPos.y then
-      inventorySide = 0; -- bottom
+      pointSide = 0; -- bottom
     end
-    sendSuccess = M.sendInventoryData(inventorySide);
+    interactSuccess = M.sendInventoryData(pointSide);
+    if not interactSuccess then
+      interactSuccess = component.robot.use(pointSide);
+    end
   end
-  return moveSuccess and sendSuccess;
+  return moveSuccess and interactSuccess;
 end
 
 return M;
