@@ -4,33 +4,30 @@ now:
 
 later:
 
-  drop items
+  inventory:
+    drop items
+    add external->external transfer support (use a robot slot)
 
-  stop robot from losing contact through code updates
+  lua:
+    stop robot from losing contact through code updates
+    allow limited functionality without geolyzer/other components
+    make command loop environment modules not global
+    store robot orientation and position on hard disk, not just in memory
 
-  add moveVoxel for robot movement?
-
-  render \t properly in robot responses
-
-  message div blocking click to engage camera control
-
-  allow limited functionality without geolyzer/other components
+  interface:
+    render \t properly in robot responses
+    message div blocking click to engage camera control
 
   move ip address information to a settings file
 
-  camera
-    go to robot location
-
-  commandLoop
-    make command loop environment modules not global
-
-  store robot orientation and position on hard disk, not just in memory
-
   renderer:
+  remove robot afterimage when moving after scan
+    add moveVoxel for robot movement?
     render robot facing (triangular prism)
       send orientation
     improve rendering color schemes
     make water/lava transparent
+    camera: go to robot location
 
   mapping:
     Set up database

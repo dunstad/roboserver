@@ -28,7 +28,7 @@ var codeStrings = {
   // turnLeft: ()=>{return 'orient.turnLeft(); return true;';},
   // turnRight: ()=>{return 'orient.turnRight(); return true;';},
   viewInventory: ()=>{return 'return int.sendInventoryData(-1);';},
-  equip: ()=>{return 'return require("component").inventory_controller.equip();';},
+  equip: ()=>{return 'local e = require("component").inventory_controller.equip(); int.sendInventoryData(-1); return e;';},
 };
 
 for (name in codeStrings) {

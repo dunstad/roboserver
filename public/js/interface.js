@@ -22,7 +22,12 @@ function main() {
   // render block data received from robot
   socket.on('block data', (data)=>{
     console.dir(data);
-    addVoxel(data.point.x, data.point.y, data.point.z, colorFromHardness(data.hardness));
+    addVoxel(
+      data.point.x * voxelSideLength,
+      data.point.y * voxelSideLength,
+      data.point.z * voxelSideLength,
+      colorFromHardness(data.hardness)
+    );
   });
 
   // render map data received from robot
