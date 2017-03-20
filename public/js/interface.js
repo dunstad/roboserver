@@ -358,9 +358,11 @@ function changeSelectedSlot(e) {
  */
 function splitCell(fromCell, toCell, amount) {
   var success = true;
+
   
   if (fromCell.firstChild) {
     var itemData = fromCell.firstChild.itemData;
+    if (!amount) {amount = itemData.size;}
     if (amount < 1) {;}
     else if (toCell.firstChild) {success = mergeCells(fromCell, toCell, amount);}
     else if (amount >= itemData.size) {swapCells(fromCell, toCell);}
@@ -468,7 +470,8 @@ function transferAndUpdate(fromCell, toCell, amount) {
   }
   else {
     var data2 = Object.assign({}, data1);
-    data2.size += amount * 2;
+    console.dir(data2.size, amount)
+    data2.size += (amount * 2);
   }
   toCell.appendChild(renderItem(data2));
 
