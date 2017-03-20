@@ -458,13 +458,18 @@ function transfer(fromCell, toCell, amount) {
  */
 function transferAndUpdate(fromCell, toCell, amount) {
   var data1 = fromCell.firstChild.itemData;
-  var data2 = toCell.firstChild.itemData;
-
   data1.size -= amount;
-  data2.size += amount;
   fromCell.removeChild(fromCell.firstChild);
   if (data1.size) {fromCell.appendChild(renderItem(data1));}
-  toCell.removeChild(toCell.firstChild);
+  if (toCell.firstChild) {
+    var data2 = toCell.firstChild.itemData;
+    data2.size += amount;
+    toCell.removeChild(toCell.firstChild);
+  }
+  else {
+    var data2 = Object.assign({}, data1);
+    data2.size += amount * 2;
+  }
   toCell.appendChild(renderItem(data2));
 
   var luaArgs = [fromCell.getAttribute('data-slotnumber'), toCell.getAttribute('data-slotnumber'), amount];
