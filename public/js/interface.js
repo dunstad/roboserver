@@ -426,7 +426,8 @@ function transfer(fromCell, toCell, amount) {
   if (!fromCell.firstChild) {;}
   else {
     var data1 = fromCell.firstChild.itemData;
-    if (!toCell.firstChild) {
+    if (amount > data1.size || amount < 1) {;}
+    else if (!toCell.firstChild) {
       console.dir(data1.size)
       console.dir(amount)
       transferAndUpdate(fromCell, toCell, amount || data1.size);
