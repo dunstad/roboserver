@@ -1,6 +1,7 @@
 now:
     
-  allow transfer to cells of the same item
+  fix swap from smaller to larger, shouldn't work
+  swap is just merge when used on same types
   add external inventory support
 
   add crafting program

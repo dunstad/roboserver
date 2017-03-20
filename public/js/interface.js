@@ -325,13 +325,10 @@ function itemDrop(e) {
   if (dragStartElement != this) {
     var operation = e.dataTransfer.getData('text');
     if (operation == 'swap') {
-      swapCells(dragStartElement, this);
+      transfer(dragStartElement, this);
     }
     else if (operation == 'split') {
-      splitCell(dragStartElement, this, parseInt(prompt('Number of items to move:')));
-    }
-    else if (operation == 'merge') {
-      mergeCells(dragStartElement, this);
+      transfer(dragStartElement, this, parseInt(prompt('Number of items to move:')));
     }
   }
 }
@@ -354,25 +351,6 @@ function changeSelectedSlot(e) {
   var luaString = 'return robot.select(' + this.getAttribute('data-slotnumber') + ');';
   addMessage(luaString, true);
   socket.emit('command', luaString);
-}
-
-/**
- * Exchanges the children of two table cells. Used to swap item slots.
- * @param {HTMLTableCellElement} cell1 
- * @param {HTMLTableCellElement} cell2 
- */
-function swapCells(cell1, cell2) {
-  if (cell1.firstChild) {
-    var itemSwapStorage = cell1.firstChild;
-    cell1.removeChild(cell1.firstChild);
-    if (cell2.firstChild) {cell1.appendChild(cell2.firstChild);}
-    if (itemSwapStorage) {cell2.appendChild(itemSwapStorage);}
-
-    var luaArgs = [cell1.getAttribute('data-slotnumber'), cell2.getAttribute('data-slotnumber')];
-    var luaString = 'return inv.swap(' + luaArgs + ');';
-    addMessage(luaString, true);
-    socket.emit('command', luaString);
-  }
 }
 
 /**
@@ -443,6 +421,44 @@ function mergeCells(fromCell, toCell, amount) {
   return success;
 }
 
+function transfer(fromCell, toCell, amount) {
+  var success = false;
+  
+  if (!fromCell.firstChild) {;}
+  else {
+    if (!toCell.firstChild) {
+      swapCells(fromCell, toCell);
+      success = true;
+    }
+    else {
+      var data1 = fromCell.firstChild.itemData;
+      var data2 = toCell.firstChild.itemData;
+      if (data1.name == data2.name &&
+          !data1.damage && !data2.damage &&
+          !data1.hasTag && !data2.hasTag) {
+        var data2Space = data2.maxSize - data2.size;
+        if (data1.size <= data2Space) {
+          var amountToTransfer = amount || data1.size;
+        }
+        else {
+          var amountToTransfer = amount || data2Space;
+        }
+        transferAndUpdate(fromCell, toCell, amountToTransfer);
+        success = true;
+      }
+      else {;}
+    }
+  }
+
+  return success;
+}
+
+/**
+ * Moves items from one slot to another.
+ * @param {HTMLTableCellElement} fromCell 
+ * @param {HTMLTableCellElement} toCell 
+ * @param {number} amount 
+ */
 function transferAndUpdate(fromCell, toCell, amount) {
   var data1 = fromCell.firstChild.itemData;
   var data2 = toCell.firstChild.itemData;
@@ -458,4 +474,23 @@ function transferAndUpdate(fromCell, toCell, amount) {
   var luaString = 'return inv.transfer(' + luaArgs + ');'
   addMessage(luaString, true);
   socket.emit('command', luaString);
+}
+
+/**
+ * Exchanges the children of two table cells. Used to swap item slots.
+ * @param {HTMLTableCellElement} cell1 
+ * @param {HTMLTableCellElement} cell2 
+ */
+function swapCells(cell1, cell2) {
+  if (cell1.firstChild) {
+    var itemSwapStorage = cell1.firstChild;
+    cell1.removeChild(cell1.firstChild);
+    if (cell2.firstChild) {cell1.appendChild(cell2.firstChild);}
+    if (itemSwapStorage) {cell2.appendChild(itemSwapStorage);}
+
+    var luaArgs = [cell1.getAttribute('data-slotnumber'), cell2.getAttribute('data-slotnumber')];
+    var luaString = 'return inv.swap(' + luaArgs + ');';
+    addMessage(luaString, true);
+    socket.emit('command', luaString);
+  }
 }
