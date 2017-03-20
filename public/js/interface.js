@@ -448,7 +448,7 @@ function transfer(fromCell, toCell, amount) {
         success = true;
       }
       else {
-        if (amount == data1.size) {
+        if (!amount) {
           swapCells(fromCell, toCell);
         }
       }
