@@ -72,15 +72,15 @@ end
 
 function M.dig(point)
   local robotPos = pos.get();
-  local swing = robot.swing;
+  local pointSide = 3; -- front
   if point.y > robotPos.y then
-    swing = robot.swingUp;
+    pointSide = 1; -- top
   elseif point.y < robotPos.y then
-    swing = robot.swingDown;
+    pointSide = 0; -- bottom
   end
   local swingSuccess = true;
-  if robot.detect() then
-    swingSuccess = swing();
+  if component.robot.detect(pointSide) then
+    swingSuccess = component.robot.swing(pointSide);
     if swingSuccess then
       tcp.write({['dig success']=point});
     end

@@ -1,7 +1,7 @@
 now:
     
-  add external inventory support
-  use item/place block
+  dig area behaving strangely (related to air blocks?)
+  add gui support for interact, place, equip
 
   add crafting program
 
