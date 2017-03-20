@@ -1,12 +1,13 @@
 now:
     
-  fix swap from smaller to larger, shouldn't work
-  swap is just merge when used on same types
   add external inventory support
+  use item/place block
 
   add crafting program
 
 later:
+
+  drop items
 
   stop robot from losing contact through code updates
 

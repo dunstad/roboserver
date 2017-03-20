@@ -67,6 +67,11 @@ input[type=number] {
   width:50px;
 }
 
+table {
+  display: inline-block;
+  padding: 1px;
+}
+
 td {
   height: 40px;
   width: 40px;

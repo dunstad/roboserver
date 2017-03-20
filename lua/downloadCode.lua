@@ -12,6 +12,7 @@ local filenames = {
   'moveAndScan.lua',
   'adjacent.lua',
   'dig.lua',
+  'inventory.lua',
 };
 
 -- rapid reuse may result in receiving cached pages

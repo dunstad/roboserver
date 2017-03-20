@@ -5,7 +5,7 @@ var prod = false;
 var port = 3001;
 var host = '127.0.0.1';
 
-var testInventory = {
+var testInventory1 = {
 	'inventory data': {
 		'size': 16,
 		'side': -1,
@@ -37,6 +37,42 @@ var testInventory = {
 				'maxSize': 64,
 				'name': "minecraft:stone",
 				'size': 3
+			}
+		}
+	}
+};
+
+var testInventory2 = {
+	'inventory data': {
+		'size': 27,
+		'side': 3,
+		'contents': {
+			1: {
+				'damage': 0,
+				'hasTag': false,
+				'label': "Dirt",
+				'maxDamage': 0,
+				'maxSize': 64,
+				'name': "minecraft:dirt",
+				'size': 4
+			},
+			2: {
+				'damage': 0,
+				'hasTag': false,
+				'label': "Dirt",
+				'maxDamage': 0,
+				'maxSize': 64,
+				'name': "minecraft:dirt",
+				'size': 7
+			},
+			5: {
+				'damage': 0,
+				'hasTag': false,
+				'label': "Stone",
+				'maxDamage': 0,
+				'maxSize': 64,
+				'name': "minecraft:stone",
+				'size': 25
 			}
 		}
 	}
@@ -107,9 +143,13 @@ client.on('data', (data)=>{
 			console.log('sending map!')
 			client.write(JSON.stringify(testScan));
 		}
-		else if (data.command == 'inventory') {
+		else if (data.command == 'inventory1') {
 			console.log('sending inventory!')
-			client.write(JSON.stringify(testInventory));
+			client.write(JSON.stringify(testInventory1));
+		}
+		else if (data.command == 'inventory2') {
+			console.log('sending inventory!')
+			client.write(JSON.stringify(testInventory2));
 		}
 		else {
 			console.log('responding to command: ' + data.command)

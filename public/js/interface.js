@@ -251,13 +251,16 @@ function initPointerLock() {
  */
 function renderInventory(inventoryData) {
   var table = document.createElement('table');
+  table.setAttribute('data-side', inventoryData.side);
   var numCols = 4;
   var numRows = inventoryData.size / 4;
   for (var i = 0; i < numRows; i++) {
     var row = table.insertRow(-1);
     for (var j = 0; j < numCols; j++) {
       var cell = row.insertCell(-1);
-      cell.addEventListener('click', changeSelectedSlot);
+      if (inventoryData.side == -1) {
+        cell.addEventListener('click', changeSelectedSlot);
+      }
       cell.addEventListener('dragover', allowDrop);
       cell.addEventListener('drop', itemDrop);
       cell.addEventListener('dragstart', itemDragStart);
@@ -275,10 +278,22 @@ function renderInventory(inventoryData) {
   }
 
   var inventoryContainer = document.getElementById('inventoryContainer');
-  if (inventoryContainer.firstChild) {inventoryContainer.removeChild(inventoryContainer.firstChild);}
+  var oldInventory = document.querySelector('[data-side="' + inventoryData.side + '"]');
+  if (oldInventory) {inventoryContainer.removeChild(oldInventory);}
   inventoryContainer.appendChild(table);
 
   return table;
+}
+
+/**
+ * Removes all external inventories. Used when the robot moves.
+ */
+function removeAllExternalInventories() {
+  var inventoryContainer = document.getElementById("inventoryContainer");
+  var inventories = inventoryContainer.querySelectorAll('[data-side]:not([data-side="-1"])');
+  for (inventory of inventories) {
+    inventoryContainer.removeChild(inventory);
+  }
 }
 
 /**
@@ -359,7 +374,8 @@ function changeSelectedSlot(e) {
 function validateTransfer(fromCell, toCell, amount) {
   var success = false;
   
-  if (!fromCell.firstChild) {;}
+  if (!fromCell.firstChild ||
+      getSide(fromCell) !== -1 && getSide(toCell) !== -1) {;}
   else {
     var data1 = fromCell.firstChild.itemData;
     if (amount > data1.size || amount < 1) {;}
@@ -396,6 +412,14 @@ function validateTransfer(fromCell, toCell, amount) {
 }
 
 /**
+ * Tells you which inventory a cell is in.
+ * @param {HTMLTableCellElement} cell 
+ */
+function getSide(cell) {
+  return parseInt(cell.parentElement.parentElement.parentElement.getAttribute('data-side'));
+}
+
+/**
  * Moves items from one slot to another.
  * @param {HTMLTableCellElement} fromCell 
  * @param {HTMLTableCellElement} toCell 
@@ -418,7 +442,13 @@ function transferAndUpdate(fromCell, toCell, amount) {
     }
     toCell.appendChild(renderItem(data2));
 
-    var luaArgs = [fromCell.getAttribute('data-slotnumber'), toCell.getAttribute('data-slotnumber'), amount];
+    var luaArgs = [
+      fromCell.getAttribute('data-slotnumber'),
+      getSide(fromCell),
+      toCell.getAttribute('data-slotnumber'),
+      getSide(toCell),
+      amount
+    ];
     var luaString = 'return inv.transfer(' + luaArgs + ');'
     addMessage(luaString, true);
     socket.emit('command', luaString);
@@ -437,7 +467,12 @@ function swapCells(cell1, cell2) {
     if (cell2.firstChild) {cell1.appendChild(cell2.firstChild);}
     if (itemSwapStorage) {cell2.appendChild(itemSwapStorage);}
 
-    var luaArgs = [cell1.getAttribute('data-slotnumber'), cell2.getAttribute('data-slotnumber')];
+    var luaArgs = [
+      cell1.getAttribute('data-slotnumber'),
+      getSide(cell1),
+      cell2.getAttribute('data-slotnumber'),
+      getSide(cell2),
+    ];
     var luaString = 'return inv.transfer(' + luaArgs + ');';
     addMessage(luaString, true);
     socket.emit('command', luaString);
