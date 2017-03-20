@@ -309,11 +309,8 @@ function itemDragStart(e) {
   if (e.ctrlKey) {
     e.dataTransfer.setData('text/plain', 'split');
   }
-  else if (e.altKey) {
-    e.dataTransfer.setData('text/plain', 'merge');
-  }
   else {
-    e.dataTransfer.setData('text/plain', 'swap');
+    e.dataTransfer.setData('text/plain', 'move');
   }
 }
 
@@ -324,7 +321,7 @@ function itemDragStart(e) {
 function itemDrop(e) {
   if (dragStartElement != this) {
     var operation = e.dataTransfer.getData('text');
-    if (operation == 'swap') {
+    if (operation == 'move') {
       transfer(dragStartElement, this);
     }
     else if (operation == 'split') {
@@ -427,7 +424,7 @@ function transfer(fromCell, toCell, amount) {
   if (!fromCell.firstChild) {;}
   else {
     if (!toCell.firstChild) {
-      swapCells(fromCell, toCell);
+      transferAndUpdate(fromCell, toCell, amount);
       success = true;
     }
     else {
