@@ -426,11 +426,10 @@ function transfer(fromCell, toCell, amount) {
   if (!fromCell.firstChild) {;}
   else {
     var data1 = fromCell.firstChild.itemData;
-    if (!amount) {amount = data1.size;}
     if (!toCell.firstChild) {
       console.dir(data1.size)
       console.dir(amount)
-      transferAndUpdate(fromCell, toCell, amount);
+      transferAndUpdate(fromCell, toCell, amount || data1.size);
       success = true;
     }
     else {
@@ -466,25 +465,27 @@ function transfer(fromCell, toCell, amount) {
  * @param {number} amount 
  */
 function transferAndUpdate(fromCell, toCell, amount) {
-  var data1 = fromCell.firstChild.itemData;
-  data1.size -= amount;
-  fromCell.removeChild(fromCell.firstChild);
-  if (data1.size) {fromCell.appendChild(renderItem(data1));}
-  if (toCell.firstChild) {
-    var data2 = toCell.firstChild.itemData;
-    data2.size += amount;
-    toCell.removeChild(toCell.firstChild);
-  }
-  else {
-    var data2 = Object.assign({}, data1);
-    data2.size = amount;
-  }
-  toCell.appendChild(renderItem(data2));
+  if (amount) {
+    var data1 = fromCell.firstChild.itemData;
+    data1.size -= amount;
+    fromCell.removeChild(fromCell.firstChild);
+    if (data1.size) {fromCell.appendChild(renderItem(data1));}
+    if (toCell.firstChild) {
+      var data2 = toCell.firstChild.itemData;
+      data2.size += amount;
+      toCell.removeChild(toCell.firstChild);
+    }
+    else {
+      var data2 = Object.assign({}, data1);
+      data2.size = amount;
+    }
+    toCell.appendChild(renderItem(data2));
 
-  var luaArgs = [fromCell.getAttribute('data-slotnumber'), toCell.getAttribute('data-slotnumber'), amount];
-  var luaString = 'return inv.transfer(' + luaArgs + ');'
-  addMessage(luaString, true);
-  socket.emit('command', luaString);
+    var luaArgs = [fromCell.getAttribute('data-slotnumber'), toCell.getAttribute('data-slotnumber'), amount];
+    var luaString = 'return inv.transfer(' + luaArgs + ');'
+    addMessage(luaString, true);
+    socket.emit('command', luaString);
+  }
 }
 
 /**
