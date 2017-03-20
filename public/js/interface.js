@@ -23,6 +23,7 @@ function main() {
   socket.on('robot position', (pos)=>{
     console.dir(pos);
     moveRobotVoxel(pos);
+    removeAllExternalInventories();
   });
 
   // remove selection because its task has been completed

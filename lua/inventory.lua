@@ -42,10 +42,10 @@ function M.transfer(slot1, side1, slot2, side2, amount)
   if (side1 == -1 and side2 == -1) then
     robot.select(slot1);
     success = robot.transferTo(slot2, amount);
-  elseif (side1 == -1)
+  elseif (side1 == -1) then
     robot.select(slot1);
     success = inv.dropIntoSlot(side2, slot2, amount);
-  elseif (side2 == -1)
+  elseif (side2 == -1) then
     robot.select(slot2);
     success = inv.suckFromSlot(side1, slot1, amount);
   else
@@ -66,7 +66,7 @@ function M.openInventory(point, scanType, times)
     elseif point.y < robotPos.y then
       inventorySide = 0; -- bottom
     end
-    sendSuccess = M.sendInventoryData(side);
+    sendSuccess = M.sendInventoryData(inventorySide);
   end
   return moveSuccess and sendSuccess;
 end
