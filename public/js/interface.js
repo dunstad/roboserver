@@ -322,10 +322,10 @@ function itemDrop(e) {
   if (dragStartElement != this) {
     var operation = e.dataTransfer.getData('text');
     if (operation == 'move') {
-      transfer(dragStartElement, this);
+      validateTransfer(dragStartElement, this);
     }
     else if (operation == 'split') {
-      transfer(dragStartElement, this, parseInt(prompt('Number of items to move:')));
+      validateTransfer(dragStartElement, this, parseInt(prompt('Number of items to move:')));
     }
   }
 }
@@ -351,76 +351,12 @@ function changeSelectedSlot(e) {
 }
 
 /**
- * Moves amount items from fromCell to toCell.
+ * Ensures transfers initiated on the client side are possible before attempting to execute them.
  * @param {HTMLTableCellElement} fromCell 
  * @param {HTMLTableCellElement} toCell 
  * @param {number} amount 
  */
-function splitCell(fromCell, toCell, amount) {
-  var success = true;
-
-  
-  if (fromCell.firstChild) {
-    var itemData = fromCell.firstChild.itemData;
-    if (!amount) {amount = itemData.size;}
-    if (amount < 1) {;}
-    else if (toCell.firstChild) {success = mergeCells(fromCell, toCell, amount);}
-    else if (amount >= itemData.size) {swapCells(fromCell, toCell);}
-    else {
-      var newItemData = Object.assign({}, itemData);
-      
-      itemData.size -= amount;
-      fromCell.removeChild(fromCell.firstChild);
-      fromCell.appendChild(renderItem(itemData));
-
-      newItemData.size = amount;
-      toCell.appendChild(renderItem(newItemData));
-
-      var luaArgs = [fromCell.getAttribute('data-slotnumber'), toCell.getAttribute('data-slotnumber'), amount];
-      var luaString = 'return inv.transfer(' + luaArgs + ');'
-      addMessage(luaString, true);
-      socket.emit('command', luaString);
-    }
-  }
-  else {success = false;}
-  
-  return success;
-}
-
-function mergeCells(fromCell, toCell, amount) {
-  var success = false;
-  
-  if (!fromCell.firstChild) {;}
-  else {
-    if (!toCell.firstChild) {
-      swapCells(fromCell, toCell);
-      success = true;
-    }
-    else {
-      var data1 = fromCell.firstChild.itemData;
-      var data2 = toCell.firstChild.itemData;
-      if (data1.name == data2.name &&
-          !data1.damage && !data2.damage &&
-          !data1.hasTag && !data2.hasTag) {
-        var data2Space = data2.maxSize - data2.size;
-        if (data1.size <= data2Space) {
-          var amountToTransfer = amount || data1.size;
-          
-        }
-        else {
-          var amountToTransfer = amount || data2Space;
-        }
-        transferAndUpdate(fromCell, toCell, amountToTransfer);
-        success = true;
-      }
-      else {;}
-    }
-  }
-
-  return success;
-}
-
-function transfer(fromCell, toCell, amount) {
+function validateTransfer(fromCell, toCell, amount) {
   var success = false;
   
   if (!fromCell.firstChild) {;}

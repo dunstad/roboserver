@@ -16,17 +16,11 @@ function M.sendInventoryData()
     contents = {}
   };
   for i = 1, robot.inventorySize() do
-    inventory.contents[i] = inv.getStackInInternalSlot(i);
+    if (robot.count(i)) then
+      inventory.contents[i] = inv.getStackInInternalSlot(i);
+    end
   end
   tcp.write({['inventory data']=inventory});
-end
-
-function M.swap(slot1, slot2)
-  local originalSlot = robot.select();
-  robot.select(slot1);
-  local success = robot.transferTo(slot2);
-  robot.select(originalSlot);
-  return success;
 end
 
 function M.transfer(slot1, slot2, amount)
