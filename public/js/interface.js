@@ -62,33 +62,36 @@ function main() {
   // for some reason the click event fires before the checked attribute changes
   // can't find an event for when that attribute changes, so we use setTimeout
   var moveToolLabel = document.getElementById('moveTool').parentElement;
-  moveToolLabel.addEventListener('click', (e)=>{
-    selectStart.clear();
-    selectEnd.clear();
-    removeSelectBox();
-    setTimeout(requestRender, 10);
-  });
+  moveToolLabel.addEventListener('click', clearSelection);
+
   var interactToolLabel = document.getElementById('interactTool').parentElement;
-  interactToolLabel.addEventListener('click', (e)=>{
-    selectStart.clear();
-    selectEnd.clear();
-    removeSelectBox();
-    setTimeout(requestRender, 10);
-  });
+  interactToolLabel.addEventListener('click', clearSelection);
+  
+  var inspectToolLabel = document.getElementById('inspectTool').parentElement;
+  interactToolLabel.addEventListener('click', clearSelection);
+
   digToolLabel = document.getElementById('digTool').parentElement;
-  digToolLabel.addEventListener('click', (e)=>{
-    setTimeout(requestRender, 10);
-  });
+  digToolLabel.addEventListener('click', slowRender);
+
   var placeToolLabel = document.getElementById('placeTool').parentElement;
-  placeToolLabel.addEventListener('click', (e)=>{
-    setTimeout(requestRender, 10);
-  });
+  placeToolLabel.addEventListener('click', slowRender);
 
   initPointerLock();
   initCommandInput();
   initClickTools();
   initSelectAreaTools();
 
+}
+
+function clearSelection() {
+  selectStart.clear();
+  selectEnd.clear();
+  removeSelectBox();
+  slowRender();
+}
+
+function slowRender() {
+  setTimeout(requestRender, 10);
 }
 
 /**
@@ -174,7 +177,8 @@ function initClickTools() {
   renderer.domElement.addEventListener('click', ()=>{
     var moveToolActive = document.getElementById('moveTool').checked;
     var interactToolActive = document.getElementById('interactTool').checked;
-    if (controls.enabled && (moveToolActive || interactToolActive)) {
+    var inspectToolActive = document.getElementById('inspectTool').checked;
+    if (controls.enabled && (moveToolActive || interactToolActive || inspectToolActive)) {
       var coord = getWorldCoord(rollOverMesh.position);
       console.log(coord);
       var scanLevel = document.getElementById('scanWhileMoving').value;
@@ -183,6 +187,9 @@ function initClickTools() {
       }
       else if (interactToolActive) {
         var luaString = 'return int.interact(' + [vectorToLuaString(coord), scanLevel] + ');'
+      }
+      else if (inspectToolActive) {
+        var luaString = 'return int.inspect(' + [vectorToLuaString(coord), scanLevel] + ');'
       }
       addMessage(luaString, true);
       socket.emit('command', luaString);

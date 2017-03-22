@@ -74,4 +74,23 @@ function M.interact(point, scanType, times)
   return moveSuccess and interactSuccess;
 end
 
+function M.inspect(point, scanType, times)
+  local moveSuccess = adj.toAdjacent(point, scanType, times);
+  local inspectSuccess = false;
+  if moveSuccess then
+    local pointSide = 3; -- front
+    local robotPos = pos.get();
+    if point.y > robotPos.y then
+      pointSide = 1; -- top
+    elseif point.y < robotPos.y then
+      pointSide = 0; -- bottom
+    end
+    inspectSuccess = M.sendInventoryData(pointSide);
+    if not inspectSuccess then
+      inspectSuccess = component.robot.use(pointSide);
+    end
+  end
+  return moveSuccess and inspectSuccess;
+end
+
 return M;
