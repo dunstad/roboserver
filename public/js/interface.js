@@ -22,7 +22,7 @@ function main() {
   // render block data received from robot
   socket.on('block data', (data)=>{
     console.dir(data);
-    if (data.hardness) {
+    if (!data.name == "minecraft:air") {
       addVoxel(
         data.point.x * voxelSideLength, 
         data.point.y * voxelSideLength, 
