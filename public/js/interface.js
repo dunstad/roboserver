@@ -68,7 +68,7 @@ function main() {
   interactToolLabel.addEventListener('click', clearSelection);
   
   var inspectToolLabel = document.getElementById('inspectTool').parentElement;
-  interactToolLabel.addEventListener('click', clearSelection);
+  inspectToolLabel.addEventListener('click', clearSelection);
 
   digToolLabel = document.getElementById('digTool').parentElement;
   digToolLabel.addEventListener('click', slowRender);

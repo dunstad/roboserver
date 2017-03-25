@@ -2,7 +2,11 @@ now:
 
   add crafting program
 
+  work on login
+
 later:
+
+  use furnaces automatically during crafting
 
   inventory:
     drop items
@@ -21,9 +25,9 @@ later:
   move ip address information to a settings file
 
   renderer:
-  remove robot afterimage when moving after scan
+    remove robot afterimage when moving after scan
     add moveVoxel for robot movement?
-    render robot facing (triangular prism)
+    render robot facing (triangular prism or different colored face)
       send orientation
     improve rendering color schemes
     make water/lava transparent

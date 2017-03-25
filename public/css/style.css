@@ -45,7 +45,7 @@ input {
 #buttonContainer {
   position: absolute;
   right: 0%;
-  width:210px;
+  width:215px;
 }
 
 #buttonContainer > button {

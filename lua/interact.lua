@@ -3,6 +3,10 @@ if not component.isAvailable('inventory_controller') then
   error('Inventory controller not found');
 end
 local inv = component.inventory_controller;
+if not component.isAvailable('geolyzer') then
+  error('Geolyzer not found');
+end
+local geolyzer = component.geolyzer;
 local tcp = require('tcp');
 local robot = require('robot');
 local adj = require('adjacent');
@@ -85,10 +89,7 @@ function M.inspect(point, scanType, times)
     elseif point.y < robotPos.y then
       pointSide = 0; -- bottom
     end
-    inspectSuccess = M.sendInventoryData(pointSide);
-    if not inspectSuccess then
-      inspectSuccess = component.robot.use(pointSide);
-    end
+    inspectSuccess = geolyzer.analyze(pointSide);
   end
   return moveSuccess and inspectSuccess;
 end
