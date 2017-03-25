@@ -90,8 +90,14 @@ function M.inspect(point, scanType, times)
       pointSide = 0; -- bottom
     end
     inspectSuccess = geolyzer.analyze(pointSide);
+    inspectSuccess.point = point;
+    tcp.write({['block data']=inspectSuccess});
   end
-  return moveSuccess and inspectSuccess;
+  local inspectResult = false;
+  if moveSuccess and inspectSuccess then
+    inspectResult = inspectSuccess.name;
+  end
+  return inspectResult;
 end
 
 return M;
