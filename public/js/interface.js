@@ -22,14 +22,21 @@ function main() {
   // render block data received from robot
   socket.on('block data', (data)=>{
     console.dir(data);
-    var x = data.point.x * voxelSideLength;
-    var y = data.point.y * voxelSideLength;
-    var z = data.point.z * voxelSideLength;
     if (data.hardness) {
-      addVoxel(x, y, z, colorFromHardness(data.hardness));
+      addVoxel(
+        data.point.x * voxelSideLength, 
+        data.point.y * voxelSideLength, 
+        data.point.z * voxelSideLength,
+        colorFromHardness(data.hardness)
+      );
     }
     else {
-      removeVoxel(x, y, z, voxelMap.get(x, y, z));
+      removeVoxel(
+        data.point.x,
+        data.point.y,
+        data.point.z,
+        voxelMap.get(data.point.x, data.point.y, data.point.z)
+      );
     }
   });
 
