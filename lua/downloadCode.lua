@@ -13,12 +13,12 @@ local filenames = {
   'adjacent.lua',
   'doToArea.lua',
   'interact.lua',
+  'craft.lua',
 };
 
--- rapid reuse may result in receiving cached pages
 function downloadAll()
   for index, name in pairs(filenames) do
-    os.execute('wget -f ' .. url .. name);
+    download(name);
   end
 end
 
