@@ -559,13 +559,3 @@ function initCraftSelect() {
   });
 
 }
-
-function getRecipeNames(recipe) {
-  var recipeNames = [];
-  for (output of recipe.out) {
-    if (recipeNames.indexOf(output.product) == -1) {
-      recipeNames.push(output.product);
-    }
-  }
-  return recipeNames;
-}
