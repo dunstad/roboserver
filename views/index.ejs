@@ -4,9 +4,9 @@
     <meta charset='UTF-8'>
     <title>Roboserver!</title>
     <!--<title>django/view/error.template</title>-->
-    <script src='/js/socket.io.js'></script>
     <link rel='stylesheet' href='/css/style.css'>
     <link rel='stylesheet' href='/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='/css/bootstrap-select.min.css'>
   </head>
   <body>
 
@@ -53,20 +53,32 @@
         Y: <input type='number' id='selectEndY'>
         Z: <input type='number' id='selectEndZ'>
       </div>
+      <div class="input-group">
+        <select class="selectpicker" data-live-search="true" id="craftSelect" title="Craft something!"></select>
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button" id="craftButton">Craft</button>
+        </span>
+      </div>
     </div>
     
     <div id='inventoryContainer'></div>
 
-    <script src='/js/three.js-master/build/three.js'></script>
+    <script src='/js/lib/three.js-master/build/three.js'></script>
     <!--<script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r81/three.min.js'></script> -->
-		<script src='/js/PointerLockControls.js'></script>
+		<script src='/js/lib/PointerLockControls.js'></script>
+    <script src='/js/lib/socket.io.js'></script>
+
 		<script src='/js/VoxelMap.js'></script>
 		<script src='/js/CoordForm.js'></script>
 		<script src='/js/map.js'></script>
+
+    <script type='text/javascript' src='/js/fetchPromise.js'></script>
     <script type='text/javascript' src='/js/interface.js'></script>
 		<script src='/js/buttons.js'></script>
-		<script src='/js/jquery-3.1.1.min.js'></script>
-		<script src='/js/bootstrap.min.js'></script>
+
+    <script src='/js/lib/jquery-3.1.1.min.js'></script>
+		<script src='/js/lib/bootstrap.min.js'></script>
+		<script src='/js/lib/bootstrap-select.min.js'></script>
 
   </body>
 </html>

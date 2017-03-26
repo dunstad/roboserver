@@ -90,6 +90,7 @@ function main() {
   initCommandInput();
   initClickTools();
   initSelectAreaTools();
+  initCraftSelect();
 
 }
 
@@ -529,4 +530,42 @@ function swapCells(cell1, cell2) {
     addMessage(luaString, true);
     socket.emit('command', luaString);
   }
+}
+
+function initCraftSelect() {
+  var craftSelect = document.getElementById("craftSelect");
+  
+  fetchPromise("/js/minecraftRecipes.json").then((minecraftRecipes)=>{
+    var recipeNames = [];
+    for (recipe of minecraftRecipes) {
+      for (recipeName of getRecipeNames(recipe)) {
+        if (recipeNames.indexOf(recipeName) == -1) {
+          recipeNames.push(recipeName);
+        }
+      }
+    }
+    recipeNames.sort();
+    for (recipeName of recipeNames) {
+      var option = document.createElement('option');
+      option.textContent = recipeName;
+      craftSelect.appendChild(option);
+    }
+    $('.selectpicker').selectpicker('refresh')
+  }).catch(console.dir);
+
+  var craftButton = document.getElementById("craftButton");
+  craftButton.addEventListener('click', (e)=>{
+    console.log(craftSelect.value);
+  });
+
+}
+
+function getRecipeNames(recipe) {
+  var recipeNames = [];
+  for (output of recipe.out) {
+    if (recipeNames.indexOf(output.product) == -1) {
+      recipeNames.push(output.product);
+    }
+  }
+  return recipeNames;
 }
