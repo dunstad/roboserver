@@ -4,6 +4,7 @@ local craft = component.crafting.craft;
 local inv = component.inventory_controller;
 local inet = component.internet;
 local string = require("string");
+local JSON = require("json");
 
 function getRecipes(itemName)
   itemName = string.gsub(itemName, " ", "%%20");
@@ -14,7 +15,7 @@ function getRecipes(itemName)
     recipeJSON = recipeJSON .. reqLine;
     reqLine = req.read();
   end
-  return recipeJSON;
+	return JSON:decode(recipeJSON);
 end
 
 local craftingSlots = {1, 2, 3, nil, 5, 6, 7, nil, 9, 10, 11}
@@ -90,10 +91,25 @@ end
 function deepCraft(mainLabel)
   local recipes = getRecipes(mainLabel);
 	-- make sure we have a recipe for this item
-	if #recipes[mainLabel] == 0 then
-		print("No recipe for " .. mainLabel)
+	if #recipes == 0 then
+		print("No recipes for " .. mainLabel)
 		return false
-	end -- continue here
+	end
+
+	-- try the recipes in order
+	for recipeIndex, recipe in pairs(recipes) do
+		-- make sure we have all the parts
+		for slotNum, slotChoices in pairs(recipe["in"]) do
+			partLabel = false;
+			for choiceNum, choice in slotChoices do
+				partSlot, partQuantity = findItem(choice["product"])
+			end
+		end
+	end
+
+
+	
+
 	-- make sure we have all the parts
 	for i, partLabel in pairs(recipes[mainLabel]) do
 		partSlot, partQuantity = findItem(partLabel)

@@ -22,29 +22,34 @@ function findRecipeFor(product, recipes) {
 }
 
 function extractRecipeFor(product, recipe) {
-  var indexToCraftingSlotMap = [1, 2, 3, 5, 6, 7, 9, 10, 11];
-  var productRecipe = {"in":{}, "out":[]};
-
-  var productIndex;
-  for (var i = 0; i < recipe.out.length; i++) {
-    var outputName = recipe.out[i][0].product;
-    if (outputName == product) {
-      productIndex = i;
-    }
+  if (recipe.out.length == 1) {
+    var productRecipe = recipe;
   }
-  if (productIndex === undefined) {productRecipe = false;}
   else {
-    for (slot in recipe.in) {
-      if (recipe.in[slot].length == recipe.out.length) {
-        productRecipe.in[slot] = recipe.in[slot][productIndex];
-      }
-      else {
-        productRecipe.in[slot] = recipe.in[slot][0];
+    var indexToCraftingSlotMap = [1, 2, 3, 5, 6, 7, 9, 10, 11];
+    var productRecipe = {"in":{}, "out":[]};
+
+    var productIndex;
+    for (var i = 0; i < recipe.out.length; i++) {
+      var outputName = recipe.out[i][0].product;
+      if (outputName == product) {
+        productIndex = i;
       }
     }
+    if (productIndex === undefined) {productRecipe = false;}
+    else {
+      for (slot in recipe.in) {
+        if (recipe.in[slot].length == recipe.out.length) {
+          productRecipe.in[slot] = recipe.in[slot][productIndex];
+        }
+        else {
+          productRecipe.in[slot] = recipe.in[slot][0];
+        }
+      }
+    }
+    productRecipe.out.push(recipe.out[productIndex]);
   }
-  productRecipe.out.push(recipe.out[productIndex]);
-
+  
   return productRecipe;
 }
 
