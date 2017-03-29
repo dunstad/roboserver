@@ -37,6 +37,16 @@ function M.getPattern(patternIndex, recipe)
   return pattern;
 end
 
+function M.getRecipeChoiceCount(recipe)
+  local recipeChoiceCount = 0;
+  for slotNum, slotChoices in pairs(recipe["in"]) do
+    if #slotChoices > recipeChoiceCount then
+      recipeChoiceCount = #slotChoices;
+    end
+  end
+  return recipeChoiceCount;
+end
+
 -- determine if we have enough of an item for a recipe
 function M.countInPattern(label, pattern)
 	local counter = 0;
@@ -119,55 +129,85 @@ function M.convertSlotToGrid(slot)
 	return grid[slot];
 end
 
-function M.deepCraft(mainLabel)
+function M.deepCraft(mainLabel, previousLabels)
+
+  -- don't get stuck in recipe loops
+  if previousLabels[mainLabel] then
+    print("Already attempted to craft " .. mainLabel);
+		return false;
+  end
+  previousLabels[mainLabel] = true;
+
   local recipes = M.getRecipes(mainLabel);
-	-- make sure we have a recipe for this item
+
+  -- make sure we have a recipe for this item
 	if #recipes == 0 then
 		print("No recipes for " .. mainLabel);
 		return false;
 	end
 
-	-- try the recipes in order
-	-- for recipeIndex, recipe in pairs(recipes) do
-  local pattern = M.getPattern(1, recipes[1]);
 
-	-- make sure we have all the parts
-	for i, partLabel in pairs(pattern) do
-    if partLabel then
-      local partSlot = M.findItem(partLabel);
-      local partQuantity = M.countInInventory(partLabel);
-      -- if we don't have one of the required parts
-      -- or we don't have enough of one
-      if not partSlot or partQuantity < M.countInPattern(partLabel, pattern) then
-        -- try to craft it
-        if not M.deepCraft(partLabel) then
-          -- stop if we can't craft it
-          print("Could not craft " .. partLabel);
-          return false;
+  local pattern;
+  local allPartsCraftSuccess = false;
+  for recipeIndex = 1, #recipes do
+    if not allPartsCraftSuccess then
+      local recipeChoiceCount = M.getRecipeChoiceCount(recipes[recipeIndex]);
+      for recipeChoice = 1, recipeChoiceCount do
+        -- if no previous attempt has succeeded
+        if not allPartsCraftSuccess then
+          pattern = M.getPattern(recipeChoice, recipes[recipeIndex]);
+          local partCraftSuccess = true;
+          for i, partLabel in pairs(pattern) do
+            -- if all parts have been successfully crafted so far
+            if partCraftSuccess then
+              if partLabel then
+                local partSlot = M.findItem(partLabel);
+                local partQuantity = M.countInInventory(partLabel);
+                -- if we don't have one of the required parts
+                -- or we don't have enough of one
+                if not partSlot or partQuantity < M.countInPattern(partLabel, pattern) then
+                  partCraftSuccess = M.deepCraft(partLabel, previousLabels);
+                end
+              end
+            end
+          end
+          if partCraftSuccess then
+            allPartsCraftSuccess = true;
+          end
         end
-        -- clear the grid after crafting
-        M.clearCraftingGrid();
       end
     end
-	end
+  end
 
-	-- if we made it this far, we have all the items
+  local patternCraftSuccess = false;
+  if allPartsCraftSuccess then
+    patternCraftSuccess = M.craftPattern(pattern);
+    if not patternCraftSuccess then
+      print("Failed to craft " .. mainLabel);
+    else
+      print("Crafted " .. mainLabel);
+    end
+  else
+    print("Not all parts successfully crafted");
+  end
 
-	-- move the parts to the appropriate slots
+  return patternCraftSuccess;
+
+end
+
+function M.craftPattern(pattern)
+  -- move the parts to the appropriate slots
 	for i, partLabel in pairs(pattern) do
 		M.moveItemToSlot(partLabel, M.convertGridToSlot(i), 1);
 	end
-	if not craft() then
-		print("Crafting of " .. mainLabel .. " failed");
-		return false;
-	end
-	print("Crafted " .. mainLabel);
-	return true;
+  local craftSuccess = craft(1);
+  M.clearCraftingGrid();
+	return craftSuccess;
 end
 
 function M.craft(itemName)
   M.clearCraftingGrid();
-  return M.deepCraft(itemName);
+  return M.deepCraft(itemName, {});
 end
 
 return M;

@@ -40,7 +40,7 @@ function extractRecipeFor(product, recipe) {
     else {
       for (slot in recipe.in) {
         if (recipe.in[slot].length == recipe.out.length) {
-          productRecipe.in[slot] = [recipe.in[slot][productIndex]];
+          productRecipe.in[slot] = recipe.in[slot][productIndex].map(item=>[item]);
         }
         else {
           productRecipe.in[slot] = [recipe.in[slot][0]];

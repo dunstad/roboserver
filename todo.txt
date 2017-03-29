@@ -1,6 +1,6 @@
 now:
 
-  improve crafting code
+  make crafting code scan through all recipes it knows until it finds one it can make
 
   work on login
 
