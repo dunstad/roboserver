@@ -71,14 +71,27 @@ function M.countInInventory(label)
 	return total;
 end
 
-function M.firstAvailableSlot()
+function M.firstAvailableSlot(stackInfo)
+  local availableSlot = 0;
 	for i = 1, invSize do
-		if not craftingSlots[i] and not (robot.count(i) > 0) then
-			return i;
-		end
+    if availableSlot == 0 then
+      if not craftingSlots[i] then
+        if not (robot.count(i) > 0)  then
+          availableSlot = i;
+        else
+          if stackInfo then
+            local slotInfo = inv.getStackInInternalSlot(i);
+            local sameName = stackInfo.label == slotInfo.label;
+            local stackFits = stackInfo.size + slotInfo.size <= slotInfo.maxSize;
+            if sameName and stackFits then
+              availableSlot = i;
+            end
+          end
+        end
+      end
+    end
 	end
-	-- all slots were full
-	return 0;
+	return availableSlot;
 end
 
 function M.clearCraftingGrid()
@@ -117,7 +130,6 @@ function M.moveItemToSlot(label, targetSlot, amount)
 	return false;
 end
 
--- kind of overlaps with craftingSlots
 function M.convertGridToSlot(slot)
 	if slot > 9 then return 0; end
 	local grid = {[1] = 1, [2] = 2, [3] = 3, [4] = 5, [5] = 6, [6] = 7, [7] = 9, [8] = 10, [9] = 11};
@@ -161,13 +173,16 @@ function M.deepCraft(mainLabel, previousLabels)
             -- if all parts have been successfully crafted so far
             if partCraftSuccess then
               if partLabel then
-                local partSlot = M.findItem(partLabel);
-                local partQuantity = M.countInInventory(partLabel);
-                -- if we don't have one of the required parts
-                -- or we don't have enough of one
-                if not partSlot or partQuantity < M.countInPattern(partLabel, pattern) then
-                  partCraftSuccess = M.deepCraft(partLabel, previousLabels);
+                
+                local partCountInPattern = M.countInPattern(partLabel, pattern);
+                local function notEnough()
+                  return M.countInInventory(partLabel) < partCountInPattern;
                 end
+
+                while notEnough() and partCraftSuccess  do
+                  partCraftSuccess = M.deepCraft(partLabel, copyTable(previousLabels));
+                end
+
               end
             end
           end
@@ -200,6 +215,7 @@ function M.craftPattern(pattern)
 	for i, partLabel in pairs(pattern) do
 		M.moveItemToSlot(partLabel, M.convertGridToSlot(i), 1);
 	end
+  robot.select(1);
   local craftSuccess = craft(1);
   M.clearCraftingGrid();
 	return craftSuccess;
@@ -208,6 +224,14 @@ end
 function M.craft(itemName)
   M.clearCraftingGrid();
   return M.deepCraft(itemName, {});
+end
+
+function copyTable(table1)
+  local table2 = {};
+  for key, value in pairs(table1) do
+    table2[key] = value;
+  end
+  return table2;
 end
 
 return M;

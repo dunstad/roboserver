@@ -1,6 +1,6 @@
 now:
 
-  make crafting code scan through all recipes it knows until it finds one it can make
+  hook crafting code up to interface
 
   work on login
 
