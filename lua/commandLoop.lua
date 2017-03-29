@@ -10,6 +10,7 @@ dl = require('downloadCode');
 adj = require('adjacent');
 dta = require('doToArea');
 int = require('interact');
+craft = require('craft');
 
 function runInTerminal(commandText)
   local file = assert(io.popen(commandText, 'r'));

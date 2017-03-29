@@ -532,6 +532,9 @@ function swapCells(cell1, cell2) {
   }
 }
 
+/**
+ * Makes the crafting button tell the robot to craft whatever's selected.
+ */
 function initCraftSelect() {
   var craftSelect = document.getElementById("craftSelect");
   
@@ -555,7 +558,12 @@ function initCraftSelect() {
 
   var craftButton = document.getElementById("craftButton");
   craftButton.addEventListener('click', (e)=>{
-    console.log(craftSelect.value);
+    
+    var craftSelect = document.getElementById("craftSelect");
+    var luaString = "local c = craft.craft('" + craftSelect.value + "'); int.sendInventoryData(-1); return c;";
+    addMessage(luaString, true);
+    socket.emit('command', luaString);
+
   });
 
 }
