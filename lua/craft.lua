@@ -9,6 +9,10 @@ local table = require("table");
 
 local M = {};
 
+local craftingSlots = {1, 2, 3, nil, 5, 6, 7, nil, 9, 10, 11};
+
+local invSize = robot.inventorySize();
+
 function M.getRecipes(itemName)
   itemName = string.gsub(itemName, " ", "%%20");
   req = inet.request("http://127.0.0.1/recipe/" .. itemName);
@@ -57,10 +61,6 @@ function M.countInInventory(label)
 	return total;
 end
 
-local craftingSlots = {1, 2, 3, nil, 5, 6, 7, nil, 9, 10, 11};
-
-local invSize = robot.inventorySize();
-
 function M.firstAvailableSlot()
 	for i = 1, invSize do
 		if not craftingSlots[i] and not (robot.count(i) > 0) then
@@ -94,7 +94,7 @@ function M.findItem(label)
       end
     end
 	end
-	return false;
+	return false, 0;
 end
 
 -- move one item per call
@@ -130,28 +130,29 @@ function M.deepCraft(mainLabel)
 	-- try the recipes in order
 	-- for recipeIndex, recipe in pairs(recipes) do
   local pattern = M.getPattern(1, recipes[1]);
-  print(pattern);
 
 	-- make sure we have all the parts
 	for i, partLabel in pairs(pattern) do
     if partLabel then
-      partSlot = M.findItem(partLabel);
+      local partSlot = M.findItem(partLabel);
+      local partQuantity = M.countInInventory(partLabel);
       -- if we don't have one of the required parts
       -- or we don't have enough of one
-      if not partSlot then
+      if not partSlot or partQuantity < M.countInPattern(partLabel, pattern) then
         -- try to craft it
         if not M.deepCraft(partLabel) then
           -- stop if we can't craft it
-          print("Could not craft");
+          print("Could not craft " .. partLabel);
           return false;
         end
+        -- clear the grid after crafting
+        M.clearCraftingGrid();
       end
     end
 	end
 
 	-- if we made it this far, we have all the items
 
-	M.clearCraftingGrid();
 	-- move the parts to the appropriate slots
 	for i, partLabel in pairs(pattern) do
 		M.moveItemToSlot(partLabel, M.convertGridToSlot(i), 1);
@@ -162,6 +163,11 @@ function M.deepCraft(mainLabel)
 	end
 	print("Crafted " .. mainLabel);
 	return true;
+end
+
+function M.craft(itemName)
+  M.clearCraftingGrid();
+  return M.deepCraft(itemName);
 end
 
 return M;

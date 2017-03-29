@@ -1,7 +1,6 @@
 now:
 
-  update crafting code
-  improve crafting code performance
+  improve crafting code
 
   work on login
 
