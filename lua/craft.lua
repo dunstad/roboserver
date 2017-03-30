@@ -22,7 +22,8 @@ function M.getRecipes(itemName)
     recipeJSON = recipeJSON .. reqLine;
     reqLine = req.read();
   end
-	return JSON:decode(recipeJSON);
+  req.close();
+  return JSON:decode(recipeJSON);
 end
 
 function M.getPattern(patternIndex, recipe)
