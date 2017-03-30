@@ -1,6 +1,6 @@
 now:
 
-  hook crafting code up to interface
+  fix network error with crafting code
 
   work on login
 
