@@ -7,15 +7,33 @@
     "dev": "nodemon ./bin/www"
   },
   "dependencies": {
+    "bcrypt": "^1.0.2",
     "body-parser": "^1.15.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
     "ejs": "^2.5.2",
     "express": "~4.13.4",
+    "express-session": "^1.15.2",
     "morgan": "~1.7.0",
-    "serve-favicon": "~2.3.0"
+    "nedb": "^1.8.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "serve-favicon": "~2.3.0",
+    "socket.io": "^1.7.3"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"
-  }
+  },
+  "description": "This is a HTTP and TCP server which OpenComputers robots can read and execute commands from.",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dunstad/roboserver.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dunstad/roboserver/issues"
+  },
+  "homepage": "https://github.com/dunstad/roboserver#readme"
 }

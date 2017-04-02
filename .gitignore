@@ -1,2 +1,4 @@
 /public/js/lib/three.js-master/*
+/public/js/config.js
 /recipes/*
+/node_modules/*

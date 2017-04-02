@@ -1,8 +1,10 @@
 now:
 
-  fix network error with crafting code
-
   work on login
+
+  see if we can make water source and flow blocks render differently
+
+  robot can't put water in bucket from above the water? investigate
 
 later:
 

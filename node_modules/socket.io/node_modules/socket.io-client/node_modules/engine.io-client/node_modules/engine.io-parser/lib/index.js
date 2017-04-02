@@ -118,8 +118,11 @@ exports.encodeBase64Packet = function(packet, callback){
  */
 
 exports.decodePacket = function (data, binaryType, utf8decode) {
+  if (data === undefined) {
+    return err;
+  }
   // String data
-  if (typeof data == 'string' || data === undefined) {
+  if (typeof data == 'string') {
     if (data.charAt(0) == 'b') {
       return exports.decodeBase64Packet(data.substr(1), binaryType);
     }
@@ -146,12 +149,14 @@ exports.decodePacket = function (data, binaryType, utf8decode) {
 
   // Binary data
   if (binaryType === 'arraybuffer') {
-    var type = data[0];
-    var intArray = new Uint8Array(data.length - 1);
-    for (var i = 1; i < data.length; i++) {
-      intArray[i - 1] = data[i];
-    }
-    return { type: packetslist[type], data: intArray.buffer };
+    // wrap Buffer/ArrayBuffer data into an Uint8Array
+    var intArray = new Uint8Array(data);
+    var type = intArray[0];
+    return { type: packetslist[type], data: intArray.buffer.slice(1) };
+  }
+
+  if (data instanceof ArrayBuffer) {
+    data = arrayBufferToBuffer(data);
   }
   var type = data[0];
   return { type: packetslist[type], data: data.slice(1) };

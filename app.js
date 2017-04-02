@@ -7,6 +7,16 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
+var Datastore = require('nedb');
+var db = new Datastore({ filename: 'users.db', autoload: true });
+
+var config = require('./public/js/config');
+
+var bcrypt = require('bcrypt');
+
 var app = express();
 
 // view engine setup
@@ -23,6 +33,59 @@ app.use(bodyParser.urlencoded({ extended: false, limit: '50mb' }));
 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+var session = require('express-session');
+
+// required for passport session
+app.use(session({
+  secret: config.expressSessionSecret,
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user, done) {
+  done(null, user.username);
+});
+
+passport.deserializeUser(function(username, done) {
+  db.findOne({ username: username }, function(err, user) {
+    if (err) { return done(err); }
+    if (!user) {
+      return done(null, false, { message: 'User not found.' });
+    }
+    return done(null, user);
+  });
+});
+
+passport.use(new LocalStrategy(function(username, password, done) {
+  process.nextTick(function() {
+    db.findOne({ username: username }, function(err, user) {
+      if (err) { return done(err); }
+      else if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+
+      bcrypt.compare(password, user.password)
+        .then((res)=>{
+          if (res) {
+            return done(null, user);
+          }
+          else {
+            return done(null, false, { message: 'Incorrect password.' });
+          }
+        })
+        .catch((err)=>{
+          console.dir(err);
+          return done(null, false, { message: 'An error occurred.' });
+        });
+
+    });
+  });
+}));
 
 app.use('/', routes);
 
