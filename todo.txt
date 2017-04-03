@@ -1,6 +1,7 @@
 now:
 
-  work on login
+  allow the server to identify the user associated with a socket
+  move lua code from the client-side interface to the server
 
   see if we can make water source and flow blocks render differently
 
