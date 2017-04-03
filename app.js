@@ -69,7 +69,7 @@ passport.use(new LocalStrategy(function(username, password, done) {
         return done(null, false, { message: 'Incorrect username.' });
       }
 
-      bcrypt.compare(password, user.password)
+      bcrypt.compare(password, user.passwordHash)
         .then((res)=>{
           if (res) {
             return done(null, user);
