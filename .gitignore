@@ -3,3 +3,4 @@
 /recipes/*
 /node_modules/*
 *.log
+*.db
