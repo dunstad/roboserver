@@ -2,3 +2,4 @@
 /public/js/config.js
 /recipes/*
 /node_modules/*
+*.log
