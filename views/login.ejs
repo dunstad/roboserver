@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8'>
+    <link rel='stylesheet' href='/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='/css/accounts.css'>
+    <script src='/js/lib/jquery-3.1.1.min.js'></script>
+    <script src='/js/lib/bootstrap.min.js'></script>
+  </head>
+  <body>
+
+    <div>
+      <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a href="#loginTab" role="tab" data-toggle="tab"><span class="bigtext" >Login</span></a></li>
+        <li role="presentation"><a href="#registerTab" role="tab" data-toggle="tab"><span class="bigtext" >Register</span></a></li>
+      </ul>
+    </div>
+
+    <div class="tab-content">
+
+      <div role="tabpanel" class="tab-pane active" id="loginTab">
+        <form class="form-horizontal" action='/login' method="POST">
+          <fieldset>
+            <div class="padded">
+              <% if (error) { %><span class="text-danger">Login Failed.</span><% } %>
+              <div class="control-group">
+                <!-- Username -->
+                <label class="control-label"  for="username">Username</label>
+                <div class="controls">
+                  <input type="text" name="username" placeholder="" class="input-xlarge" required>
+                </div>
+              </div>
+              
+              <div class="control-group">
+                <!-- Password-->
+                <label class="control-label" for="password">Password</label>
+                <div class="controls">
+                  <input type="password" name="password" placeholder="" class="input-xlarge" required>
+                </div>
+              </div>
+              <br>
+              <div class="control-group">
+                <!-- Button -->
+                <div class="controls">
+                  <input type="submit" value="Login" class="btn btn-success" />
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+
+      <div role="tabpanel" class="tab-pane" id="registerTab">
+        <form class="form-horizontal" action='/register' method="POST">
+          <fieldset>
+            <div class="padded">
+              <div class="control-group">
+                <!-- Username -->
+                <label class="control-label"  for="username">Username</label>
+                <div class="controls">
+                  <input type="text" name="username" placeholder="" class="input-xlarge" required>
+                </div>
+              </div>
+              
+              <div class="control-group">
+                <!-- Password-->
+                <label class="control-label" for="password">Password</label>
+                <div class="controls">
+                  <input type="password" id="register-password" name="password" placeholder="" class="input-xlarge" required>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <!-- Password-->
+                <label class="control-label">Confirm Password</label>
+                <div class="controls">
+                  <input type="password" id="register-password-confirm" placeholder="" class="input-xlarge" required>
+                </div>
+              </div>
+              <br>
+              <div class="control-group">
+                <!-- Button -->
+                <div class="controls">
+                  <input type="submit" value="Register" class="btn btn-success" />
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+
+    </div>
+    
+  </body>
+</html>
+

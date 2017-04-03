@@ -14,17 +14,21 @@ router.get('/', loggedIn, function(req, res) {
   res.render('index', {user: req.user});
 });
 
-// login page
+// login and registration page
 router.get('/login', function(req, res, next) {
-  res.sendFile('views/login.html', { root : './'});
+  res.render('login.ejs', {error: false});
 });
 
-router.post('/login',
-  passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/loginFailure'
-  })
-);
+router.post('/login', (req, res, next)=>{
+  passport.authenticate('local', function(err, user, info) {
+    if (err) { return next(err); }
+    if (!user) { return res.render('login.ejs', {error: "Login failed."}); }
+    req.logIn(user, function(err) {
+      if (err) { return next(err); }
+      return res.redirect('/');
+    });
+  })(req, res, next)
+});
 
 router.get('/loginFailure', function(req, res, next) {
   res.send('Failed to authenticate');

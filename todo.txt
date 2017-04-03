@@ -1,6 +1,10 @@
 now:
 
+  implement registration post
+
   allow the server to identify the user associated with a socket
+  send commands only to robots associated with your username
+  
   move lua code from the client-side interface to the server
 
   see if we can make water source and flow blocks render differently

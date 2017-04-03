@@ -1,0 +1,11 @@
+body {
+  padding-top: 5px;
+}
+
+.padded {
+ margin: 5px;
+}
+
+.bigtext {
+  font-size: 24px;
+}
