@@ -69,8 +69,6 @@ function main() {
   selectStart.addEventListener('input', ()=>{removeSelectBox(); requestRender()});
   selectEnd.addEventListener('input', ()=>{removeSelectBox(); requestRender()});
 
-  // for some reason the click event fires before the checked attribute changes
-  // can't find an event for when that attribute changes, so we use setTimeout
   var moveToolLabel = document.getElementById('moveTool').parentElement;
   moveToolLabel.addEventListener('click', clearSelection);
 
@@ -80,7 +78,7 @@ function main() {
   var inspectToolLabel = document.getElementById('inspectTool').parentElement;
   inspectToolLabel.addEventListener('click', clearSelection);
 
-  digToolLabel = document.getElementById('digTool').parentElement;
+  var digToolLabel = document.getElementById('digTool').parentElement;
   digToolLabel.addEventListener('click', slowRender);
 
   var placeToolLabel = document.getElementById('placeTool').parentElement;
@@ -101,6 +99,8 @@ function clearSelection() {
   slowRender();
 }
 
+  // for some reason the click event fires before the checked attribute changes
+  // can't find an event for when that attribute changes, so we use setTimeout  
 function slowRender() {
   setTimeout(requestRender, 10);
 }

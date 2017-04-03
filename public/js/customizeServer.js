@@ -25,9 +25,6 @@ function main(server) {
     	broadcast(commandJSON, clients);
     });
 
-    socket.on('disconnect', function () {
-      console.log('a user disconnected');
-    });
   });
 
   // end http/socket.io server code

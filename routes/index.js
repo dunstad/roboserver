@@ -11,7 +11,7 @@ function loggedIn(req, res, next) {
 
 // main page where you enter commands
 router.get('/', loggedIn, function(req, res) {
-  res.render('index');
+  res.render('index', {user: req.user});
 });
 
 // login page
