@@ -10,7 +10,7 @@ var routes = require('./routes/routes');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
-var Datastore = require('nedb');
+var Datastore = require('nedb-promise');
 var db = new Datastore({ filename: 'users.db', autoload: true });
 
 var config = require('./public/js/config');
@@ -18,6 +18,8 @@ var config = require('./public/js/config');
 var bcrypt = require('bcrypt');
 
 var app = express();
+
+app.set('db', db);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -52,20 +54,25 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(username, done) {
-  db.findOne({ username: username }, function(err, user) {
-    if (err) { return done(err); }
+
+  db.findOne({ username: username }).then((user)=>{
     if (!user) {
       return done(null, false, { message: 'User not found.' });
     }
     return done(null, {username: user.username});
+  })
+  .catch((err)=>{
+    return done(err);
   });
+    
 });
 
 passport.use(new LocalStrategy(function(username, password, done) {
   process.nextTick(function() {
-    db.findOne({ username: username }, function(err, user) {
-      if (err) { return done(err); }
-      else if (!user) {
+
+    db.findOne({ username: username }).then((user)=>{
+      
+      if (!user) {
         return done(null, false, { message: 'Incorrect username.' });
       }
 
@@ -83,7 +90,11 @@ passport.use(new LocalStrategy(function(username, password, done) {
           return done(null, false, { message: 'An error occurred.' });
         });
 
+    })
+    .catch((err)=>{
+      return done(err);
     });
+
   });
 }));
 

@@ -3,9 +3,11 @@ var router = express.Router();
 
 var passport = require('passport');
 
+var bcrypt = require('bcrypt');
+
 function loggedIn(req, res, next) {
-    if (req.isAuthenticated()) {next();} 
-    else {res.redirect('/login');}
+  if (req.isAuthenticated()) {next();} 
+  else {res.redirect('/login');}
 }
 
 
@@ -15,19 +17,45 @@ router.get('/', loggedIn, function(req, res) {
 });
 
 // login and registration page
-router.get('/login', function(req, res, next) {
-  res.render('login.ejs', {error: false});
+router.get('/login', function(req, res) {
+  console.dir(req.app.get('db'))
+  res.render('login.ejs', {error: false, active: 'login'});
 });
 
-router.post('/login', (req, res, next)=>{
-  passport.authenticate('local', function(err, user, info) {
+function makeLogInOrRedirect(req, res, next) {
+  return (err, user, info)=>{
     if (err) { return next(err); }
-    if (!user) { return res.render('login.ejs', {error: "Login failed."}); }
+    if (!user) { return res.render('login.ejs', {error: "Login failed.", active: "login"}); }
     req.logIn(user, function(err) {
       if (err) { return next(err); }
       return res.redirect('/');
     });
-  })(req, res, next)
+  };
+}
+
+router.post('/login', (req, res, next)=>{
+  passport.authenticate('local', makeLogInOrRedirect(req, res, next))(req, res, next);
+});
+
+const saltRounds = 10;
+router.post('/register', (req, res, next)=>{
+  var db = req.app.get('db');
+  bcrypt.hash(req.body.password, saltRounds).then((hash)=>{
+    db.findOne({username: req.body.username}).then((doc)=>{
+      console.log(req.body.username, doc)
+      if (doc) {
+        return res.render('login.ejs', {error: "Username unavailable.", active: "register"});
+      }
+      else {
+        db.insert({username: req.body.username, passwordHash: hash}).then((newDoc)=>{
+          passport.authenticate('local', makeLogInOrRedirect(req, res, next))(req, res, next);
+        })
+        .catch((err)=>{return next(err);});
+      }
+    })
+    .catch((err)=>{return next(err);});
+  })
+  .catch((err)=>{return next(err);});
 });
 
 router.get('/loginFailure', function(req, res, next) {

@@ -16,6 +16,7 @@
     "express-session": "^1.15.2",
     "morgan": "~1.7.0",
     "nedb": "^1.8.0",
+    "nedb-promise": "^2.0.1",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "serve-favicon": "~2.3.0",

@@ -11,18 +11,18 @@
 
     <div>
       <ul class="nav nav-tabs">
-        <li role="presentation" class="active"><a href="#loginTab" role="tab" data-toggle="tab"><span class="bigtext" >Login</span></a></li>
-        <li role="presentation"><a href="#registerTab" role="tab" data-toggle="tab"><span class="bigtext" >Register</span></a></li>
+        <li role="presentation" <% if (active == "login") { %>class="active"<% } %> ><a href="#loginTab" role="tab" data-toggle="tab"><span class="bigtext" >Login</span></a></li>
+        <li role="presentation" <% if (active == "register") { %>class="active"<% } %> ><a href="#registerTab" role="tab" data-toggle="tab"><span class="bigtext" >Register</span></a></li>
       </ul>
     </div>
 
     <div class="tab-content">
 
-      <div role="tabpanel" class="tab-pane active" id="loginTab">
+      <div role="tabpanel" class="tab-pane <% if (active == "login") { %>active<% } %>" id="loginTab">
         <form class="form-horizontal" action='/login' method="POST">
           <fieldset>
             <div class="padded">
-              <% if (error) { %><span class="text-danger">Login Failed.</span><% } %>
+              <% if (error && (active == "login")) { %><span class="text-danger"><%= error %></span><% } %>
               <div class="control-group">
                 <!-- Username -->
                 <label class="control-label"  for="username">Username</label>
@@ -50,10 +50,11 @@
         </form>
       </div>
 
-      <div role="tabpanel" class="tab-pane" id="registerTab">
+      <div role="tabpanel" class="tab-pane <% if (active == "register") { %>active<% } %>" id="registerTab">
         <form class="form-horizontal" action='/register' method="POST">
           <fieldset>
             <div class="padded">
+              <% if (error && (active == "register")) { %><span class="text-danger"><%= error %></span><% } %>
               <div class="control-group">
                 <!-- Username -->
                 <label class="control-label"  for="username">Username</label>
