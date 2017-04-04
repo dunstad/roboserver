@@ -43,7 +43,8 @@ var session = require('express-session');
 app.use(session({
   secret: config.expressSessionSecret,
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  store: app.get('sessionStore')
 }));
 
 app.use(passport.initialize());

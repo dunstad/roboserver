@@ -1,7 +1,5 @@
 now:
 
-  make password confirmation field actually do stuff
-
   allow the server to identify the user associated with a socket
   send commands only to robots associated with your username
   

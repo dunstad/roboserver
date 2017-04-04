@@ -2,12 +2,33 @@
  * Starts the TCP server and adds event listeners to the HTTP server.
  * @param {object} server 
  */
-function main(server) {
+function main(server, app) {
 
   // start http/socket.io server code
 
-  // add socket.io and handlers
   var io = require('socket.io')(server);
+
+  var session = require('express-session');
+  var NedbStore = require('nedb-session-store')(session);
+  app.set('sessionStore', new NedbStore({filename: 'sessions.db'}));
+
+  var passportSocketIo = require('passport.socketio');
+  io.use(passportSocketIo.authorize({
+    store: app.get('sessionStore'),
+    success: onAuthorizeSuccess,
+    fail: onAuthorizeFail,
+  }));
+
+function onAuthorizeSuccess(data, accept){
+  console.log('successful connection to socket.io');
+  accept();
+}
+
+function onAuthorizeFail(data, message, error, accept){
+  console.log('failed connection to socket.io:', message);
+  if (error) {accept(new Error(message));}
+}
+
   io.on('connection', function (socket) {
     console.log('a user connected');
     socket.on('message', (data)=>{
