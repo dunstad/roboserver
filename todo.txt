@@ -1,6 +1,8 @@
 now:
 
-  allow the server to identify the user associated with a socket
+  get username from a socket
+  have robot send a unique name on connect
+
   send commands only to robots associated with your username
   
   move lua code from the client-side interface to the server

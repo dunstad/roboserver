@@ -36,8 +36,10 @@ app.use(bodyParser.urlencoded({ extended: false, limit: '50mb' }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 var session = require('express-session');
+
+var NedbStore = require('nedb-session-store')(session);
+app.set('sessionStore', new NedbStore({filename: 'sessions.db'}));
 
 // required for passport session
 app.use(session({
@@ -93,6 +95,7 @@ passport.use(new LocalStrategy(function(username, password, done) {
 
     })
     .catch((err)=>{
+      console.dir(err);
       return done(err);
     });
 

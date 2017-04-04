@@ -7,20 +7,19 @@ function main(server, app) {
   // start http/socket.io server code
 
   var io = require('socket.io')(server);
-
-  var session = require('express-session');
-  var NedbStore = require('nedb-session-store')(session);
-  app.set('sessionStore', new NedbStore({filename: 'sessions.db'}));
+  var config = require('./config');
 
   var passportSocketIo = require('passport.socketio');
   io.use(passportSocketIo.authorize({
     store: app.get('sessionStore'),
     success: onAuthorizeSuccess,
     fail: onAuthorizeFail,
+    secret: config.expressSessionSecret
   }));
 
 function onAuthorizeSuccess(data, accept){
   console.log('successful connection to socket.io');
+  console.dir(data.user)
   accept();
 }
 
@@ -53,9 +52,10 @@ function onAuthorizeFail(data, message, error, accept){
   // start tcp server code
 
   /**
-   * 
+   * Sends a message to all tcp clients.
    * @param {string} message 
-   * @param {object[]} clientList 
+   * @param {object[]} clientList
+   * @returns {number}
    */
   function broadcast(message, clientList) {
   	// Log it to the server output too
@@ -68,7 +68,7 @@ function onAuthorizeFail(data, message, error, accept){
     return clientList.length;
   }
 
-  // maintain global list of clients for broadcasting
+  // maintain list of clients for broadcasting
   var clients = [];
 
   // listen for tcp connections from robots
@@ -109,7 +109,7 @@ function onAuthorizeFail(data, message, error, accept){
 
   }).listen(3001);
 
-  // end http/socket.io server code
+  // end tcp server code
 
 }
 

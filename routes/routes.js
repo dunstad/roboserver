@@ -18,7 +18,6 @@ router.get('/', loggedIn, function(req, res) {
 
 // login and registration page
 router.get('/login', function(req, res) {
-  console.dir(req.app.get('db'))
   res.render('login.ejs', {error: false, active: 'login'});
 });
 
@@ -56,10 +55,6 @@ router.post('/register', (req, res, next)=>{
     .catch((err)=>{return next(err);});
   })
   .catch((err)=>{return next(err);});
-});
-
-router.get('/loginFailure', function(req, res, next) {
-  res.send('Failed to authenticate');
 });
 
 // allows robots to look up crafting recipes
