@@ -1,9 +1,10 @@
 now:
 
-  get username from a socket
-  have robot send a unique name on connect
+  have robot send a 'unique' name and an account name on connect
 
   send commands only to robots associated with your username
+    each robot will have their own name and an account name
+    commands will be sent to all robots with your account name and the name you specify
   
   move lua code from the client-side interface to the server
 
@@ -40,18 +41,16 @@ later:
     make water/lava transparent
     camera: go to robot location
 
+  make account registration create a new robot if server is on no-player mode
+
+distant future:
+  visual tool for chaining robot commands together to automate tasks
+  edit lua files on robot with an editor in browser
+  blueprint storage and rendering
+  neural network to help predict block ids from hardness maps
   mapping:
     Set up database
     persistent server side maps that robots can read
-    add ability to send scans to different maps
+    add ability to send scans to different maps? or is it one roboserver per mc server?
     detect maximum scan batch size based on available memory
     don't add to the scene any voxels which are surrounded?
-
-  Add ability to send commands to different robots
-  Add password to commands, different per robot
-    store hashed password with random salt in db
-    also store hash on robot, check only that hash for commands
-
-distant future:
-  blueprint storage and rendering
-  neural network to help predict block ids from hardness maps

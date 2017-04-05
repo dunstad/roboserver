@@ -25,11 +25,13 @@ function onAuthorizeSuccess(data, accept){
 
 function onAuthorizeFail(data, message, error, accept){
   console.log('failed connection to socket.io:', message);
-  if (error) {accept(new Error(message));}
+  if (error) {throw new Error(message);}
+  else {accept(new Error(message));}
 }
 
   io.on('connection', function (socket) {
     console.log('a user connected');
+    console.log(socket.request.user);
     socket.on('message', (data)=>{
       console.log(data);
       socket.send('pong');
