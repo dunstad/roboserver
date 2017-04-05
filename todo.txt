@@ -1,6 +1,6 @@
 now:
 
-  have robot send a 'unique' name and an account name on connect
+  have robot send a 'unique' name and an account name on connect (done in test client)
 
   send commands only to robots associated with your username
     each robot will have their own name and an account name

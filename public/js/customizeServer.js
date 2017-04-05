@@ -88,14 +88,27 @@ function onAuthorizeFail(data, message, error, accept){
 
   	// relay command results from robot to web server
   	tcpSocket.on('data', (data)=>{
-  		var dataJSON = JSON.parse(data.toString());
-  		console.dir(dataJSON);
+  		var dataJSONList = data.toString().split('\r\n').filter(item=>item).map(JSON.parse);
 
   		// separate tcp data into various messages
-  		for (key in dataJSON) {
-  			console.log(key, dataJSON[key]);
-  			io.emit(key, dataJSON[key]);
-  		}
+      for (dataJSON of dataJSONList) {
+        for (key in dataJSON) {
+          console.log(key, dataJSON[key]);
+          if (key == 'id') {
+            tcpSocket.id = dataJSON[key];
+          }
+          else {
+            if (tcpSocket.id) {
+              console.log(tcpSocket.id)
+              io.emit(key, dataJSON[key]);
+
+              dataJSON['robot'] = tcpSocket.id.robot;
+              io.to(tcpSocket.id.account).emit(key, dataJSON[key]);
+            }
+            else {console.log('sender not identified');}
+          }
+        }
+      }
 
   	});
 

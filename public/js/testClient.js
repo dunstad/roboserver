@@ -1,7 +1,6 @@
 var net = require('net');
 
 // connect to local instance or production instance
-var prod = false;
 var port = 3001;
 var host = '127.0.0.1';
 
@@ -128,10 +127,18 @@ for (var key in mapData) {
 
 var client = new net.Socket();
 client.connect(port, host, function() {
+
+	// send identifying information
 	client.write(JSON.stringify({
-		'message': 'hi'
-	}));
+		id: {robot: 'rob', account: 'admin'}
+	}) + '\r\n');
+
+	client.write(JSON.stringify({
+		message: 'hi'
+	}) + '\r\n');
+
 	console.log('Connected');
+
 });
 
 client.on('data', (data)=>{
@@ -141,21 +148,21 @@ client.on('data', (data)=>{
 		// hard coded test map
 		if (data.command == 'for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;') {
 			console.log('sending map!')
-			client.write(JSON.stringify(testScan));
+			client.write(JSON.stringify(testScan) + '\r\n');
 		}
 		else if (data.command == 'return int.sendInventoryData(-1);') {
 			console.log('sending inventory!')
-			client.write(JSON.stringify(testInventory1));
+			client.write(JSON.stringify(testInventory1) + '\r\n');
 		}
 		else if (data.command == 'inventory2') {
 			console.log('sending inventory!')
-			client.write(JSON.stringify(testInventory2));
+			client.write(JSON.stringify(testInventory2) + '\r\n');
 		}
 		else {
 			console.log('responding to command: ' + data.command)
 			client.write(JSON.stringify({
 				'command result': [true, 'received command: ' + data.command]
-			}));
+			}) + '\r\n');
 		}
 	}
 });
