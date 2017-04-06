@@ -70,3 +70,8 @@ class SocketToAccountMap {
   }
 
 }
+
+try {
+  module.exports = SocketToAccountMap;
+}
+catch(e) {;}

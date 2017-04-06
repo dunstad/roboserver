@@ -1,3 +1,5 @@
+var accounts = new (require('./SocketToAccountMap'))();
+
 /**
  * Starts the TCP server and adds event listeners to the HTTP server.
  * @param {object} server 
@@ -32,11 +34,17 @@ function main(server, app) {
   io.on('connection', function (socket) {
     console.log('a user connected');
     console.log(socket.request.user);
+
+    accounts.addClient(socket.request.user.username, socket);
+    console.dir(accounts[socket.request.user.username]);
+
     socket.on('message', (data)=>{
       console.log(data);
       socket.send('pong');
     });
     socket.on('disconnect', function () {
+      accounts.removeClient(socket.request.user.username, socket);
+      console.dir(accounts[socket.request.user.username]);
       console.log('a user disconnected');
     });
 
@@ -96,16 +104,11 @@ function main(server, app) {
           console.log(key, dataJSON[key]);
           if (key == 'id') {
             tcpSocket.id = dataJSON[key];
+            accounts.setRobot(tcpSocket.id.account, tcpSocket.id.robot, tcpSocket);
+            console.dir(accounts[tcpSocket.id.account].robots);
           }
           else {
-            if (tcpSocket.id) {
-              console.log(tcpSocket.id)
-              io.emit(key, dataJSON[key]);
-
-              dataJSON['robot'] = tcpSocket.id.robot;
-              io.to(tcpSocket.id.account).emit(key, dataJSON[key]);
-            }
-            else {console.log('sender not identified');}
+            io.emit(key, dataJSON[key]);
           }
         }
       }
@@ -116,6 +119,11 @@ function main(server, app) {
 
   	// Remove the client from the list when it leaves
   	tcpSocket.on('end', ()=>{
+      if (tcpSocket.id) {
+        accounts.setRobot(tcpSocket.id.account, tcpSocket.id.robot);
+        console.dir(accounts[tcpSocket.id.account].robots);
+      }
+
   		clients.splice(clients.indexOf(tcpSocket), 1);
   		console.log('client removed. total clients: ' + clients.length);
   	});
