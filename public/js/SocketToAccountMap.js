@@ -25,8 +25,8 @@ class SocketToAccountMap {
   addClient(accountName, clientSocket) {
     var result = false;
 
+    this.accounts[accountName] = this.accounts[accountName] || {};
     var account = this.accounts[accountName];
-    this.accounts[accountName] = account || {};
     account.clients = account.clients || [];
    
     account.clients.push(clientSocket);
@@ -59,8 +59,8 @@ class SocketToAccountMap {
   setRobot(accountName, robotName, robotSocket) {
     var result = undefined;
 
+    this.accounts[accountName] = this.accounts[accountName] || {};
     var account = this.accounts[accountName];
-    this.accounts[accountName] = account || {};
     account.robots = account.robots || {};
 
     account.robots[robotName] = robotSocket;
