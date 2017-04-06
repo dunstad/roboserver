@@ -1,10 +1,21 @@
 now:
 
-  have robot send a 'unique' name and an account name on connect (done in test client)
+  make sure one acct can't send to a different acct's robots
+  make sure one acct can't receive another acct's robot's output
 
   send commands only to robots associated with your username
-    each robot will have their own name and an account name
+    have robot send a 'unique' name and an account name on connect (done in test client)
     commands will be sent to all robots with your account name and the name you specify
+    accounts: {
+      acctName1: {
+        robots: {
+          robName1: soc1,
+          robName2: soc2
+        },
+        clients: [soc3, soc4]
+      },
+      acctName2: {...}
+    }
   
   move lua code from the client-side interface to the server
 
