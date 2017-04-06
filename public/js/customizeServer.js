@@ -17,17 +17,17 @@ function main(server, app) {
     secret: config.expressSessionSecret
   }));
 
-function onAuthorizeSuccess(data, accept){
-  console.log('successful connection to socket.io');
-  console.dir(data.user)
-  accept();
-}
+  function onAuthorizeSuccess(data, accept){
+    console.log('successful connection to socket.io');
+    console.dir(data.user)
+    accept();
+  }
 
-function onAuthorizeFail(data, message, error, accept){
-  console.log('failed connection to socket.io:', message);
-  if (error) {throw new Error(message);}
-  else {accept(new Error(message));}
-}
+  function onAuthorizeFail(data, message, error, accept){
+    console.log('failed connection to socket.io:', message);
+    if (error) {throw new Error(message);}
+    else {accept(new Error(message));}
+  }
 
   io.on('connection', function (socket) {
     console.log('a user connected');
