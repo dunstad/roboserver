@@ -82,7 +82,7 @@ class SocketToAccountMap {
     var result = false;
     var message = {};
     message[eventName] = data;
-    var robotSocket = this.getRobot(robotName);
+    var robotSocket = this.getRobot(accountName, robotName);
     if (robotSocket) {
       robotSocket.write(JSON.stringify(message) + '\r\n');
       result = true;

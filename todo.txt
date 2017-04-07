@@ -25,6 +25,8 @@ now:
 
 later:
 
+  listen for error type messages in command loop?
+
   use furnaces automatically during crafting
 
   inventory:

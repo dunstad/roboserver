@@ -48,6 +48,9 @@ function main(server, app) {
     // relay commands to the tcp server
     socket.on('command', (data)=>{
       console.dir(data);
+
+      accounts.sendToRobot(socket.request.user.username, "rob", "command", data);
+
       var commandJSON = JSON.stringify({command: data});
     	broadcast(commandJSON, clients);
     });
@@ -105,8 +108,14 @@ function main(server, app) {
             accounts.setRobot(tcpSocket.id.account, tcpSocket.id.robot, tcpSocket);
             console.log("robot " + tcpSocket.id.robot + " identified for account " + tcpSocket.id.account);
           }
-          else {
+          else if (tcpSocket.id) {
+            accounts.sendToClients(tcpSocket.id.account, key, dataJSON[key]);
             io.emit(key, dataJSON[key]);
+          }
+          else {
+            var errorString = 'unidentified robots cannot send messages';
+            console.log(errorString);
+            tcpSocket.write(JSON.stringify({message: errorString}) + '\r\n');
           }
         }
       }
