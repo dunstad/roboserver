@@ -130,7 +130,7 @@ client.connect(port, host, function() {
 
 	// send identifying information
 	client.write(JSON.stringify({
-		id: {robot: 'rob', account: 'admin'}
+		id: {robot: process.argv[2], account: process.argv[3]}
 	}) + '\r\n');
 
 	client.write(JSON.stringify({
@@ -141,28 +141,33 @@ client.connect(port, host, function() {
 
 });
 
-client.on('data', (data)=>{
-	console.log('Received: ' + data);
-	data = JSON.parse(data);
-	if (data.command) {
-		// hard coded test map
-		if (data.command == 'for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;') {
-			console.log('sending map!')
-			client.write(JSON.stringify(testScan) + '\r\n');
+client.on('data', (rawMessages)=>{
+	console.log('Received: ' + rawMessages);
+	messages = String(rawMessages).split('\r\n').filter(s=>s).map(JSON.parse);
+	for (data of messages) {
+		if (data.command) {
+			// hard coded test map
+			if (data.command == 'for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;') {
+				console.log('sending map!')
+				client.write(JSON.stringify(testScan) + '\r\n');
+			}
+			else if (data.command == 'return int.sendInventoryData(-1);') {
+				console.log('sending inventory!')
+				client.write(JSON.stringify(testInventory1) + '\r\n');
+			}
+			else if (data.command == 'inventory2') {
+				console.log('sending inventory!')
+				client.write(JSON.stringify(testInventory2) + '\r\n');
+			}
+			else {
+				console.log('responding to command: ' + data.command)
+				client.write(JSON.stringify({
+					'command result': [true, 'received command: ' + data.command]
+				}) + '\r\n');
+			}
 		}
-		else if (data.command == 'return int.sendInventoryData(-1);') {
-			console.log('sending inventory!')
-			client.write(JSON.stringify(testInventory1) + '\r\n');
-		}
-		else if (data.command == 'inventory2') {
-			console.log('sending inventory!')
-			client.write(JSON.stringify(testInventory2) + '\r\n');
-		}
-		else {
-			console.log('responding to command: ' + data.command)
-			client.write(JSON.stringify({
-				'command result': [true, 'received command: ' + data.command]
-			}) + '\r\n');
+		else if (data.message) {
+			console.log(data.message);
 		}
 	}
 });

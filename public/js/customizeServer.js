@@ -82,7 +82,7 @@ function main(server, app) {
             accounts.setRobot(tcpSocket.id.account, tcpSocket.id.robot, tcpSocket);
             console.log("robot " + tcpSocket.id.robot + " identified for account " + tcpSocket.id.account);
           }
-          else if (tcpSocket.id) {
+          else if (tcpSocket.id && tcpSocket.id.account && tcpSocket.id.robot) {
             accounts.sendToClients(tcpSocket.id.account, key, dataJSON[key]);
           }
           else {
