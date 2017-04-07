@@ -48,11 +48,7 @@ function main(server, app) {
     // relay commands to the tcp server
     socket.on('command', (data)=>{
       console.dir(data);
-
       accounts.sendToRobot(socket.request.user.username, "rob", "command", data);
-
-      var commandJSON = JSON.stringify({command: data});
-    	broadcast(commandJSON, clients);
     });
 
   });
@@ -61,33 +57,11 @@ function main(server, app) {
 
   // start tcp server code
 
-  /**
-   * Sends a message to all tcp clients.
-   * @param {string} message 
-   * @param {object[]} clientList
-   * @returns {number}
-   */
-  function broadcast(message, clientList) {
-  	// Log it to the server output too
-  	console.log(message);
-  	console.log('total clients: ' + clientList.length);
-  	clientList.forEach(function (client) {
-      // newlines delimit messages
-  		client.write(message + '\r\n');
-  	});
-    return clientList.length;
-  }
-
-  // maintain list of clients for broadcasting
-  var clients = [];
-
   // listen for tcp connections from robots
   var net = require('net');
 
   var tcpServer = net.createServer((tcpSocket)=>{
 
-  	clients.push(tcpSocket);
-  	console.log('client added. total clients: ' + clients.length);
   	console.log("unidentified robot connected");
 
     // test write
@@ -110,7 +84,6 @@ function main(server, app) {
           }
           else if (tcpSocket.id) {
             accounts.sendToClients(tcpSocket.id.account, key, dataJSON[key]);
-            io.emit(key, dataJSON[key]);
           }
           else {
             var errorString = 'unidentified robots cannot send messages';
@@ -130,9 +103,6 @@ function main(server, app) {
         accounts.setRobot(tcpSocket.id.account, tcpSocket.id.robot);
         console.log("robot " + tcpSocket.id.robot + " for account " + tcpSocket.id.account + " disconnected");
       }
-
-  		clients.splice(clients.indexOf(tcpSocket), 1);
-  		console.log('client removed. total clients: ' + clients.length);
   	});
 
   	 tcpSocket.on('close', ()=>{console.log('closed');});
