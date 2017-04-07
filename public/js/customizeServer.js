@@ -32,11 +32,9 @@ function main(server, app) {
   }
 
   io.on('connection', function (socket) {
-    console.log('a user connected');
-    console.log(socket.request.user);
 
     accounts.addClient(socket.request.user.username, socket);
-    console.dir(accounts[socket.request.user.username]);
+    console.log(socket.request.user.username + " account connected");
 
     socket.on('message', (data)=>{
       console.log(data);
@@ -44,8 +42,7 @@ function main(server, app) {
     });
     socket.on('disconnect', function () {
       accounts.removeClient(socket.request.user.username, socket);
-      console.dir(accounts[socket.request.user.username]);
-      console.log('a user disconnected');
+      console.log(socket.request.user.username + " account disconnected");
     });
 
     // relay commands to the tcp server
@@ -88,6 +85,7 @@ function main(server, app) {
 
   	clients.push(tcpSocket);
   	console.log('client added. total clients: ' + clients.length);
+  	console.log("unidentified robot connected");
 
     // test write
   	tcpSocket.write(
@@ -105,7 +103,7 @@ function main(server, app) {
           if (key == 'id') {
             tcpSocket.id = dataJSON[key];
             accounts.setRobot(tcpSocket.id.account, tcpSocket.id.robot, tcpSocket);
-            console.dir(accounts[tcpSocket.id.account].robots);
+            console.log("robot " + tcpSocket.id.robot + " identified for account " + tcpSocket.id.account);
           }
           else {
             io.emit(key, dataJSON[key]);
@@ -121,7 +119,7 @@ function main(server, app) {
   	tcpSocket.on('end', ()=>{
       if (tcpSocket.id) {
         accounts.setRobot(tcpSocket.id.account, tcpSocket.id.robot);
-        console.dir(accounts[tcpSocket.id.account].robots);
+        console.log("robot " + tcpSocket.id.robot + " for account " + tcpSocket.id.account + " disconnected");
       }
 
   		clients.splice(clients.indexOf(tcpSocket), 1);

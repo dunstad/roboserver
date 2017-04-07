@@ -45,6 +45,15 @@ class SocketToAccountMap {
     return result;
   }
 
+  sendToClients(accountName, eventName, data) {
+    var result = false;
+    this.getClients(accountName).forEach((clientSocket)=>{
+      clientSocket.emit(eventName, data);
+      result = true;
+    });
+    return result;
+  }
+
   getRobot(accountName, robotName) {
     var result = undefined;
     
@@ -66,6 +75,18 @@ class SocketToAccountMap {
     account.robots[robotName] = robotSocket;
     result = true;
 
+    return result;
+  }
+
+  sendToRobot(accountName, robotName, eventName, data) {
+    var result = false;
+    var message = {};
+    message[eventName] = data;
+    var robotSocket = this.getRobot(robotName);
+    if (robotSocket) {
+      robotSocket.write(JSON.stringify(message) + '\r\n');
+      result = true;
+    }
     return result;
   }
 
