@@ -6,6 +6,7 @@ local inet = component.internet;
 local string = require("string");
 local JSON = require("json");
 local table = require("table");
+local conf = require('config');
 
 local M = {};
 
@@ -15,7 +16,7 @@ local invSize = robot.inventorySize();
 
 function M.getRecipes(itemName)
   itemName = string.gsub(itemName, " ", "%%20");
-  local req = inet.request("http://127.0.0.1/recipe/" .. itemName);
+  local req = inet.request("http://" .. conf.serverIP .. "/recipe/" .. itemName);
   local recipeJSON = "";
   local reqLine = req.read();
   while reqLine do

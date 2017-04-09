@@ -14,15 +14,21 @@ local filenames = {
   'doToArea.lua',
   'interact.lua',
   'craft.lua',
+  'config.lua',
+  'autorun.sh',
 };
 
-function downloadAll()
+local M = {};
+
+function M.downloadAll()
   for index, name in pairs(filenames) do
-    download(name);
+    M.download(name);
   end
 end
 
 -- rapid reuse may result in receiving cached pages
-function download(name)
+function M.download(name)
   os.execute('wget -f ' .. url .. name);
 end
+
+return M;

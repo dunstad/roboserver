@@ -1,5 +1,8 @@
 now:
 
+  move ip address information to a settings file
+  write easy install script
+
   add some way to select a listening robot in the interface
   send the selected robot name with commands
   
@@ -29,7 +32,6 @@ later:
     render \t properly in robot responses
     message div blocking click to engage camera control
 
-  move ip address information to a settings file
 
   renderer:
     remove robot afterimage when moving after scan

@@ -1,7 +1,8 @@
 local internet = require('internet');
 local JSON = require("json");
+local conf = require("config");
 
-local handle = internet.open('127.0.0.1', 3001);
+local handle = internet.open(conf.serverIP, conf.tcpPort);
 handle:setvbuf('line');
 -- handle:setTimeout('10');
 
@@ -16,5 +17,7 @@ function M.write(data)
   -- without the newline the write will wait in the buffer
   return handle:write(JSON:encode(data)..'\r\n');
 end
+
+M.write({id={account=conf.accountName, robot=conf.robotName}});
 
 return M;
