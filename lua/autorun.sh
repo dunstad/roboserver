@@ -1,1 +1,0 @@
-lua /home/lib/commandLoop.lua

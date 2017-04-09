@@ -15,7 +15,6 @@ local filenames = {
   'interact.lua',
   'craft.lua',
   'config.lua',
-  'autorun.sh',
 };
 
 local M = {};
