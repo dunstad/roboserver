@@ -80,6 +80,7 @@ function main(server, app) {
           if (key == 'id') {
             tcpSocket.id = dataJSON[key];
             accounts.setRobot(tcpSocket.id.account, tcpSocket.id.robot, tcpSocket);
+            accounts.sendToClients(tcpSocket.id.account, "listen start", {robot: tcpSocket.id.robot});
             console.log("robot " + tcpSocket.id.robot + " identified for account " + tcpSocket.id.account);
           }
           else if (tcpSocket.id && tcpSocket.id.account && tcpSocket.id.robot) {
@@ -101,6 +102,7 @@ function main(server, app) {
   	tcpSocket.on('end', ()=>{
       if (tcpSocket.id) {
         accounts.setRobot(tcpSocket.id.account, tcpSocket.id.robot);
+        accounts.sendToClients(tcpSocket.id.account, "listen end", {robot: tcpSocket.id.robot})
         console.log("robot " + tcpSocket.id.robot + " for account " + tcpSocket.id.account + " disconnected");
       }
   	});

@@ -10,7 +10,11 @@ class SocketToAccountMap {
     this.accounts = {};
   }
 
-
+  /**
+   * Get all the web client sockets listening of a particular account name.
+   * @param {string} accountName
+   * @returns {object[]}
+   */
   getClients(accountName) {
     var result = [];
     
@@ -22,6 +26,12 @@ class SocketToAccountMap {
     return result;
   }
 
+  /**
+   * Adds a new web client socket to our list for a particular account.
+   * @param {string} accountName 
+   * @param {object} clientSocket
+   * @returns {boolean}
+   */
   addClient(accountName, clientSocket) {
     var result = false;
 
@@ -35,6 +45,12 @@ class SocketToAccountMap {
     return result;
   }
   
+  /**
+   * Gets rid of a web client socket from our list for a particular account.
+   * @param {string} accountName 
+   * @param {object} clientSocket
+   * @returns {boolean}
+   */
   removeClient(accountName, clientSocket) {
     var result = false;
     var account = this.accounts[accountName];
@@ -45,6 +61,13 @@ class SocketToAccountMap {
     return result;
   }
 
+  /**
+   * Send something to all web clients listening for a particular account.
+   * @param {string} accountName 
+   * @param {string} eventName 
+   * @param {object} data 
+   * @returns {boolean}
+   */
   sendToClients(accountName, eventName, data) {
     var result = false;
     this.getClients(accountName).forEach((clientSocket)=>{
@@ -54,6 +77,12 @@ class SocketToAccountMap {
     return result;
   }
 
+  /**
+   * Get the socket for a certain robot of a certain account.
+   * @param {string} accountName 
+   * @param {string} robotName 
+   * @returns {object}
+   */
   getRobot(accountName, robotName) {
     var result = undefined;
     
@@ -65,6 +94,13 @@ class SocketToAccountMap {
     return result;
   }
 
+  /**
+   * Set the socket for a certain robot of a certain account.
+   * @param {string} accountName 
+   * @param {string} robotName 
+   * @param {object} robotSocket 
+   * @returns {boolean}
+   */
   setRobot(accountName, robotName, robotSocket) {
     var result = undefined;
 
@@ -78,6 +114,14 @@ class SocketToAccountMap {
     return result;
   }
 
+  /**
+   * Send some data to a specific robot of a specific account.
+   * @param {string} accountName 
+   * @param {string} robotName 
+   * @param {string} eventName 
+   * @param {object} data 
+   * @returns {boolean}
+   */
   sendToRobot(accountName, robotName, eventName, data) {
     var result = false;
     var message = {};

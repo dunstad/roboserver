@@ -8,6 +8,7 @@ version 1:
     move lua code from the client-side interface to the server
     store robot orientation and position on hard disk, not just in memory
       make sure it's not too slow
+    easy set config program
   
   fixes:
     remove robot afterimage when moving after scan

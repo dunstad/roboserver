@@ -66,6 +66,24 @@ function main() {
     renderInventory(data);
   });
 
+  // add listening robots to select
+  socket.on('listen start', (data)=>{
+    console.dir(data);
+    var robotSelect = document.getElementById('robotSelect');
+    var option = document.createElement('option');
+    option.text = data.robot;
+    option.value = data.robot;
+    robotSelect.add(option);
+  });
+  
+  // remove from select robots that stop listening
+  socket.on('listen end', (data)=>{
+    console.dir(data);
+    var robotSelect = document.getElementById('robotSelect');
+    var option = robotSelect.querySelector('[value=' + data.robot + ']');
+    robotSelect.removeChild(option);
+  });
+
   selectStart.addEventListener('input', ()=>{removeSelectBox(); requestRender()});
   selectEnd.addEventListener('input', ()=>{removeSelectBox(); requestRender()});
 
