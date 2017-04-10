@@ -1,48 +1,46 @@
-now:
+version 1:
 
-  move ip address information to a settings file
-  write easy install script
-
-  add some way to select a listening robot in the interface
-  send the selected robot name with commands
+  features:
+    write easy install script
+      test new download script
+    add some way to select a listening robot in the interface
+    send the selected robot name with commands
+    move lua code from the client-side interface to the server
+    store robot orientation and position on hard disk, not just in memory
+      make sure it's not too slow
   
-  move lua code from the client-side interface to the server
-
-  see if we can make water source and flow blocks render differently
-
-  robot can't put water in bucket from above the water? investigate
+  fixes:
+    remove robot afterimage when moving after scan
+    message div blocking click to engage camera control
+    render \t properly in robot responses
+    make command loop environment modules not global
+  
+  pre-release:
+    update readme
+    test things
 
 later:
 
-  listen for error type messages in command loop?
+  fixes:
+    robot can't put water in bucket from above the water? investigate
 
-  use furnaces automatically during crafting
-
-  inventory:
-    drop items
-    add external->external transfer support (use a robot slot)
-
-  lua:
-    stop robot from losing contact through code updates
-    allow limited functionality without geolyzer/other components
-    make command loop environment modules not global
-    store robot orientation and position on hard disk, not just in memory
-
-  interface:
-    render \t properly in robot responses
-    message div blocking click to engage camera control
-
-
-  renderer:
-    remove robot afterimage when moving after scan
-    add moveVoxel for robot movement?
+  features:
+    have robot revert to older command loop version if updated one is broken
+    see if we can make water source and flow blocks render differently
     render robot facing (triangular prism or different colored face)
       send orientation
-    improve rendering color schemes
+    allow limited functionality without geolyzer/other components
+      make a list of components required for full functionality
+    add external->external transfer support (use a robot slot)
+    drop items function in interface
+    add moveVoxel for lighter robot movement in rendering code
     make water/lava transparent
     camera: go to robot location
-
-  make account registration create a new robot if server is on no-player mode
+    action recording feature to make automation easy
+      specify number of loops, duration of sleep between
+    use furnaces automatically during crafting
+    improve rendering color schemes
+    make account registration create a new robot if server is on no-player mode
 
 distant future:
   visual tool for chaining robot commands together to automate tasks
