@@ -48,7 +48,7 @@ function main(server, app) {
     // relay commands to the tcp server
     socket.on('command', (data)=>{
       console.dir(data);
-      accounts.sendToRobot(socket.request.user.username, "rob", "command", data);
+      accounts.sendToRobot(socket.request.user.username, data.robot, "command", data.command);
     });
 
   });

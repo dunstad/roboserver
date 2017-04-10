@@ -10,8 +10,7 @@ function addButton(name, codeStringFunction) {
   var button = document.createElement('button');
   button.innerHTML = name;
   button.addEventListener('click', ()=>{
-    addMessage(codeStringFunction(), true);
-    socket.emit('command', codeStringFunction());
+    sendCommand(codeStringFunction());
   });
   buttonContainer.appendChild(button);
   buttonContainer.appendChild(document.createElement('br'));

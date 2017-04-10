@@ -155,8 +155,7 @@ function initSelectAreaTools() {
         else if (placeToolActive) {
           var luaString = 'return dta.placeArea(' + [v1Lua, v2Lua, selectionIndex, scanLevel] + ');';
         }
-        addMessage(luaString, true);
-        socket.emit('command', luaString);
+        sendCommand(luaString);
 
         selectStart.clear();
         selectEnd.clear();
@@ -182,11 +181,7 @@ function initCommandInput() {
       }
       commandText = "return " + commandText;
 
-      // display command
-      addMessage(baseText, true, runInTerminal.checked);
-
-      // send command to the web server
-      socket.emit('command', commandText);
+      sendCommand(commandText, runInTerminal.checked);
 
       // clear input text
       event.target.value = '';
@@ -212,18 +207,37 @@ function initClickTools() {
       console.log(coord);
       var scanLevel = document.getElementById('scanWhileMoving').value;
       if (moveToolActive) {
-        var luaString = 'return mas.to(' + [coord.x, coord.y, coord.z, scanLevel] + ');'
+        var luaString = 'return mas.to(' + [coord.x, coord.y, coord.z, scanLevel] + ');';
       }
       else if (interactToolActive) {
-        var luaString = 'return int.interact(' + [vectorToLuaString(coord), scanLevel] + ');'
+        var luaString = 'return int.interact(' + [vectorToLuaString(coord), scanLevel] + ');';
       }
       else if (inspectToolActive) {
-        var luaString = 'return int.inspect(' + [vectorToLuaString(coord), scanLevel] + ');'
+        var luaString = 'return int.inspect(' + [vectorToLuaString(coord), scanLevel] + ');';
       }
-      addMessage(luaString, true);
-      socket.emit('command', luaString);
+      sendCommand(luaString);
     }
   });
+}
+
+/**
+ * Sends a command for the selected robot to the server.
+ * @param {string} commandString 
+ * @param {boolean} runInTerminal
+ * @returns {boolean}
+ */
+function sendCommand(commandString, runInTerminal) {
+  var result = false;
+  var robotSelect = document.getElementById('robotSelect');
+  if (!robotSelect.value) {
+    console.dir('No robot selected!');
+  }
+  else {
+    addMessage(commandString, true, runInTerminal);
+    socket.emit('command', {command: commandString, robot: robotSelect.value});
+    result = true;
+  }
+  return result;
 }
 
 /**
@@ -432,8 +446,7 @@ function changeSelectedSlot(e) {
   this.parentElement.parentElement.querySelector('[data-selected=true]').removeAttribute('data-selected');
   this.setAttribute('data-selected', true);
   var luaString = 'return robot.select(' + this.getAttribute('data-slotnumber') + ');';
-  addMessage(luaString, true);
-  socket.emit('command', luaString);
+  sendCommand(luaString);
 }
 
 /**
@@ -521,8 +534,7 @@ function transferAndUpdate(fromCell, toCell, amount) {
       amount
     ];
     var luaString = 'return int.transfer(' + luaArgs + ');'
-    addMessage(luaString, true);
-    socket.emit('command', luaString);
+    sendCommand(luaString);
   }
 }
 
@@ -545,8 +557,7 @@ function swapCells(cell1, cell2) {
       getSide(cell2),
     ];
     var luaString = 'return int.transfer(' + luaArgs + ');';
-    addMessage(luaString, true);
-    socket.emit('command', luaString);
+    sendCommand(luaString);
   }
 }
 
@@ -579,8 +590,7 @@ function initCraftSelect() {
     
     var craftSelect = document.getElementById("craftSelect");
     var luaString = "local c = craft.craft('" + craftSelect.value + "'); int.sendInventoryData(-1); return c;";
-    addMessage(luaString, true);
-    socket.emit('command', luaString);
+    sendCommand(luaString);
 
   });
 
