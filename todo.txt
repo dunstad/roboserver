@@ -3,7 +3,6 @@ version 1:
   features:
     write easy install script
       test new download script
-    send the selected robot name with commands
     web client should ask for all listening robots on connect
     move lua code from the client-side interface to the server
     store robot orientation and position on hard disk, not just in memory
