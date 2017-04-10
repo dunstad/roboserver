@@ -17,6 +17,8 @@ version 1:
   
   pre-release:
     update readme
+      make a list of components required for full functionality
+        internet card, geolyzer, inventory controller, crafting upgrade, minimum 16 slots of inventory space
     test things
     make a video
 
@@ -31,7 +33,6 @@ later:
     render robot facing (triangular prism or different colored face)
       send orientation
     allow limited functionality without geolyzer/other components
-      make a list of components required for full functionality
     add external->external transfer support (use a robot slot)
     drop items function in interface
     add moveVoxel for lighter robot movement in rendering code
