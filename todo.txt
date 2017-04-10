@@ -18,6 +18,7 @@ version 1:
   pre-release:
     update readme
     test things
+    make a video
 
 later:
 
