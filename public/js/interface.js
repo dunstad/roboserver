@@ -323,6 +323,13 @@ function initPointerLock() {
       element.requestPointerLock();
     }, false);
 
+    var messageContainer = document.getElementById('messageContainer');
+    messageContainer.addEventListener('click', function(event) {
+      if (event.target == messageContainer) {
+        element.requestPointerLock();
+      }
+    }, false);
+
   }
   else {alert("Your browser doesn't seem to support Pointer Lock API");}
 }

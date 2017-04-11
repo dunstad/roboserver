@@ -14,7 +14,6 @@ version 1:
       add toggle visibility button to each table
       also move them
     remove robot afterimage when moving after scan (should be fixed now)
-    message div blocking click to engage camera control
     render \t properly in robot responses (should be fixed)
     make command loop environment modules not global
   
