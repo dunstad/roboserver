@@ -78,6 +78,22 @@ class SocketToAccountMap {
   }
 
   /**
+   * Get the socket for all robots of a certain account.
+   * @param {string} accountName 
+   * @returns {object[]}
+   */
+  getRobots(accountName) {
+    var result = [];
+    
+    var account = this.accounts[accountName];
+    if (account && account.robots) {
+      result = Object.keys(account.robots).map(key => account.robots[key]);
+    }
+
+    return result;
+  }
+
+  /**
    * Get the socket for a certain robot of a certain account.
    * @param {string} accountName 
    * @param {string} robotName 

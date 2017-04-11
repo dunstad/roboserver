@@ -35,6 +35,9 @@ function main(server, app) {
 
     accounts.addClient(socket.request.user.username, socket);
     console.log(socket.request.user.username + " account connected");
+    for (robot of accounts.getRobots(socket.request.user.username)) {
+      accounts.sendToClients(robot.id.account, "listen start", {robot: robot.id.robot});
+    }
 
     socket.on('message', (data)=>{
       console.log(data);
