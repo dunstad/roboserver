@@ -16,7 +16,8 @@ input {
   padding: 8px;
   border-radius: 25px;
   margin: 1px;
-  color: #FFFFFF
+  color: #FFFFFF;
+  font-family: monospace;
 }
 
 .input {

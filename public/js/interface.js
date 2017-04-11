@@ -15,7 +15,7 @@ function main() {
 
   // render map data received from robot
   socket.on('map data', (mapData)=>{
-    console.dir(data);
+    console.dir(mapData);
     addShapeVoxels(mapData.data, mapData.robot);
   });
 
@@ -289,7 +289,7 @@ function renderCommandResponse(data) {
   var outputMessageDiv = document.createElement('div');
   var text = data[0] + '\n' + data[1];
   for (var line of text.split('\n')) {
-    line = line.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;')
+    line = line.replace(/\s/g, '\u00A0')
     outputMessageDiv.appendChild(document.createTextNode(line));
     outputMessageDiv.appendChild(document.createElement('br'));
   }

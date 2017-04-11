@@ -19,15 +19,15 @@ local filenames = {
 
 local M = {};
 
-function M.downloadAll()
+function M.downloadAll(location)
   for index, name in pairs(filenames) do
-    M.download(name);
+    M.download(namem location);
   end
 end
 
 -- rapid reuse may result in receiving cached pages
-function M.download(name)
-  os.execute('wget -f ' .. url .. name);
+function M.download(name, location)
+  os.execute('wget -f ' .. url .. name .. " " .. location);
 end
 
 return M;

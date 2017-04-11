@@ -3,6 +3,7 @@ version 1:
   features:
     write easy install script
       test new download script
+    have robots send their location and a scan on client connect
     move lua code from the client-side interface to the server
     easy set config program
     store robot orientation and position on hard disk, not just in memory
@@ -13,9 +14,8 @@ version 1:
     inventory covers buttons
       add toggle visibility button to each table
       also move them
-    remove robot afterimage when moving after scan (should be fixed now)
-    render \t properly in robot responses (should be fixed)
     make command loop environment modules not global
+    decrease page load time?
   
   pre-release:
     update readme
