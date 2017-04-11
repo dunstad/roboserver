@@ -144,7 +144,7 @@ client.connect(port, host, function() {
 client.on('data', (rawMessages)=>{
 	console.log('Received: ' + rawMessages);
 	messages = String(rawMessages).split('\r\n').filter(s=>s).map(JSON.parse);
-	for (data of messages) {
+	for (var data of messages) {
 		if (data.command) {
 			// hard coded test map
 			if (data.command == 'for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;') {

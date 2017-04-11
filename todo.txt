@@ -4,14 +4,18 @@ version 1:
     write easy install script
       test new download script
     move lua code from the client-side interface to the server
+    easy set config program
     store robot orientation and position on hard disk, not just in memory
       make sure it's not too slow
-    easy set config program
+    allow limited functionality without inventory/crafting components
   
   fixes:
+    inventory covers buttons
+      add toggle visibility button to each table
+      also move them
     remove robot afterimage when moving after scan (should be fixed now)
     message div blocking click to engage camera control
-    render \t properly in robot responses
+    render \t properly in robot responses (should be fixed)
     make command loop environment modules not global
   
   pre-release:
@@ -32,7 +36,6 @@ later:
     see if we can make water source and flow blocks render differently
     render robot facing (triangular prism or different colored face)
       send orientation
-    allow limited functionality without geolyzer/other components
     add external->external transfer support (use a robot slot)
     drop items function in interface
     add moveVoxel for lighter robot movement in rendering code

@@ -35,7 +35,7 @@ function main(server, app) {
 
     accounts.addClient(socket.request.user.username, socket);
     console.log(socket.request.user.username + " account connected");
-    for (robot of accounts.getRobots(socket.request.user.username)) {
+    for (var robot of accounts.getRobots(socket.request.user.username)) {
       accounts.sendToClients(robot.id.account, "listen start", {robot: robot.id.robot});
     }
 
@@ -77,8 +77,8 @@ function main(server, app) {
   		var dataJSONList = data.toString().split('\r\n').filter(item=>item).map(JSON.parse);
 
   		// separate tcp data into various messages
-      for (dataJSON of dataJSONList) {
-        for (key in dataJSON) {
+      for (var dataJSON of dataJSONList) {
+        for (var key in dataJSON) {
           console.log(key, dataJSON[key]);
           if (key == 'id') {
             tcpSocket.id = dataJSON[key];

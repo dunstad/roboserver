@@ -24,6 +24,6 @@ var codeStrings = {
   equip: ()=>{return 'local e = require("component").inventory_controller.equip(); int.sendInventoryData(-1); return e;';},
 };
 
-for (name in codeStrings) {
+for (var name in codeStrings) {
   addButton(name, codeStrings[name]);
 }

@@ -1,7 +1,7 @@
 function getRecipeNames(recipe) {
   var recipeNames = [];
-  for (output of recipe.out) {
-    for (item of output) {
+  for (var output of recipe.out) {
+    for (var item of output) {
       if (recipeNames.indexOf(item.product) == -1) {
         recipeNames.push(item.product);
       }
@@ -12,7 +12,7 @@ function getRecipeNames(recipe) {
 
 function findRecipeFor(product, recipes) {
   var recipesForProduct = [];
-  for (recipe of recipes) {
+  for (var recipe of recipes) {
     var recipeProducts = getRecipeNames(recipe);
     if (recipeProducts.indexOf(product) != -1) {
       recipesForProduct.push(recipe);
@@ -38,7 +38,7 @@ function extractRecipeFor(product, recipe) {
     }
     if (productIndex === undefined) {productRecipe = false;}
     else {
-      for (slot in recipe.in) {
+      for (var slot in recipe.in) {
         if (recipe.in[slot].length == recipe.out.length) {
           productRecipe.in[slot] = recipe.in[slot][productIndex].map(item=>[item]);
         }

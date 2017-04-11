@@ -360,7 +360,7 @@ function addShapeVoxels(shape, robot) {
       for (var y = 0; y < (shape.data.n / (shape.w * shape.d)); y++) {
 
         var knownRobotPosition = false;
-        for (robotPos of Object.values(robotPositions)) {
+        for (var robotPos of Object.values(robotPositions)) {
           if (robotPos.x == x && robotPos.y == y && robotPos.z == z) {
             knownRobotPosition = true;
           }
@@ -443,7 +443,7 @@ function getWorldCoord(vector) {
  */
 function vectorToLuaString(object) {
   var luaString = '{';
-  for (prop in object) {
+  for (var prop in object) {
     if (object.hasOwnProperty(prop)) {
       luaString = luaString + prop + '=' + object[prop] + ',';
     }

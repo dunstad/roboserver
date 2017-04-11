@@ -288,7 +288,8 @@ function addMessage(data, isInput, checked) {
 function renderCommandResponse(data) {
   var outputMessageDiv = document.createElement('div');
   var text = data[0] + '\n' + data[1];
-  for (line of text.split('\n')) {
+  for (var line of text.split('\n')) {
+    line = line.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;')
     outputMessageDiv.appendChild(document.createTextNode(line));
     outputMessageDiv.appendChild(document.createElement('br'));
   }
@@ -374,7 +375,7 @@ function renderInventory(inventoryData) {
 function removeAllExternalInventories() {
   var inventoryContainer = document.getElementById("inventoryContainer");
   var inventories = inventoryContainer.querySelectorAll('[data-side]:not([data-side="-1"])');
-  for (inventory of inventories) {
+  for (var inventory of inventories) {
     inventoryContainer.removeChild(inventory);
   }
 }
@@ -567,15 +568,15 @@ function initCraftSelect() {
   
   fetchPromise("/js/minecraftRecipes.json").then((minecraftRecipes)=>{
     var recipeNames = [];
-    for (recipe of minecraftRecipes) {
-      for (recipeName of getRecipeNames(recipe)) {
+    for (var recipe of minecraftRecipes) {
+      for (var recipeName of getRecipeNames(recipe)) {
         if (recipeNames.indexOf(recipeName) == -1) {
           recipeNames.push(recipeName);
         }
       }
     }
     recipeNames.sort();
-    for (recipeName of recipeNames) {
+    for (var recipeName of recipeNames) {
       var option = document.createElement('option');
       option.textContent = recipeName;
       craftSelect.appendChild(option);
