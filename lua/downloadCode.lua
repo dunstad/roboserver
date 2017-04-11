@@ -21,7 +21,7 @@ local M = {};
 
 function M.downloadAll(location)
   for index, name in pairs(filenames) do
-    M.download(namem location);
+    M.download(name, location);
   end
 end
 

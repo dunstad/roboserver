@@ -1,8 +1,6 @@
 version 1:
 
   features:
-    write easy install script
-      test new download script
     have robots send their location and a scan on client connect
     move lua code from the client-side interface to the server
     easy set config program
@@ -18,6 +16,7 @@ version 1:
     decrease page load time?
   
   pre-release:
+    set up github so i can develop without breaking the release
     update readme
       make a list of components required for full functionality
         internet card, geolyzer, inventory controller, crafting upgrade, minimum 16 slots of inventory space

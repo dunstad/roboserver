@@ -18,6 +18,8 @@ input {
   margin: 1px;
   color: #FFFFFF;
   font-family: monospace;
+  max-width: 300px;
+  overflow-wrap: break-word;
 }
 
 .input {
@@ -38,7 +40,6 @@ input {
   top: 99%;
   left: 1%;
   transform:translateY(-100%);
-  width:210px;
 }
 
 /* button display styles */
