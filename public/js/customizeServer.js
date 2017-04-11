@@ -87,7 +87,7 @@ function main(server, app) {
             console.log("robot " + tcpSocket.id.robot + " identified for account " + tcpSocket.id.account);
           }
           else if (tcpSocket.id && tcpSocket.id.account && tcpSocket.id.robot) {
-            accounts.sendToClients(tcpSocket.id.account, key, dataJSON[key]);
+            accounts.sendToClients(tcpSocket.id.account, key, {data: dataJSON[key], robot: tcpSocket.id.robot});
           }
           else {
             var errorString = 'unidentified robots cannot send messages';

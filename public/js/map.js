@@ -10,7 +10,8 @@ var voxelSideLength = 50;
 var raycaster;
 var voxels = [];
 var voxelMap = new VoxelMap();
-var robotVoxel;
+var robotMaterial;
+var robotPositions = {};
 var hardnessToColorMap;
 var selections = {};
 var selectBox;
@@ -99,6 +100,8 @@ function init() {
   document.addEventListener('keyup', (e)=>{
     if (!e.altKey) {altKeyIsPressed = false;}
   });
+
+  robotMaterial = new THREE.MeshLambertMaterial({color:0xff9999});
 
   hardnessToColorMap = {
     // bedrock
@@ -283,23 +286,24 @@ function requestRender() {
 // code for drawing minecraft maps
 
 /**
- * Removes the robot voxel and redraws it elsewhere.
+ * Removes the given robot's voxel and redraws it elsewhere.
  * @param {object} pos
+ * @param {string} robot
  */
-function moveRobotVoxel(pos) {
+function moveRobotVoxel(pos, robot) {
 
-  newRobot = addVoxel(
+  addVoxel(
     pos.x * voxelSideLength,
     pos.y * voxelSideLength,
     pos.z * voxelSideLength,
-    new THREE.MeshLambertMaterial({color:0xff9999})
+    robotMaterial
   );
 
-  if (robotVoxel) {
-    var robotPos = getWorldCoord(robotVoxel.position);
-    removeVoxel(robotPos.x, robotPos.y, robotPos.z, robotVoxel);
+  if (robotPositions[robot]) {
+    removeVoxel(robotPositions[robot].x, robotPositions[robot].y, robotPositions[robot].z);
   }
-  robotVoxel = newRobot;
+
+  robotPositions[robot] = pos;
 
   requestRender();
 }
@@ -318,7 +322,7 @@ function addVoxel(x, y, z, material) {
 
   var coord = getWorldCoord(voxel.position);
   var priorVoxel = voxelMap.get(coord.x, coord.y, coord.z);
-  if (priorVoxel) {removeVoxel(coord.x, coord.y, coord.z, priorVoxel);}
+  if (priorVoxel) {removeVoxel(coord.x, coord.y, coord.z);}
 
   voxels.push(voxel);
   voxelMap.set(coord.x, coord.y, coord.z, voxel);
@@ -332,10 +336,10 @@ function addVoxel(x, y, z, material) {
  * @param {number} x
  * @param {number} y
  * @param {number} z
- * @param {object} voxel
  */
-function removeVoxel(x, y, z, voxel) {
+function removeVoxel(x, y, z) {
   result = false;
+  var voxel = voxelMap.get(x, y, z);
   if (voxel && voxels.indexOf(voxel) != -1) {
     scene.remove(voxel);
     voxelMap.set(x, y, z, undefined);
@@ -367,7 +371,7 @@ function addShapeVoxels(shape) {
           addVoxel(worldPos.x, worldPos.y, worldPos.z, colorFromHardness(shape.data[index]));
         }
         else {
-          removeVoxel(worldPos.x, worldPos.y, worldPos.z, voxelMap.get(worldPos.x, worldPos.y, worldPos.z));
+          removeVoxel(worldPos.x, worldPos.y, worldPos.z);
         }
       }
     }

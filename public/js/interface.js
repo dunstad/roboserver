@@ -8,34 +8,33 @@ function main() {
   socket.send('ping');
 
   // display command results received from robot
-  socket.on('command result', (data)=>{
-    console.dir(data);
-    addMessage(data, false);
+  socket.on('command result', (result)=>{
+    console.dir(result);
+    addMessage(result.data, false);
   });
 
   // render map data received from robot
-  socket.on('map data', (data)=>{
+  socket.on('map data', (mapData)=>{
     console.dir(data);
-    addShapeVoxels(data);
+    addShapeVoxels(mapData.data);
   });
 
   // render block data received from robot
-  socket.on('block data', (data)=>{
-    console.dir(data);
-    if (!(data.name == "minecraft:air")) {
+  socket.on('block data', (blockData)=>{
+    console.dir(blockData);
+    if (!(blockData.data.name == "minecraft:air")) {
       addVoxel(
-        data.point.x * voxelSideLength, 
-        data.point.y * voxelSideLength, 
-        data.point.z * voxelSideLength,
-        colorFromHardness(data.hardness)
+        blockData.data.point.x * voxelSideLength, 
+        blockData.data.point.y * voxelSideLength, 
+        blockData.data.point.z * voxelSideLength,
+        colorFromHardness(blockData.data.hardness)
       );
     }
     else {
       removeVoxel(
-        data.point.x,
-        data.point.y,
-        data.point.z,
-        voxelMap.get(data.point.x, data.point.y, data.point.z)
+        blockData.data.point.x,
+        blockData.data.point.y,
+        blockData.data.point.z
       );
     }
   });
@@ -43,27 +42,26 @@ function main() {
   // render map data received from robot
   socket.on('robot position', (pos)=>{
     console.dir(pos);
-    moveRobotVoxel(pos);
+    moveRobotVoxel(pos.data, pos.robot);
     removeAllExternalInventories();
   });
 
   // remove selection because its task has been completed
   socket.on('delete selection', (index)=>{
     console.dir(index);
-    deleteSelection(selections, index);
+    deleteSelection(selections, index.data);
   });
 
   // remove voxels corresponding to successfully dug blocks
   socket.on('dig success', (pos)=>{
     console.dir(pos);
-    var voxel = voxelMap.get(pos.x, pos.y, pos.z);
-    removeVoxel(pos.x, pos.y, pos.z, voxel);
+    removeVoxel(pos.data.x, pos.data.y, pos.data.z);
   });
 
   // render inventory data received from robot
-  socket.on('inventory data', (data)=>{
-    console.dir(data);
-    renderInventory(data);
+  socket.on('inventory data', (inventory)=>{
+    console.dir(inventory);
+    renderInventory(inventory.data);
   });
 
   // add listening robots to select

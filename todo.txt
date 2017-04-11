@@ -18,6 +18,7 @@ version 1:
     update readme
       make a list of components required for full functionality
         internet card, geolyzer, inventory controller, crafting upgrade, minimum 16 slots of inventory space
+        optional chunk loader
     test things
     make a video
 
