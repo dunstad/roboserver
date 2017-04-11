@@ -16,7 +16,7 @@ function main() {
   // render map data received from robot
   socket.on('map data', (mapData)=>{
     console.dir(data);
-    addShapeVoxels(mapData.data);
+    addShapeVoxels(mapData.data, mapData.robot);
   });
 
   // render block data received from robot

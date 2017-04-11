@@ -9,7 +9,7 @@ version 1:
     easy set config program
   
   fixes:
-    remove robot afterimage when moving after scan
+    remove robot afterimage when moving after scan (should be fixed now)
     message div blocking click to engage camera control
     render \t properly in robot responses
     make command loop environment modules not global

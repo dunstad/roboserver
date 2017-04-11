@@ -351,28 +351,51 @@ function removeVoxel(x, y, z) {
 }
 
 /**
- * Used to draw terrain data received from robots.
+ * Used to draw terrain data received from a robot.
  * @param {object} shape
  */
-function addShapeVoxels(shape) {
-  for(var x = 0; x < shape.w; x++) {
-    for(var z = 0; z < shape.d; z++) {
-      for(var y = 0; y < (shape.data.n / (shape.w * shape.d)); y++) {
+function addShapeVoxels(shape, robot) {
+  for (var x = 0; x < shape.w; x++) {
+    for (var z = 0; z < shape.d; z++) {
+      for (var y = 0; y < (shape.data.n / (shape.w * shape.d)); y++) {
+
+        var knownRobotPosition = false;
+        for (robotPos of Object.values(robotPositions)) {
+          if (robotPos.x == x && robotPos.y == y && robotPos.z == z) {
+            knownRobotPosition = true;
+          }
+        }
+
         // this is how the geolyzer reports 3d data in a 1d array
         // also lua is indexed from 1
         var index = (x + 1) + z*shape.w + y*shape.w*shape.d;
+
+        var hardnessIs2 = shape.data[index] === 2;
 
         var worldPos = {
           x: (x + shape.x) * voxelSideLength,
           y: (y + shape.y) * voxelSideLength,
           z: (z + shape.z) * voxelSideLength,
         };
-        if(shape.data[index]) {
-          addVoxel(worldPos.x, worldPos.y, worldPos.z, colorFromHardness(shape.data[index]));
+
+        if (shape.data[index]) {
+
+          var material;
+          if (knownRobotPosition || hardnessIs2) {
+            material = robotMaterial;
+          }
+          else {
+            material = colorFromHardness(shape.data[index]);
+          }
+
+          addVoxel(worldPos.x, worldPos.y, worldPos.z, material);
+
         }
+
         else {
           removeVoxel(worldPos.x, worldPos.y, worldPos.z);
         }
+
       }
     }
   }
