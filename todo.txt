@@ -28,6 +28,7 @@ later:
 
   fixes:
     robot can't put water in bucket from above the water? investigate
+    large scan crashing chrome?
 
   features:
     have robot revert to older command loop version if updated one is broken

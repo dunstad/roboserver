@@ -27,7 +27,7 @@ end
 
 -- rapid reuse may result in receiving cached pages
 function M.download(name, location)
-  os.execute('wget -f ' .. url .. name .. " " .. location);
+  os.execute('wget -f ' .. url .. name .. ' ' .. location .. '/' .. name);
 end
 
 return M;
