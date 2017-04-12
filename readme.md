@@ -16,3 +16,7 @@ Run `lua /home/lib/commandLoop.lua` (if that's where you installed it) to have t
 Make sure the robot is facing south when you begin listening to the web client. (see lua/trackOrientation.lua)
 
 If you need the robot to stop listening, send `continueLoop=false` from the web client.
+
+list of components required for full functionality
+internet card, geolyzer, inventory controller, crafting upgrade, minimum 16 slots of inventory space
+optional chunk loader

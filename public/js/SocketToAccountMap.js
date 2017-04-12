@@ -87,7 +87,7 @@ class SocketToAccountMap {
     
     var account = this.accounts[accountName];
     if (account && account.robots) {
-      result = Object.keys(account.robots).map(key => account.robots[key]);
+      result = Object.keys(account.robots).filter(key=>account.robots[key]).map(key => account.robots[key]);
     }
 
     return result;

@@ -1,4 +1,5 @@
 var accounts = new (require('./SocketToAccountMap'))();
+var getCommandString = require('./commandMap');
 
 /**
  * Starts the TCP server and adds event listeners to the HTTP server.
@@ -36,7 +37,9 @@ function main(server, app) {
     accounts.addClient(socket.request.user.username, socket);
     console.log(socket.request.user.username + " account connected");
     for (var robot of accounts.getRobots(socket.request.user.username)) {
+      console.dir(robot)
       accounts.sendToClients(robot.id.account, "listen start", {robot: robot.id.robot});
+      accounts.sendToRobot(robot.id.account, robot.id.robot, "command", "pos.sendLocation(); for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;");
     }
 
     socket.on('message', (data)=>{
@@ -51,7 +54,9 @@ function main(server, app) {
     // relay commands to the tcp server
     socket.on('command', (data)=>{
       console.dir(data);
-      accounts.sendToRobot(socket.request.user.username, data.robot, "command", data.command);
+      var commandString = getCommandString(data.command.name, data.command.parameters);
+      var commandType = data.command.name == "raw" ? "raw command" : "command";
+      accounts.sendToRobot(socket.request.user.username, data.robot, commandType, commandString);
     });
 
   });
@@ -85,6 +90,7 @@ function main(server, app) {
             accounts.setRobot(tcpSocket.id.account, tcpSocket.id.robot, tcpSocket);
             accounts.sendToClients(tcpSocket.id.account, "listen start", {robot: tcpSocket.id.robot});
             console.log("robot " + tcpSocket.id.robot + " identified for account " + tcpSocket.id.account);
+            accounts.sendToRobot(tcpSocket.id.account, tcpSocket.id.robot, "command", "pos.sendLocation(); for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;");
           }
           else if (tcpSocket.id && tcpSocket.id.account && tcpSocket.id.robot) {
             accounts.sendToClients(tcpSocket.id.account, key, {data: dataJSON[key], robot: tcpSocket.id.robot});

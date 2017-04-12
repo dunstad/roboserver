@@ -1,36 +1,39 @@
 version 1:
 
   features:
-    have robots send their location and a scan on client connect
-    move lua code from the client-side interface to the server
     easy set config program
     store robot orientation and position on hard disk, not just in memory
       make sure it's not too slow
-    allow limited functionality without inventory/crafting components
+    allow limited functionality without crafting component
+    have robots send their power level
   
   fixes:
+    jsdoc for command functions
     inventory covers buttons
       add toggle visibility button to each table
       also move them
-    make command loop environment modules not global
+    test server side lua commands
     decrease page load time?
   
   pre-release:
     set up github so i can develop without breaking the release
-    update readme
-      make a list of components required for full functionality
-        internet card, geolyzer, inventory controller, crafting upgrade, minimum 16 slots of inventory space
-        optional chunk loader
+    write up test plan
     test things
+    update readme
     make a video
 
 later:
 
   fixes:
+    turn object formats into classes for clarity
+    break boolean expressions into variables for clarity
     robot can't put water in bucket from above the water? investigate
     large scan crashing chrome?
 
   features:
+    allow limited functionality without inventory controller
+    allow limited functionality without geolyzer
+    robot config opt in to allow sending any code
     have robot revert to older command loop version if updated one is broken
     see if we can make water source and flow blocks render differently
     render robot facing (triangular prism or different colored face)

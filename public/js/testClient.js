@@ -159,6 +159,11 @@ client.on('data', (rawMessages)=>{
 				console.log('sending inventory!')
 				client.write(JSON.stringify(testInventory2) + '\r\n');
 			}
+			else if (data.command == 'pos.sendLocation(); for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;') {
+				console.log('sending location and scan')
+				client.write(JSON.stringify(testScan) + '\r\n');
+				client.write(JSON.stringify({"robot position": {x:4, y:4, z:4}}) + '\r\n');
+			}
 			else {
 				console.log('responding to command: ' + data.command)
 				client.write(JSON.stringify({

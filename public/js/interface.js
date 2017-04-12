@@ -148,12 +148,13 @@ function initSelectAreaTools() {
         var scanLevel = document.getElementById('scanWhileMoving').value;
         
         if (digToolActive) {
-          var luaString = 'return dta.digArea(' + [v1Lua, v2Lua, selectionIndex, scanLevel] + ');';
+          var commandName = 'dig';
         }
         else if (placeToolActive) {
-          var luaString = 'return dta.placeArea(' + [v1Lua, v2Lua, selectionIndex, scanLevel] + ');';
+          var commandName = 'place';
         }
-        sendCommand(luaString);
+        var commandParameters = [v1Lua, v2Lua, selectionIndex, scanLevel];
+        sendCommand(commandName, commandParameters);
 
         selectStart.clear();
         selectEnd.clear();
@@ -179,7 +180,9 @@ function initCommandInput() {
       }
       commandText = "return " + commandText;
 
-      sendCommand(commandText, runInTerminal.checked);
+      var commandName = 'raw';
+      var commandParameters = [commandText];
+      sendCommand(commandName, commandParameters, runInTerminal.checked);
 
       // clear input text
       event.target.value = '';
@@ -205,15 +208,18 @@ function initClickTools() {
       console.log(coord);
       var scanLevel = document.getElementById('scanWhileMoving').value;
       if (moveToolActive) {
-        var luaString = 'return mas.to(' + [coord.x, coord.y, coord.z, scanLevel] + ');';
+        var commandName = 'move';
+        var commandParameters = [coord.x, coord.y, coord.z, scanLevel];
       }
       else if (interactToolActive) {
-        var luaString = 'return int.interact(' + [vectorToLuaString(coord), scanLevel] + ');';
+        var commandName = 'interact';
+        var commandParameters = [vectorToLuaString(coord), scanLevel];
       }
       else if (inspectToolActive) {
-        var luaString = 'return int.inspect(' + [vectorToLuaString(coord), scanLevel] + ');';
+        var commandName = 'inspect';
+        var commandParameters = [vectorToLuaString(coord), scanLevel];
       }
-      sendCommand(luaString);
+      sendCommand(commandName, commandParameters);
     }
   });
 }
@@ -224,15 +230,16 @@ function initClickTools() {
  * @param {boolean} runInTerminal
  * @returns {boolean}
  */
-function sendCommand(commandString, runInTerminal) {
+function sendCommand(commandName, commandParameters, runInTerminal) {
   var result = false;
   var robotSelect = document.getElementById('robotSelect');
   if (!robotSelect.value) {
     console.dir('No robot selected!');
   }
   else {
+    var commandString = commandName + "(" + commandParameters + ")"
     addMessage(commandString, true, runInTerminal);
-    socket.emit('command', {command: commandString, robot: robotSelect.value});
+    socket.emit('command', {command: {name: commandName, parameters: commandParameters}, robot: robotSelect.value});
     result = true;
   }
   return result;
@@ -451,8 +458,9 @@ function allowDrop(e) {
 function changeSelectedSlot(e) {
   this.parentElement.parentElement.querySelector('[data-selected=true]').removeAttribute('data-selected');
   this.setAttribute('data-selected', true);
-  var luaString = 'return robot.select(' + this.getAttribute('data-slotnumber') + ');';
-  sendCommand(luaString);
+  var commandName = 'select';
+  var commandParameters = [this.getAttribute('data-slotnumber')];
+  sendCommand(commandName, commandParameters);
 }
 
 /**
@@ -532,15 +540,15 @@ function transferAndUpdate(fromCell, toCell, amount) {
     }
     toCell.appendChild(renderItem(data2));
 
-    var luaArgs = [
+    var commandParameters = [
       fromCell.getAttribute('data-slotnumber'),
       getSide(fromCell),
       toCell.getAttribute('data-slotnumber'),
       getSide(toCell),
       amount
     ];
-    var luaString = 'return int.transfer(' + luaArgs + ');'
-    sendCommand(luaString);
+    var commandName = 'transfer';
+    sendCommand(commandName, commandParameters);
   }
 }
 
@@ -556,14 +564,14 @@ function swapCells(cell1, cell2) {
     if (cell2.firstChild) {cell1.appendChild(cell2.firstChild);}
     if (itemSwapStorage) {cell2.appendChild(itemSwapStorage);}
 
-    var luaArgs = [
+    var commandParameters = [
       cell1.getAttribute('data-slotnumber'),
       getSide(cell1),
       cell2.getAttribute('data-slotnumber'),
       getSide(cell2),
     ];
-    var luaString = 'return int.transfer(' + luaArgs + ');';
-    sendCommand(luaString);
+    var commandName = 'transfer';
+    sendCommand(commandName, commandParameters);
   }
 }
 
@@ -595,8 +603,9 @@ function initCraftSelect() {
   craftButton.addEventListener('click', (e)=>{
     
     var craftSelect = document.getElementById("craftSelect");
-    var luaString = "local c = craft.craft('" + craftSelect.value + "'); int.sendInventoryData(-1); return c;";
-    sendCommand(luaString);
+    var commandName = 'craft';
+    var commandParameters = [craftSelect.value];
+    sendCommand(commandName, commandParameters);
 
   });
 
