@@ -105,15 +105,22 @@ function main(server, app) {
 
   	});
 
-  	tcpSocket.on('error', console.log);
+    function notifyOfDisconnect(robotSocket) {
+      if (robotSocket.id) {
+        accounts.setRobot(robotSocket.id.account, robotSocket.id.robot);
+        accounts.sendToClients(robotSocket.id.account, "listen end", {robot: robotSocket.id.robot})
+        console.log("robot " + robotSocket.id.robot + " for account " + robotSocket.id.account + " disconnected");
+      }
+    }
+
+  	tcpSocket.on('error', (error)=>{
+      console.dir(error);
+      notifyOfDisconnect(tcpSocket);
+    });
 
   	// Remove the client from the list when it leaves
   	tcpSocket.on('end', ()=>{
-      if (tcpSocket.id) {
-        accounts.setRobot(tcpSocket.id.account, tcpSocket.id.robot);
-        accounts.sendToClients(tcpSocket.id.account, "listen end", {robot: tcpSocket.id.robot})
-        console.log("robot " + tcpSocket.id.robot + " for account " + tcpSocket.id.account + " disconnected");
-      }
+      notifyOfDisconnect(tcpSocket);
   	});
 
   	 tcpSocket.on('close', ()=>{console.log('closed');});

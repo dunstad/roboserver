@@ -139,8 +139,9 @@ var commandMap = {
  */
 function getCommandString(commandName, parameters) {
   var result = "";
+  var paramStrings = parameters ? parameters.map(JSON.stringify) : [];
   if (commandMap[commandName]) {
-    result = commandMap[commandName].apply(this, parameters.map(JSON.stringify));
+    result = commandMap[commandName].apply(this, paramStrings);
   }
   return result;
 }

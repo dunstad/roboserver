@@ -292,16 +292,16 @@ function requestRender() {
  */
 function moveRobotVoxel(pos, robot) {
 
+  if (robotPositions[robot]) {
+    removeVoxel(robotPositions[robot].x, robotPositions[robot].y, robotPositions[robot].z);
+  }
+
   addVoxel(
     pos.x * voxelSideLength,
     pos.y * voxelSideLength,
     pos.z * voxelSideLength,
     robotMaterial
   );
-
-  if (robotPositions[robot]) {
-    removeVoxel(robotPositions[robot].x, robotPositions[robot].y, robotPositions[robot].z);
-  }
 
   robotPositions[robot] = pos;
 

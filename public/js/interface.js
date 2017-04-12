@@ -237,7 +237,7 @@ function sendCommand(commandName, commandParameters, runInTerminal) {
     console.dir('No robot selected!');
   }
   else {
-    var commandString = commandName + "(" + commandParameters + ")"
+    var commandString = commandName + "(" + (commandParameters || "") + ")"
     addMessage(commandString, true, runInTerminal);
     socket.emit('command', {command: {name: commandName, parameters: commandParameters}, robot: robotSelect.value});
     result = true;

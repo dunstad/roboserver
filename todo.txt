@@ -11,13 +11,12 @@ version 1:
     inventory covers buttons
       add toggle visibility button to each table
       also move them
-    test server side lua commands
-    decrease page load time?
   
   pre-release:
     set up github so i can develop without breaking the release
     write up test plan
     test things
+      test server side lua commands
     update readme
     make a video
 
