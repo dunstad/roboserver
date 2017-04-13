@@ -5,3 +5,4 @@
 *.log
 *.db
 .DS_Store
+/lua/serialization.lua
