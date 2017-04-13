@@ -6,7 +6,8 @@ local inet = component.internet;
 local string = require("string");
 local JSON = require("json");
 local table = require("table");
-local conf = require('config');
+local config = require('config');
+local conf = config.get(config.path);
 
 local M = {};
 

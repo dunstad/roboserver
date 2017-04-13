@@ -2,7 +2,7 @@
 
 This is a HTTP and TCP server which OpenComputers robots can read and execute commands from.  
 
-**Getting Started**  
+**Getting Started**
 To run the HTTP/TCP server: `npm start` or `npm run dev` from the root directory. This allows you to access the web client and send messages to any listening robots.
 
 You may find that you need to change the OpenComputers configuration file to allow it to connect to your server.
@@ -20,3 +20,5 @@ If you need the robot to stop listening, send `continueLoop=false` from the web 
 list of components required for full functionality
 internet card, geolyzer, inventory controller, crafting upgrade, minimum 16 slots of inventory space
 optional chunk loader
+
+what version of opencomputers and openos do we need?

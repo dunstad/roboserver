@@ -1,5 +1,7 @@
 local ser = require("serialization");
 
+local configPath = "config.txt";
+
 function readFile(path)
   local file = io.open(path, "r");
   if not file then return nil; end
@@ -8,17 +10,17 @@ function readFile(path)
   return content;
 end
 
-function getConfig()
+function getConfig(filePath)
   local config = {};
-  local content = readFile("config.txt");
+  local content = readFile(filePath);
   if content then
     config = ser.unserialize(content);
   end
   return config;
 end
 
-function setConfig(configTable)
-  local file = io.open("config.txt", "w");
+function setConfig(configTable, filePath)
+  local file = io.open(filePath, "w");
   local configString = ser.serialize(configTable);
   file:write(configString);
   file:close();
@@ -42,7 +44,7 @@ end
 
 function easyConfig()
   local newConfig = {};
-  local oldConfig = getConfig();
+  local oldConfig = getConfig(configPath);
 
   local promptMap = {
     robotName = "Enter a name for your robot.",
@@ -59,10 +61,12 @@ function easyConfig()
     newConfig[property] = getNewConfigOption(promptMap[property], oldConfig[property]);
   end
 
-  return setConfig(newConfig);
+  return setConfig(newConfig, configPath);
 end
 
 return {
   get = getConfig,
-  set = easyConfig
+  set = setConfig,
+  easy = easyConfig,
+  path = configPath,
 };

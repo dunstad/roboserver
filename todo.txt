@@ -2,14 +2,16 @@ version 1:
 
   features:
     store robot orientation and position on hard disk, not just in memory
-      make sure it's not too slow
+      make easy set function for position.txt
     allow limited functionality without crafting component
     have robots send their power level
+    camera: go to robot location
   
   fixes:
     inventory covers buttons
       add toggle visibility button to each table
       also move them
+    does the command loop need to yield periodically?
   
   pre-release:
     set up github so i can develop without breaking the release
@@ -40,7 +42,6 @@ later:
     drop items function in interface
     add moveVoxel for lighter robot movement in rendering code
     make water/lava transparent
-    camera: go to robot location
     action recording feature to make automation easy
       specify number of loops, duration of sleep between
     use furnaces automatically during crafting

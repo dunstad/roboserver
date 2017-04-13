@@ -1,6 +1,7 @@
 local internet = require('internet');
 local JSON = require("json");
-local conf = require("config");
+local config = require('config');
+local conf = config.get(config.path);
 
 local handle = internet.open(conf.serverIP, conf.tcpPort);
 handle:setvbuf('line');

@@ -1,10 +1,13 @@
 local robot = require('robot');
 local tcp = require('tcp');
 local orient = require('trackOrientation');
+local config = require('config');
 
--- wherever you start using these functions is considered 0, 0, 0
--- don't stop using them once you start or they won't be accurate
-local position = {x=0, y=0, z=0};
+-- don't stop using these functions once you start or they won't be accurate
+local position = config.get("pos.txt");
+if not (position.x and position.y and position.z) then
+  local position = {x=0, y=0, z=0}; -- fix this
+end
 
 local M = {};
 
