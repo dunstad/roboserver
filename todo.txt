@@ -1,7 +1,6 @@
 version 1:
 
   features:
-    easy set config program
     store robot orientation and position on hard disk, not just in memory
       make sure it's not too slow
     allow limited functionality without crafting component
