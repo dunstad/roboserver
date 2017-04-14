@@ -44,6 +44,8 @@ local directionToMoveFunctionMap = {
 
 function M.moveAndScan(direction, scanType, times)
   local p = directionToMoveFunctionMap[direction]();
+  pos.save();
+  orient.save();
   scanTypeMap[scanType][direction](times);
   return p;
 end
