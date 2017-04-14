@@ -11,7 +11,7 @@ var raycaster;
 var voxels = [];
 var voxelMap = new VoxelMap();
 var robotMaterial;
-var robotPositions = {};
+var robotInfo = {};
 var hardnessToColorMap;
 var selections = {};
 var selectBox;
@@ -292,8 +292,8 @@ function requestRender() {
  */
 function moveRobotVoxel(pos, robot) {
 
-  if (robotPositions[robot]) {
-    removeVoxel(robotPositions[robot].x, robotPositions[robot].y, robotPositions[robot].z);
+  if (robotInfo[robot]) {
+    removeVoxel(robotInfo[robot].x, robotInfo[robot].y, robotInfo[robot].z);
   }
 
   addVoxel(
@@ -303,7 +303,7 @@ function moveRobotVoxel(pos, robot) {
     robotMaterial
   );
 
-  robotPositions[robot] = pos;
+  robotInfo[robot] = pos;
 
   requestRender();
 }
@@ -360,7 +360,7 @@ function addShapeVoxels(shape, robot) {
       for (var y = 0; y < (shape.data.n / (shape.w * shape.d)); y++) {
 
         var knownRobotPosition = false;
-        for (var robotPos of Object.values(robotPositions)) {
+        for (var robotPos of Object.values(robotInfo)) {
           if (robotPos.x == x && robotPos.y == y && robotPos.z == z) {
             knownRobotPosition = true;
           }

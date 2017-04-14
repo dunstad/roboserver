@@ -72,14 +72,22 @@ function main() {
     option.text = data.robot;
     option.value = data.robot;
     robotSelect.add(option);
+    if (!robotInfo[data.robot]) {robotInfo[data.robot] = {};}
   });
   
-  // remove from select robots that stop listening
+  // remove robots that stop listening from select
   socket.on('listen end', (data)=>{
     console.dir(data);
     var robotSelect = document.getElementById('robotSelect');
     var option = robotSelect.querySelector('[value=' + data.robot + ']');
     robotSelect.removeChild(option);
+    robotInfo[data.robot] = undefined;
+  });
+  
+  // keep track of how much power robots have left
+  socket.on('power level', (power)=>{
+    console.dir(power);
+    robotInfo[power.robot].power = power.data;
   });
 
   selectStart.addEventListener('input', ()=>{removeSelectBox(); requestRender()});

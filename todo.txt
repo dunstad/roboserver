@@ -1,7 +1,8 @@
 version 1:
 
   features:
-    have robots send their power level
+    display robot power levels
+    show which robot is selected
     camera: go to robot location
   
   fixes:
@@ -22,7 +23,6 @@ later:
 
   fixes:
     turn object formats into classes for clarity
-    break boolean expressions into variables for clarity
     robot can't put water in bucket from above the water? investigate
     large scan crashing chrome?
 
