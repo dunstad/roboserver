@@ -1,4 +1,3 @@
--- todo: properly set environment for load
 tcp = require('tcp');
 orient = require('trackOrientation');
 pos = require('trackPosition');
@@ -11,6 +10,7 @@ adj = require('adjacent');
 dta = require('doToArea');
 int = require('interact');
 craft = require('craft');
+computer = require('computer');
 
 function runInTerminal(commandText)
   local file = assert(io.popen(commandText, 'r'));
@@ -32,6 +32,7 @@ function executeCommand()
       local status, result = pcall(command);
       print(status, result);
       tcp.write({['command result']={status, result}});
+      tcp.write({['power level']=computer.energy()/computer.maxEnergy()});
     end
   end
 end

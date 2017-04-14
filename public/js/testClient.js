@@ -5,120 +5,114 @@ var port = 3001;
 var host = '127.0.0.1';
 
 var testInventory1 = {
-	'inventory data': {
-		'size': 16,
-		'side': -1,
-		'selected': 1,
-		'contents': {
-			1: {
-				'damage': 0,
-				'hasTag': false,
-				'label': "Dirt",
-				'maxDamage': 0,
-				'maxSize': 64,
-				'name': "minecraft:dirt",
-				'size': 64
-			},
-			2: {
-				'damage': 0,
-				'hasTag': false,
-				'label': "Dirt",
-				'maxDamage': 0,
-				'maxSize': 64,
-				'name': "minecraft:dirt",
-				'size': 37
-			},
-			5: {
-				'damage': 0,
-				'hasTag': false,
-				'label': "Stone",
-				'maxDamage': 0,
-				'maxSize': 64,
-				'name': "minecraft:stone",
-				'size': 3
-			}
+	'size': 16,
+	'side': -1,
+	'selected': 1,
+	'contents': {
+		1: {
+			'damage': 0,
+			'hasTag': false,
+			'label': "Dirt",
+			'maxDamage': 0,
+			'maxSize': 64,
+			'name': "minecraft:dirt",
+			'size': 64
+		},
+		2: {
+			'damage': 0,
+			'hasTag': false,
+			'label': "Dirt",
+			'maxDamage': 0,
+			'maxSize': 64,
+			'name': "minecraft:dirt",
+			'size': 37
+		},
+		5: {
+			'damage': 0,
+			'hasTag': false,
+			'label': "Stone",
+			'maxDamage': 0,
+			'maxSize': 64,
+			'name': "minecraft:stone",
+			'size': 3
 		}
 	}
 };
 
 var testInventory2 = {
-	'inventory data': {
-		'size': 27,
-		'side': 3,
-		'contents': {
-			1: {
-				'damage': 0,
-				'hasTag': false,
-				'label': "Dirt",
-				'maxDamage': 0,
-				'maxSize': 64,
-				'name': "minecraft:dirt",
-				'size': 4
-			},
-			2: {
-				'damage': 0,
-				'hasTag': false,
-				'label': "Dirt",
-				'maxDamage': 0,
-				'maxSize': 64,
-				'name': "minecraft:dirt",
-				'size': 7
-			},
-			5: {
-				'damage': 0,
-				'hasTag': false,
-				'label': "Stone",
-				'maxDamage': 0,
-				'maxSize': 64,
-				'name': "minecraft:stone",
-				'size': 25
-			}
+	'size': 27,
+	'side': 3,
+	'contents': {
+		1: {
+			'damage': 0,
+			'hasTag': false,
+			'label': "Dirt",
+			'maxDamage': 0,
+			'maxSize': 64,
+			'name': "minecraft:dirt",
+			'size': 4
+		},
+		2: {
+			'damage': 0,
+			'hasTag': false,
+			'label': "Dirt",
+			'maxDamage': 0,
+			'maxSize': 64,
+			'name': "minecraft:dirt",
+			'size': 7
+		},
+		5: {
+			'damage': 0,
+			'hasTag': false,
+			'label': "Stone",
+			'maxDamage': 0,
+			'maxSize': 64,
+			'name': "minecraft:stone",
+			'size': 25
 		}
 	}
 };
 
 var testScan = {
-	'map data': {
-		x: 0,
-		z: 0,
-		y: 0,
-		w: 3,
-		d: 3,
-		data: {
-			1: 1,
-			2: 1,
-			3: 1,
-			4: 1,
-			5: 1,
-			6: 1,
-			7: 1,
-			8: 1,
-			9: 1,
-			10: 1,
-			11: 1,
-			12: 1,
-			13: 1,
-			14: 0,
-			15: 1,
-			16: 1,
-			17: 1,
-			18: 1,
-			19: 1,
-			20: 1,
-			21: 1,
-			22: 1,
-			23: 0,
-			24: 1,
-			25: 1,
-			26: 1,
-			27: 1,
-			n: 27
-		}
+	x: 0,
+	z: 0,
+	y: 0,
+	w: 3,
+	d: 3,
+	data: {
+		1: 1,
+		2: 1,
+		3: 1,
+		4: 1,
+		5: 1,
+		6: 1,
+		7: 1,
+		8: 1,
+		9: 1,
+		10: 1,
+		11: 1,
+		12: 1,
+		13: 1,
+		14: 0,
+		15: 1,
+		16: 1,
+		17: 1,
+		18: 1,
+		19: 1,
+		20: 1,
+		21: 1,
+		22: 1,
+		23: 0,
+		24: 1,
+		25: 1,
+		26: 1,
+		27: 1,
+		n: 27
 	}
 };
 
 // let's add some noise to testScan
-var mapData = testScan['map data'].data;
+var mapData = testScan.data;
 for (var key in mapData) {
 	if (mapData[key] == 1) {
 		mapData[key] = Math.random() * 6;
@@ -126,16 +120,29 @@ for (var key in mapData) {
 }
 
 var client = new net.Socket();
+var power = 1;
+
+function send(key, value) {
+	var data = {};
+	data[key] = value;
+	client.write(JSON.stringify(data) + '\r\n');
+}
+
+function decreasePower() {
+	power -= .05 * Math.random();
+	send('power level', power);
+}
+
+function sendWithCost(key, value) {
+	send(key, value);
+	decreasePower();
+}
+
+
 client.connect(port, host, function() {
 
-	// send identifying information
-	client.write(JSON.stringify({
-		id: {robot: process.argv[2], account: process.argv[3]}
-	}) + '\r\n');
-
-	client.write(JSON.stringify({
-		message: 'hi'
-	}) + '\r\n');
+	send('id', {robot: process.argv[2], account: process.argv[3]});
+	send('message', 'hi');
 
 	console.log('Connected');
 
@@ -146,30 +153,29 @@ client.on('data', (rawMessages)=>{
 	messages = String(rawMessages).split('\r\n').filter(s=>s).map(JSON.parse);
 	for (var data of messages) {
 		if (data.command) {
-			// hard coded test map
+			
 			if (data.command == 'for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;') {
 				console.log('sending map!')
-				client.write(JSON.stringify(testScan) + '\r\n');
+				sendWithCost('map data', testScan);
 			}
 			else if (data.command == 'return int.sendInventoryData(-1);') {
 				console.log('sending inventory!')
-				client.write(JSON.stringify(testInventory1) + '\r\n');
+				sendWithCost('inventory data', testInventory1)
 			}
 			else if (data.command == 'inventory2') {
 				console.log('sending inventory!')
-				client.write(JSON.stringify(testInventory2) + '\r\n');
+				sendWithCost('inventory data', testInventory2)
 			}
 			else if (data.command == 'pos.sendLocation(); for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;') {
 				console.log('sending location and scan')
-				client.write(JSON.stringify(testScan) + '\r\n');
-				client.write(JSON.stringify({"robot position": {x:4, y:4, z:4}}) + '\r\n');
+				sendWithCost('map data', testScan);
+				sendWithCost('robot position', {x:4, y:4, z:4});
 			}
 			else {
 				console.log('responding to command: ' + data.command)
-				client.write(JSON.stringify({
-					'command result': [true, 'received command: ' + data.command]
-				}) + '\r\n');
+				sendWithCost('command result', [true, 'received command: ' + data.command]);
 			}
+
 		}
 		else if (data.message) {
 			console.log(data.message);
