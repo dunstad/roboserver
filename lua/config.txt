@@ -1,1 +1,1 @@
-{serverIP="127.0.0.1",robotName="rob",accountName="admin",tcpPort="3001"}
+{robotName="rob",posX=2,orient=1,tcpPort="3001",accountName="admin",serverIP="127.0.0.1",posY="0",posZ="0"}

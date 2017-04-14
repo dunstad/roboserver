@@ -1,7 +1,8 @@
 local robot = require('robot');
 local math = require('math');
+local config = require('config');
 
-local orientation = 0;
+local orientation = config.get(config.path).orient;
 -- 0: z+, south
 -- 1: x+, east
 -- 2: z-, north
@@ -19,6 +20,14 @@ local axisMap = {
 };
 
 local M = {};
+
+function M.save()
+  config.set({orient=orientation}, config.path);
+end
+
+function M.load()
+  orientation = config.get(config.path).orient;
+end
 
 function M.set(orient)
   orientation = orient;

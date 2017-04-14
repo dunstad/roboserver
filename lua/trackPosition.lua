@@ -2,14 +2,32 @@ local robot = require('robot');
 local tcp = require('tcp');
 local orient = require('trackOrientation');
 local config = require('config');
+local confOptions = config.get(config.path);
 
--- don't stop using these functions once you start or they won't be accurate
-local position = config.get("pos.txt");
-if not (position.x and position.y and position.z) then
-  local position = {x=0, y=0, z=0}; -- fix this
+local position = {
+  x = confOptions.posX,
+  y = confOptions.posY,
+  z = confOptions.posZ,
+};
+local M = {};
+
+function M.save()
+  local posConf = {
+    posX = position.x,
+    posY = position.y,
+    posZ = position.z,
+  };
+  config.set(posConf, config.path);
 end
 
-local M = {};
+function M.load()
+  local confOptions = config.get(config.path);
+  position = {
+    x = confOptions.posX,
+    y = confOptions.posY,
+    z = confOptions.posZ,
+  };
+end
 
 function M.set(x, y, z)
   position = {x=x, y=y, z=z};
@@ -43,6 +61,8 @@ local backwardMap = {
 function M.sendLocation()
   return tcp.write({['robot position']=position});
 end
+
+-- don't stop using these functions once you start or they won't be accurate
 
 -- orientation comes from trackOrientation.lua
 function M.forward()

@@ -1,8 +1,6 @@
 version 1:
 
   features:
-    store robot orientation and position on hard disk, not just in memory
-      make easy set function for position.txt
     allow limited functionality without crafting component
     have robots send their power level
     camera: go to robot location
