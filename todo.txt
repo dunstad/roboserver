@@ -27,6 +27,7 @@ later:
     large scan crashing chrome?
 
   features:
+    item label to facade color map, use for map and inventory
     change gui based on what components the selected robot has
     allow limited functionality without crafting component
     allow limited functionality without inventory controller

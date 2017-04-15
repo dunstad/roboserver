@@ -22,3 +22,6 @@ internet card, geolyzer, inventory controller, crafting upgrade, minimum 16 slot
 optional chunk loader
 
 what version of opencomputers and openos do we need?
+
+control+drag to split stacks
+hold alt to put the selector inside a block

@@ -409,6 +409,7 @@ function removeAllExternalInventories() {
  */
 function renderItem(itemData) {
   var itemDiv = document.createElement('div');
+  itemDiv.setAttribute('title', itemData.label + ', ' + itemData.size);
 
   itemDiv.appendChild(document.createTextNode(itemData.label));
   itemDiv.appendChild(document.createElement('br'));

@@ -5,7 +5,7 @@ var port = 3001;
 var host = '127.0.0.1';
 
 var testInventory1 = {
-	'size': 16,
+	'size': 64,
 	'side': -1,
 	'selected': 1,
 	'contents': {
