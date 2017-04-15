@@ -72,21 +72,28 @@ input[type=number] {
 
 table {
   display: inline-block;
-  padding: 1px;
+
+  background-color: #C6C6C6;
+  border: 2px solid;
+  border-color: #DBDBDB #5B5B5B #5B5B5B #DBDBDB;
+  padding: 6px;
 }
 
-td {
-  height: 40px;
-  width: 40px;
-  border: 1px solid;
-  border-color: #424242;
-  color: white;
-  background-color: #A3A3A3;
-  user-select: none;
-}
 td[data-selected=true] {
   border-color: lime;
 }
 td:hover {
   background-color: #C3C3C3;
+}
+
+td {
+  color: white;
+  display: inline-block;
+  background-color: #8B8B8B;
+  border: 2px solid;
+  border-color: #373737 #FFF #FFF #373737;
+  width: 40px;
+  height: 40px;
+  text-align: left;
+  user-select: none;
 }
