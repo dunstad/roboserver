@@ -27,3 +27,7 @@ control+drag to split stacks
 hold alt to put the selector inside a block
 
 place uses selected slot, not equip slot
+
+opencomputers system requirements
+  cpu tier 2
+  at least 2 tier 1 memory sticks

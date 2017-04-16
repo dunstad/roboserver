@@ -359,9 +359,13 @@ function addShapeVoxels(shape, robot) {
     for (var z = 0; z < shape.d; z++) {
       for (var y = 0; y < (shape.data.n / (shape.w * shape.d)); y++) {
 
+        var xWithOffset = x + shape.x;
+        var yWithOffset = y + shape.y;
+        var zWithOffset = z + shape.z;
+
         var knownRobotPosition = false;
         for (var robotPos of Object.values(robotInfo)) {
-          if (robotPos.x == x && robotPos.y == y && robotPos.z == z) {
+          if (robotPos.x == xWithOffset && robotPos.y == yWithOffset && robotPos.z == zWithOffset) {
             knownRobotPosition = true;
           }
         }
@@ -371,9 +375,9 @@ function addShapeVoxels(shape, robot) {
         var index = (x + 1) + z*shape.w + y*shape.w*shape.d;
 
         var worldPos = {
-          x: (x + shape.x) * voxelSideLength,
-          y: (y + shape.y) * voxelSideLength,
-          z: (z + shape.z) * voxelSideLength,
+          x: xWithOffset * voxelSideLength,
+          y: yWithOffset * voxelSideLength,
+          z: zWithOffset * voxelSideLength,
         };
 
         if (shape.data[index]) {
