@@ -7,19 +7,11 @@ To run the HTTP/TCP server: `npm start` or `npm run dev` from the root directory
 
 You may find that you need to change the OpenComputers configuration file to allow it to connect to your server.
 
-In order to set up a robot, use copy/paste or `wget` to get `/lua/downloadCode.lua` onto it. Make sure the file is in a directory covered by Lua's `package.path` variable (ex. `/home/lib/`).
+Paste the command from lua/install.txt into your robot after ensuring it meets the minumum requirements.
 
-Run `downloadAll()` from the Lua interpreter to retrieve the rest of the code from the Lua folder of the repository.
-
-Run `lua /home/lib/commandLoop.lua` (if that's where you installed it) to have the robot begin listening for commands from the web client. This will fail unless the robot is equipped with a Geolyzer.
-
-Make sure the robot is facing south when you begin listening to the web client. (see lua/trackOrientation.lua)
+Run `lua /home/lib/commandLoop.lua` to have the robot begin listening for commands from the web client.
 
 If you need the robot to stop listening, send `continueLoop=false` from the web client.
-
-list of components required for full functionality
-internet card, geolyzer, inventory controller, crafting upgrade, minimum 16 slots of inventory space
-optional chunk loader
 
 what version of opencomputers and openos do we need?
 
@@ -28,6 +20,15 @@ hold alt to put the selector inside a block
 
 place uses selected slot, not equip slot
 
-opencomputers system requirements
-  cpu tier 2
-  at least 2 tier 1 memory sticks
+opencomputers minimum system requirements
+  gold case
+  t2 cpu
+  t1 memory x2
+  EEPROM (Lua BIOS)
+  t1 hard disk drive with OpenOS installed
+  internet card
+
+  geolyzer
+  inventory controller
+  crafting upgrade
+  inventory upgrade

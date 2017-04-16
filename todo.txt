@@ -6,11 +6,8 @@ version 1:
     camera: go to robot location
   
   fixes:
-    inventory covers buttons
-      add remove button to each table
-    webserver not closing db properly on error?
+    add remove button to inventory tables
     does the command loop need to yield periodically?
-    rename dig to swing?
   
   pre-release:
     set up github so i can develop without breaking the release
