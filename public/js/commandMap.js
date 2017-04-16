@@ -52,7 +52,7 @@ var commandMap = {
    * @param {string} scanClose
    * @returns {string}
    */
-  place: function(v1, v2, selectionIndex, scanClose) {
+  place: function(v1, v2, selectionIndex, scanLevel) {
     return 'return dta.placeArea(' + [v1, v2, selectionIndex, scanLevel] + ');';
   },
 
@@ -139,7 +139,8 @@ var commandMap = {
  */
 function getCommandString(commandName, parameters) {
   var result = "";
-  var paramStrings = parameters ? parameters.map(JSON.stringify) : [];
+  var paramStrings = parameters ? parameters.map(s=>typeof s == 'string' ? s : JSON.stringify(s)) : [];
+  console.log(paramStrings)
   if (commandMap[commandName]) {
     result = commandMap[commandName].apply(this, paramStrings);
   }

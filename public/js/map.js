@@ -370,8 +370,6 @@ function addShapeVoxels(shape, robot) {
         // also lua is indexed from 1
         var index = (x + 1) + z*shape.w + y*shape.w*shape.d;
 
-        var hardnessIs2 = shape.data[index] === 2;
-
         var worldPos = {
           x: (x + shape.x) * voxelSideLength,
           y: (y + shape.y) * voxelSideLength,
@@ -381,7 +379,7 @@ function addShapeVoxels(shape, robot) {
         if (shape.data[index]) {
 
           var material;
-          if (knownRobotPosition || hardnessIs2) {
+          if (knownRobotPosition) {
             material = robotMaterial;
           }
           else {

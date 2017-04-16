@@ -88,6 +88,10 @@ function main() {
   socket.on('power level', (power)=>{
     console.dir(power);
     robotInfo[power.robot].power = power.data;
+    var currentRobot = document.getElementById('robotSelect').value;
+    if (power.robot == currentRobot) {
+      document.getElementById('powerLevel').innerHTML = Math.round(power.data * 100) + "%";
+    }
   });
 
   selectStart.addEventListener('input', ()=>{removeSelectBox(); requestRender()});

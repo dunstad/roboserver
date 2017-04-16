@@ -1,15 +1,16 @@
 version 1:
 
   features:
-    display robot power levels
+    change displayed power level when selected robot changes
     show which robot is selected
     camera: go to robot location
   
   fixes:
     inventory covers buttons
-      add toggle visibility button to each table
-      also move them
+      add remove button to each table
+    webserver not closing db properly on error?
     does the command loop need to yield periodically?
+    rename dig to swing?
   
   pre-release:
     set up github so i can develop without breaking the release

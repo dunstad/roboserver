@@ -1,6 +1,6 @@
 local ser = require("serialization");
 
-local configPath = "config.txt";
+local configPath = "/home/lib/config.txt";
 
 local promptMap = {
     robotName = "Enter a name for your robot.",
@@ -10,7 +10,7 @@ local promptMap = {
     posX = "Enter your robot's X coordinate.",
     posY = "Enter your robot's Y coordinate.",
     posZ = "Enter your robot's Z coordinate.",
-    orient = "Enter 0 if your robot is facing South, 1 if East, 2 if North, 3 if West."
+    orient = "Enter 0 if your robot is facing South, 1 if East, 2 if North, 3 if West.",
   };
 
 function readFile(path)

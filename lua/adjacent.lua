@@ -53,6 +53,7 @@ function M.toAdjacent(point, scanType, times)
     end
   end
   M.facePoint(point);
+  orient.save();
   return success;
 end
 

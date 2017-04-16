@@ -43,6 +43,8 @@ while continueLoop do
     package.loaded.tcp = nil;
     package.loaded.sendScan = nil;
     package.loaded.trackPosition = nil;
+    package.loaded.doToArea = nil;
+    package.loaded.interact = nil;
     -- wait for server to finish restarting
     os.sleep(5);
     -- reconnect to server

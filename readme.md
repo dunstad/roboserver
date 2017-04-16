@@ -25,3 +25,5 @@ what version of opencomputers and openos do we need?
 
 control+drag to split stacks
 hold alt to put the selector inside a block
+
+place uses selected slot, not equip slot
