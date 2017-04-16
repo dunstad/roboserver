@@ -3,7 +3,7 @@ local JSON = require("json");
 local config = require('config');
 local conf = config.get(config.path);
 
-local handle = internet.open(conf.serverIP, conf.tcpPort);
+local handle = internet.open(conf.serverIP, tonumber(conf.tcpPort));
 handle:setvbuf('line');
 -- handle:setTimeout('10');
 
