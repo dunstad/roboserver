@@ -17,6 +17,7 @@ local invSize = robot.inventorySize();
 
 function M.getRecipes(itemName)
   itemName = string.gsub(itemName, " ", "%%20");
+  itemName = string.gsub(itemName, "/", "%%2F");
   local req = inet.request("http://" .. conf.serverIP .. "/recipe/" .. itemName);
   local recipeJSON = "";
   local reqLine = req.read();

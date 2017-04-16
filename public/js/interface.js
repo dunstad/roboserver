@@ -593,10 +593,10 @@ function swapCells(cell1, cell2) {
  */
 function initCraftSelect() {
   var craftSelect = document.getElementById("craftSelect");
-  
-  fetchPromise("/js/minecraftRecipes.json").then((minecraftRecipes)=>{
+
+  function addRecipes(recipes) {
     var recipeNames = [];
-    for (var recipe of minecraftRecipes) {
+    for (var recipe of recipes) {
       for (var recipeName of getRecipeNames(recipe)) {
         if (recipeNames.indexOf(recipeName) == -1) {
           recipeNames.push(recipeName);
@@ -609,8 +609,11 @@ function initCraftSelect() {
       option.textContent = recipeName;
       craftSelect.appendChild(option);
     }
-    $('.selectpicker').selectpicker('refresh')
-  }).catch(console.dir);
+    $('.selectpicker').selectpicker('refresh');
+  }
+  
+  fetchPromise("/js/minecraftRecipes.json").then(addRecipes).catch(console.dir);
+  fetchPromise("/js/OCRecipes.json").then(addRecipes).catch(console.dir);
 
   var craftButton = document.getElementById("craftButton");
   craftButton.addEventListener('click', (e)=>{

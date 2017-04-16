@@ -59,11 +59,13 @@ router.post('/register', (req, res, next)=>{
 
 // allows robots to look up crafting recipes
 var minecraftRecipes = require("../public/js/minecraftRecipes.json");
+var OCRecipes = require("../public/js/OCRecipes.json");
+var allRecipes = minecraftRecipes.concat(OCRecipes);
 var recipeSearch = require("../public/js/recipeSearch.js");
 
 router.get('/recipe/:recipeName', function(req, res) {
   var recipeName = req.params.recipeName;
-  var recipes = recipeSearch.findRecipeFor(recipeName, minecraftRecipes);
+  var recipes = recipeSearch.findRecipeFor(recipeName, allRecipes);
   var productRecipes = recipes.map((recipe)=>{return recipeSearch.extractRecipeFor(recipeName, recipe);});
   res.send(productRecipes);
 });
