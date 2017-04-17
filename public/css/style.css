@@ -4,8 +4,6 @@ body {
   overflow: hidden;
 }
 
-/* message display styles */
-
 input {
   margin: 1px;
 }
@@ -35,14 +33,20 @@ input {
   background-color: #767676;
 }
 
-#messageContainer {
+#bottomLeftUI {
   position: fixed;
   top: 99%;
   left: 1%;
   transform:translateY(-100%);
 }
 
-/* button display styles */
+#bottomLeftUI > div {
+  display: inline-block;
+}
+
+#messageContainer {
+  width: 300px;
+}
 
 #buttonContainer {
   position: absolute;
@@ -52,12 +56,6 @@ input {
 
 #buttonContainer > button {
   width: 100%;
-}
-
-#inventoryContainer {
-  position: absolute;
-  right: 1%;
-  bottom: 1%;
 }
 
 #hoverGuideCoordinates {
@@ -76,6 +74,7 @@ table {
   border: 2px solid;
   border-color: #DBDBDB #5B5B5B #5B5B5B #DBDBDB;
   padding: 0px 6px 6px 6px;
+  margin: 5px;
 }
 
 td[data-selected=true] {
@@ -98,6 +97,5 @@ td {
 }
 
 .inventoryDeleteButton {
-  display: inline-block;
   float: right;
 }

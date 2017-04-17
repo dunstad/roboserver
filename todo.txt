@@ -6,7 +6,6 @@ version 1:
     camera: go to robot location
   
   fixes:
-    relocate inventory tables
     fix opencomputers recipe file
     does the command loop need to yield periodically?
   

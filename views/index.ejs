@@ -9,9 +9,12 @@
   </head>
   <body>
 
-    <div id='messageContainer'>
-      <input type='text' id='commandInput'></input><br>
-      <input type='checkbox' id='runInTerminal'></input>Run in Terminal
+    <div id='bottomLeftUI'>
+      <div id='messageContainer'>
+        <input type='text' id='commandInput'></input><br>
+        <input type='checkbox' id='runInTerminal'></input>Run in Terminal
+      </div>
+      <div id='inventoryContainer'></div>
     </div>
 
     <div id='buttonContainer'>
@@ -58,15 +61,13 @@
         Y: <input type='number' id='selectEndY'>
         Z: <input type='number' id='selectEndZ'>
       </div>
-      <div class="input-group">
-        <select class="selectpicker" data-live-search="true" id="craftSelect" title="Craft something!"></select>
-        <span class="input-group-btn">
-          <button class="btn btn-default" type="button" id="craftButton">Craft</button>
+      <div class='input-group'>
+        <select class='selectpicker' data-live-search='true' id='craftSelect' title='Craft something!'></select>
+        <span class='input-group-btn'>
+          <button class='btn btn-default' type='button' id='craftButton'>Craft</button>
         </span>
       </div>
     </div>
-    
-    <div id='inventoryContainer'></div>
 
     <script src='/js/lib/three.js-master/build/three.js'></script>
     <!--<script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r81/three.min.js'></script> -->

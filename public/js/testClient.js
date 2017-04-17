@@ -155,16 +155,13 @@ client.on('data', (rawMessages)=>{
 		if (data.command) {
 			
 			if (data.command == 'for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;') {
-				console.log('sending map!')
+				console.log('sending map!');
 				sendWithCost('map data', testScan);
 			}
 			else if (data.command == 'return int.sendInventoryData(-1);') {
-				console.log('sending inventory!')
-				sendWithCost('inventory data', testInventory1)
-			}
-			else if (data.command == 'inventory2') {
-				console.log('sending inventory!')
-				sendWithCost('inventory data', testInventory2)
+				console.log('sending inventory!');
+				sendWithCost('inventory data', testInventory1);
+				sendWithCost('inventory data', testInventory2);
 			}
 			else if (data.command == 'pos.sendLocation(); for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;') {
 				console.log('sending location and scan')
@@ -172,7 +169,7 @@ client.on('data', (rawMessages)=>{
 				sendWithCost('robot position', {x:4, y:4, z:4});
 			}
 			else {
-				console.log('responding to command: ' + data.command)
+				console.log('responding to command: ' + data.command);
 				sendWithCost('command result', [true, 'received command: ' + data.command]);
 			}
 
