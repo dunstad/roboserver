@@ -44,6 +44,17 @@ function main() {
     console.dir(pos);
     moveRobotVoxel(pos.data, pos.robot);
     removeInventories();
+    if (pos.robot == document.getElementById('robotSelect').value) {
+      var robotData = robotInfo[pos.robot];
+      if (robotData) {
+        selectedRobotMesh.position.set(
+          robotData.x * voxelSideLength,
+          robotData.y * voxelSideLength,
+          robotData.z * voxelSideLength
+        );
+        requestRender();
+      }
+    }
   });
 
   // remove selection because its task has been completed
@@ -71,8 +82,11 @@ function main() {
     var option = document.createElement('option');
     option.text = data.robot;
     option.value = data.robot;
-    robotSelect.add(option);
     if (!robotInfo[data.robot]) {robotInfo[data.robot] = {};}
+    if (robotSelect.options.length == 0) {
+      switchToRobot(data.robot);
+    }
+    robotSelect.add(option);
   });
   
   // remove robots that stop listening from select
@@ -663,8 +677,16 @@ function initCraftSelect() {
  */
 function switchToRobot(robotName) {
   var robotData = robotInfo[robotName];
-  document.getElementById('powerLevel').innerHTML = Math.round(robotData.power * 100) + "%";
-  removeInventories(true);
+  if (robotData) {
+    document.getElementById('powerLevel').innerHTML = Math.round(robotData.power * 100) + "%";
+    removeInventories(true);
+    selectedRobotMesh.position.set(
+      robotData.x * voxelSideLength,
+      robotData.y * voxelSideLength,
+      robotData.z * voxelSideLength
+    );
+    requestRender();
+  }
 }
 
 /**

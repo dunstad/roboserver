@@ -2,8 +2,7 @@ version 1:
 
   features:
     on select new robot:
-      put a highlight over the selected robot
-    camera: go to robot location
+      camera: go to robot location
   
   fixes:
     fix opencomputers recipe file

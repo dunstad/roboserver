@@ -166,7 +166,11 @@ client.on('data', (rawMessages)=>{
 			else if (data.command == 'pos.sendLocation(); for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;') {
 				console.log('sending location and scan')
 				sendWithCost('map data', testScan);
-				sendWithCost('robot position', {x:4, y:4, z:4});
+				sendWithCost('robot position', {
+					x: process.argv[4] || 4,
+					y: process.argv[5] || 4,
+					z: process.argv[6] || 4
+				});
 			}
 			else {
 				console.log('responding to command: ' + data.command);

@@ -11,7 +11,7 @@ var raycaster;
 var voxels = [];
 var voxelMap = new VoxelMap();
 var robotMaterial;
-var selectedRobotMaterial;
+var selectedRobotMesh, selectedRobotMaterial;
 var robotInfo = {};
 var hardnessToColorMap;
 var selections = {};
@@ -103,6 +103,8 @@ function init() {
   });
 
   selectedRobotMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, opacity: 0.5, transparent: true });
+	selectedRobotMesh = new THREE.Mesh(cubeGeo, selectedRobotMaterial);
+  scene.add(selectedRobotMesh);
   robotMaterial = new THREE.MeshLambertMaterial({color:0xff9999});
 
   hardnessToColorMap = {
