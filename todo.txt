@@ -1,8 +1,6 @@
 version 1:
 
   features:
-    on select new robot:
-      camera: go to robot location
   
   fixes:
     fix opencomputers recipe file

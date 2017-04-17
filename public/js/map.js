@@ -12,7 +12,7 @@ var voxels = [];
 var voxelMap = new VoxelMap();
 var robotMaterial;
 var selectedRobotMesh, selectedRobotMaterial;
-var robotInfo = {};
+var allRobotInfo = {};
 var hardnessToColorMap;
 var selections = {};
 var selectBox;
@@ -53,15 +53,11 @@ function init() {
 
   // controls
   controls = new PointerLockControls(camera);
-  var controlsObject = controls.getObject();
 
   // change the starting position of the camera/controls
-  // settings for 0, 0
-  controlsObject.translateZ(200);
-  controlsObject.translateY(800);
-  controlsObject.children[0].rotation.x = -1.5;
+  goToAndLookAt(controls, 0, 0, 0);
 
-  scene.add(controlsObject);
+  scene.add(controls.getObject());
 
   // raycaster
   raycaster = new THREE.Raycaster();
@@ -140,6 +136,24 @@ function init() {
     100: new THREE.MeshLambertMaterial({color:0x9900cc})
   };
 
+}
+
+/**
+ * Moves the to the specified point and looks toward it.
+ * Used to set our initial viewpoint, and when we change the selected robot.
+ * @param {object} controls 
+ * @param {number} x 
+ * @param {number} y 
+ * @param {number} z 
+ */
+function goToAndLookAt(controls, x, y, z) {
+  var controlsObject = controls.getObject();
+  controlsObject.position.set(
+    x * voxelSideLength,
+    y * voxelSideLength + 800,
+    z * voxelSideLength
+  );
+  controlsObject.children[0].rotation.x = -1.5;
 }
 
 /**
@@ -296,8 +310,8 @@ function requestRender() {
  */
 function moveRobotVoxel(pos, robot) {
 
-  if (robotInfo[robot]) {
-    removeVoxel(robotInfo[robot].x, robotInfo[robot].y, robotInfo[robot].z);
+  if (allRobotInfo[robot]) {
+    removeVoxel(allRobotInfo[robot].x, allRobotInfo[robot].y, allRobotInfo[robot].z);
   }
 
   addVoxel(
@@ -307,7 +321,7 @@ function moveRobotVoxel(pos, robot) {
     robotMaterial
   );
 
-  robotInfo[robot] = pos;
+  allRobotInfo[robot] = pos;
 
   requestRender();
 }
@@ -368,7 +382,7 @@ function addShapeVoxels(shape, robot) {
         var zWithOffset = z + shape.z;
 
         var knownRobotPosition = false;
-        for (var robotPos of Object.values(robotInfo)) {
+        for (var robotPos of Object.values(allRobotInfo)) {
           if (robotPos.x == xWithOffset && robotPos.y == yWithOffset && robotPos.z == zWithOffset) {
             knownRobotPosition = true;
           }

@@ -45,7 +45,7 @@ function main() {
     moveRobotVoxel(pos.data, pos.robot);
     removeInventories();
     if (pos.robot == document.getElementById('robotSelect').value) {
-      var robotData = robotInfo[pos.robot];
+      var robotData = allRobotInfo[pos.robot];
       if (robotData) {
         selectedRobotMesh.position.set(
           robotData.x * voxelSideLength,
@@ -82,7 +82,7 @@ function main() {
     var option = document.createElement('option');
     option.text = data.robot;
     option.value = data.robot;
-    if (!robotInfo[data.robot]) {robotInfo[data.robot] = {};}
+    if (!allRobotInfo[data.robot]) {allRobotInfo[data.robot] = {};}
     if (robotSelect.options.length == 0) {
       switchToRobot(data.robot);
     }
@@ -95,13 +95,13 @@ function main() {
     var robotSelect = document.getElementById('robotSelect');
     var option = robotSelect.querySelector('[value=' + data.robot + ']');
     robotSelect.removeChild(option);
-    robotInfo[data.robot] = undefined;
+    allRobotInfo[data.robot] = undefined;
   });
   
   // keep track of how much power robots have left
   socket.on('power level', (power)=>{
     console.dir(power);
-    robotInfo[power.robot].power = power.data;
+    allRobotInfo[power.robot].power = power.data;
     var currentRobot = document.getElementById('robotSelect').value;
     if (power.robot == currentRobot) {
       document.getElementById('powerLevel').innerHTML = Math.round(power.data * 100) + "%";
@@ -676,7 +676,7 @@ function initCraftSelect() {
  * @param {string} robotName 
  */
 function switchToRobot(robotName) {
-  var robotData = robotInfo[robotName];
+  var robotData = allRobotInfo[robotName];
   if (robotData) {
     document.getElementById('powerLevel').innerHTML = Math.round(robotData.power * 100) + "%";
     removeInventories(true);
@@ -685,7 +685,10 @@ function switchToRobot(robotName) {
       robotData.y * voxelSideLength,
       robotData.z * voxelSideLength
     );
-    requestRender();
+    if (robotData.x !== undefined && robotData.y !== undefined && robotData.z !== undefined) {
+      viewSelectedRobot();
+    }
+    else {requestRender();}
   }
 }
 
@@ -698,4 +701,13 @@ function initRobotSelect() {
     console.log(e.target.value);
     switchToRobot(e.target.value);
   });
+}
+
+/**
+ * Moves the camera above the selected robot and faces it.
+ */
+function viewSelectedRobot() {
+  var robotInfo = allRobotInfo[document.getElementById('robotSelect').value];
+  goToAndLookAt(controls, robotInfo.x, robotInfo.y, robotInfo.z);
+  requestRender();
 }
