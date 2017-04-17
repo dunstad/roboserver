@@ -387,6 +387,26 @@ function renderInventory(inventoryData) {
     }
   }
 
+  var inventoryLabel = document.createElement('span');
+  var inventoryType = inventoryData.side == -1 ? 'Robot' : 'External';
+  inventoryLabel.innerText = inventoryType + ' Inventory';
+
+  var deleteButton = document.createElement('span');
+  deleteButton.classList.add('glyphicon');
+  deleteButton.classList.add('glyphicon-remove');
+  deleteButton.classList.add('inventoryDeleteButton');
+  deleteButton.addEventListener('click', (e)=>{
+    e.target.parentElement.parentElement.parentElement.parentElement.remove();
+  });
+
+  var header = table.createTHead();
+  var headerRow = document.createElement('tr');
+  var headerCell = document.createElement('th');
+  header.appendChild(headerRow);
+  headerRow.appendChild(headerCell);
+  headerCell.appendChild(inventoryLabel);
+  headerCell.appendChild(deleteButton);
+
   var inventoryContainer = document.getElementById('inventoryContainer');
   var oldInventory = document.querySelector('[data-side="' + inventoryData.side + '"]');
   if (oldInventory) {inventoryContainer.removeChild(oldInventory);}

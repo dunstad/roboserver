@@ -75,7 +75,7 @@ table {
   background-color: #C6C6C6;
   border: 2px solid;
   border-color: #DBDBDB #5B5B5B #5B5B5B #DBDBDB;
-  padding: 6px;
+  padding: 0px 6px 6px 6px;
 }
 
 td[data-selected=true] {
@@ -95,4 +95,9 @@ td {
   height: 40px;
   text-align: left;
   user-select: none;
+}
+
+.inventoryDeleteButton {
+  display: inline-block;
+  float: right;
 }
