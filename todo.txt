@@ -1,8 +1,8 @@
 version 1:
 
   features:
-    change displayed power level when selected robot changes
-    show which robot is selected
+    on select new robot:
+      put a highlight over the selected robot
     camera: go to robot location
   
   fixes:

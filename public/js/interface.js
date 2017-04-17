@@ -43,7 +43,7 @@ function main() {
   socket.on('robot position', (pos)=>{
     console.dir(pos);
     moveRobotVoxel(pos.data, pos.robot);
-    removeAllExternalInventories();
+    removeInventories();
   });
 
   // remove selection because its task has been completed
@@ -117,6 +117,7 @@ function main() {
   initClickTools();
   initSelectAreaTools();
   initCraftSelect();
+  initRobotSelect();
 
 }
 
@@ -416,13 +417,22 @@ function renderInventory(inventoryData) {
 }
 
 /**
- * Removes all external inventories. Used when the robot moves.
+ * Removes inventories from the display.
+ * Used when the robot moves or when you select a new robot.
+ * @param {boolean} includeInternal
  */
-function removeAllExternalInventories() {
+function removeInventories(includeInternal) {
   var inventoryContainer = document.getElementById("inventoryContainer");
-  var inventories = inventoryContainer.querySelectorAll('[data-side]:not([data-side="-1"])');
-  for (var inventory of inventories) {
-    inventoryContainer.removeChild(inventory);
+  if (includeInternal) {
+    for (elem of Array.from(inventoryContainer.childNodes)) {
+      elem.remove();
+    }
+  }
+  else {
+    var inventories = inventoryContainer.querySelectorAll('[data-side]:not([data-side="-1"])');
+    for (var inventory of inventories) {
+      inventoryContainer.removeChild(inventory);
+    }
   }
 }
 
@@ -645,4 +655,25 @@ function initCraftSelect() {
 
   });
 
+}
+
+/**
+ * Update the UI to show the new robot's information.
+ * @param {string} robotName 
+ */
+function switchToRobot(robotName) {
+  var robotData = robotInfo[robotName];
+  document.getElementById('powerLevel').innerHTML = Math.round(robotData.power * 100) + "%";
+  removeInventories(true);
+}
+
+/**
+ * Makes sure the UI updates properly when we change the selected robot.
+ */
+function initRobotSelect() {
+  var robotSelect = document.getElementById('robotSelect');
+  robotSelect.addEventListener('change', (e)=>{
+    console.log(e.target.value);
+    switchToRobot(e.target.value);
+  });
 }
