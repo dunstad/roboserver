@@ -27,6 +27,7 @@ var selectEnd = new CoordForm(
   document.getElementById('selectEndZ')
 );
 var altKeyIsPressed;
+var gameLoop;
 
 main();
 
@@ -36,7 +37,7 @@ main();
 function main() {
   init();
   render();
-  setInterval(function() {controls.enabled ? requestAnimationFrame(()=>{render();controls.update(framerate);}) : false}, framerate);
+  gameLoop = startGameLoop();
 }
 
 /**
@@ -136,6 +137,28 @@ function init() {
     100: new THREE.MeshLambertMaterial({color:0x9900cc})
   };
 
+  document.addEventListener("visibilitychange", handleVisibilityChange);
+
+}
+
+/**
+ * Stop the game loop when the tab isn't visible.
+ * This prevents the tab from freezing when focus is returned.
+ */
+function handleVisibilityChange() {
+  if (document.hidden) {
+    clearInterval(gameLoop);
+  } else  {
+    gameLoop = startGameLoop();
+  }
+}
+
+function startGameLoop() {
+  return setInterval(()=>{
+    if (controls.enabled) {
+      requestAnimationFrame(()=>{render();controls.update(framerate);});
+    }
+  }, framerate);
 }
 
 /**
