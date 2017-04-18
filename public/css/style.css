@@ -54,7 +54,7 @@ input {
   width:230px;
 }
 
-#buttonContainer > button {
+#buttonDiv > button {
   width: 100%;
 }
 

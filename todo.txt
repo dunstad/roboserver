@@ -7,9 +7,10 @@ version 1:
 
   fixes:
     pause animation loop when tab isn't visible (maybe fixed)
+    not scanning far enough? see if big scan is fixed now
     voxels are too big, or not big enough? feels cramped
     lag? maybe send data less often
-    not scanning far enough?
+    improve the ui
   
   pre-release:
     set up github so i can develop without breaking the release
@@ -27,6 +28,7 @@ later:
     large scan crashing chrome?
 
   features:
+    hotkeys for different tools
     item label to facade color map, use for map and inventory
     change gui based on what components the selected robot has
     allow limited functionality without crafting component

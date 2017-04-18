@@ -26,6 +26,11 @@ var selectEnd = new CoordForm(
   document.getElementById('selectEndY'),
   document.getElementById('selectEndZ')
 );
+var cutawayForm = new CutawayForm(
+  document.getElementById('axisButton'),
+  document.getElementById('operationButton'),
+  document.getElementById('cutawayValue')
+);
 var altKeyIsPressed;
 var gameLoop;
 

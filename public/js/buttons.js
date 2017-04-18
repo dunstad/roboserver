@@ -1,4 +1,4 @@
-var buttonContainer = document.getElementById('buttonContainer');
+var buttonContainer = document.getElementById('buttonDiv');
 
 /**
  * Adds a button to the web interface. When clicked, sends

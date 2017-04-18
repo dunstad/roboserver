@@ -67,6 +67,16 @@
           <button class='btn btn-default' type='button' id='craftButton'>Craft</button>
         </span>
       </div>
+      <div id='buttonDiv'></div>
+      <label for='cutawayValue'>Cutaway point</label>
+      <div class='input-group'>
+        <div class='input-group-btn'>
+          Cutaway: 
+          <button id='axisButton' class='btn btn-default'>X</button>
+          <button id='operationButton' class='btn btn-default'>&gt;</button>
+        </div>
+        <input type='number' id='cutawayValue' class='form-control'>
+      </div>
     </div>
 
     <script src='/js/lib/three.js-master/build/three.js'></script>
@@ -76,6 +86,7 @@
 
 		<script src='/js/VoxelMap.js'></script>
 		<script src='/js/CoordForm.js'></script>
+		<script src='/js/CutawayForm.js'></script>
 		<script src='/js/map.js'></script>
 
     <script type='text/javascript' src='/js/fetchPromise.js'></script>
