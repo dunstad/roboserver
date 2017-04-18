@@ -6,6 +6,7 @@ var cubeGeo, cubeMat;
 var rollOverGeo, rollOverMesh, rollOverMaterial;
 var prevRollOverMeshPos;
 var framerate = 1000/30;
+var lastRender;
 var voxelSideLength = 50;
 var raycaster;
 var voxels = [];
@@ -151,8 +152,10 @@ function init() {
  * This prevents the tab from freezing when focus is returned.
  */
 function handleVisibilityChange() {
+  console.log(document.hidden, "hidden")
   if (document.hidden) {
     clearInterval(gameLoop);
+    gameLoop = false;
   } else  {
     gameLoop = startGameLoop();
   }
@@ -161,7 +164,8 @@ function handleVisibilityChange() {
 function startGameLoop() {
   return setInterval(()=>{
     if (controls.enabled) {
-      requestAnimationFrame(()=>{render();controls.update(framerate);});
+      requestAnimationFrame(render);
+      controls.update(framerate);
     }
   }, framerate);
 }
@@ -320,13 +324,18 @@ function makeBoxAround(v1, v2, material) {
 function render() {
   placeSelector();
   renderer.render(scene, camera);
+  lastRender = new Date().getTime();
 }
 
 /**
  * Renders only when controls aren't active. This prevents excessive calls to render.
  */
 function requestRender() {
-  if (!controls.enabled) {render();}
+  var now = new Date().getTime();
+  var lastRenderTooRecent = now - lastRender < framerate;
+  if (!controls.enabled && gameLoop && !lastRenderTooRecent) {
+    requestAnimationFrame(render);
+  }
 }
 
 // code for drawing minecraft maps
