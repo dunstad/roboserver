@@ -49,7 +49,8 @@ class VoxelMap {
     for (var xIndex in this.map) {
       for (var yIndex in this.map[xIndex]) {
         for (var zIndex in this.map[xIndex][yIndex]) {
-          func(this.map[xIndex][yIndex][zIndex]);
+          var voxel = this.get(xIndex, yIndex, zIndex);
+          if (voxel) {func(this.map[xIndex][yIndex][zIndex]);}
         }
       }
     }

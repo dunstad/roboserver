@@ -3,6 +3,7 @@ version 1:
   features:
 
   fixes:
+    inventory div blocking pointerlock
     pause animation loop when tab isn't visible (maybe fixed)
     not scanning far enough? see if big scan is fixed now
     voxels are too big, or not big enough? feels cramped
