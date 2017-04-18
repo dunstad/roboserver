@@ -99,10 +99,10 @@ function init() {
     if (!e.altKey) {altKeyIsPressed = false;}
   });
 
-  selectedRobotMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, opacity: 0.5, transparent: true });
+  selectedRobotMaterial = new THREE.MeshBasicMaterial({ color: 0xff9999, opacity: 0.9, transparent: true });
 	selectedRobotMesh = new THREE.Mesh(cubeGeo, selectedRobotMaterial);
   scene.add(selectedRobotMesh);
-  robotMaterial = new THREE.MeshLambertMaterial({color:0xff9999});
+  robotMaterial = new THREE.MeshLambertMaterial({color:0xffcccc});
 
   hardnessToColorMap = {
     // bedrock
