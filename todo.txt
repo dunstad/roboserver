@@ -1,9 +1,6 @@
 version 1:
 
   features:
-    add cutaway form
-      on form change, for each voxel, set visibility as per input
-      on voxel add, check cutaway form, set visibility appropriately
 
   fixes:
     pause animation loop when tab isn't visible (maybe fixed)
