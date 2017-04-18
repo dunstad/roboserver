@@ -37,14 +37,13 @@ class CutawayForm {
   }
 
   /**
-   * Used to add one event listener to all inputs.
-   * @param {string} type
+   * Used to re-render the cutaway when the form is interacted with.
    * @param {function} listener
    */
-  addEventListener(type, listener) {
-    this.axis.addEventListener(type, listener);
-    this.operation.addEventListener(type, listener);
-    this.cutawayValue.addEventListener(type, listener);
+  addChangeListener(listener) {
+    this.axis.addEventListener('click', listener);
+    this.operation.addEventListener('click', listener);
+    this.cutawayValue.addEventListener('input', listener);
   }
 
   /**

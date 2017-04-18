@@ -132,6 +132,7 @@ function main() {
   initSelectAreaTools();
   initCraftSelect();
   initRobotSelect();
+  initCutawayForm();
 
 }
 
@@ -710,4 +711,14 @@ function viewSelectedRobot() {
   var robotInfo = allRobotInfo[document.getElementById('robotSelect').value];
   goToAndLookAt(controls, robotInfo.x, robotInfo.y, robotInfo.z);
   requestRender();
+}
+
+function initCutawayForm() {
+  cutawayForm.addChangeListener((e)=>{
+    voxelMap.forEach((voxel)=>{
+      console.dir(cutawayForm.shouldBeRendered(voxel))
+      voxel.visible = cutawayForm.shouldBeRendered(voxel.position);
+    });
+    requestRender();
+  });
 }

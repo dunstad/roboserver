@@ -41,4 +41,18 @@ class VoxelMap {
     return voxel;
   }
 
+  /**
+   * Call this function on every voxel in the map.
+   * @param {function} func 
+   */
+  forEach(func) {
+    for (var xIndex in this.map) {
+      for (var yIndex in this.map[xIndex]) {
+        for (var zIndex in this.map[xIndex][yIndex]) {
+          func(this.map[xIndex][yIndex][zIndex]);
+        }
+      }
+    }
+  }
+
 }

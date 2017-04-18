@@ -374,6 +374,8 @@ function addVoxel(x, y, z, material) {
   voxelMap.set(coord.x, coord.y, coord.z, voxel);
   scene.add(voxel);
 
+  voxel.visible = cutawayForm.shouldBeRendered(coord);
+
   return voxel;
 }
 
