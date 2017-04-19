@@ -1,6 +1,8 @@
 version 1:
 
   features:
+    allow raw commands config
+    set config options from command line
 
   fixes:
     inventory div blocking pointerlock
