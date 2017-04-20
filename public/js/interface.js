@@ -358,9 +358,9 @@ function initPointerLock() {
       pointerLockElement.requestPointerLock();
     }, false);
 
-    var clickThroughElements = ['messageContainer'];
+    var clickThroughElements = ['bottomLeftUI', 'messageContainer', 'inventoryContainer'];
     for (elemName of clickThroughElements) {
-      var clickThroughElem = document.getElementById(elemName);
+      let clickThroughElem = document.getElementById(elemName);
       clickThroughElem.addEventListener('click', function(event) {
         if (event.target == clickThroughElem) {
           pointerLockElement.requestPointerLock();
