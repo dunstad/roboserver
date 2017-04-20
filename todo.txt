@@ -1,12 +1,13 @@
 version 1:
 
   features:
-    allow raw commands config
     set config options from command line
 
   fixes:
     lag? maybe send data less often
     improve the ui
+    click to restore console command doesn't really work anymore
+    robot reconnects when trying to send a table as return value from console?
   
   pre-release:
     set up github so i can develop without breaking the release
@@ -14,6 +15,7 @@ version 1:
     test things
       test server side lua commands
     update readme
+    bundle up all the stuff so it's easy to download and run
     make a video
 
 later:
@@ -30,7 +32,6 @@ later:
     allow limited functionality without crafting component
     allow limited functionality without inventory controller
     allow limited functionality without geolyzer
-    robot config opt in to allow sending any code
     have robot revert to older command loop version if updated one is broken
     see if we can make water source and flow blocks render differently
     render robot facing (triangular prism or different colored face)

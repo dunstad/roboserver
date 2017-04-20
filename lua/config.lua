@@ -11,6 +11,7 @@ local promptMap = {
     posY = "Enter your robot's Y coordinate.",
     posZ = "Enter your robot's Z coordinate.",
     orient = "Enter 0 if your robot is facing South, 1 if East, 2 if North, 3 if West.",
+    raw = "Enter true to allow raw Lua commands to run on this robot, false to ignore them.",
   };
 
 function readFile(path)
@@ -74,7 +75,7 @@ end
 function easyConfig()
   local newConfig = {};
   local oldConfig = getConfig(configPath);
-  local promptOrder = {"robotName", "accountName", "posX", "posY", "posZ", "orient", "serverIP", "tcpPort"};
+  local promptOrder = {"robotName", "accountName", "posX", "posY", "posZ", "orient", "serverIP", "tcpPort", "raw"};
   return readConfigOptions(promptOrder);
 end
 
