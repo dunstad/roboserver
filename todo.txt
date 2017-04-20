@@ -4,6 +4,7 @@ version 1:
     set config options from command line
 
   fixes:
+    don't let easy config skip entries there's no value for
     lag? maybe send data less often
     improve the ui
     click to restore console command doesn't really work anymore
