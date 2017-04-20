@@ -49,7 +49,9 @@ while continueLoop do
     os.sleep(5);
     -- reconnect to server
     tcp = require('tcp');
-    pos = require('trackPosition');
     sendScan = require('sendScan');
+    pos = require('trackPosition');
+    dta = require('doToArea');
+    int = require('interact');
   end
 end

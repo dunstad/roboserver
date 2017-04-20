@@ -5,6 +5,7 @@ version 1:
     set config options from command line
 
   fixes:
+    sendInventory stops working sometimes
     inventory div blocking pointerlock
     lag? maybe send data less often
     improve the ui

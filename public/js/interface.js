@@ -340,10 +340,10 @@ function initPointerLock() {
   // locking/unlocking the cursor, enabling/disabling controls
   if ('pointerLockElement' in document) {
 
-    var element = renderer.domElement;
+    var pointerLockElement = renderer.domElement;
 
     function pointerLockChangeCB(event) {
-      if (document.pointerLockElement === element) {controls.enabled = true;}
+      if (document.pointerLockElement === pointerLockElement) {controls.enabled = true;}
       else {
         controls.enabled = false;
         document.getElementById('commandInput').focus();
@@ -354,16 +354,19 @@ function initPointerLock() {
     document.addEventListener( 'pointerlockchange', pointerLockChangeCB, false );
     document.addEventListener( 'pointerlockerror', console.dir, false );
 
-    element.addEventListener('click', function(event) {
-      element.requestPointerLock();
+    pointerLockElement.addEventListener('click', function(event) {
+      pointerLockElement.requestPointerLock();
     }, false);
 
-    var messageContainer = document.getElementById('messageContainer');
-    messageContainer.addEventListener('click', function(event) {
-      if (event.target == messageContainer) {
-        element.requestPointerLock();
-      }
-    }, false);
+    var clickThroughElements = ['messageContainer'];
+    for (elemName of clickThroughElements) {
+      var clickThroughElem = document.getElementById(elemName);
+      clickThroughElem.addEventListener('click', function(event) {
+        if (event.target == clickThroughElem) {
+          pointerLockElement.requestPointerLock();
+        }
+      }, false);
+    }
 
   }
   else {alert("Your browser doesn't seem to support Pointer Lock API");}
