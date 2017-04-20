@@ -43,7 +43,7 @@ main();
 function main() {
   init();
   render();
-  gameLoop = startGameLoop();
+  handleVisibilityChange();
 }
 
 /**
@@ -148,16 +148,16 @@ function init() {
 }
 
 /**
- * Stop the game loop when the tab isn't visible.
+ * Stop the game loop when the tab isn't visible, and start it when it is.
  * This prevents the tab from freezing when focus is returned.
  */
 function handleVisibilityChange() {
-  console.log(document.hidden, "hidden")
   if (document.hidden) {
     clearInterval(gameLoop);
     gameLoop = false;
   } else  {
     gameLoop = startGameLoop();
+    requestRender();
   }
 }
 
@@ -324,17 +324,17 @@ function makeBoxAround(v1, v2, material) {
 function render() {
   placeSelector();
   renderer.render(scene, camera);
-  lastRender = new Date().getTime();
 }
 
 /**
- * Renders only when controls aren't active. This prevents excessive calls to render.
+ * Only renders if there isn't too much activity to prevent excessive numbers of renders.
  */
 function requestRender() {
   var now = new Date().getTime();
   var lastRenderTooRecent = now - lastRender < framerate;
   if (!controls.enabled && gameLoop && !lastRenderTooRecent) {
     requestAnimationFrame(render);
+    lastRender = new Date().getTime();
   }
 }
 

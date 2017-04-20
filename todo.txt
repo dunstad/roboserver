@@ -6,8 +6,6 @@ version 1:
 
   fixes:
     inventory div blocking pointerlock
-    fix double game loop when page loaded invisible
-    crash with large scan when controls not enabled (also slower render speed than expected)
     lag? maybe send data less often
     improve the ui
   
@@ -23,6 +21,7 @@ later:
 
   fixes:
     turn object formats into classes for clarity
+    some things accept pixel coords and some accept world coords, it's confusing
     robot can't put water in bucket from above the water? investigate
 
   features:

@@ -63,7 +63,7 @@ class CutawayForm {
         'Z': 'z'
       }
       var coord = vec[axisNameMap[axisName]];
-      
+      console.log(coord)
       if (operationName == '>') {
         if (coord > cutawayValue) {
           result = false;

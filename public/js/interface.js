@@ -716,7 +716,7 @@ function viewSelectedRobot() {
 function initCutawayForm() {
   cutawayForm.addChangeListener((e)=>{
     voxelMap.forEach((voxel)=>{
-      voxel.visible = cutawayForm.shouldBeRendered(voxel.position);
+      voxel.visible = cutawayForm.shouldBeRendered(getWorldCoord(voxel.position));
     });
     requestRender();
   });
