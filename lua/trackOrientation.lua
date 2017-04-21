@@ -2,7 +2,7 @@ local robot = require('robot');
 local math = require('math');
 local config = require('config');
 
-local orientation = config.get(config.path).orient;
+local orientation = tonumber(config.get(config.path).orient);
 -- 0: z+, south
 -- 1: x+, east
 -- 2: z-, north

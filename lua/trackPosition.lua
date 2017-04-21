@@ -5,9 +5,9 @@ local config = require('config');
 local confOptions = config.get(config.path);
 
 local position = {
-  x = confOptions.posX,
-  y = confOptions.posY,
-  z = confOptions.posZ,
+  x = tonumber(confOptions.posX),
+  y = tonumber(confOptions.posY),
+  z = tonumber(confOptions.posZ),
 };
 local M = {};
 
@@ -23,9 +23,9 @@ end
 function M.load()
   local confOptions = config.get(config.path);
   position = {
-    x = confOptions.posX,
-    y = confOptions.posY,
-    z = confOptions.posZ,
+    x = tonumber(confOptions.posX),
+    y = tonumber(confOptions.posY),
+    z = tonumber(confOptions.posZ),
   };
 end
 

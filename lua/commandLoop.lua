@@ -29,7 +29,7 @@ function executeCommand()
     if k == 'message' then
       print(v);
     end
-    if k == 'command' or k == 'raw command' and raw then
+    if k == 'command' or k == 'raw command' and rawBool then
       local command = load(v, nil, 't', _ENV);
       print(v);
       local status, result = pcall(command);
