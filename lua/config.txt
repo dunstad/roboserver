@@ -1,1 +1,1 @@
-{posX=0,posY=0,posZ=0,tcpPort="3001",serverIP="127.0.0.1",raw="false"}
+{posX=0,posY=0,posZ=0,tcpPort="3001",serverIP="127.0.0.1",raw=false}
