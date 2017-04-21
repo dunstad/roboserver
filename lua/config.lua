@@ -62,21 +62,28 @@ function readNewConfigOption(prompt, oldValue)
   return readNotEmpty() or oldValue;
 end
 
-function readConfigOptions(options)
+function readConfigOptions(options, path)
   local newConfig = {};
-  local oldConfig = getConfig(configPath);
+  local oldConfig = getConfig(path);
   print("Changing configuration. Just press enter to leave a value unchanged.");
   for i, property in pairs(options) do
     newConfig[property] = readNewConfigOption(promptMap[property], oldConfig[property]);
   end
-  return setConfig(newConfig, configPath);
+  return setConfig(newConfig, path);
 end
 
-function easyConfig()
+function easyConfig(path)
   local newConfig = {};
-  local oldConfig = getConfig(configPath);
+  local oldConfig = getConfig(path);
   local promptOrder = {"robotName", "accountName", "posX", "posY", "posZ", "orient", "serverIP", "tcpPort", "raw"};
-  return readConfigOptions(promptOrder);
+  return readConfigOptions(promptOrder, path);
+end
+
+if arg[1] and arg[2] then
+  setConfigOptions({[arg[1]]=arg[2]}, "config.txt");
+  print('Set config option ' .. arg[1] .. ' to ' .. arg[2]);
+else
+  print('Usage: lua /home/lib/config.lua settingName settingValue');
 end
 
 return {
