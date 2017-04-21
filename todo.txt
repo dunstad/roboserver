@@ -3,6 +3,7 @@ version 1:
   features:
 
   fixes:
+    find out if we can use a hostname for the ip config entry
     lag? maybe send data less often
     improve the ui
     click to restore console command doesn't really work anymore

@@ -75,7 +75,7 @@ end
 function easyConfig(path)
   local newConfig = {};
   local oldConfig = getConfig(path);
-  local promptOrder = {"robotName", "accountName", "posX", "posY", "posZ", "orient", "serverIP", "tcpPort", "raw"};
+  local promptOrder = {"serverIP", "accountName", "robotName", "posX", "posY", "posZ", "orient"};
   return readConfigOptions(promptOrder, path);
 end
 
