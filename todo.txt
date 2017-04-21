@@ -22,6 +22,7 @@ version 1:
 later:
 
   fixes:
+    scrollable message log?
     turn object formats into classes for clarity
     some things accept pixel coords and some accept world coords, it's confusing
     robot can't put water in bucket from above the water? investigate
