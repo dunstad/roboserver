@@ -3,5 +3,6 @@ local codeURL = 'https://raw.githubusercontent.com/dunstad/roboserver/master/lua
 os.execute('wget -f ' .. codeURL .. ' ' .. path .. '/downloadCode.lua');
 local dl = require("downloadCode");
 dl.downloadAll(path);
-require('config').easy();
+local config = require("config");
+config.easy(config.path);
 require('commandLoop');

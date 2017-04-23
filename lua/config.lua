@@ -63,18 +63,15 @@ function readNewConfigOption(prompt, oldValue)
 end
 
 function readConfigOptions(options, path)
-  local newConfig = {};
   local oldConfig = getConfig(path);
   print("Changing configuration. Just press enter to leave a value unchanged.");
   for i, property in pairs(options) do
-    newConfig[property] = readNewConfigOption(promptMap[property], oldConfig[property]);
+    oldConfig[property] = readNewConfigOption(promptMap[property], oldConfig[property]);
   end
-  return setConfig(newConfig, path);
+  return setConfig(oldConfig, path);
 end
 
 function easyConfig(path)
-  local newConfig = {};
-  local oldConfig = getConfig(path);
   local promptOrder = {"serverIP", "accountName", "robotName", "posX", "posY", "posZ", "orient"};
   return readConfigOptions(promptOrder, path);
 end
