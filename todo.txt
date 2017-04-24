@@ -2,8 +2,7 @@ version 1:
 
   features:
     speed up pathfinding by using detect instead of failing moves
-    make the coordinate forms into input groups
-
+    
   fixes:
     robot should send inventory data one slot at a time
       server crashing because robot is writing an incomplete json string, write buffer full

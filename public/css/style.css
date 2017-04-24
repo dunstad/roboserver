@@ -4,10 +4,6 @@ body {
   overflow: hidden;
 }
 
-input {
-  margin: 1px;
-}
-
 .message {
   font-size: 14px;
   display: inline-block;
@@ -64,7 +60,7 @@ input {
   border-radius: 25px;
 }
 
-input[type=number] {
+.coordinateInput {
   width:50px;
 }
 
