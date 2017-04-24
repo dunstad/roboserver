@@ -98,3 +98,7 @@ td {
 .inventoryDeleteButton {
   float: right;
 }
+
+.hidden {
+  display: none;
+}

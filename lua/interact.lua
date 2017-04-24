@@ -14,11 +14,25 @@ local pos = require('trackPosition');
 
 local M = {};
 
-function M.sendInventoryData(side)
-  local inventory = {
+function M.sendSlotData(side, slotNum)
+  local slot = {
     side = side,
+    slotNum = slotNum,
     contents = {}
   };
+  if side == -1 then
+    if robot.count(slotNum) > 0 then
+      slot.contents = inv.getStackInInternalSlot(i);
+    end
+  else
+    slot.contents = inv.getStackInSlot(side, i);
+  end
+  tcp.write({['slot data']=slot});
+  return slot.contents;
+end
+
+function M.sendInventoryData(side)
+  local inventory = {side = side};
   if side == -1 then
     inventory.size = robot.inventorySize();
     inventory.selected = robot.select();
@@ -26,16 +40,10 @@ function M.sendInventoryData(side)
     inventory.size = inv.getInventorySize(side);
   end
   if inventory.size then
-    for i = 1, inventory.size do
-      if (side == -1) then
-        if robot.count(i) > 0 then
-          inventory.contents[i] = inv.getStackInInternalSlot(i);
-        end
-      else
-        inventory.contents[i] = inv.getStackInSlot(side, i);
-      end
-    end
     tcp.write({['inventory data']=inventory});
+    for i = 1, inventory.size do
+      M.sendSlotData(side, i);
+    end
   end
   return inventory.size;
 end

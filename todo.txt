@@ -1,13 +1,11 @@
 version 1:
 
   features:
-    speed up pathfinding by using detect instead of failing moves
 
   fixes:
     robot should send inventory data one slot at a time
       server crashing because robot is writing an incomplete json string, write buffer full
-    find out if we can use a hostname for the ip config entry
-    click to restore console command doesn't really work anymore
+    change click to restore command text feature into click to run command again
     robot reconnects when trying to send a table as return value from console?
     config.lua args when required? causing useless config option to be set
     make top right ui use a bootstrap container, rows and cols
@@ -16,6 +14,7 @@ version 1:
     set up github so i can develop without breaking the release
     write up test plan
     test things
+      find out if we can use a hostname for the ip config entry
       test server side lua commands
       make sure config settings work as strings or their appropriate values
     update readme
