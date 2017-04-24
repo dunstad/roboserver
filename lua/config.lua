@@ -80,7 +80,7 @@ local arg = {...};
 if arg[1] and arg[2] then
   setConfigOptions({[arg[1]]=arg[2]}, "/home/lib/config.txt");
   print('Set config option ' .. arg[1] .. ' to ' .. arg[2]);
-else
+elseif not arg[1] == 'config' then
   print('Usage: lua /home/lib/config.lua settingName settingValue');
 end
 

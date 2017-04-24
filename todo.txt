@@ -6,10 +6,8 @@ version 1:
     robot should send inventory data one slot at a time
       server crashing because robot is writing an incomplete json string, write buffer full
     change click to restore command text feature into click to run command again
-    robot reconnects when trying to send a table as return value from console?
-    config.lua args when required? causing useless config option to be set
+    tcp crashes when trying to send values the json lib can't encode, catch the error instead
     make top right ui use a bootstrap container, rows and cols
-    pausing or closing the game will break the robot's connection to the server after a bit
   
   pre-release:
     set up github so i can develop without breaking the release
