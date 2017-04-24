@@ -50,8 +50,7 @@ local directionToDetectFunctionMap = {
 };
 
 function M.moveAndScan(direction, scanType, times)
-  local result;
-  result = directionToDetectFunctionMap[direction]();
+  local result = directionToDetectFunctionMap[direction]();
   if not result then
     result = directionToMoveFunctionMap[direction]();
     pos.save();
