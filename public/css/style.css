@@ -61,7 +61,10 @@ body {
 }
 
 .coordinateInput {
-  width:50px;
+  width:30%;
+  text-align: center;
+  border-width: 0px 1px 1px 0px;
+  float: left;
 }
 
 table {
