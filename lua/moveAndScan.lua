@@ -42,12 +42,23 @@ local directionToMoveFunctionMap = {
   ["down"] = pos.down
 };
 
+local directionToDetectFunctionMap = {
+  ["forward"] = robot.detect(),
+  ["back"] = doNothing,
+  ["up"] = robot.detectUp(),
+  ["down"] = robot.detectDown()
+};
+
 function M.moveAndScan(direction, scanType, times)
-  local p = directionToMoveFunctionMap[direction]();
-  pos.save();
-  orient.save();
-  scanTypeMap[scanType][direction](times);
-  return p;
+  local result;
+  result = directionToDetectFunctionMap[direction]();
+  if not result then
+    result = directionToMoveFunctionMap[direction]();
+    pos.save();
+    orient.save();
+    scanTypeMap[scanType][direction](times);
+  end
+  return result;
 end
 
 -- try to reach the desired X or Z coordinate until it fails
