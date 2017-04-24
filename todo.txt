@@ -9,6 +9,7 @@ version 1:
     robot reconnects when trying to send a table as return value from console?
     config.lua args when required? causing useless config option to be set
     make top right ui use a bootstrap container, rows and cols
+    pausing or closing the game will break the robot's connection to the server after a bit
   
   pre-release:
     set up github so i can develop without breaking the release

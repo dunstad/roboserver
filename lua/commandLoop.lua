@@ -1,19 +1,22 @@
-tcp = require('tcp');
-orient = require('trackOrientation');
-pos = require('trackPosition');
-sendScan = require('sendScan');
-scanDirection = require('scanDirection');
-mas = require('moveAndScan');
-robot = require('robot');
-dl = require('downloadCode');
-adj = require('adjacent');
-dta = require('doToArea');
-int = require('interact');
-craft = require('craft');
-computer = require('computer');
-config = require('config');
-local raw = config.get(config.path).raw;
-local rawBool = (raw == "true" or raw == true) and true or false;
+function loadPackages()
+  tcp = require('tcp');
+  orient = require('trackOrientation');
+  pos = require('trackPosition');
+  sendScan = require('sendScan');
+  scanDirection = require('scanDirection');
+  mas = require('moveAndScan');
+  robot = require('robot');
+  dl = require('downloadCode');
+  adj = require('adjacent');
+  dta = require('doToArea');
+  int = require('interact');
+  craft = require('craft');
+  computer = require('computer');
+  config = require('config');
+  raw = config.get(config.path).raw;
+  rawBool = (raw == "true" or raw == true) and true or false;
+end
+loadPackages();
 
 function runInTerminal(commandText)
   local file = assert(io.popen(commandText, 'r'));
@@ -43,18 +46,15 @@ end
 continueLoop = true;
 while continueLoop do
   if not pcall(executeCommand) then
-    package.loaded.tcp = nil;
-    package.loaded.sendScan = nil;
-    package.loaded.trackPosition = nil;
-    package.loaded.doToArea = nil;
-    package.loaded.interact = nil;
-    -- wait for server to finish restarting
+    -- unloading 'computer' breaks stuff, it can't be required again for some reason
+    -- really we don't need to reload every one of these, but this is easiest
+    local loadedPackages = {'tcp', 'trackOrientation', 'trackPosition', 'sendScan', 'scanDirection', 'moveAndScan', 'robot', 'downloadCode', 'adjacent', 'doToArea', 'interact', 'craft', 'config'};
+    for index, p in pairs(loadedPackages) do
+      package.loaded[p] = nil;
+    end
+    -- wait for server to come back up
     os.sleep(5);
     -- reconnect to server
-    tcp = require('tcp');
-    sendScan = require('sendScan');
-    pos = require('trackPosition');
-    dta = require('doToArea');
-    int = require('interact');
+    loadPackages();
   end
 end
