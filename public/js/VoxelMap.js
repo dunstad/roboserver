@@ -12,12 +12,14 @@ class VoxelMap {
 
   /**
    * Retrieve a voxel from the map if it exists.
-   * @param {number} x 
-   * @param {number} y 
-   * @param {number} z 
+   * @param {WorldAndScenePoint} point
    * @returns {object | boolean}
    */
-  get(x, y, z) {
+  get(point) {
+    var worldPoint = point.world();
+    var x = worldPoint.x;
+    var y = worldPoint.y;
+    var z = worldPoint.z;
     var result = undefined;
     if (this.map[x] && this.map[x][y] && this.map[x][y][z]) {
       result = this.map[x][y][z];
@@ -28,13 +30,15 @@ class VoxelMap {
 
   /**
    * Store a voxel in the map or remove one from it.
-   * @param {number} x 
-   * @param {number} y 
-   * @param {number} z 
+   * @param {WorldAndScenePoint} point
    * @param {object} voxel 
    * @returns {object}
    */
-  set(x, y, z, voxel) {
+  set(point, voxel) {
+    var worldPoint = point.world();
+    var x = worldPoint.x;
+    var y = worldPoint.y;
+    var z = worldPoint.z;
     if (!this.map[x]) {this.map[x] = {};}
     if (!this.map[x][y]) {this.map[x][y] = {};}
     this.map[x][y][z] = voxel;
@@ -49,8 +53,9 @@ class VoxelMap {
     for (var xIndex in this.map) {
       for (var yIndex in this.map[xIndex]) {
         for (var zIndex in this.map[xIndex][yIndex]) {
-          var voxel = this.get(xIndex, yIndex, zIndex);
-          if (voxel) {func(this.map[xIndex][yIndex][zIndex]);}
+          var point = new WorldAndScenePoint(xIndex, yIndex, zIndex, true);
+          var voxel = this.get(point);
+          if (voxel) {func(voxel);}
         }
       }
     }

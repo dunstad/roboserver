@@ -41,22 +41,23 @@ class CoordForm {
 
   /**
    * Creates a Vector3 from the current form input.
-   * @returns {object}
+   * @returns {WorldAndScenePoint}
    */
-  getVector() {
-    return new THREE.Vector3(
+  getPoint() {
+    return new WorldAndScenePoint(
       parseInt(this.x.value),
       parseInt(this.y.value),
-      parseInt(this.z.value)
-    ).multiplyScalar(50);
+      parseInt(this.z.value),
+      true
+    );
   }
 
   /**
-   * Sets form inputs to the values in the provided vector.
-   * @param {object} v 
+   * Sets form inputs to the values in the provided point.
+   * @param {WorldAndScenePoint} point
    */
-  setFromVector(v) {
-    var worldVector = v.clone().divideScalar(50).round();
+  setFromPoint(point) {
+    var worldVector = point.world();
     this.x.value = worldVector.x;
     this.y.value = worldVector.y;
     this.z.value = worldVector.z;

@@ -48,10 +48,10 @@ class CutawayForm {
 
   /**
    * Lets us know whether a voxel should be displayed given the entered cutaway point.
-   * @param {object} vec 
+   * @param {object} point
    * @returns {boolean}
    */
-  shouldBeRendered(vec) {
+  shouldBeRendered(point) {
     var axisName = this.axis.textContent;
     var operationName = this.operation.textContent;
     var cutawayValue = parseInt(this.cutawayValue.value);
@@ -62,7 +62,7 @@ class CutawayForm {
         'Y': 'y',
         'Z': 'z'
       }
-      var coord = vec[axisNameMap[axisName]];
+      var coord = point.world()[axisNameMap[axisName]];
       console.log(coord)
       if (operationName == '>') {
         if (coord > cutawayValue) {

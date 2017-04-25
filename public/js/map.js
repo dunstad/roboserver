@@ -7,8 +7,8 @@ var rollOverGeo, rollOverMesh, rollOverMaterial;
 var prevRollOverMeshPos;
 var framerate = 1000/30;
 var lastRender;
-var voxelSideLength = 50;
 var raycaster;
+var voxelSideLength = 50;
 var voxels = [];
 var voxelMap = new VoxelMap();
 var robotMaterial;
@@ -62,7 +62,7 @@ function init() {
   controls = new PointerLockControls(camera);
 
   // change the starting position of the camera/controls
-  goToAndLookAt(controls, 0, 0, 0);
+  goToAndLookAt(controls, new WorldAndScenePoint(0, 0, 0, false));
 
   scene.add(controls.getObject());
 
@@ -71,10 +71,10 @@ function init() {
 
   // cubes
 
-  cubeGeo = new THREE.BoxGeometry( 50, 50, 50 );
+  cubeGeo = new THREE.BoxGeometry( voxelSideLength, voxelSideLength, voxelSideLength );
   cubeMat = new THREE.MeshLambertMaterial({color: 0xfeb74c});
 
-  rollOverGeo = new THREE.BoxGeometry( 50, 50, 50 );
+  rollOverGeo = new THREE.BoxGeometry( voxelSideLength, voxelSideLength, voxelSideLength );
   rollOverMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff, opacity: 0.5, transparent: true });
 	rollOverMesh = new THREE.Mesh(rollOverGeo, rollOverMaterial);
   prevRollOverMeshPos = rollOverMesh.position.clone();
@@ -174,16 +174,18 @@ function startGameLoop() {
  * Moves the to the specified point and looks toward it.
  * Used to set our initial viewpoint, and when we change the selected robot.
  * @param {object} controls 
- * @param {number} x 
- * @param {number} y 
- * @param {number} z 
+ * @param {WorldAndScenePoint} point
  */
-function goToAndLookAt(controls, x, y, z) {
+function goToAndLookAt(controls, point) {
+  var scenePoint = point.scene();
+  var x = scenePoint.x;
+  var y = scenePoint.y;
+  var z = scenePoint.z;
   var controlsObject = controls.getObject();
   controlsObject.position.set(
-    x * voxelSideLength,
-    y * voxelSideLength + 800,
-    z * voxelSideLength
+    x,
+    y + 800,
+    z
   );
   controlsObject.children[0].rotation.x = -1.5;
 }
