@@ -3,8 +3,44 @@ version 1:
   features:
 
   fixes:
+
+    point class so i can stop worrying about world or game coordinates
+    refactor current functions
+    remove old voxelSideLength definition in map.js?
+
+    robot class to store in allRobotData
+      position
+      power level
+      inventories
+    refactor things that use allRobotData
+
     robot should send inventory data one slot at a time
       server crashing because robot is writing an incomplete json string, write buffer full
+
+      desired behavior
+
+      on receive inventory
+        store inventory in robotInfo, under self or external depending on side
+        hide if not currently selected robot
+        add to display div
+
+      on receive slot
+        update slot in self or external depending on side, for sending robot's robotInfo
+
+      on robot move
+        remove external inventories for selected robot
+
+      on click X
+        do nothing, remove this button
+
+      on change robot
+        remove all inventories, then add selected robot's inventories
+
+      on press I key
+        add the event handlers for this key
+        toggle visibility for currently selected robot's inventories
+
+
     change click to restore command text feature into click to run command again
     tcp crashes when trying to send values the json lib can't encode, catch the error instead
     make top right ui use a bootstrap container, rows and cols

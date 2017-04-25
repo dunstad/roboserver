@@ -41,6 +41,21 @@ class Inventory {
     this.table.className = this.table.className ? "" : "hidden";
   }
 
+  /**
+   * Hide the table. Used when a different robot is selected,
+   * when the remove button is pressed, and when the robot moves.
+   */
+  hide() {
+    this.table.className = "hidden";
+  }
+
+  /**
+   * Show the table. Used when robot is selected, 
+   */
+  show() {
+    this.table.className = "";
+  }
+
 }
 
 /**
