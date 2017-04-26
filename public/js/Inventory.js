@@ -56,10 +56,17 @@ class Inventory {
     this.table.className = "";
   }
 
+  /**
+   * Adds the table to an existing element to be displayed.
+   * @param {HTMLElement} display 
+   */
   addToDisplay(display) {
     display.appendChild(this.table);
   }
 
+  /**
+   * Removes the table from its parent display element.
+   */
   removeFromDisplay() {
     this.table.remove();
   }
