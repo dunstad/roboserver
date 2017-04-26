@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES6"
+  },
+  "include": [
+    "public/js/*",
+    "public/js/lib/*",
+    "public/js/lib/three.js-master/build/three.js"
+  ],
+  "typeAcquisition": {
+    "include": [
+      "three"
+    ]
+  }
+}

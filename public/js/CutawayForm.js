@@ -48,7 +48,7 @@ class CutawayForm {
 
   /**
    * Lets us know whether a voxel should be displayed given the entered cutaway point.
-   * @param {object} point
+   * @param {WorldAndScenePoint} point
    * @returns {boolean}
    */
   shouldBeRendered(point) {

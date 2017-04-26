@@ -171,9 +171,9 @@ function startGameLoop() {
 }
 
 /**
- * Moves the to the specified point and looks toward it.
+ * Moves to the specified point and looks toward it.
  * Used to set our initial viewpoint, and when we change the selected robot.
- * @param {object} controls 
+ * @param {PointerLockControls} controls 
  * @param {WorldAndScenePoint} point
  */
 function goToAndLookAt(controls, point) {
@@ -233,17 +233,19 @@ function placeSelector() {
       rollOverMesh.position.add(normal);
     }
 
+    var rollOverPoint = new WorldAndScenePoint(rollOverMesh.position, false);
+
     if (selectStart.isComplete() && !selectEnd.isComplete()) {
       scene.remove(rollOverMesh);
       if (!selectBox) {
-        selectBox = makeBoxAround(selectStart.getVector(), rollOverMesh.position, rollOverMaterial);
+        selectBox = makeBoxAround(selectStart.getPoint(), rollOverPoint, rollOverMaterial);
         scene.add(selectBox);
       }
     }
     else if (!selectStart.isComplete() && selectEnd.isComplete()) {
       scene.remove(rollOverMesh);
       if (!selectBox) {
-        selectBox = makeBoxAround(rollOverMesh.position, selectEnd.getVector(), rollOverMaterial);
+        selectBox = makeBoxAround(rollOverPoint, selectEnd.getPoint(), rollOverMaterial);
         scene.add(selectBox);
       }
     }
@@ -255,12 +257,12 @@ function placeSelector() {
 
   if (selectStart.isComplete() && selectEnd.isComplete()) {
     if (!selectBox) {
-      selectBox = makeBoxAround(selectStart.getVector(), selectEnd.getVector(), rollOverMaterial);
+      selectBox = makeBoxAround(selectStart.getPoint(), selectEnd.getPoint(), rollOverMaterial);
       scene.add(selectBox);
     }
   }
 
-  var worldCoords = getWorldCoord(rollOverMesh.position);
+  var worldCoords = new WorldAndScenePoint(rollOverMesh.position, false).world();
   var hoverCoordDiv = document.getElementById('hoverGuideCoordinates');
   hoverCoordDiv.innerHTML = String([worldCoords.x, worldCoords.y, worldCoords.z]);
   
@@ -271,11 +273,11 @@ function placeSelector() {
  * @param {number} length 
  * @param {number} height 
  * @param {number} width 
- * @param {object} material 
- * @param {object} positionVector 
- * @returns {object}
+ * @param {THREE.Material} material 
+ * @param {WorldAndScenePoint} position 
+ * @returns {THREE.Mesh}
  */
-function makeBox(length, height, width, material, positionVector) {
+function makeBox(length, height, width, material, position) {
   var preventFlickeringOffset = 1;
   var geometry = new THREE.BoxGeometry(
     length + preventFlickeringOffset,
@@ -283,29 +285,29 @@ function makeBox(length, height, width, material, positionVector) {
     width + preventFlickeringOffset
   );
 	var mesh = new THREE.Mesh(geometry, material || cubeMat);
-  if (positionVector) {mesh.position.copy(positionVector);}
+  if (position) {mesh.position.copy(position.scene());}
   return mesh;
 }
 
 /**
  * Finds the midpoint of two vectors. Used to position boxes between the two voxels at opposite corners.
- * @param {object} v1 
- * @param {object} v2 
- * @returns {object}
+ * @param {WorldAndScenePoint} v1 
+ * @param {WorldAndScenePoint} v2 
+ * @returns {WorldAndScenePoint}
  */
 function getMidpoint(v1, v2) {
-  var midpoint = v1.clone();
-  midpoint.add(v2);
+  var midpoint = v1.scene().clone();
+  midpoint.add(v2.scene());
   midpoint.divideScalar(2);
-  return midpoint;
+  return new WorldAndScenePoint(midpoint, false);
 }
 
 /**
  * Creates a box with the given voxels at opposite corners. Used to indicate a selected area.
- * @param {object} v1 
- * @param {object} v2 
- * @param {object} material
- * @returns {object}
+ * @param {WorldAndScenePoint} v1 
+ * @param {WorldAndScenePoint} v2 
+ * @param {THREE.Material} material
+ * @returns {THREE.Mesh}
  */
 function makeBoxAround(v1, v2, material) {
   var midpoint = getMidpoint(v1, v2);
@@ -344,21 +346,16 @@ function requestRender() {
 
 /**
  * Removes the given robot's voxel and redraws it elsewhere.
- * @param {object} pos
+ * @param {WorldAndScenePoint} pos
  * @param {string} robot
  */
 function moveRobotVoxel(pos, robot) {
 
-  if (allRobotInfo[robot]) {
-    removeVoxel(allRobotInfo[robot].x, allRobotInfo[robot].y, allRobotInfo[robot].z);
+  if (allRobotInfo[robot].world) {
+    removeVoxel(allRobotInfo[robot]);
   }
 
-  addVoxel(
-    pos.x * voxelSideLength,
-    pos.y * voxelSideLength,
-    pos.z * voxelSideLength,
-    robotMaterial
-  );
+  addVoxel(pos, robotMaterial);
 
   allRobotInfo[robot] = pos;
 
@@ -367,41 +364,37 @@ function moveRobotVoxel(pos, robot) {
 
 /**
  * Removes any existing voxel at the coordinates and adds a new one.
- * @param {number} x
- * @param {number} y
- * @param {number} z
- * @param {object} material
- * @returns {object}
+ * @param {WorldAndScenePoint} pos
+ * @param {THREE.Material} material
+ * @returns {THREE.Mesh}
  */
-function addVoxel(x, y, z, material) {
+function addVoxel(pos, material) {
   var voxel = new THREE.Mesh(cubeGeo, material || cubeMat);
-  voxel.position.set(x, y, z);
+  voxel.position.copy(pos.scene());
 
-  var coord = getWorldCoord(voxel.position);
-  var priorVoxel = voxelMap.get(coord.x, coord.y, coord.z);
-  if (priorVoxel) {removeVoxel(coord.x, coord.y, coord.z);}
+  var priorVoxel = voxelMap.get(pos);
+  if (priorVoxel) {removeVoxel(pos);}
 
   voxels.push(voxel);
-  voxelMap.set(coord.x, coord.y, coord.z, voxel);
+  voxelMap.set(pos, voxel);
   scene.add(voxel);
 
-  voxel.visible = cutawayForm.shouldBeRendered(coord);
+  voxel.visible = cutawayForm.shouldBeRendered(pos);
 
   return voxel;
 }
 
 /**
- * Removes the voxel at x, y, z if there is one.
- * @param {number} x
- * @param {number} y
- * @param {number} z
+ * Removes the voxel at pos if there is one.
+ * @param {WorldAndScenePoint} pos
+ * @returns {boolean}
  */
-function removeVoxel(x, y, z) {
+function removeVoxel(pos) {
   result = false;
-  var voxel = voxelMap.get(x, y, z);
+  var voxel = voxelMap.get(pos);
   if (voxel && voxels.indexOf(voxel) != -1) {
     scene.remove(voxel);
-    voxelMap.set(x, y, z, undefined);
+    voxelMap.set(pos, undefined);
     voxels.splice(voxels.indexOf(voxel), 1);
     result = true;
   }
@@ -412,6 +405,7 @@ function removeVoxel(x, y, z) {
 /**
  * Used to draw terrain data received from a robot.
  * @param {object} shape
+ * @param {string} robot
  */
 function addShapeVoxels(shape, robot) {
   for (var x = 0; x < shape.w; x++) {
@@ -422,9 +416,11 @@ function addShapeVoxels(shape, robot) {
         var yWithOffset = y + shape.y;
         var zWithOffset = z + shape.z;
 
+        var shapePoint = new THREE.Vector3(xWithOffset, yWithOffset, zWithOffset);
+
         var knownRobotPosition = false;
         for (var robotPos of Object.values(allRobotInfo)) {
-          if (robotPos.x == xWithOffset && robotPos.y == yWithOffset && robotPos.z == zWithOffset) {
+          if (robotPos.x == shapePoint.z && robotPos.y == shapePoint.y && robotPos.z == shapePoint.z) {
             knownRobotPosition = true;
           }
         }
@@ -433,11 +429,7 @@ function addShapeVoxels(shape, robot) {
         // also lua is indexed from 1
         var index = (x + 1) + z*shape.w + y*shape.w*shape.d;
 
-        var worldPos = {
-          x: xWithOffset * voxelSideLength,
-          y: yWithOffset * voxelSideLength,
-          z: zWithOffset * voxelSideLength,
-        };
+        var worldPos = new WorldAndScenePoint(shapePoint, true);
 
         if (shape.data[index]) {
 
@@ -449,12 +441,12 @@ function addShapeVoxels(shape, robot) {
             material = colorFromHardness(shape.data[index]);
           }
 
-          addVoxel(worldPos.x, worldPos.y, worldPos.z, material);
+          addVoxel(worldPos, material);
 
         }
 
         else {
-          removeVoxel(worldPos.x, worldPos.y, worldPos.z);
+          removeVoxel(worldPos);
         }
 
       }
@@ -467,7 +459,7 @@ function addShapeVoxels(shape, robot) {
 /**
  * Converts ranges of noisy hardness values to specific colors.
  * @param {number} hardness
- * @returns {object}
+ * @returns {THREE.Material}
  */
 function colorFromHardness(hardness) {
 
@@ -487,22 +479,12 @@ function colorFromHardness(hardness) {
 
 }
 
-
 /**
- * Returns the corresponding Minecraft world coordinates of a vector.
- * @param {object} vector
- * @returns {object}
- */
-function getWorldCoord(vector) {
-  return vector.clone().divideScalar(50).round();
-}
-
-/**
- * Serializes vectors to Lua tables. Makes sending commands to robots easier.
+ * Serializes objects to Lua tables. Makes sending commands to robots easier.
  * @param {object} object 
  * @returns {string}
  */
-function vectorToLuaString(object) {
+function objectToLuaString(object) {
   var luaString = '{';
   for (var prop in object) {
     if (object.hasOwnProperty(prop)) {
@@ -527,7 +509,7 @@ function removeSelectBox() {
 /**
  * Stores a selection so it can be shown until the task it's for is completed.
  * @param {object} selections 
- * @param {object} selection 
+ * @param {THREE.Mesh} selection 
  * @returns {number}
  */
 function addSelection(selections, selection) {

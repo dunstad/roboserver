@@ -13,14 +13,14 @@ class VoxelMap {
   /**
    * Retrieve a voxel from the map if it exists.
    * @param {WorldAndScenePoint} point
-   * @returns {object | boolean}
+   * @returns {THREE.Mesh | false}
    */
   get(point) {
     var worldPoint = point.world();
     var x = worldPoint.x;
     var y = worldPoint.y;
     var z = worldPoint.z;
-    var result = undefined;
+    var result;
     if (this.map[x] && this.map[x][y] && this.map[x][y][z]) {
       result = this.map[x][y][z];
     }
@@ -31,8 +31,8 @@ class VoxelMap {
   /**
    * Store a voxel in the map or remove one from it.
    * @param {WorldAndScenePoint} point
-   * @param {object} voxel 
-   * @returns {object}
+   * @param {THREE.Mesh} voxel 
+   * @returns {THREE.Mesh}
    */
   set(point, voxel) {
     var worldPoint = point.world();

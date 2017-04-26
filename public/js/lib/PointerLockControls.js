@@ -1,153 +1,164 @@
-var PointerLockControls = function ( camera ) {
+/**
+ * Used to let the camera fly around the scene.
+ */
+class PointerLockControls {
 
-	var scope = this;
+	/**
+	 * 
+	 * @param {THREE.PerspectiveCamera} camera 
+	 */
+	constructor ( camera ) {
 
-	var pitchObject = new THREE.Object3D();
-	pitchObject.add( camera );
+		var scope = this;
 
-	var yawObject = new THREE.Object3D();
-	yawObject.position.y = 10;
-	yawObject.add( pitchObject );
+		var pitchObject = new THREE.Object3D();
+		pitchObject.add( camera );
 
-	var moveForward = false;
-	var moveBackward = false;
-	var moveLeft = false;
-	var moveRight = false;
-	var moveDown = false;
-	var moveUp = false;
+		var yawObject = new THREE.Object3D();
+		yawObject.position.y = 10;
+		yawObject.add( pitchObject );
 
-	var isOnObject = false;
+		var moveForward = false;
+		var moveBackward = false;
+		var moveLeft = false;
+		var moveRight = false;
+		var moveDown = false;
+		var moveUp = false;
 
-	var velocity = new THREE.Vector3();
+		var isOnObject = false;
 
-	var PI_2 = Math.PI / 2;
+		var velocity = new THREE.Vector3();
 
-	var onMouseMove = function ( event ) {
+		var PI_2 = Math.PI / 2;
 
-		if ( scope.enabled === false ) return;
+		var onMouseMove = function ( event ) {
 
-		var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
-		var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+			if ( scope.enabled === false ) return;
 
-		yawObject.rotation.y -= movementX * 0.002;
-		pitchObject.rotation.x -= movementY * 0.002;
+			var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+			var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
 
-		pitchObject.rotation.x = Math.max( - PI_2, Math.min( PI_2, pitchObject.rotation.x ) );
+			yawObject.rotation.y -= movementX * 0.002;
+			pitchObject.rotation.x -= movementY * 0.002;
 
-	};
+			pitchObject.rotation.x = Math.max( - PI_2, Math.min( PI_2, pitchObject.rotation.x ) );
 
-	var onKeyDown = function ( event ) {
+		};
 
-		switch ( event.keyCode ) {
+		var onKeyDown = function ( event ) {
 
-			case 38: // up
-			case 87: // w
-				moveForward = true;
-				break;
+			switch ( event.keyCode ) {
 
-			case 37: // left
-			case 65: // a
-				moveLeft = true;
-        break;
+				case 38: // up
+				case 87: // w
+					moveForward = true;
+					break;
 
-			case 40: // down
-			case 83: // s
-				moveBackward = true;
-				break;
+				case 37: // left
+				case 65: // a
+					moveLeft = true;
+					break;
 
-			case 39: // right
-			case 68: // d
-				moveRight = true;
-				break;
+				case 40: // down
+				case 83: // s
+					moveBackward = true;
+					break;
 
-
-			case 16: // shift
-				moveDown = true;
-				break;
-
-
-			case 32: // space
-				moveUp = true;
-				break;
-
-		}
-
-	};
-
-	var onKeyUp = function ( event ) {
-
-		switch( event.keyCode ) {
-
-			case 38: // up
-			case 87: // w
-				moveForward = false;
-				break;
-
-			case 37: // left
-			case 65: // a
-				moveLeft = false;
-				break;
-
-			case 40: // down
-			case 83: // a
-				moveBackward = false;
-				break;
-
-			case 39: // right
-			case 68: // d
-				moveRight = false;
-				break;
-
-			case 16: // shift
-				moveDown = false;
-				break;
+				case 39: // right
+				case 68: // d
+					moveRight = true;
+					break;
 
 
-			case 32: // space
-				moveUp = false;
-				break;
+				case 16: // shift
+					moveDown = true;
+					break;
 
-		}
 
-	};
+				case 32: // space
+					moveUp = true;
+					break;
 
-	document.addEventListener( 'mousemove', onMouseMove, false );
-	document.addEventListener( 'keydown', onKeyDown, false );
-	document.addEventListener( 'keyup', onKeyUp, false );
+			}
 
-	this.enabled = false;
+		};
 
-	this.getObject = function () {
+		var onKeyUp = function ( event ) {
 
-		return yawObject;
+			switch( event.keyCode ) {
 
-	};
+				case 38: // up
+				case 87: // w
+					moveForward = false;
+					break;
 
-	this.update = function ( delta ) {
+				case 37: // left
+				case 65: // a
+					moveLeft = false;
+					break;
 
-		if ( scope.enabled === false ) return;
+				case 40: // down
+				case 83: // a
+					moveBackward = false;
+					break;
 
-		delta *= 0.1;
+				case 39: // right
+				case 68: // d
+					moveRight = false;
+					break;
 
-		velocity.x += ( - velocity.x ) * 0.08 * delta;
-		velocity.z += ( - velocity.z ) * 0.08 * delta;
-		velocity.y += ( - velocity.y ) * 0.08 * delta;
+				case 16: // shift
+					moveDown = false;
+					break;
 
-		var speed = 2;
 
-		if ( moveForward ) velocity.z -= speed * delta;
-		if ( moveBackward ) velocity.z += speed * delta;
+				case 32: // space
+					moveUp = false;
+					break;
 
-		if ( moveLeft ) velocity.x -= speed * delta;
-		if ( moveRight ) velocity.x += speed * delta;
+			}
 
-		if ( moveDown ) velocity.y -= speed * delta;
-		if ( moveUp ) velocity.y += speed * delta;
+		};
 
-		yawObject.translateX( velocity.x );
-		yawObject.translateY( velocity.y );
-		yawObject.translateZ( velocity.z );
+		document.addEventListener( 'mousemove', onMouseMove, false );
+		document.addEventListener( 'keydown', onKeyDown, false );
+		document.addEventListener( 'keyup', onKeyUp, false );
 
-	};
+		this.enabled = false;
 
-};
+		this.getObject = function () {
+
+			return yawObject;
+
+		};
+
+		this.update = function ( delta ) {
+
+			if ( scope.enabled === false ) return;
+
+			delta *= 0.1;
+
+			velocity.x += ( - velocity.x ) * 0.08 * delta;
+			velocity.z += ( - velocity.z ) * 0.08 * delta;
+			velocity.y += ( - velocity.y ) * 0.08 * delta;
+
+			var speed = 2;
+
+			if ( moveForward ) velocity.z -= speed * delta;
+			if ( moveBackward ) velocity.z += speed * delta;
+
+			if ( moveLeft ) velocity.x -= speed * delta;
+			if ( moveRight ) velocity.x += speed * delta;
+
+			if ( moveDown ) velocity.y -= speed * delta;
+			if ( moveUp ) velocity.y += speed * delta;
+
+			yawObject.translateX( velocity.x );
+			yawObject.translateY( velocity.y );
+			yawObject.translateZ( velocity.z );
+
+		};
+
+	}
+
+}

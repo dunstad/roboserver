@@ -22,36 +22,22 @@ function main() {
   // render block data received from robot
   socket.on('block data', (blockData)=>{
     console.dir(blockData);
+    var pos = new WorldAndScenePoint(blockData.data.point, true);
     if (!(blockData.data.name == "minecraft:air")) {
-      addVoxel(
-        blockData.data.point.x * voxelSideLength, 
-        blockData.data.point.y * voxelSideLength, 
-        blockData.data.point.z * voxelSideLength,
-        colorFromHardness(blockData.data.hardness)
-      );
+      addVoxel(pos, colorFromHardness(blockData.data.hardness));
     }
-    else {
-      removeVoxel(
-        blockData.data.point.x,
-        blockData.data.point.y,
-        blockData.data.point.z
-      );
-    }
+    else {removeVoxel(pos);}
   });
 
   // render map data received from robot
   socket.on('robot position', (pos)=>{
     console.dir(pos);
-    moveRobotVoxel(pos.data, pos.robot);
+    moveRobotVoxel(new WorldAndScenePoint(pos.data, true), pos.robot);
     removeInventories();
     if (pos.robot == document.getElementById('robotSelect').value) {
       var robotData = allRobotInfo[pos.robot];
       if (robotData) {
-        selectedRobotMesh.position.set(
-          robotData.x * voxelSideLength,
-          robotData.y * voxelSideLength,
-          robotData.z * voxelSideLength
-        );
+        selectedRobotMesh.position.copy(robotData.scene());
         requestRender();
       }
     }
@@ -66,7 +52,7 @@ function main() {
   // remove voxels corresponding to successfully dug blocks
   socket.on('dig success', (pos)=>{
     console.dir(pos);
-    removeVoxel(pos.data.x, pos.data.y, pos.data.z);
+    removeVoxel(new WorldAndScenePoint(pos.data, true));
   });
 
   // render inventory data received from robot
@@ -117,20 +103,18 @@ function main() {
   selectStart.addEventListener('input', ()=>{removeSelectBox(); requestRender()});
   selectEnd.addEventListener('input', ()=>{removeSelectBox(); requestRender()});
 
-  var moveToolLabel = document.getElementById('moveTool').parentElement;
-  moveToolLabel.addEventListener('click', clearSelection);
+  var toolButtonListeners = [
+    {buttonID: 'moveTool', eventListener: clearSelection},
+    {buttonID: 'interactTool', eventListener: clearSelection},
+    {buttonID: 'inspectTool', eventListener: clearSelection},
+    {buttonID: 'digTool', eventListener: slowRender},
+    {buttonID: 'placeTool', eventListener: slowRender}
+  ];
 
-  var interactToolLabel = document.getElementById('interactTool').parentElement;
-  interactToolLabel.addEventListener('click', clearSelection);
-  
-  var inspectToolLabel = document.getElementById('inspectTool').parentElement;
-  inspectToolLabel.addEventListener('click', clearSelection);
-
-  var digToolLabel = document.getElementById('digTool').parentElement;
-  digToolLabel.addEventListener('click', slowRender);
-
-  var placeToolLabel = document.getElementById('placeTool').parentElement;
-  placeToolLabel.addEventListener('click', slowRender);
+  for (toolButtonInfo of toolButtonListeners) {
+    var button = document.getElementById(toolButtonInfo.buttonID).parentElement;
+    button.addEventListener('click', toolButtonInfo.eventListener);
+  }
 
   initPointerLock();
   initCommandInput();
@@ -149,8 +133,8 @@ function clearSelection() {
   slowRender();
 }
 
-  // for some reason the click event fires before the checked attribute changes
-  // can't find an event for when that attribute changes, so we use setTimeout  
+// for some reason the click event fires before the checked attribute changes
+// can't find an event for when that attribute changes, so we use setTimeout  
 function slowRender() {
   setTimeout(requestRender, 10);
 }
@@ -163,22 +147,23 @@ function initSelectAreaTools() {
     var digToolActive = document.getElementById('digTool').checked;
     var placeToolActive = document.getElementById('placeTool').checked;
     if (controls.enabled && (digToolActive || placeToolActive)) {
+      var pos = new WorldAndScenePoint(rollOverMesh.position, false);
       if (!selectStart.isComplete()) {
-        selectStart.setFromVector(rollOverMesh.position);
+        selectStart.setFromPoint(pos);
       }
       else if (!selectEnd.isComplete()) {
-        selectEnd.setFromVector(rollOverMesh.position);
+        selectEnd.setFromPoint(pos);
       }
       else {
-        var v1 = selectStart.getVector();
-        var v2 = selectEnd.getVector();
+        var startPoint = selectStart.getPoint();
+        var endPoint = selectEnd.getPoint();
 
-        var selection = makeBoxAround(v1, v2, rollOverMaterial);
+        var selection = makeBoxAround(startPoint, endPoint, rollOverMaterial);
         scene.add(selection);
         var selectionIndex = addSelection(selections, selection);
         
-        var v1Lua = vectorToLuaString(getWorldCoord(v1));
-        var v2Lua = vectorToLuaString(getWorldCoord(v2));
+        var startPointLua = objectToLuaString(startPoint.world());
+        var endPointLua = objectToLuaString(endPoint.world());
         var scanLevel = document.getElementById('scanWhileMoving').value;
         
         if (digToolActive) {
@@ -187,7 +172,7 @@ function initSelectAreaTools() {
         else if (placeToolActive) {
           var commandName = 'place';
         }
-        var commandParameters = [v1Lua, v2Lua, selectionIndex, scanLevel];
+        var commandParameters = [startPointLua, endPointLua, selectionIndex, scanLevel];
         sendCommand(commandName, commandParameters);
 
         selectStart.clear();
@@ -238,7 +223,7 @@ function initClickTools() {
     var interactToolActive = document.getElementById('interactTool').checked;
     var inspectToolActive = document.getElementById('inspectTool').checked;
     if (controls.enabled && (moveToolActive || interactToolActive || inspectToolActive)) {
-      var coord = getWorldCoord(rollOverMesh.position);
+      var coord = new WorldAndScenePoint(rollOverMesh.position, false).world();
       console.log(coord);
       var scanLevel = document.getElementById('scanWhileMoving').value;
       if (moveToolActive) {
@@ -247,11 +232,11 @@ function initClickTools() {
       }
       else if (interactToolActive) {
         var commandName = 'interact';
-        var commandParameters = [vectorToLuaString(coord), scanLevel];
+        var commandParameters = [objectToLuaString(coord), scanLevel];
       }
       else if (inspectToolActive) {
         var commandName = 'inspect';
-        var commandParameters = [vectorToLuaString(coord), scanLevel];
+        var commandParameters = [objectToLuaString(coord), scanLevel];
       }
       sendCommand(commandName, commandParameters);
     }
@@ -425,11 +410,7 @@ function switchToRobot(robotName) {
   if (robotData) {
     document.getElementById('powerLevel').innerHTML = Math.round(robotData.power * 100) + "%";
     removeInventories(true);
-    selectedRobotMesh.position.set(
-      robotData.x * voxelSideLength,
-      robotData.y * voxelSideLength,
-      robotData.z * voxelSideLength
-    );
+    selectedRobotMesh.position.copy(new WorldAndScenePoint(robotData, true).scene());
     if (robotData.x !== undefined && robotData.y !== undefined && robotData.z !== undefined) {
       viewSelectedRobot();
     }
@@ -452,15 +433,15 @@ function initRobotSelect() {
  * Moves the camera above the selected robot and faces it.
  */
 function viewSelectedRobot() {
-  var robotInfo = allRobotInfo[document.getElementById('robotSelect').value];
-  goToAndLookAt(controls, robotInfo.x, robotInfo.y, robotInfo.z);
+  var robotData = allRobotInfo[document.getElementById('robotSelect').value];
+  goToAndLookAt(controls, new WorldAndScenePoint(robotData, true));
   requestRender();
 }
 
 function initCutawayForm() {
   cutawayForm.addChangeListener((e)=>{
     voxelMap.forEach((voxel)=>{
-      voxel.visible = cutawayForm.shouldBeRendered(getWorldCoord(voxel.position));
+      voxel.visible = cutawayForm.shouldBeRendered(new WorldAndScenePoint(voxel.position, false));
     });
     requestRender();
   });

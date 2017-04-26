@@ -1,11 +1,11 @@
 /**
- * Now I don't have to worry about whether functions accept scene points or world points.
+ * This class allows for easy conversion between Three.js scene coordinates and Minecraft world coordinates.
  */
 class WorldAndScenePoint {
 
   /**
-   * Now I don't have to worry about whether functions accept scene points or world points.
-   * @param {object} point 
+   * This class allows for easy conversion between Three.js scene coordinates and Minecraft world coordinates.
+   * @param {THREE.Vector3 | object} point 
    * @param {boolean} isWorldPoint 
    */
   constructor(point, isWorldPoint) {
@@ -34,7 +34,7 @@ class WorldAndScenePoint {
 
   /**
    * The world point contains the coordinates of something in the Minecraft world.
-   * @returns {object}
+   * @returns {THREE.Vector3}
    */
   world() {
     return this.worldPoint;
@@ -42,7 +42,7 @@ class WorldAndScenePoint {
 
   /**
    * The scene point contains coordinates used by three.js to render meshes.
-   * @returns {object}
+   * @returns {THREE.Vector3}
    */
   scene() {
     return this.scenePoint;
