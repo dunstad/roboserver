@@ -56,6 +56,14 @@ class Inventory {
     this.table.className = "";
   }
 
+  addToDisplay(display) {
+    display.appendChild(this.table);
+  }
+
+  removeFromDisplay() {
+    this.table.remove();
+  }
+
 }
 
 /**
