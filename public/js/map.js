@@ -309,13 +309,14 @@ function getMidpoint(v1, v2) {
  * @param {THREE.Material} material
  * @returns {THREE.Mesh}
  */
-function makeBoxAround(v1, v2, material) {
-  var midpoint = getMidpoint(v1, v2);
-  var distance = v1.distanceTo(v2);
+function makeBoxAround(startPoint, endPoint, material) {
+  var midpoint = getMidpoint(startPoint, endPoint);
+  var sceneStart = startPoint.scene();
+  var sceneEnd = endPoint.scene();
   var box = makeBox(
-    Math.abs(v2.x-v1.x) + voxelSideLength,
-    Math.abs(v2.y-v1.y) + voxelSideLength,
-    Math.abs(v2.z-v1.z) + voxelSideLength,
+    Math.abs(sceneEnd.x-sceneStart.x) + voxelSideLength,
+    Math.abs(sceneEnd.y-sceneStart.y) + voxelSideLength,
+    Math.abs(sceneEnd.z-sceneStart.z) + voxelSideLength,
     material,
     midpoint
   );
@@ -422,7 +423,7 @@ function addShapeVoxels(shape, robot) {
         var knownRobotPosition = false;
         for (var robot of Object.values(allRobotInfo)) {
           var robotPos = robot.getPosition();
-          if (robotPos.x == shapePoint.z && robotPos.y == shapePoint.y && robotPos.z == shapePoint.z) {
+          if (robotPos && robotPos.x == shapePoint.z && robotPos.y == shapePoint.y && robotPos.z == shapePoint.z) {
             knownRobotPosition = true;
           }
         }
