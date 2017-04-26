@@ -53,12 +53,12 @@ class Robot {
   }
 
   /**
-   * Receive an updated inventory from the robot.
+   * Receive an updated inventory from the robot. Will overwrite existing inventories from the same side.
    * @param {number} side 
    * @param {Inventory} inventory 
    */
-  setInventory(side, inventory) {
-    this.inventories[side] = inventory;
+  addInventory(inventory) {
+    this.inventories[inventory.getSide()] = inventory;
   }
 
   /**

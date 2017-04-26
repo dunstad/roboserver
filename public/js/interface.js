@@ -37,7 +37,7 @@ function main() {
     if (pos.robot == document.getElementById('robotSelect').value) {
       var robotData = allRobotInfo[pos.robot];
       if (robotData) {
-        selectedRobotMesh.position.copy(robotData.scene());
+        selectedRobotMesh.position.copy(robotData.getPosition().scene());
         requestRender();
       }
     }
@@ -58,7 +58,7 @@ function main() {
   // render inventory data received from robot
   socket.on('inventory data', (inventory)=>{
     console.dir(inventory);
-    new Inventory(inventory.data);
+    allRobotInfo[inventory.robot].addInventory(new Inventory(inventory.data));
   });
 
   // todo
@@ -74,7 +74,7 @@ function main() {
     var option = document.createElement('option');
     option.text = data.robot;
     option.value = data.robot;
-    if (!allRobotInfo[data.robot]) {allRobotInfo[data.robot] = {};}
+    if (!allRobotInfo[data.robot]) {allRobotInfo[data.robot] = new Robot();}
     if (robotSelect.options.length == 0) {
       switchToRobot(data.robot);
     }
@@ -93,7 +93,7 @@ function main() {
   // keep track of how much power robots have left
   socket.on('power level', (power)=>{
     console.dir(power);
-    allRobotInfo[power.robot].power = power.data;
+    allRobotInfo[power.robot].setPower(power.data);
     var currentRobot = document.getElementById('robotSelect').value;
     if (power.robot == currentRobot) {
       document.getElementById('powerLevel').innerHTML = Math.round(power.data * 100) + "%";
@@ -408,13 +408,13 @@ function initCraftSelect() {
 function switchToRobot(robotName) {
   var robotData = allRobotInfo[robotName];
   if (robotData) {
-    document.getElementById('powerLevel').innerHTML = Math.round(robotData.power * 100) + "%";
+    document.getElementById('powerLevel').innerHTML = Math.round(robotData.getPower() * 100) + "%";
     removeInventories(true);
-    selectedRobotMesh.position.copy(new WorldAndScenePoint(robotData, true).scene());
-    if (robotData.x !== undefined && robotData.y !== undefined && robotData.z !== undefined) {
+    var robotPos = robotData.getPosition();
+    if (robotPos) {
+      selectedRobotMesh.position.copy(robotPos.scene());
       viewSelectedRobot();
     }
-    else {requestRender();}
   }
 }
 
@@ -434,7 +434,7 @@ function initRobotSelect() {
  */
 function viewSelectedRobot() {
   var robotData = allRobotInfo[document.getElementById('robotSelect').value];
-  goToAndLookAt(controls, new WorldAndScenePoint(robotData, true));
+  goToAndLookAt(controls, robotData.getPosition());
   requestRender();
 }
 

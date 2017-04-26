@@ -35,6 +35,14 @@ class Inventory {
   }
 
   /**
+   * Gets the side this inventory is on. Used to tell if it's internal or external.
+   * @returns {number}
+   */
+  getSide() {
+    return this.inventory.side;
+  }
+
+  /**
    * Change whether the table representing the inventory is visible or not.
    */
   toggleVisibility() {

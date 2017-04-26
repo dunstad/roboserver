@@ -351,13 +351,14 @@ function requestRender() {
  */
 function moveRobotVoxel(pos, robot) {
 
-  if (allRobotInfo[robot].world) {
-    removeVoxel(allRobotInfo[robot]);
+  var previousPosition = allRobotInfo[robot].getPosition();
+  if (previousPosition) {
+    removeVoxel(previousPosition);
   }
 
   addVoxel(pos, robotMaterial);
 
-  allRobotInfo[robot] = pos;
+  allRobotInfo[robot].setPosition(pos);
 
   requestRender();
 }
@@ -419,7 +420,8 @@ function addShapeVoxels(shape, robot) {
         var shapePoint = new THREE.Vector3(xWithOffset, yWithOffset, zWithOffset);
 
         var knownRobotPosition = false;
-        for (var robotPos of Object.values(allRobotInfo)) {
+        for (var robot of Object.values(allRobotInfo)) {
+          var robotPos = robot.getPosition();
           if (robotPos.x == shapePoint.z && robotPos.y == shapePoint.y && robotPos.z == shapePoint.z) {
             knownRobotPosition = true;
           }
