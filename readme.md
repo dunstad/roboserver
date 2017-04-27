@@ -21,14 +21,14 @@ hold alt to put the selector inside a block
 place uses selected slot, not equip slot
 
 opencomputers minimum system requirements
-  gold case
-  t2 cpu
-  t1 memory x2
-  EEPROM (Lua BIOS)
-  t1 hard disk drive with OpenOS installed
-  internet card
+  *gold case
+  *t2 cpu
+  *t1 memory x2
+  *EEPROM (Lua BIOS)
+  *t1 hard disk drive with OpenOS installed
+  *internet card
 
-  geolyzer
-  inventory controller
-  crafting upgrade
-  inventory upgrade
+  *geolyzer
+  *inventory controller
+  *crafting upgrade
+  *inventory upgrade

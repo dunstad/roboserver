@@ -148,6 +148,12 @@ client.connect(port, host, function() {
 
 });
 
+var pos = {
+	x: process.argv[4] || 4,
+	y: process.argv[5] || 4,
+	z: process.argv[6] || 4
+}
+
 client.on('data', (rawMessages)=>{
 	console.log('Received: ' + rawMessages);
 	messages = String(rawMessages).split('\r\n').filter(s=>s).map(JSON.parse);
@@ -166,11 +172,7 @@ client.on('data', (rawMessages)=>{
 			else if (data.command == 'pos.sendLocation(); for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;') {
 				console.log('sending location and scan')
 				sendWithCost('map data', testScan);
-				sendWithCost('robot position', {
-					x: process.argv[4] || 4,
-					y: process.argv[5] || 4,
-					z: process.argv[6] || 4
-				});
+				sendWithCost('robot position', pos);
 			}
 			else {
 				console.log('responding to command: ' + data.command);
@@ -187,3 +189,10 @@ client.on('data', (rawMessages)=>{
 client.on('close', function() {
 	console.log('Connection closed');
 });
+
+var offset = 1;
+setInterval(()=>{
+	pos.y += offset;
+	sendWithCost('robot position', pos);
+	offset *= -1;
+}, 1000 * 5);

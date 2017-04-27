@@ -9,17 +9,17 @@ version 1:
 
       desired behavior
 
-      on receive inventory
+      on receive inventory ✔︎
         store inventory in robotInfo by side
         add to display div if currently selected robot
 
       on receive slot
         update slot in inventory on appropriate robot side
 
-      on robot move
+      on robot move ✔︎
         remove from display and delete external inventories for selected robot
 
-      on click X
+      on click X ✔︎
         do nothing, remove this button
 
       on change robot

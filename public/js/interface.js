@@ -33,7 +33,7 @@ function main() {
   socket.on('robot position', (pos)=>{
     console.dir(pos);
     moveRobotVoxel(new WorldAndScenePoint(pos.data, true), pos.robot);
-    removeInventories();
+    allRobotInfo[pos.robot].getAllExternalInventories().map(i=>i.removeFromDisplay());
     if (pos.robot == document.getElementById('robotSelect').value) {
       var robotData = allRobotInfo[pos.robot];
       if (robotData) {
@@ -56,9 +56,13 @@ function main() {
   });
 
   // render inventory data received from robot
-  socket.on('inventory data', (inventory)=>{
-    console.dir(inventory);
-    allRobotInfo[inventory.robot].addInventory(new Inventory(inventory.data));
+  socket.on('inventory data', (inventoryData)=>{
+    console.dir(inventoryData);
+    var inv = new Inventory(inventoryData.data);
+    allRobotInfo[inventoryData.robot].addInventory(inv);
+    if (document.getElementById('robotSelect').value == inventoryData.robot) {
+      inv.addToDisplay(document.getElementById('inventoryContainer'));
+    }
   });
 
   // todo
