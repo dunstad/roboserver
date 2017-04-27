@@ -4,12 +4,6 @@ version 1:
 
   fixes:
 
-    robot class to store in allRobotData
-      position
-      power level
-      inventories
-    refactor things that use allRobotData
-
     robot should send inventory data one slot at a time
       server crashing because robot is writing an incomplete json string, write buffer full
 

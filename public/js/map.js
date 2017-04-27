@@ -304,8 +304,8 @@ function getMidpoint(v1, v2) {
 
 /**
  * Creates a box with the given voxels at opposite corners. Used to indicate a selected area.
- * @param {WorldAndScenePoint} v1 
- * @param {WorldAndScenePoint} v2 
+ * @param {WorldAndScenePoint} startPoint
+ * @param {WorldAndScenePoint} endPoint
  * @param {THREE.Material} material
  * @returns {THREE.Mesh}
  */

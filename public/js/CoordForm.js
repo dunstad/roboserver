@@ -45,9 +45,11 @@ class CoordForm {
    */
   getPoint() {
     return new WorldAndScenePoint(
-      parseInt(this.x.value),
-      parseInt(this.y.value),
-      parseInt(this.z.value),
+      new THREE.Vector3(
+        parseInt(this.x.value),
+        parseInt(this.y.value),
+        parseInt(this.z.value)
+      ),
       true
     );
   }
