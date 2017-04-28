@@ -413,7 +413,13 @@ function switchToRobot(robotName) {
   var robotData = allRobotInfo[robotName];
   if (robotData) {
     document.getElementById('powerLevel').innerHTML = Math.round(robotData.getPower() * 100) + "%";
-    removeInventories(true);
+    
+    var inventoryContainer = document.getElementById("inventoryContainer");
+    for (elem of Array.from(inventoryContainer.childNodes)) {
+      elem.remove();
+    }
+
+    allRobotInfo[robotName].getAllInventories().map(i=>i.addToDisplay(inventoryContainer));
     var robotPos = robotData.getPosition();
     if (robotPos) {
       selectedRobotMesh.position.copy(robotPos.scene());
