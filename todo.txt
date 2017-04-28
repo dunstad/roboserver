@@ -30,6 +30,8 @@ version 1:
         toggle visibility for currently selected robot's inventories
 
 
+    robot select mesh not moving with robot
+
     change click to restore command text feature into click to run command again
     tcp crashes when trying to send values the json lib can't encode, catch the error instead
     make top right ui use a bootstrap container, rows and cols

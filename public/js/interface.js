@@ -33,7 +33,7 @@ function main() {
   socket.on('robot position', (pos)=>{
     console.dir(pos);
     moveRobotVoxel(new WorldAndScenePoint(pos.data, true), pos.robot);
-    allRobotInfo[pos.robot].getAllExternalInventories().map(i=>i.removeFromDisplay());
+    allRobotInfo[pos.robot].removeAllExternalInventories();
     if (pos.robot == document.getElementById('robotSelect').value) {
       var robotData = allRobotInfo[pos.robot];
       if (robotData) {

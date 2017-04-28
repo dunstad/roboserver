@@ -58,6 +58,8 @@ class Robot {
    * @param {Inventory} inventory 
    */
   addInventory(inventory) {
+    var oldInventory = this.inventories[inventory.getSide()];
+    if (oldInventory) {oldInventory.removeFromDisplay();}
     this.inventories[inventory.getSide()] = inventory;
   }
 
@@ -77,6 +79,19 @@ class Robot {
     return Object.keys(this.inventories)
       .filter(side => side != -1)
       .map(side => this.inventories[side]);
+  }
+
+  /**
+   * Used when we want to remove all a robot's external inventories when it moves.
+   */
+  removeAllExternalInventories() {
+    var internalInventories = {};
+    for (var inventory of Object.values(this.inventories)) {
+      var side = inventory.getSide()
+      if (side == -1) {internalInventories[side] = inventory;}
+      else {inventory.removeFromDisplay();}
+    }
+    this.inventories = internalInventories;
   }
 
 }
