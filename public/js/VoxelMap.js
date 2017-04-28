@@ -53,7 +53,7 @@ class VoxelMap {
     for (var xIndex in this.map) {
       for (var yIndex in this.map[xIndex]) {
         for (var zIndex in this.map[xIndex][yIndex]) {
-          var point = new WorldAndScenePoint(xIndex, yIndex, zIndex, true);
+          var point = new WorldAndScenePoint(new THREE.Vector3(xIndex, yIndex, zIndex), true);
           var voxel = this.get(point);
           if (voxel) {func(voxel);}
         }

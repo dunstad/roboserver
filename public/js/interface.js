@@ -442,6 +442,9 @@ function viewSelectedRobot() {
   requestRender();
 }
 
+/**
+ * Used to update the map whenever we specify a new cutoff point.
+ */
 function initCutawayForm() {
   cutawayForm.addChangeListener((e)=>{
     voxelMap.forEach((voxel)=>{

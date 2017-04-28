@@ -63,7 +63,6 @@ class CutawayForm {
         'Z': 'z'
       }
       var coord = point.world()[axisNameMap[axisName]];
-      console.log(coord)
       if (operationName == '>') {
         if (coord > cutawayValue) {
           result = false;
