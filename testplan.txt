@@ -1,0 +1,21 @@
+very much still a work in progress
+
+  on receive inventory ✔︎
+    store inventory in robotInfo by side
+    add to display div if currently selected robot
+
+  on receive slot
+    update slot in inventory on appropriate robot side
+
+  on robot move ✔︎
+    remove from display and delete external inventories for selected robot
+
+  on click X ✔︎
+    do nothing, remove this button
+
+  on change robot ✔︎
+    remove all inventories, then add selected robot's inventories
+
+  on click show/hide button
+    add the event handlers for this button
+    toggle visibility for currently selected robot's inventories

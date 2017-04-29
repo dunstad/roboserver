@@ -26,3 +26,17 @@ var codeStrings = {
 for (var buttonName in codeStrings) {
   addButton(buttonName, codeStrings[buttonName]);
 }
+
+var toggleInventoryDisplayButton = document.createElement('button');
+toggleInventoryDisplayButton.innerHTML = "Show/Hide Inventory";
+toggleInventoryDisplayButton.addEventListener('click', ()=>{
+  var inventoryContainer = document.getElementById('inventoryContainer');
+  if (inventoryContainer.classList.contains('hidden')) {
+    inventoryContainer.classList.remove('hidden')
+  }
+  else {
+    inventoryContainer.classList.add('hidden');
+  }
+});
+buttonContainer.appendChild(toggleInventoryDisplayButton);
+buttonContainer.appendChild(document.createElement('br'));

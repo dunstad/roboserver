@@ -7,35 +7,17 @@ version 1:
     robot should send inventory data one slot at a time
       server crashing because robot is writing an incomplete json string, write buffer full
 
-      desired behavior
-
-      on receive inventory ✔︎
-        store inventory in robotInfo by side
-        add to display div if currently selected robot
-
       on receive slot
         update slot in inventory on appropriate robot side
-
-      on robot move ✔︎
-        remove from display and delete external inventories for selected robot
-
-      on click X ✔︎
-        do nothing, remove this button
-
-      on change robot ✔︎
-        remove all inventories, then add selected robot's inventories
-
-      on click show/hide button
-        add the event handlers for this button
-        toggle visibility for currently selected robot's inventories
-
-
+ 
     robot select mesh not moving with robot
+    separate select robot and move camera to robot
+    combine show/hide and refresh inventory
 
     change click to restore command text feature into click to run command again
     tcp crashes when trying to send values the json lib can't encode, catch the error instead
     make top right ui use a bootstrap container, rows and cols
-    raytrace off center sometimes?
+    raytrace off center sometimes? mac
   
   pre-release:
     set up github so i can develop without breaking the release

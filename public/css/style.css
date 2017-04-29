@@ -95,10 +95,6 @@ td {
   user-select: none;
 }
 
-.inventoryDeleteButton {
-  float: right;
-}
-
 .hidden {
   display: none;
 }

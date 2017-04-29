@@ -43,28 +43,6 @@ class Inventory {
   }
 
   /**
-   * Change whether the table representing the inventory is visible or not.
-   */
-  toggleVisibility() {
-    this.table.className = this.table.className ? "" : "hidden";
-  }
-
-  /**
-   * Hide the table. Used when a different robot is selected,
-   * when the remove button is pressed, and when the robot moves.
-   */
-  hide() {
-    this.table.className = "hidden";
-  }
-
-  /**
-   * Show the table. Used when robot is selected, 
-   */
-  show() {
-    this.table.className = "";
-  }
-
-  /**
    * Adds the table to an existing element to be displayed.
    * @param {HTMLElement} display 
    */

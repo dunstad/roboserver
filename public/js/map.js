@@ -422,10 +422,12 @@ function addShapeVoxels(shape, robot) {
 
         var knownRobotPosition = false;
         for (var robot of Object.values(allRobotInfo)) {
-          var robotPos = robot.getPosition();
-          if (robotPos && robotPos.x == shapePoint.z && robotPos.y == shapePoint.y && robotPos.z == shapePoint.z) {
-            knownRobotPosition = true;
-          }
+          if (robot) {
+            var robotPos = robot.getPosition();
+            if (robotPos && robotPos.x == shapePoint.z && robotPos.y == shapePoint.y && robotPos.z == shapePoint.z) {
+              knownRobotPosition = true;
+            }
+         }
         }
 
         // this is how the geolyzer reports 3d data in a 1d array
