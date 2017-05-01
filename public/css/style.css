@@ -46,8 +46,8 @@ body {
 
 #buttonContainer {
   position: absolute;
-  right: 1%;
-  width:230px;
+  right: 0%;
+  width:260px;
 }
 
 #buttonDiv > button {
@@ -61,7 +61,7 @@ body {
 }
 
 .coordinateInput {
-  width:30%;
+  max-width: 100%;
   text-align: center;
   border-width: 0px 1px 1px 0px;
   float: left;
