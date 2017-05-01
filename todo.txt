@@ -10,10 +10,7 @@ version 1:
       on receive slot
         update slot in inventory on appropriate robot side
  
-    robot select mesh not moving with robot
     separate select robot and move camera to robot
-    combine show/hide and refresh inventory
-
     change click to restore command text feature into click to run command again
     tcp crashes when trying to send values the json lib can't encode, catch the error instead
     make top right ui use a bootstrap container, rows and cols

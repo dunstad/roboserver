@@ -168,7 +168,7 @@ function initSelectAreaTools() {
         
         var startPointLua = objectToLuaString(startPoint.world());
         var endPointLua = objectToLuaString(endPoint.world());
-        var scanLevel = document.getElementById('scanWhileMoving').value;
+        var scanLevel = document.getElementById('scanLevelSelect').value;
         
         if (digToolActive) {
           var commandName = 'dig';
@@ -229,7 +229,7 @@ function initClickTools() {
     if (controls.enabled && (moveToolActive || interactToolActive || inspectToolActive)) {
       var coord = new WorldAndScenePoint(rollOverMesh.position, false).world();
       console.log(coord);
-      var scanLevel = document.getElementById('scanWhileMoving').value;
+      var scanLevel = document.getElementById('scanLevelSelect').value;
       if (moveToolActive) {
         var commandName = 'move';
         var commandParameters = [coord.x, coord.y, coord.z, scanLevel];
@@ -249,7 +249,8 @@ function initClickTools() {
 
 /**
  * Sends a command for the selected robot to the server.
- * @param {string} commandString 
+ * @param {string} commandName 
+ * @param {any[]} commandParameters
  * @param {boolean} runInTerminal
  * @returns {boolean}
  */

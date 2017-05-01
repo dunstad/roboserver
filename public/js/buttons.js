@@ -4,39 +4,35 @@ var buttonContainer = document.getElementById('buttonDiv');
  * Adds a button to the web interface. When clicked, sends
  * a command to the listening robot to be executed.
  * @param {string} buttonName
- * @param {string} commandName
+ * @param {string} callback
  */
-function addButton(buttonName, commandName) {
+function addButton(buttonName, callback) {
   var button = document.createElement('button');
   button.innerHTML = buttonName;
-  button.addEventListener('click', ()=>{
-    sendCommand(commandName);
-  });
+  button.addEventListener('click', callback);
   buttonContainer.appendChild(button);
   buttonContainer.appendChild(document.createElement('br'));
 };
 
-var codeStrings = {
-   'Scan Far': 'scanArea',
-   'Scan Near': 'scanClose',
-   'Refresh Inventory': 'viewInventory',
-   'Equip': 'equip',
+var buttonCallbacks = {
+   
+  'Scan Area': ()=>{sendCommand('scanArea', [document.getElementById('scanLevelSelect').value]);},
+
+  'Show/Hide Inventory': ()=>{
+    var inventoryContainer = document.getElementById('inventoryContainer');
+    if (inventoryContainer.classList.contains('hidden')) {
+      inventoryContainer.classList.remove('hidden');
+      sendCommand('viewInventory');
+    }
+    else {
+      inventoryContainer.classList.add('hidden');
+    }
+  },
+
+  'Equip': ()=>{sendCommand('equip');}
+
 };
 
-for (var buttonName in codeStrings) {
-  addButton(buttonName, codeStrings[buttonName]);
+for (var buttonName in buttonCallbacks) {
+  addButton(buttonName, buttonCallbacks[buttonName]);
 }
-
-var toggleInventoryDisplayButton = document.createElement('button');
-toggleInventoryDisplayButton.innerHTML = "Show/Hide Inventory";
-toggleInventoryDisplayButton.addEventListener('click', ()=>{
-  var inventoryContainer = document.getElementById('inventoryContainer');
-  if (inventoryContainer.classList.contains('hidden')) {
-    inventoryContainer.classList.remove('hidden')
-  }
-  else {
-    inventoryContainer.classList.add('hidden');
-  }
-});
-buttonContainer.appendChild(toggleInventoryDisplayButton);
-buttonContainer.appendChild(document.createElement('br'));

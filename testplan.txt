@@ -19,3 +19,6 @@ very much still a work in progress
   on click show/hide button
     add the event handlers for this button
     toggle visibility for currently selected robot's inventories
+
+  make sure select mesh moves when robot moves or selected robot changes
+  
