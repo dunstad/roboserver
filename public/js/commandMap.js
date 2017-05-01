@@ -1,19 +1,20 @@
 var commandMap = {
   
   /**
-   * Used to view a large area around the robot.
+   * Used to view an area around the robot.
+   * @param {string} scanLevel
    * @returns {string}
    */
-  scanArea: function() {
-    return 'for i=-1,7 do sendScan.plane(i); end return true;';
-  },
-
-  /**
-   * Used to view a small area around the robot.
-   * @returns {string}
-   */
-  scanClose: function() {
-    return 'for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;';
+  scanArea: function(scanLevel) {
+    scanLevel = parseInt(scanLevel);
+    var result = '';
+    if (scanLevel == 1) {
+      result = 'for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;';
+    }
+    else if (scanLevel == 2) {
+      result = 'for i=-1,7 do sendScan.plane(i); end return true;';
+    }
+    return result;
   },
 
   /**

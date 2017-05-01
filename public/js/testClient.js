@@ -175,9 +175,9 @@ client.connect(port, host, function() {
 });
 
 var pos = {
-	x: process.argv[4] || 4,
-	y: process.argv[5] || 4,
-	z: process.argv[6] || 4
+	x: parseInt(process.argv[4]) || 4,
+	y: parseInt(process.argv[5]) || 4,
+	z: parseInt(process.argv[6]) || 4
 }
 
 client.on('data', (rawMessages)=>{

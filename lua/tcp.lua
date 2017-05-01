@@ -15,8 +15,15 @@ function M.read()
 end
 
 function M.write(data)
-  -- without the newline the write will wait in the buffer
-  return handle:write(JSON:encode(data)..'\r\n');
+  local status, result = pcall(function()
+    -- without the newline the write will wait in the buffer
+    handle:write(JSON:encode(data)..'\r\n');
+  end);
+  if not status then
+    local errorMessage = {'message' = 'Failed to serialize result!'};
+    handle:write(JSON:encode(errorMessage)..'\r\n');
+  end
+  return result;
 end
 
 M.write({id={account=conf.accountName, robot=conf.robotName}});

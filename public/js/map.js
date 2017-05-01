@@ -215,8 +215,8 @@ function placeSelector() {
   prevRollOverMeshPos = rollOverMesh.position.clone();
 
   var fromScreenCenter = new THREE.Vector2(
-    ((renderer.domElement.clientWidth / 2) / renderer.domElement.width) * 2 - 1,
-    -(((renderer.domElement.clientHeight / 2) / renderer.domElement.height) * 2 - 1)
+    ((renderer.domElement.clientWidth / 2) / renderer.domElement.clientWidth) * 2 - 1,
+    -(((renderer.domElement.clientHeight / 2) / renderer.domElement.clientHeight) * 2 - 1)
   );
 
   raycaster.setFromCamera(fromScreenCenter, camera);

@@ -8,7 +8,6 @@ class Inventory {
    */
   constructor(inventoryData) {
     this.inventory = inventoryData;
-    this.inventory.contents = {};
     this.table = renderInventory(inventoryData);
   }
 
@@ -31,7 +30,9 @@ class Inventory {
     this.inventory.contents[slotNum - 1] = slotData;
     var slotCell = this.table.rows[Math.trunc((slotNum - 1) / 4) + 1].cells[(slotNum - 1) % 4];
     if (slotCell.firstChild) {slotCell.firstChild.remove();}
-    if (slotData) {slotCell.appendChild(renderItem(slotData));}
+    if (slotData.contents && slotData.contents.label) {
+      slotCell.appendChild(renderItem(slotData));
+    }
     return slotData;
   }
 
