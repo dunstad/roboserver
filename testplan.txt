@@ -22,3 +22,4 @@ very much still a work in progress
 
   make sure select mesh moves when robot moves or selected robot changes
   
+  see if tcp crashes on serializing functions

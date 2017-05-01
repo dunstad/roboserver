@@ -4,13 +4,6 @@ version 1:
 
   fixes:
 
-    robot should send inventory data one slot at a time
-      server crashing because robot is writing an incomplete json string, write buffer full
-
-      on receive slot
-        update slot in inventory on appropriate robot side
- 
-    tcp crashes when trying to send values the json lib can't encode, catch the error instead
     make top right ui use a bootstrap container, rows and cols
   
   pre-release:
