@@ -262,7 +262,8 @@ function sendCommand(commandName, commandParameters, runInTerminal) {
   }
   else {
     var commandString = commandName + "(" + (commandParameters || "") + ")"
-    addMessage(commandString, true, runInTerminal);
+    commandParameters = Array.isArray(commandParameters) ? commandParameters : [];
+    addMessage(commandString, true, runInTerminal, commandName, commandParameters);
     socket.emit('command', {command: {name: commandName, parameters: commandParameters}, robot: robotSelect.value});
     result = true;
   }
@@ -271,11 +272,13 @@ function sendCommand(commandName, commandParameters, runInTerminal) {
 
 /**
  * Used to display on the web client commands sent to and received from robots.
- * @param {string | any[]} data 
+ * @param {string | any[]} message 
  * @param {boolean} isInput 
  * @param {boolean} checked 
+ * @param {string} commandName
+ * @param {any[]} commandParameters
  */
-function addMessage(data, isInput, checked) {
+function addMessage(message, isInput, checked, commandName, commandParameters) {
 
   var element = document.createElement('div');
   element.classList.add('message');
@@ -283,26 +286,30 @@ function addMessage(data, isInput, checked) {
   if (isInput) {
     var subClass = 'input';
     element.setAttribute("data-checked", checked);
+    element.setAttribute("data-command-name", commandName);
+    element.setAttribute("data-command-parameters", JSON.stringify(commandParameters));
 
     element.addEventListener('click', (event)=>{
 
       var commandInput = document.getElementById('commandInput');
-      commandInput.value = event.target.firstChild.textContent;
-      commandInput.focus();
 
       var checkData = event.target.getAttribute("data-checked");
       var wasChecked = checkData == "true" ? true : false;
       var runInTerminal = document.getElementById("runInTerminal");
       runInTerminal.checked = wasChecked;
 
+      var commandName = event.target.getAttribute("data-command-name");
+      var commandParameters = JSON.parse(event.target.getAttribute("data-command-parameters"));
+      if (commandName) {sendCommand(commandName, commandParameters);}
+
     });
 
-    element.appendChild(document.createTextNode(data));
+    element.appendChild(document.createTextNode(message));
   }
 
   else {
     var subClass = 'output';
-    element.appendChild(renderCommandResponse(data));
+    element.appendChild(renderCommandResponse(message));
   }
 
   element.classList.add(subClass);
