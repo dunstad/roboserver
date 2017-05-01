@@ -77,7 +77,7 @@ function easyConfig(path)
 end
 
 local arg = {...};
-if arg[1] and arg[2] then
+if arg[1] and arg[2] and not (arg[1] == 'config') then
   setConfigOptions({[arg[1]]=arg[2]}, "/home/lib/config.txt");
   print('Set config option ' .. arg[1] .. ' to ' .. arg[2]);
 elseif not (arg[1] == 'config') then

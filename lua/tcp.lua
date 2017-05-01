@@ -20,7 +20,7 @@ function M.write(data)
     handle:write(JSON:encode(data)..'\r\n');
   end);
   if not status then
-    local errorMessage = {'message' = 'Failed to serialize result!'};
+    local errorMessage = {['message']='Failed to serialize result!'};
     handle:write(JSON:encode(errorMessage)..'\r\n');
   end
   return result;

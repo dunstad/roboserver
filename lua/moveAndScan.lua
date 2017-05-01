@@ -1,6 +1,7 @@
 local scan = require('scanDirection');
 local orient = require('trackOrientation');
 local pos = require('trackPosition');
+local robot = require('robot');
 
 local position = pos.get();
 
