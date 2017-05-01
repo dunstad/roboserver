@@ -10,10 +10,8 @@ version 1:
       on receive slot
         update slot in inventory on appropriate robot side
  
-    change click to restore command text feature into click to run command again
     tcp crashes when trying to send values the json lib can't encode, catch the error instead
     make top right ui use a bootstrap container, rows and cols
-    raytrace off center sometimes? mac
   
   pre-release:
     set up github so i can develop without breaking the release
@@ -30,8 +28,6 @@ later:
 
   fixes:
     scrollable message log?
-    turn object formats into classes for clarity
-    some things accept pixel coords and some accept world coords, it's confusing
     robot can't put water in bucket from above the water? investigate
 
   features:
