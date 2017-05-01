@@ -8,6 +8,7 @@ class Inventory {
    */
   constructor(inventoryData) {
     this.inventory = inventoryData;
+    this.inventory.contents = {};
     this.table = renderInventory(inventoryData);
   }
 
@@ -30,7 +31,7 @@ class Inventory {
     this.inventory.contents[slotNum - 1] = slotData;
     var slotCell = this.table.rows[Math.trunc((slotNum - 1) / 4) + 1].cells[(slotNum - 1) % 4];
     if (slotCell.firstChild) {slotCell.firstChild.remove();}
-    slotCell.appendChild(renderItem(slotData));
+    if (slotData) {slotCell.appendChild(renderItem(slotData));}
     return slotData;
   }
 
@@ -84,10 +85,6 @@ function renderInventory(inventoryData) {
       cell.setAttribute('data-slotNumber', slotNumber);
       if (inventoryData.selected == slotNumber) {
         cell.setAttribute('data-selected', true);
-      }
-      var slotData = inventoryData.contents[slotNumber - 1];
-      if (slotData) {
-        cell.appendChild(renderItem(slotData));
       }
     }
   }

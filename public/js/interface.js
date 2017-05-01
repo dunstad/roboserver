@@ -68,7 +68,9 @@ function main() {
   // todo
   socket.on('slot data', (slot)=>{
     console.dir(slot);
-    
+    allRobotInfo[slot.robot]
+      .getInventory(slot.data.side)
+      .setSlot(slot.data.slotNum, slot.data.contents);
   });
 
   // add listening robots to select

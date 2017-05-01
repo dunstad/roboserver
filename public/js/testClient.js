@@ -7,9 +7,14 @@ var host = '127.0.0.1';
 var testInventory1 = {
 	'size': 64,
 	'side': -1,
-	'selected': 1,
-	'contents': {
-		1: {
+	'selected': 1
+};
+
+var testInventory1Slots = [
+	{
+		side: -1,
+		slotNum: 1,
+		contents: {
 			'damage': 0,
 			'hasTag': false,
 			'label': "Dirt",
@@ -17,8 +22,12 @@ var testInventory1 = {
 			'maxSize': 64,
 			'name': "minecraft:dirt",
 			'size': 64
-		},
-		2: {
+		}
+	},
+	{
+		side: -1,
+		slotNum: 2,
+		contents: {
 			'damage': 0,
 			'hasTag': false,
 			'label': "Dirt",
@@ -26,8 +35,12 @@ var testInventory1 = {
 			'maxSize': 64,
 			'name': "minecraft:dirt",
 			'size': 37
-		},
-		5: {
+		}
+	},
+	{
+		side: -1,
+		slotNum: 5,
+		contents: {
 			'damage': 0,
 			'hasTag': false,
 			'label': "Stone",
@@ -37,13 +50,18 @@ var testInventory1 = {
 			'size': 3
 		}
 	}
-};
+];
 
 var testInventory2 = {
 	'size': 27,
-	'side': 3,
-	'contents': {
-		1: {
+	'side': 3
+};
+
+var testInventory2Slots = [
+	{
+		side: 3,
+		slotNum: 1,
+		contents: {
 			'damage': 0,
 			'hasTag': false,
 			'label': "Dirt",
@@ -51,8 +69,12 @@ var testInventory2 = {
 			'maxSize': 64,
 			'name': "minecraft:dirt",
 			'size': 4
-		},
-		2: {
+		}
+	},
+	{
+		side: 3,
+		slotNum: 2,
+		contents: {
 			'damage': 0,
 			'hasTag': false,
 			'label': "Dirt",
@@ -60,8 +82,12 @@ var testInventory2 = {
 			'maxSize': 64,
 			'name': "minecraft:dirt",
 			'size': 7
-		},
-		5: {
+		}
+	},
+	{
+		side: 3,
+		slotNum: 5,
+		contents: {
 			'damage': 0,
 			'hasTag': false,
 			'label': "Stone",
@@ -71,7 +97,7 @@ var testInventory2 = {
 			'size': 25
 		}
 	}
-};
+];
 
 var testScan = {
 	x: 0,
@@ -167,7 +193,9 @@ client.on('data', (rawMessages)=>{
 			else if (data.command == 'return int.sendInventoryData(-1);') {
 				console.log('sending inventory!');
 				sendWithCost('inventory data', testInventory1);
+				for (slot of testInventory1Slots) {sendWithCost('slot data', slot);}
 				sendWithCost('inventory data', testInventory2);
+				for (slot of testInventory2Slots) {sendWithCost('slot data', slot);}
 			}
 			else if (data.command == 'pos.sendLocation(); for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;') {
 				console.log('sending location and scan')
