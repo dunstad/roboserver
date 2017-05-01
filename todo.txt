@@ -4,6 +4,7 @@ version 1:
 
   fixes:
 
+    make inventory/crafting code take advantage of single slot updating
     make top right ui use a bootstrap container, rows and cols
   
   pre-release:
