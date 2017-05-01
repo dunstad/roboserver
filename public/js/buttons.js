@@ -29,7 +29,9 @@ var buttonCallbacks = {
     }
   },
 
-  'Equip': ()=>{sendCommand('equip');}
+  'Equip': ()=>{sendCommand('equip');},
+
+  'Center Camera On Robot': ()=>{viewSelectedRobot();}
 
 };
 

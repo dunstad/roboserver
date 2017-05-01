@@ -424,7 +424,7 @@ function switchToRobot(robotName) {
     var robotPos = robotData.getPosition();
     if (robotPos) {
       selectedRobotMesh.position.copy(robotPos.scene());
-      viewSelectedRobot();
+      requestRender();
     }
   }
 }
