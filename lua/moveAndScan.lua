@@ -44,10 +44,10 @@ local directionToMoveFunctionMap = {
 };
 
 local directionToDetectFunctionMap = {
-  ["forward"] = robot.detect(),
+  ["forward"] = robot.detect,
   ["back"] = doNothing,
-  ["up"] = robot.detectUp(),
-  ["down"] = robot.detectDown()
+  ["up"] = robot.detectUp,
+  ["down"] = robot.detectDown
 };
 
 function M.moveAndScan(direction, scanType, times)
