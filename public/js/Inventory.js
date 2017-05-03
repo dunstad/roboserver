@@ -69,6 +69,7 @@ class Inventory {
  */
 function renderInventory(inventoryData) {
   var table = document.createElement('table');
+  table.classList.add('mc-table');
   table.setAttribute('data-side', inventoryData.side);
   var numCols = 4;
   var numRows = inventoryData.size / 4;
@@ -76,6 +77,7 @@ function renderInventory(inventoryData) {
     var row = table.insertRow(-1);
     for (var j = 0; j < numCols; j++) {
       var cell = row.insertCell(-1);
+      cell.classList.add('mc-td');
       if (inventoryData.side == -1) {
         cell.addEventListener('click', changeSelectedSlot);
       }

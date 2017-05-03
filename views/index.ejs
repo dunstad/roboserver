@@ -26,14 +26,21 @@
       </div>
 
       <div class='row'>
-        <div class='col-xs-4'>
-          <span><%= user.username %></span>
-        </div>
-        <div class='col-xs-4'>
-          <span id='powerLevel'></span>
-        </div>
-        <div class='col-xs-4'>
-          <span id='hoverGuideCoordinates'></span>
+        <div class='col-xs-12'>
+          <table class='table'>
+            <tr>
+              <td>User</td>
+              <td><%= user.username %></td>
+            </tr>
+            <tr>
+              <td>Power</td>
+              <td><span id='powerLevel'></span></td>
+            </tr>
+            <tr>
+              <td>Coordinate</td>
+              <td><span id='hoverGuideCoordinates'></span></td>
+            </tr>
+          </table>
         </div>
       </div>
 

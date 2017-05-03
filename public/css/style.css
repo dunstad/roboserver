@@ -50,12 +50,6 @@ body {
   width:260px;
 }
 
-#hoverGuideCoordinates {
-  background-color: #f0f0f0;
-  padding: 4px;
-  border-radius: 25px;
-}
-
 .coordinateInput {
   max-width: 100%;
   text-align: center;
@@ -63,7 +57,7 @@ body {
   float: left;
 }
 
-table {
+.mc-table {
   display: inline-block;
   background-color: #C6C6C6;
   border: 2px solid;
@@ -72,14 +66,14 @@ table {
   margin: 5px;
 }
 
-td[data-selected=true] {
+.mc-td[data-selected=true] {
   border-color: lime;
 }
-td:hover {
+.mc-td:hover {
   background-color: #C3C3C3;
 }
 
-td {
+.mc-td {
   color: white;
   display: inline-block;
   background-color: #8B8B8B;
