@@ -6,6 +6,7 @@ version 1:
 
     make inventory/crafting code take advantage of single slot updating
     make top right ui use a bootstrap container, rows and cols
+    equipping doesn't cause inventory to be revealed
   
   pre-release:
     set up github so i can develop without breaking the release

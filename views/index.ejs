@@ -40,19 +40,33 @@
 
       <div class='row'>
         <div class='col-xs-12'>
-          Scan Level:
-          <select id='scanLevelSelect'>
-            <option value='0'>None</option>
-            <option value='1' selected>Small</option>
-            <option value='2'>Big</option>
-          </select>
+
+          <div class="input-group input-group-sm">
+
+            <span class="input-group-addon">Scan Level</span>
+            
+            <select id='scanLevelSelect' class='form-control'>
+              <option value='0'>None</option>
+              <option value='1' selected>Small</option>
+              <option value='2'>Big</option>
+            </select>
+
+          </div>
+          
         </div>
       </div>
 
       <div class='row'>
         <div class='col-xs-12'>
-          Selected Robot:
-        <select id='robotSelect'></select>
+
+        <div class="input-group input-group-sm">
+
+          <span class="input-group-addon">Selected Robot</span>
+          
+          <select id='robotSelect' class='form-control'></select>
+
+        </div>
+
         </div>
       </div>
 
@@ -124,26 +138,53 @@
 
       <div class='row'>
         <div class='col-xs-12'>
+
+          <div class='input-group input-group-sm'>
+            
+            <span class='input-group-btn'>
+              <button class='btn btn-primary' type='button' id='craftButton'>Craft</button>
+            </span>
+
+            <select class='selectpicker form-control' data-live-search='true' id='craftSelect' title='Craft something!'></select>
+
+          </div>
           
         </div>
       </div>
+     
+      <div class='row'>
+        <div class='col-xs-12'>
 
-      <div class='input-group'>
-        <select class='selectpicker' data-live-search='true' id='craftSelect' title='Craft something!'></select>
-        <span class='input-group-btn'>
-          <button class='btn btn-default' type='button' id='craftButton'>Craft</button>
-        </span>
+          <div class="btn-group btn-group-justified">
+
+            <a class="btn btn-primary btn-xs" id='inventoryButton'>Inventory</a>
+            <a class="btn btn-primary btn-xs" id='scanButton'>Scan</a>
+
+          </div>
+
+          <div class="btn-group btn-group-justified">
+
+            <a class="btn btn-primary btn-xs" id='equipButton'>Equip</a>
+            <a class="btn btn-primary btn-xs" id='centerButton'>Center</a>
+
+          </div>
+
+        </div>
       </div>
 
-      <div id='buttonDiv'></div>
+      <div class='row'>
+        <div class='col-xs-12'>
+          
+        </div>
+      </div>
 
       <label for='cutawayValue'>Cutaway point</label>
 
       <div class='input-group'>
         <div class='input-group-btn'>
           Cutaway: 
-          <button id='axisButton' class='btn btn-default'>X</button>
-          <button id='operationButton' class='btn btn-default'>&gt;</button>
+          <button id='axisButton' class='btn btn-primary'>X</button>
+          <button id='operationButton' class='btn btn-primary'>&gt;</button>
         </div>
         <input type='number' id='cutawayValue' class='form-control'>
       </div>

@@ -3,22 +3,19 @@ var buttonContainer = document.getElementById('buttonDiv');
 /**
  * Adds a button to the web interface. When clicked, sends
  * a command to the listening robot to be executed.
- * @param {string} buttonName
+ * @param {string} buttonID
  * @param {string} callback
  */
-function addButton(buttonName, callback) {
-  var button = document.createElement('button');
-  button.innerHTML = buttonName;
+function addButton(buttonID, callback) {
+  var button = document.getElementById(buttonID);
   button.addEventListener('click', callback);
-  buttonContainer.appendChild(button);
-  buttonContainer.appendChild(document.createElement('br'));
 };
 
 var buttonCallbacks = {
    
-  'Scan Area': ()=>{sendCommand('scanArea', [document.getElementById('scanLevelSelect').value]);},
+  'scanButton': ()=>{sendCommand('scanArea', [document.getElementById('scanLevelSelect').value]);},
 
-  'Show/Hide Inventory': ()=>{
+  'inventoryButton': ()=>{
     var inventoryContainer = document.getElementById('inventoryContainer');
     if (inventoryContainer.classList.contains('hidden')) {
       inventoryContainer.classList.remove('hidden');
@@ -29,12 +26,12 @@ var buttonCallbacks = {
     }
   },
 
-  'Equip': ()=>{sendCommand('equip');},
+  'equipButton': ()=>{sendCommand('equip');},
 
-  'Center Camera On Robot': ()=>{viewSelectedRobot();}
+  'centerButton': ()=>{viewSelectedRobot();}
 
 };
 
-for (var buttonName in buttonCallbacks) {
-  addButton(buttonName, buttonCallbacks[buttonName]);
+for (var buttonID in buttonCallbacks) {
+  addButton(buttonID, buttonCallbacks[buttonID]);
 }
