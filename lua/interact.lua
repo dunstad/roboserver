@@ -22,10 +22,10 @@ function M.sendSlotData(side, slotNum)
   };
   if side == -1 then
     if robot.count(slotNum) > 0 then
-      slot.contents = inv.getStackInInternalSlot(i);
+      slot.contents = inv.getStackInInternalSlot(slotNum);
     end
   else
-    slot.contents = inv.getStackInSlot(side, i);
+    slot.contents = inv.getStackInSlot(side, slotNum);
   end
   tcp.write({['slot data']=slot});
   return slot.contents;

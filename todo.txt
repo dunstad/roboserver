@@ -7,6 +7,7 @@ version 1:
     make inventory/crafting code take advantage of single slot updating
     make top right ui use a bootstrap container, rows and cols
     equipping doesn't cause inventory to be revealed
+    add button tooltips
   
   pre-release:
     set up github so i can develop without breaking the release
@@ -26,6 +27,7 @@ later:
     robot can't put water in bucket from above the water? investigate
 
   features:
+    display most recently equipped item
     hotkeys for different tools
     item label to facade color map, use for map and inventory
     change gui based on what components the selected robot has
