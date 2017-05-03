@@ -422,7 +422,10 @@ function initCraftSelect() {
 function switchToRobot(robotName) {
   var robotData = allRobotInfo[robotName];
   if (robotData) {
-    document.getElementById('powerLevel').innerHTML = Math.round(robotData.getPower() * 100) + "%";
+    var powerLevel = robotData.getPower();
+    if (powerLevel) {
+      document.getElementById('powerLevel').innerHTML = Math.round(powerLevel * 100) + "%";
+    }
     
     var inventoryContainer = document.getElementById("inventoryContainer");
     for (elem of Array.from(inventoryContainer.childNodes)) {
