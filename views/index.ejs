@@ -9,66 +9,46 @@
   </head>
   <body>
 
-    <div id='bottomLeftUI'>
-      <div id='messageContainer'>
-        <input type='text' id='commandInput'></input><br>
-        <input type='checkbox' id='runInTerminal'></input>Run in Terminal
+    <div id='topLeftUI'>
+      
+      <div class='message output'>
+        User: 
+        <%= user.username %>
       </div>
+
+      <div class='message output'>
+        Power: 
+        <span id='powerLevel'></span>
+      </div>
+
+      <div class='message output'>
+        Position: 
+        <span id='hoverGuideCoordinates'></span>
+      </div>
+
+    </div>
+
+    <div id='bottomLeftUI'>
       <div id='inventoryContainer' class='hidden'></div>
     </div>
 
+    <div id='bottomRightUI'>
+      <div id='messageContainer'></div>
+      <br>
+      <br>
+      <input type='text' id='commandInput'></input>
+      <br>
+      <input type='checkbox' id='runInTerminal'></input>Run in Terminal
+    </div>
+
     <div id='buttonContainer' class='container'>
-      
-      <div class='row'>
-        <div class='col-xs-12'>
-          
-        </div>
-      </div>
-
-      <div class='row'>
-        <div class='col-xs-12'>
-          <table class='table'>
-            <tr>
-              <td>User</td>
-              <td><%= user.username %></td>
-            </tr>
-            <tr>
-              <td>Power</td>
-              <td><span id='powerLevel'></span></td>
-            </tr>
-            <tr>
-              <td>Coordinate</td>
-              <td><span id='hoverGuideCoordinates'></span></td>
-            </tr>
-          </table>
-        </div>
-      </div>
-
-
-      <div class='row'>
-        <div class='col-xs-12'>
-
-          <div class="input-group input-group-sm">
-
-            <span class="input-group-addon">Scan Level</span>
-            
-            <select id='scanLevelSelect' class='form-control'>
-              <option value='0'>None</option>
-              <option value='1' selected>Small</option>
-              <option value='2'>Big</option>
-            </select>
-
-          </div>
-          
-        </div>
-      </div>
 
       <div class='row'>
         <div class='col-xs-12'>
 
         <div class="input-group input-group-sm">
 
-          <span class="input-group-addon">Selected Robot</span>
+          <span class="input-group-addon">Robot</span>
           
           <select id='robotSelect' class='form-control'></select>
 
@@ -77,9 +57,13 @@
         </div>
       </div>
 
+      <br>
+
       <div class='row'>
 
         <div class='col-xs-12' data-toggle='buttons'>
+
+          <div class='message output'>Tools</div>
           
           <div class="btn-group btn-group-justified">
 
@@ -143,6 +127,8 @@
         </div>
       </div>
 
+      <br>
+
       <div class='row'>
         <div class='col-xs-12'>
 
@@ -159,9 +145,12 @@
         </div>
       </div>
      
+      <br>
+
       <div class='row'>
         <div class='col-xs-12'>
 
+          <div class='message output'>Actions</div>
           <div class="btn-group btn-group-justified">
 
             <a class="btn btn-primary btn-xs" id='inventoryButton'>Inventory</a>
@@ -179,22 +168,43 @@
         </div>
       </div>
 
+      <br>
+
       <div class='row'>
         <div class='col-xs-12'>
+
+          <div for='cutawayValue' class='message output'>Cutaway point</div>
+          <div class='input-group'>
+            <div class='input-group-btn'>
+              <button id='axisButton' class='btn btn-primary'>X</button>
+              <button id='operationButton' class='btn btn-primary'>&gt;</button>
+            </div>
+            <input type='number' id='cutawayValue' class='form-control'>
+          </div>
+
+        </div>
+      </div>
+
+      <br>
+
+      <div class='row'>
+        <div class='col-xs-12'>
+
+          <div class="input-group input-group-sm">
+
+            <span class="input-group-addon">Scan Size</span>
+            
+            <select id='scanLevelSelect' class='form-control'>
+              <option value='0'>None</option>
+              <option value='1' selected>Small</option>
+              <option value='2'>Big</option>
+            </select>
+
+          </div>
           
         </div>
       </div>
 
-      <label for='cutawayValue'>Cutaway point</label>
-
-      <div class='input-group'>
-        <div class='input-group-btn'>
-          Cutaway: 
-          <button id='axisButton' class='btn btn-primary'>X</button>
-          <button id='operationButton' class='btn btn-primary'>&gt;</button>
-        </div>
-        <input type='number' id='cutawayValue' class='form-control'>
-      </div>
 
     </div>
 

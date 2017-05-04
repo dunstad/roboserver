@@ -2,31 +2,33 @@ body {
   background-color: #f0f0f0;
   margin: 0px;
   overflow: hidden;
+  font-family: monospace;
 }
 
 .message {
   font-size: 14px;
   display: inline-block;
-  padding: 8px;
+  padding: 4px;
   border-radius: 25px;
-  margin: 1px;
+  margin: 5px;
   color: #FFFFFF;
-  font-family: monospace;
   max-width: 300px;
   overflow-wrap: break-word;
 }
 
 .input {
-  border-color: #424242;
-  background-color: #A3A3A3;
+  background-color: #337ab7;
+  border: 1px solid #2e6da4;
 }
 .input:hover {
-  background-color: #C3C3C3;
+  background-color: #286090;
+  border: 1px solid #204d74;
 }
 
 .output {
-  border-color: #424242;
-  background-color: #767676;
+  background-color: #eeeeee;
+  border: 1px solid #cccccc;
+  color: #555555;
 }
 
 #bottomLeftUI {
@@ -42,12 +44,27 @@ body {
 
 #messageContainer {
   width: 300px;
+  max-height: 50vh;
+  overflow-y: scroll;
 }
 
 #buttonContainer {
   position: absolute;
   right: 0%;
-  width:260px;
+  top: 1%;
+  width:300px;
+}
+
+#bottomRightUI {
+  position: fixed;
+  right: 0%;
+  bottom: 1%;
+}
+
+#topLeftUI {
+  position: fixed;
+  top: 1%;
+  left: 1%;
 }
 
 .coordinateInput {
