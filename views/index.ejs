@@ -32,10 +32,9 @@
       <div id='inventoryContainer' class='hidden'></div>
     </div>
 
-    <div id='buttonContainer' class='container'>
+    <div id='buttonContainer' class='flex-col'>
 
-      <div class='row'>
-        <div class='col-xs-12'>
+     
 
         <div class="input-group input-group-sm">
 
@@ -45,84 +44,62 @@
 
         </div>
 
-        </div>
-      </div>
-
+      
       <br>
 
-      <div class='row'>
-
-        <div class='col-xs-12' data-toggle='buttons'>
 
           <div class='message output'>Tools</div>
           
-          <div class="btn-group btn-group-justified">
+          <div data-toggle='buttons'>
+            <div class="btn-group btn-group-justified">
 
-            <label class='btn btn-primary btn-xs active' data-toggle='collapse' data-target='.digToolOptions.in'>
-              <input type='radio' name='options' id='moveTool' autocomplete='off' checked> Move
-            </label>
-          
-            <label class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.digToolOptions.in'>
-              <input type='radio' name='options' id='interactTool' autocomplete='off' > Interact
-            </label>
-          
-            <label class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.digToolOptions.in'>
-              <input type='radio' name='options' id='inspectTool' autocomplete='off' > Inspect
-            </label>
-
-          </div>
-
-          <div class="btn-group btn-group-justified">
+              <label class='btn btn-primary btn-xs active' data-toggle='collapse' data-target='.digToolOptions.in'>
+                <input type='radio' name='options' id='moveTool' autocomplete='off' checked> Move
+              </label>
             
-            <label class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.digToolOptions:not(.in)'>
-              <input type='radio' name='options' id='digTool' autocomplete='off' > Swing
-            </label>
-          
-            <label class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.digToolOptions:not(.in)'>
-              <input type='radio' name='options' id='placeTool' autocomplete='off' > Place
-            </label>
+              <label class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.digToolOptions.in'>
+                <input type='radio' name='options' id='interactTool' autocomplete='off' > Interact
+              </label>
+            
+              <label class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.digToolOptions.in'>
+                <input type='radio' name='options' id='inspectTool' autocomplete='off' > Inspect
+              </label>
+
+            </div>
+
+            <div class="btn-group btn-group-justified">
+              
+              <label class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.digToolOptions:not(.in)'>
+                <input type='radio' name='options' id='digTool' autocomplete='off' > Swing
+              </label>
+            
+              <label class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.digToolOptions:not(.in)'>
+                <input type='radio' name='options' id='placeTool' autocomplete='off' > Place
+              </label>
+
+            </div>
 
           </div>
 
+
+      <div class='digToolOptions collapse'>
+              
+        <div class='flex-row'>
+          <input type='number' id='selectStartX' class='coordinateInput flex-item' placeholder='X'>
+          <input type='number' id='selectStartY' class='coordinateInput flex-item' placeholder='Y'>
+          <input type='number' id='selectStartZ' class='coordinateInput flex-item' placeholder='Z'>
+        </div>
+
+        <div class='flex-row'>
+          <input type='number' id='selectEndX' class='coordinateInput flex-item' placeholder='X'>
+          <input type='number' id='selectEndY' class='coordinateInput flex-item' placeholder='Y'>
+          <input type='number' id='selectEndZ' class='coordinateInput flex-item' placeholder='Z'>
         </div>
 
       </div>
-
-      <div class='digToolOptions collapse row'>
-        <div class='col-xs-12'>
-
-          <div class='row'>
-            <div class='col-xs-4'>
-              <input type='number' id='selectStartX' class='coordinateInput' placeholder='X'>
-            </div>
-            <div class='col-xs-4'>
-              <input type='number' id='selectStartY' class='coordinateInput' placeholder='Y'>
-            </div>
-            <div class='col-xs-4'>
-              <input type='number' id='selectStartZ' class='coordinateInput' placeholder='Z'>
-            </div>
-          </div>
-
-          <div class='row'>
-            <div class='col-xs-4'>
-              <input type='number' id='selectEndX' class='coordinateInput' placeholder='X'>
-            </div>
-            <div class='col-xs-4'>
-              <input type='number' id='selectEndY' class='coordinateInput' placeholder='Y'>
-            </div>
-            <div class='col-xs-4'>
-              <input type='number' id='selectEndZ' class='coordinateInput' placeholder='Z'>
-            </div>
-          </div>
         
-        </div>
-      </div>
-
       <br>
-
-      <div class='row'>
-        <div class='col-xs-12'>
-
+      
           <div class='input-group input-group-sm'>
             
             <span class='input-group-btn'>
@@ -132,14 +109,8 @@
             <select class='selectpicker form-control' data-live-search='true' id='craftSelect' title='Craft something!'></select>
 
           </div>
-          
-        </div>
-      </div>
-     
+  
       <br>
-
-      <div class='row'>
-        <div class='col-xs-12'>
 
           <div class='message output'>Actions</div>
           <div class="btn-group btn-group-justified">
@@ -156,14 +127,8 @@
 
           </div>
 
-        </div>
-      </div>
 
       <br>
-
-      <div class='row'>
-        <div class='col-xs-12'>
-
           <div for='cutawayValue' class='message output'>Cutaway point</div>
           <div class='input-group'>
             <div class='input-group-btn'>
@@ -173,14 +138,7 @@
             <input type='number' id='cutawayValue' class='form-control'>
           </div>
 
-        </div>
-      </div>
-
       <br>
-
-      <div class='row'>
-        <div class='col-xs-12'>
-
           <div class="input-group input-group-sm">
 
             <span class="input-group-addon">Scan Size</span>
@@ -193,28 +151,12 @@
 
           </div>
           
-        </div>
-      </div>
-
-      <br>
-
-      <div class='row'>
-        <div class='col-xs-12'>
-
+           <br>
+          
           <input type='text' id='commandInput'></input>
-          <br>
-          <input type='checkbox' id='runInTerminal'></input>Run in Terminal
-
-        </div>
-      </div>
-
-      <div class='row'>
-        <div class='col-xs-12'>
+          <span><input type='checkbox' id='runInTerminal'></input> Run in Terminal</span>
 
           <div id='messageContainer'></div>
-         
-        </div>
-      </div>
 
     </div>
 

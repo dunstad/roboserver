@@ -3,9 +3,9 @@ version 1:
   features:
 
   fixes:
-
+    make text labels not look like buttons
+    make label font heavier
     make inventory/crafting code take advantage of single slot updating
-    make top right ui use a bootstrap container, rows and cols
     equipping doesn't cause inventory to be revealed
     add button tooltips
   
@@ -23,7 +23,6 @@ version 1:
 later:
 
   fixes:
-    scrollable message log?
     robot can't put water in bucket from above the water? investigate
 
   features:
