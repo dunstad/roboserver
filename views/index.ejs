@@ -36,20 +36,24 @@
 
      
 
-        <div class="input-group input-group-sm">
+      <div class="input-group input-group-sm">
 
-          <span class="input-group-addon">Robot</span>
-          
-          <select id='robotSelect' class='form-control'></select>
+        <span class="input-group-addon">Robot</span>
+        
+        <select id='robotSelect' class='form-control'></select>
 
-        </div>
+      </div>
 
       
       <br>
 
 
-          <div class='message output'>Tools</div>
-          
+      <div class='panel panel-default'>
+
+        <div class='panel-heading'>Tools</div>
+
+        <div class='panel-body'>
+        
           <div data-toggle='buttons'>
             <div class="btn-group btn-group-justified">
 
@@ -81,6 +85,9 @@
 
           </div>
 
+        </div>
+
+      </div>
 
       <div class='digToolOptions collapse'>
               
@@ -99,64 +106,65 @@
       </div>
         
       <br>
-      
-          <div class='input-group input-group-sm'>
-            
-            <span class='input-group-btn'>
-              <button class='btn btn-primary' type='button' id='craftButton'>Craft</button>
-            </span>
-
-            <select class='selectpicker form-control' data-live-search='true' id='craftSelect' title='Craft something!'></select>
-
-          </div>
   
-      <br>
+      <div class='input-group input-group-sm'>
+        
+        <span class='input-group-btn'>
+          <button class='btn btn-primary' type='button' id='craftButton'>Craft</button>
+        </span>
 
-          <div class='message output'>Actions</div>
-          <div class="btn-group btn-group-justified">
+        <select class='selectpicker form-control' data-live-search='true' id='craftSelect' title='Craft something!'></select>
 
-            <a class="btn btn-primary btn-xs" id='inventoryButton'>Inventory</a>
-            <a class="btn btn-primary btn-xs" id='scanButton'>Scan</a>
-
-          </div>
-
-          <div class="btn-group btn-group-justified">
-
-            <a class="btn btn-primary btn-xs" id='equipButton'>Equip</a>
-            <a class="btn btn-primary btn-xs" id='centerButton'>Center</a>
-
-          </div>
-
+      </div>
 
       <br>
-          <div for='cutawayValue' class='message output'>Cutaway point</div>
-          <div class='input-group'>
-            <div class='input-group-btn'>
-              <button id='axisButton' class='btn btn-primary'>X</button>
-              <button id='operationButton' class='btn btn-primary'>&gt;</button>
-            </div>
-            <input type='number' id='cutawayValue' class='form-control'>
-          </div>
+
+      <div class='message output'>Actions</div>
+      <div class="btn-group btn-group-justified">
+
+        <a class="btn btn-primary btn-xs" id='inventoryButton'>Inventory</a>
+        <a class="btn btn-primary btn-xs" id='scanButton'>Scan</a>
+
+      </div>
+
+      <div class="btn-group btn-group-justified">
+
+        <a class="btn btn-primary btn-xs" id='equipButton'>Equip</a>
+        <a class="btn btn-primary btn-xs" id='centerButton'>Center</a>
+
+      </div>
 
       <br>
-          <div class="input-group input-group-sm">
 
-            <span class="input-group-addon">Scan Size</span>
-            
-            <select id='scanLevelSelect' class='form-control'>
-              <option value='0'>None</option>
-              <option value='1' selected>Small</option>
-              <option value='2'>Big</option>
-            </select>
+      <div for='cutawayValue' class='message output'>Cutaway point</div>
+      <div class='input-group'>
+        <div class='input-group-btn'>
+          <button id='axisButton' class='btn btn-primary'>X</button>
+          <button id='operationButton' class='btn btn-primary'>&gt;</button>
+        </div>
+        <input type='number' id='cutawayValue' class='form-control'>
+      </div>
 
-          </div>
+      <br>
+
+      <div class="input-group input-group-sm">
+
+        <span class="input-group-addon">Scan Size</span>
+        
+        <select id='scanLevelSelect' class='form-control'>
+          <option value='0'>None</option>
+          <option value='1' selected>Small</option>
+          <option value='2'>Big</option>
+        </select>
+
+      </div>
           
-           <br>
-          
-          <input type='text' id='commandInput'></input>
-          <span><input type='checkbox' id='runInTerminal'></input> Run in Terminal</span>
+      <br>
+      
+      <input type='text' id='commandInput'></input>
+      <span><input type='checkbox' id='runInTerminal'></input> Run in Terminal</span>
 
-          <div id='messageContainer'></div>
+      <div id='messageContainer'></div>
 
     </div>
 

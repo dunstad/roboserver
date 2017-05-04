@@ -3,8 +3,8 @@ version 1:
   features:
 
   fixes:
-    make text labels not look like buttons
-    make label font heavier
+    put button groups in panels
+    make panel colors match and reduce size
     make inventory/crafting code take advantage of single slot updating
     equipping doesn't cause inventory to be revealed
     add button tooltips
