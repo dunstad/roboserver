@@ -316,8 +316,8 @@ function addMessage(message, isInput, checked, commandName, commandParameters) {
 
   element.classList.add(subClass);
   var messageContainer = document.getElementById('messageContainer');
-  messageContainer.appendChild(element);
-  messageContainer.appendChild(document.createElement('br'));
+  messageContainer.insertBefore(element, messageContainer.firstChild);
+  messageContainer.insertBefore(document.createElement('br'), messageContainer.firstChild);
 
 }
 

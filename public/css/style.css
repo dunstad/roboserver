@@ -10,7 +10,7 @@ body {
   display: inline-block;
   padding: 4px;
   border-radius: 25px;
-  margin: 5px;
+  margin: 5px 0px;
   color: #FFFFFF;
   max-width: 300px;
   overflow-wrap: break-word;
@@ -43,8 +43,6 @@ body {
 }
 
 #messageContainer {
-  width: 300px;
-  max-height: 50vh;
   overflow-y: scroll;
 }
 
@@ -53,12 +51,6 @@ body {
   right: 0%;
   top: 1%;
   width:300px;
-}
-
-#bottomRightUI {
-  position: fixed;
-  right: 0%;
-  bottom: 1%;
 }
 
 #topLeftUI {
