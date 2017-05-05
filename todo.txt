@@ -3,11 +3,10 @@ version 1:
   features:
 
   fixes:
-    put button groups in panels
-    make panel colors match and reduce size
     make inventory/crafting code take advantage of single slot updating
     equipping doesn't cause inventory to be revealed
     add button tooltips
+    make command input hidden by default, show based on robot config
   
   pre-release:
     set up github so i can develop without breaking the release
