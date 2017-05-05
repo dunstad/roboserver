@@ -11,19 +11,25 @@
 
     <div id='topLeftUI'>
       
-      <div class='message output'>
-        User: 
-        <%= user.username %>
-      </div>
+      <div class='panel panel-default'>
+        <div class='panel-body'>
 
-      <div class='message output'>
-        Power: 
-        <span id='powerLevel'></span>
-      </div>
+          <div>
+            User: 
+            <%= user.username %>
+          </div>
 
-      <div class='message output'>
-        Position: 
-        <span id='hoverGuideCoordinates'></span>
+          <div>
+            Power: 
+            <span id='powerLevel'></span>
+          </div>
+
+          <div>
+            Position: 
+            <span id='hoverGuideCoordinates'></span>
+          </div>
+
+        </div>
       </div>
 
     </div>
@@ -48,12 +54,11 @@
       <br>
 
 
-      <div class='panel panel-default'>
+      <div class='panel panel-default fullWidth'>
 
         <div class='panel-heading'>Tools</div>
 
-        <div class='panel-body'>
-        
+        <div class='panel-body flex-col'>
           <div data-toggle='buttons'>
             <div class="btn-group btn-group-justified">
 
@@ -85,67 +90,75 @@
 
           </div>
 
-        </div>
+          <div class='digToolOptions collapse fullWidth'>
+                  
+            <div class='flex-row'>
+              <input type='number' id='selectStartX' class='coordinateInput flex-item' placeholder='X'>
+              <input type='number' id='selectStartY' class='coordinateInput flex-item' placeholder='Y'>
+              <input type='number' id='selectStartZ' class='coordinateInput flex-item' placeholder='Z'>
+            </div>
 
-      </div>
+            <div class='flex-row'>
+              <input type='number' id='selectEndX' class='coordinateInput flex-item' placeholder='X'>
+              <input type='number' id='selectEndY' class='coordinateInput flex-item' placeholder='Y'>
+              <input type='number' id='selectEndZ' class='coordinateInput flex-item' placeholder='Z'>
+            </div>
 
-      <div class='digToolOptions collapse'>
+          </div>
               
-        <div class='flex-row'>
-          <input type='number' id='selectStartX' class='coordinateInput flex-item' placeholder='X'>
-          <input type='number' id='selectStartY' class='coordinateInput flex-item' placeholder='Y'>
-          <input type='number' id='selectStartZ' class='coordinateInput flex-item' placeholder='Z'>
-        </div>
+          <br>
 
-        <div class='flex-row'>
-          <input type='number' id='selectEndX' class='coordinateInput flex-item' placeholder='X'>
-          <input type='number' id='selectEndY' class='coordinateInput flex-item' placeholder='Y'>
-          <input type='number' id='selectEndZ' class='coordinateInput flex-item' placeholder='Z'>
+          <div class='input-group input-group-sm'>
+            
+            <span class='input-group-btn'>
+              <button class='btn btn-primary' type='button' id='craftButton'>Craft</button>
+            </span>
+
+            <select class='selectpicker form-control' data-live-search='true' id='craftSelect' title='Craft something!'></select>
+
+          </div>
         </div>
 
       </div>
+
+      <div class='panel panel-default'>
+
+        <div class='panel-heading'>Actions</div>
+
+        <div class='panel-body'>
+          <div class="btn-group btn-group-justified">
+
+            <a class="btn btn-primary btn-xs" id='inventoryButton'>Inventory</a>
+            <a class="btn btn-primary btn-xs" id='scanButton'>Scan</a>
+
+          </div>
+
+          <div class="btn-group btn-group-justified">
+
+            <a class="btn btn-primary btn-xs" id='equipButton'>Equip</a>
+            <a class="btn btn-primary btn-xs" id='centerButton'>Center</a>
+
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class='panel panel-default'>
         
-      <br>
-  
-      <div class='input-group input-group-sm'>
+        <div class='panel-heading'>Cutaway point</div>
         
-        <span class='input-group-btn'>
-          <button class='btn btn-primary' type='button' id='craftButton'>Craft</button>
-        </span>
-
-        <select class='selectpicker form-control' data-live-search='true' id='craftSelect' title='Craft something!'></select>
-
-      </div>
-
-      <br>
-
-      <div class='message output'>Actions</div>
-      <div class="btn-group btn-group-justified">
-
-        <a class="btn btn-primary btn-xs" id='inventoryButton'>Inventory</a>
-        <a class="btn btn-primary btn-xs" id='scanButton'>Scan</a>
-
-      </div>
-
-      <div class="btn-group btn-group-justified">
-
-        <a class="btn btn-primary btn-xs" id='equipButton'>Equip</a>
-        <a class="btn btn-primary btn-xs" id='centerButton'>Center</a>
-
-      </div>
-
-      <br>
-
-      <div for='cutawayValue' class='message output'>Cutaway point</div>
-      <div class='input-group'>
-        <div class='input-group-btn'>
-          <button id='axisButton' class='btn btn-primary'>X</button>
-          <button id='operationButton' class='btn btn-primary'>&gt;</button>
+        <div class='panel-body'>
+          <div class='input-group'>
+            <div class='input-group-btn'>
+              <button id='axisButton' class='btn btn-primary'>X</button>
+              <button id='operationButton' class='btn btn-primary'>&gt;</button>
+            </div>
+            <input type='number' id='cutawayValue' class='form-control'>
+          </div>
         </div>
-        <input type='number' id='cutawayValue' class='form-control'>
-      </div>
 
-      <br>
+      </div>
 
       <div class="input-group input-group-sm">
 
@@ -158,13 +171,17 @@
         </select>
 
       </div>
-          
-      <br>
-      
-      <input type='text' id='commandInput'></input>
-      <span><input type='checkbox' id='runInTerminal'></input> Run in Terminal</span>
 
-      <div id='messageContainer'></div>
+      <br>
+          
+      <div class='panel panel-default fullWidth flex-item flex-col'>
+        <div class='panel-heading fullWidth'>Command History</div>
+        <div class='panel-body fullWidth flex-item flex-col'>
+          <input type='text' id='commandInput'></input>
+          <span><input type='checkbox' id='runInTerminal'></input> Run in Terminal</span>
+          <div id='messageContainer'></div>
+        </div>
+      </div>
 
     </div>
 

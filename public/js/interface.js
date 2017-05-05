@@ -117,7 +117,7 @@ function main() {
     {buttonID: 'placeTool', eventListener: slowRender}
   ];
 
-  for (toolButtonInfo of toolButtonListeners) {
+  for (var toolButtonInfo of toolButtonListeners) {
     var button = document.getElementById(toolButtonInfo.buttonID).parentElement;
     button.addEventListener('click', toolButtonInfo.eventListener);
   }
