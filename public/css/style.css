@@ -70,9 +70,9 @@ body {
 
 .mc-table {
   display: inline-block;
-  background-color: #C6C6C6;
+  background-color: #c6c6c6;
   border: 2px solid;
-  border-color: #DBDBDB #5B5B5B #5B5B5B #DBDBDB;
+  border-color: #dbdbdb #5b5b5b #5b5b5b #dbdbdb;
   padding: 0px 6px 6px 6px;
   margin: 5px;
 }
@@ -87,9 +87,9 @@ body {
 .mc-td {
   color: white;
   display: inline-block;
-  background-color: #8B8B8B;
+  background-color: #8b8b8b;
   border: 2px solid;
-  border-color: #373737 #FFF #FFF #373737;
+  border-color: #373737 #ffffff #ffffff #373737;
   width: 40px;
   height: 40px;
   text-align: left;
@@ -115,19 +115,31 @@ body {
   min-height: 0;
 }
 
-.panel-body {
-  padding: 5px;
-  border-color: #cccccc;
-  background-color: #ffffff;
+.fullWidth {
+  width: 100%;
 }
 
-.panel-heading {
+.information-panel {
+  background-color: #f5f5f5;
+}
+
+/* bootstrap modifications */
+
+.panel-default {
+  border-color: #cccccc;
+}
+
+.panel-default > .panel-body {
+  padding: 5px;
+}
+
+.panel-default > .panel-heading {
   padding: 5px;
   border-color: #cccccc;
-  background-color: #eeeeee;
   font-weight: bold;
 }
 
-.fullWidth {
-  width: 100%;
+.input-group-addon {
+  background-color: #f5f5f5;
+  font-weight: bold;
 }
