@@ -14,17 +14,17 @@
       <div class='panel panel-default'>
         <div class='panel-body information-panel'>
 
-          <div>
+          <div id='usernameDisplay'>
             User: 
             <%= user.username %>
           </div>
 
-          <div>
+          <div id='cursorPositionDisplay'>
             Position: 
             <span id='hoverGuideCoordinates'></span>
           </div>
 
-          <div>
+          <div  id='powerLevelDisplay'>
             Power: 
             <span id='powerLevel'></span>
           </div>
@@ -42,7 +42,7 @@
 
      
 
-      <div class="input-group input-group-md">
+      <div id='robotSelectDiv' class="input-group input-group-md">
 
         <span class="input-group-addon">Robot</span>
         
@@ -62,15 +62,15 @@
           <div data-toggle='buttons'>
             <div class="btn-group btn-group-justified">
 
-              <label class='btn btn-primary btn-xs active' data-toggle='collapse' data-target='.digToolOptions.in'>
+              <label id='moveButton' class='btn btn-primary btn-xs active' data-toggle='collapse' data-target='.digToolOptions.in'>
                 <input type='radio' name='options' id='moveTool' autocomplete='off' checked> Move
               </label>
             
-              <label class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.digToolOptions.in'>
+              <label id='interactButton' class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.digToolOptions.in'>
                 <input type='radio' name='options' id='interactTool' autocomplete='off' > Interact
               </label>
             
-              <label class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.digToolOptions.in'>
+              <label id='inspectButton' class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.digToolOptions.in'>
                 <input type='radio' name='options' id='inspectTool' autocomplete='off' > Inspect
               </label>
 
@@ -78,11 +78,11 @@
 
             <div class="btn-group btn-group-justified">
               
-              <label class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.digToolOptions:not(.in)'>
+              <label id='swingButton' class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.digToolOptions:not(.in)'>
                 <input type='radio' name='options' id='digTool' autocomplete='off' > Swing
               </label>
             
-              <label class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.digToolOptions:not(.in)'>
+              <label id='placeButton' class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.digToolOptions:not(.in)'>
                 <input type='radio' name='options' id='placeTool' autocomplete='off' > Place
               </label>
 
@@ -92,13 +92,13 @@
 
           <div class='digToolOptions collapse fullWidth'>
                   
-            <div class='flex-row'>
+            <div id='selectStartDiv' class='flex-row'>
               <input type='number' id='selectStartX' class='coordinateInput flex-item' placeholder='X'>
               <input type='number' id='selectStartY' class='coordinateInput flex-item' placeholder='Y'>
               <input type='number' id='selectStartZ' class='coordinateInput flex-item' placeholder='Z'>
             </div>
 
-            <div class='flex-row'>
+            <div id='selectEndDiv' class='flex-row'>
               <input type='number' id='selectEndX' class='coordinateInput flex-item' placeholder='X'>
               <input type='number' id='selectEndY' class='coordinateInput flex-item' placeholder='Y'>
               <input type='number' id='selectEndZ' class='coordinateInput flex-item' placeholder='Z'>
@@ -160,7 +160,7 @@
 
       </div>
 
-      <div class="input-group input-group-md">
+      <div id='scanSizeDiv' class="input-group input-group-md">
 
         <span class="input-group-addon">Scan Size</span>
         
@@ -178,7 +178,7 @@
         <div class='panel-heading fullWidth'>Command History</div>
         <div class='panel-body fullWidth flex-item flex-col'>
           <input type='text' id='commandInput'></input>
-          <span><input type='checkbox' id='runInTerminal'></input> Run in Terminal</span>
+          <span id='runInTerminalDiv'><input type='checkbox' id='runInTerminal'></input> Run in Terminal</span>
           <div id='messageContainer'></div>
         </div>
       </div>
@@ -202,6 +202,7 @@
     <script type='text/javascript' src='/js/Inventory.js'></script>
     <script type='text/javascript' src='/js/interface.js'></script>
 		<script src='/js/buttons.js'></script>
+		<script src='/js/tooltips.js'></script>
 
     <script src='/js/lib/jquery-3.1.1.min.js'></script>
 		<script src='/js/lib/bootstrap.min.js'></script>
