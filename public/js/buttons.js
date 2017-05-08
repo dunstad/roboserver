@@ -28,6 +28,7 @@ var buttonCallbacks = {
 
   'equipButton': ()=>{
     sendCommand('equip');
+    inventoryContainer.classList.remove('hidden');
   },
 
   'centerButton': ()=>{viewSelectedRobot();}
