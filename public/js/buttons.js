@@ -26,7 +26,9 @@ var buttonCallbacks = {
     }
   },
 
-  'equipButton': ()=>{sendCommand('equip');},
+  'equipButton': ()=>{
+    sendCommand('equip');
+  },
 
   'centerButton': ()=>{viewSelectedRobot();}
 
