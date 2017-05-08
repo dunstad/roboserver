@@ -23,3 +23,6 @@ very much still a work in progress
   make sure select mesh moves when robot moves or selected robot changes
   
   see if tcp crashes on serializing functions
+
+  make sure a robot sends the proper components to web clients upon connect
+  make sure it still does after removing a component and reconfiguring
