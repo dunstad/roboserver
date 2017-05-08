@@ -39,7 +39,9 @@ function main(server, app) {
     for (var robot of accounts.getRobots(socket.request.user.username)) {
       console.dir(robot)
       accounts.sendToClients(robot.id.account, "listen start", {robot: robot.id.robot});
-      accounts.sendToRobot(robot.id.account, robot.id.robot, "command", "pos.sendLocation(); for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;");
+      accounts.sendToRobot(robot.id.account, robot.id.robot, "command", "return pos.sendLocation();");
+      accounts.sendToRobot(robot.id.account, robot.id.robot, "command", "for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;");
+      accounts.sendToRobot(robot.id.account, robot.id.robot, "command", "local conf = require('config'); require('tcp').write({['available components']=conf.get(conf.path).components});");
     }
 
     socket.on('message', (data)=>{

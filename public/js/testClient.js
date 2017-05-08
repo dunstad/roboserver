@@ -169,7 +169,6 @@ client.connect(port, host, function() {
 
 	send('id', {robot: process.argv[2], account: process.argv[3]});
 	send('message', 'hi');
-	send('available components', ['raw']);
 
 	console.log('Connected');
 
@@ -198,10 +197,12 @@ client.on('data', (rawMessages)=>{
 				sendWithCost('inventory data', testInventory2);
 				for (slot of testInventory2Slots) {sendWithCost('slot data', slot);}
 			}
-			else if (data.command == 'pos.sendLocation(); for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;') {
-				console.log('sending location and scan')
-				sendWithCost('map data', testScan);
+			else if (data.command == 'return pos.sendLocation();') {
+				console.log('sending location')
 				sendWithCost('robot position', pos);
+			}
+			else if (data.command == "local conf = require('config'); require('tcp').write({['available components']=conf.get(conf.path).components});") {
+				sendWithCost('available components', ['raw']);
 			}
 			else {
 				console.log('responding to command: ' + data.command);

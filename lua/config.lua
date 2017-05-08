@@ -73,7 +73,9 @@ end
 
 function easyConfig(path)
   local promptOrder = {"serverIP", "accountName", "robotName", "posX", "posY", "posZ", "orient"};
-  return readConfigOptions(promptOrder, path);
+  local result = readConfigOptions(promptOrder, path);
+  setAvailableComponents(path);
+  return result;
 end
 
 local arg = {...};
@@ -82,6 +84,18 @@ if arg[1] and arg[2] and not (arg[1] == 'config') then
   print('Set config option ' .. arg[1] .. ' to ' .. arg[2]);
 elseif not (arg[1] == 'config') then
   print('Usage: lua /home/lib/config.lua settingName settingValue');
+end
+
+function setAvailableComponents(path)
+  local availableComponents = {};
+  
+  local raw = getConfig(path).raw;
+  local rawBool = (raw == "true" or raw == true) and true or false;
+  if rawBool then
+    table.insert(availableComponents, 'raw');
+  end
+
+  setConfigOptions({components=availableComponents}, path);
 end
 
 return {
