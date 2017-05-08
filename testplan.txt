@@ -1,5 +1,39 @@
 very much still a work in progress
 
+lua installation on robot
+  paste install.txt into a robot's terminal
+  easy config should ask you for information
+  make sure it successfully connects to the specified server
+
+web client functionality test
+  
+  confirm that account registration fails when it doesn't have a username and a password
+  confirm that account registration succeeds with a username and password
+  confirm that login fails for nonexistent accounts
+  confirm that login fails for incorrect password on existing accounts
+  confirm that login succeeds for correct password on existing account
+
+  test page load with no listening robots
+    command input box will be hidden, power will be empty, robot select will be empty
+  test page load with a listening robot
+    robot should send its location and a scan of the world, robot select should show the robot's name
+    if the robot has raw set to true, the command input should become visible
+    if raw is false, the command input should remain invisible
+
+  top left panel
+    confirm logged in account name is displayed
+    after a robot is connected, confirm that its power level is displayed correctly
+    confirm that the displayed cursor position updates as it moves
+
+  hotkeys
+    confirm that the cursor is lowered into the block you're looking at when alt is held
+
+  robot select
+    
+
+
+
+
   on receive inventory ✔︎
     store inventory in robotInfo by side
     add to display div if currently selected robot
