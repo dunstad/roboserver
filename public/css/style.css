@@ -12,7 +12,7 @@ body {
   border-radius: 25px;
   margin: 5px 0px;
   color: #FFFFFF;
-  max-width: 300px;
+  max-width: 100%;
   overflow-wrap: break-word;
 }
 
@@ -45,6 +45,12 @@ body {
 #messageContainer {
   overflow-y: scroll;
   width: 100%;
+  border: 1px solid #cccccc;
+  padding: 5px;
+}
+
+#messageContainer:empty {
+  border: none;
 }
 
 #buttonContainer {
