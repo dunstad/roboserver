@@ -3,7 +3,7 @@ version 1:
   features:
 
   fixes:
-    make command input hidden by default, show based on robot config
+    make robots send installed components on robot connect and on webclient connect
   
   pre-release:
     set up github so i can develop without breaking the release
