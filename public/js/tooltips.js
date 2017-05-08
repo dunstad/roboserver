@@ -17,7 +17,8 @@ function main() {
     'selectStartDiv': "Coordinates of the first corner of the selected area.",
     'selectEndDiv': "Coordinates of the second corner of the selected area.",
     'craftButton': "Try to craft the selected item.",
-    'craftSelect': "Which item to craft. Currently only vanilla and OpenComputers items are available.",
+    // bootstrap-select uses the title attribute for placeholder text
+    // 'craftSelect': "Which item to craft. Currently only vanilla and OpenComputers items are available.",
     'inventoryButton': "Show or hide inventories.",
     'scanButton': "Get hardness data for an area around the selected robot. Affected by the scan size selector.",
     'equipButton': "Equip the item in the currently selected inventory slot.",
