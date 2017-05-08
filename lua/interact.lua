@@ -64,6 +64,8 @@ function M.transfer(slot1, side1, slot2, side2, amount)
     error('Cannot transfer from one external inventory to another');
   end
   robot.select(originalSlot);
+  M.sendSlotData(side1, slot1);
+  M.sendSlotData(side2, slot2);
   return success;
 end
 

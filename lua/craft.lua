@@ -8,6 +8,7 @@ local JSON = require("json");
 local table = require("table");
 local config = require('config');
 local conf = config.get(config.path);
+local int = require('interact');
 
 local M = {};
 
@@ -104,7 +105,10 @@ function M.clearCraftingGrid()
       if robot.count(slot) > 0 then
         local slotInfo = inv.getStackInInternalSlot(slot);
         robot.select(slot);
-        robot.transferTo(M.firstAvailableSlot(slotInfo));
+        local firstSlot = M.firstAvailableSlot(slotInfo);
+        robot.transferTo(firstSlot);
+        int.sendSlotData(-1, slot);
+        int.sendSlotData(-1, firstSlot);
       end
     end
   end
@@ -130,6 +134,8 @@ function M.moveItemToSlot(label, targetSlot, amount)
 	if slot then
 		robot.select(slot);
 		return robot.transferTo(targetSlot, amount);
+    int.sendSlotData(-1, slot);
+    int.sendSlotData(-1, targetSlot);
 	end
 	return false;
 end

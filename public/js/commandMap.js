@@ -30,7 +30,7 @@ var commandMap = {
    * @returns {string}
    */
   equip: function() {
-    return 'local e = require("component").inventory_controller.equip(); int.sendInventoryData(-1); return e;';
+    return 'local e = require("component").inventory_controller.equip(); int.sendSlotData(-1, robot.select()); return e;';
   },
 
   /**
