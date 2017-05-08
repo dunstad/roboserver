@@ -169,6 +169,7 @@ client.connect(port, host, function() {
 
 	send('id', {robot: process.argv[2], account: process.argv[3]});
 	send('message', 'hi');
+	send('available components', ['raw']);
 
 	console.log('Connected');
 

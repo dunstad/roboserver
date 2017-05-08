@@ -26,6 +26,7 @@ later:
     hotkeys for different tools
     item label to facade color map, use for map and inventory
     change gui based on what components the selected robot has
+      modularize lua code so more of the requires/components are optional
     allow limited functionality without crafting component
     allow limited functionality without inventory controller
     allow limited functionality without geolyzer

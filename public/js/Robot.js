@@ -8,6 +8,7 @@ class Robot {
    */
   constructor() {
     this.inventories = {};
+    this.components = [];
   }
 
   /**
@@ -92,6 +93,21 @@ class Robot {
       else {inventory.removeFromDisplay();}
     }
     this.inventories = internalInventories;
+  }
+
+  /**
+   * The robot's available components are used to customize the GUI to each robot's abilities.
+   */
+  getComponents() {
+    return this.components;
+  }
+  
+  /**
+   * The robot's available components are set when it connects.
+   * @param {string[]} components
+   */
+  setComponents(components) {
+    this.components = components;
   }
 
 }

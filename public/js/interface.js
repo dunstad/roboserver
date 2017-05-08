@@ -1,3 +1,7 @@
+var componentElementMap = {
+  'raw': ['commandInput', 'runInTerminalDiv']
+};
+
 main();
 
 function main() {
@@ -103,6 +107,20 @@ function main() {
     var currentRobot = document.getElementById('robotSelect').value;
     if (power.robot == currentRobot) {
       document.getElementById('powerLevel').innerHTML = Math.round(power.data * 100) + "%";
+    }
+  });
+
+  socket.on('available components', (components)=>{
+    console.dir(components);
+    allRobotInfo[components.robot].setComponents(components.data);
+    if (components.robot == document.getElementById('robotSelect').value) {
+      hideComponentGUI();
+      for (componentName of allRobotInfo[components.robot].getComponents()) {
+        var componentElementIDs = componentElementMap[componentName];
+        componentElementIDs.map((componentElementID)=>{
+          document.getElementById(componentElementID).classList.remove('hidden');
+        });
+      }
     }
   });
 
@@ -423,6 +441,7 @@ function initCraftSelect() {
 function switchToRobot(robotName) {
   var robotData = allRobotInfo[robotName];
   if (robotData) {
+
     var powerLevel = robotData.getPower();
     if (powerLevel) {
       document.getElementById('powerLevel').innerHTML = Math.round(powerLevel * 100) + "%";
@@ -432,13 +451,36 @@ function switchToRobot(robotName) {
     for (elem of Array.from(inventoryContainer.childNodes)) {
       elem.remove();
     }
-
     allRobotInfo[robotName].getAllInventories().map(i=>i.addToDisplay(inventoryContainer));
+
     var robotPos = robotData.getPosition();
     if (robotPos) {
       selectedRobotMesh.position.copy(robotPos.scene());
       requestRender();
     }
+
+    hideComponentGUI();
+    for (componentName of robotData.getComponents()) {
+      var componentElementIDs = componentElementMap[componentName];
+      componentElementIDs.map((componentElementID)=>{
+        document.getElementById(componentElementID).classList.remove('hidden');
+      });
+    }
+
+  }
+}
+
+/**
+ * Hides certain GUI elements when a robot that can't make use of them is selected.
+ */
+function hideComponentGUI() {
+  for (componentElementIDs of Object.values(componentElementMap)) {
+    componentElementIDs.map((componentElementID)=>{
+      var componentElement = document.getElementById(componentElementID);
+      if (!componentElement.classList.contains('hidden')) {
+        componentElement.classList.add('hidden');
+      }
+    });
   }
 }
 
