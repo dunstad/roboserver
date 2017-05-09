@@ -94,25 +94,35 @@ web client functionality test
       confirm that pressing it a third time reveals an updated inventory
 
   scan
-
+    confirm that a scan is performed when pressed
+    confirm that the robot remains pink and is not overwritten to be gray
 
   equip
-
+    confirm that the inventory is opened when pressed
+    confirm that any item in the selected slot is equipped, and any equipped item is moved to the selected slot.
 
   center
-
+    confirm that the camera is positioned above the selected robot, looking down
 
   cutaway
-
+    confirm that moving the cutaway value up or down modifies the display accordingly
+    confirm that changing the cutaway axis modifies the display accordingly
+    confirm that changing the cutaway operator modifies the display accordingly
 
   scan size
-
+    confirm that moving and button scans are not performed if set to none
+    confirm that moving and button scans of the appropriate size are performed when set to small
+    confirm that moving and button scans of the appropriate size are performed when set to large
 
   command history display
-
+    confirm that the command history panel is not displayed when empty
+    confirm that robot responses show up after sending a command
+    confirm that clicking a sent command sends it again with the same parameters
 
   command input
-    see if tcp crashes on serializing functions
+    confirm that attempts to serialize functions do not trigger a tcp reconnect
+    confirm that code execution results are reported when the code contains an error
+    confirm that code execution results are reported when the code does not contain an error
 
   inventory logic
 
