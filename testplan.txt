@@ -14,9 +14,18 @@ web client functionality test
   test page load with no listening robots
     command input box will be hidden, power will be empty, robot select will be empty
   test page load with a listening robot
-    robot should send its location and a scan of the world, robot select should show the robot's name
-    if the robot has raw set to true, the command input should become visible
-    if raw is false, the command input should remain invisible
+    confirm that robot sends its location and is rendered 
+    confirm that robot sends a scan which is rendered
+    confirm that the robot select shows the robot's name
+    confirm that when the robot has raw set to true, the command input becomes visible
+    confirm that when raw is false, the command input remains invisible
+
+  test first robot connecting after web client is loaded
+    confirm that robot sends its location and is rendered 
+    confirm that robot sends a scan which is rendered
+    confirm that the robot select shows the robot's name
+    confirm that when the robot has raw set to true, the command input becomes visible
+    confirm that when raw is false, the command input remains invisible
 
   top left panel
     confirm logged in account name is displayed
@@ -27,14 +36,15 @@ web client functionality test
     confirm that the cursor is lowered into the block you're looking at while alt is held
 
   robot select
-   confirm that when no other robots are listening, if a robot starts to listen it is selected
-   confirm that if two robots are listening, both appear in the select
-   confirm that these things change when a different robot is selected:
-    power level
-    selected robot mesh position
-    robot select name
-    whether the command input is visible
-    visible inventories
+    confirm that when no other robots are listening, if a robot starts to listen it is selected
+    confirm that if two robots are listening, both appear in the select
+    confirm that these things change when a different robot is selected:
+      power level
+      selected robot mesh position
+      robot select name
+      whether the command input is visible
+    confirm that switching to a different robot results in the inventory being hidden
+    confirm that switching back to the original robot reveals the same inventory again
 
   tool buttons
     confirm that the move button is pressed upon page load
@@ -77,33 +87,51 @@ web client functionality test
     confirm that crafting succeeds when you do have the required raw materials
 
   inventory button
+    while a robot is selected
+      confirm that no inventory is displayed before clicking the inventory button
+      confirm that pressing it reveals the robot's inventory
+      confirm that pressing it again hides the inventory
+      confirm that pressing it a third time reveals an updated inventory
+
+  scan
 
 
+  equip
 
 
-  on receive inventory ✔︎
-    store inventory in robotInfo by side
-    add to display div if currently selected robot
+  center
 
-  on receive slot
-    update slot in inventory on appropriate robot side
 
-  on robot move ✔︎
-    remove from display and delete external inventories for selected robot
+  cutaway
 
-  on click X ✔︎
-    do nothing, remove this button
 
-  on change robot ✔︎
-    remove all inventories, then add selected robot's inventories
+  scan size
 
-  on click show/hide button
-    add the event handlers for this button
-    toggle visibility for currently selected robot's inventories
 
-  make sure select mesh moves when robot moves or selected robot changes
-  
-  see if tcp crashes on serializing functions
+  command history display
 
-  make sure a robot sends the proper components to web clients upon connect
-  make sure it still does after removing a component and reconfiguring
+
+  command input
+    see if tcp crashes on serializing functions
+
+  inventory logic
+
+    on receive inventory ✔︎
+      store inventory in robotInfo by side
+      add to display div if currently selected robot
+
+    on receive slot
+      update slot in inventory on appropriate robot side
+
+    on robot move ✔︎
+      remove from display and delete external inventories for selected robot
+
+    on click X ✔︎
+      do nothing, remove this button
+
+    on change robot ✔︎
+      remove all inventories, then add selected robot's inventories
+
+    on click show/hide button
+      add the event handlers for this button
+      toggle visibility for currently selected robot's inventories
