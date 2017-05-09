@@ -3,7 +3,7 @@ version 1:
   features:
 
   fixes:
-  
+
   pre-release:
     write up test plan
     bundle up all the stuff so it's easy to download and run

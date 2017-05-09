@@ -1,6 +1,6 @@
 local os = require('os');
 
-local url = 'https://raw.githubusercontent.com/dunstad/roboserver/master/lua/';
+local url = 'http://localhost/lua/';
 local filenames = {
   'commandLoop.lua',
   'json.lua',
