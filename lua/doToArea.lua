@@ -7,6 +7,7 @@ if not component.isAvailable('geolyzer') then
   error('Geolyzer not found');
 end
 local geolyzer = component.geolyzer;
+local int = require('interact');
 
 local M = {};
 
@@ -103,6 +104,7 @@ function M.place(point)
     local blockData = geolyzer.analyze(pointSide);
     blockData.point = point;
     tcp.write({['block data']=blockData});
+    int.sendSlotData(-1, robot.select());
   end
   return placeSuccess;
 end

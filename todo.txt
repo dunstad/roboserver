@@ -5,7 +5,6 @@ version 1:
   fixes:
   
   pre-release:
-    set up github so i can develop without breaking the release
     write up test plan
     test things
       find out if we can use a hostname for the ip config entry
@@ -14,6 +13,7 @@ version 1:
     update readme
     bundle up all the stuff so it's easy to download and run
     make a video
+    set up github so i can develop without breaking the release
 
 later:
 

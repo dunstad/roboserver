@@ -1,5 +1,3 @@
-very much still a work in progress
-
 lua installation on robot
   paste install.txt into a robot's terminal
   easy config should ask you for information
@@ -26,11 +24,47 @@ web client functionality test
     confirm that the displayed cursor position updates as it moves
 
   hotkeys
-    confirm that the cursor is lowered into the block you're looking at when alt is held
+    confirm that the cursor is lowered into the block you're looking at while alt is held
 
   robot select
-    
+   confirm that when no other robots are listening, if a robot starts to listen it is selected
+   confirm that if two robots are listening, both appear in the select
+   confirm that these things change when a different robot is selected: power level, selected robot mesh position, robot select name, whether the command input is visible, visible inventories
 
+  tools
+    confirm that the move button is pressed upon page load
+    confirm that when the bottom two are pressed, the coordinate forms expand
+    confirm that when the top three are pressed, the coordinate forms collapse
+    
+  move
+    confirm that the robot can move up, down, forward, and can rotate
+    confirm that attempting to move to an occupied space fails
+
+  interact
+    have a robot equip a block and interact with an empty area adjacent to other blocks, min. volume 2
+    confirm that the robot now has 2 less of the equipped block
+
+  inspect
+    inspect an area that appears empty but actually has a block
+      confirm that the block appears
+    inspect an area that appears to have a block but does not
+      confirm that the block disappears
+    inspect an area of uniform blocks
+      confirm that they're all rendered as the same hardness afterwards
+
+  swing
+    make sure you've got an appropriate tool equipped
+    confirm that the robot has more blocks in its inventory after digging an area (min. volume 2)
+    confirm that the robot still attempts to dig every point in a selection when some are empty
+
+  place
+    select a block
+    select an area including empty and occupied spaces
+    confirm that blocks are now shown as placed in the empty spaces
+    confirm that the inventory updates automatically to show fewer of the selected block present
+
+  craft
+    
 
 
 
