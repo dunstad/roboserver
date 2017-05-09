@@ -106,7 +106,7 @@ function main() {
     allRobotInfo[power.robot].setPower(power.data);
     var currentRobot = document.getElementById('robotSelect').value;
     if (power.robot == currentRobot) {
-      document.getElementById('powerLevel').innerHTML = Math.round(power.data * 100) + "%";
+      setPower(power.data);
     }
   });
 
@@ -444,7 +444,7 @@ function switchToRobot(robotName) {
 
     var powerLevel = robotData.getPower();
     if (powerLevel) {
-      document.getElementById('powerLevel').innerHTML = Math.round(powerLevel * 100) + "%";
+      setPower(powerLevel);
     }
     
     var inventoryContainer = document.getElementById("inventoryContainer");
@@ -468,6 +468,16 @@ function switchToRobot(robotName) {
     }
 
   }
+}
+
+/**
+ * Used when robots update their power level and when we switch robots.
+ * Takes a number from 0 to 1.
+ * @param {number} powerLevel
+ */
+function setPower(powerLevel) {
+  document.getElementById('powerLevelDisplay').classList.remove('hidden');
+  document.getElementById('powerLevel').innerHTML = Math.round(powerLevel * 100) + "%";
 }
 
 /**
