@@ -1,3 +1,15 @@
+run all tests on a robot built to the minimum requirements:
+  gold case
+  t2 cpu
+  t1 memory x2
+  EEPROM (Lua BIOS)
+  t1 hard disk drive with OpenOS installed
+  internet card
+  geolyzer
+  inventory controller
+  crafting upgrade
+  inventory upgrade
+
 lua installation on robot
   paste install.txt into a robot's terminal
   easy config should ask you for information
@@ -43,8 +55,8 @@ web client functionality test
       selected robot mesh position
       robot select name
       whether the command input is visible
-    confirm that switching to a different robot results in the inventory being hidden
-    confirm that switching back to the original robot reveals the same inventory again
+    confirm that switching to a different robot changes the inventories in the UI to those of the new robot
+    confirm that switching back to the original robot changes the UI's inventories back again
 
   tool buttons
     confirm that the move button is pressed upon page load
@@ -55,10 +67,12 @@ web client functionality test
     confirm that the robot can move up, down, forward, and can rotate
     confirm that attempting to move to an occupied space fails
     confirm that the robot selected mesh follows the robot
+    confirmed that opened external inventories are removed upon move
 
   interact
     have a robot equip a block and interact with an empty area adjacent to other blocks, min. volume 2
     confirm that the robot now has 2 less of the equipped block
+    confirm that interacting with an inventory opens it and makes inventories visible
 
   inspect
     inspect an area that appears empty but actually has a block
@@ -125,23 +139,18 @@ web client functionality test
     confirm that code execution results are reported when the code does not contain an error
 
   inventory logic
-
-    on receive inventory ✔︎
-      store inventory in robotInfo by side
-      add to display div if currently selected robot
-
-    on receive slot
-      update slot in inventory on appropriate robot side
-
-    on robot move ✔︎
-      remove from display and delete external inventories for selected robot
-
-    on click X ✔︎
-      do nothing, remove this button
-
-    on change robot ✔︎
-      remove all inventories, then add selected robot's inventories
-
-    on click show/hide button
-      add the event handlers for this button
-      toggle visibility for currently selected robot's inventories
+    
+    move empty slot onto stack
+    move stack onto empty slot
+    move stack onto different stack
+    move stack onto similar stack (combined stack size <= max stack size)
+    move stack onto similar stack (combined stack size > max stack size)
+    
+    split stack into empty slot
+    split stack into different stack
+    split stack into similar stack (combined stack size <= max stack size)
+    split stack into similar stack (combined stack size > max stack size)
+    
+    move internal stack to external empty slot
+    move external stack to internal empty slot
+    fail to move external stack to external empty slot
