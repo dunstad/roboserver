@@ -6,12 +6,12 @@ version 1:
   
   pre-release:
     write up test plan
+    bundle up all the stuff so it's easy to download and run
     test things
       find out if we can use a hostname for the ip config entry
       test server side lua commands
       make sure config settings work as strings or their appropriate values
     update readme
-    bundle up all the stuff so it's easy to download and run
     make a video
     set up github so i can develop without breaking the release
 

@@ -29,16 +29,22 @@ web client functionality test
   robot select
    confirm that when no other robots are listening, if a robot starts to listen it is selected
    confirm that if two robots are listening, both appear in the select
-   confirm that these things change when a different robot is selected: power level, selected robot mesh position, robot select name, whether the command input is visible, visible inventories
+   confirm that these things change when a different robot is selected:
+    power level
+    selected robot mesh position
+    robot select name
+    whether the command input is visible
+    visible inventories
 
-  tools
+  tool buttons
     confirm that the move button is pressed upon page load
-    confirm that when the bottom two are pressed, the coordinate forms expand
-    confirm that when the top three are pressed, the coordinate forms collapse
+    confirm that when the swing or place buttons are pressed, the coordinate forms expand
+    confirm that when the move, interact, or inspect buttons are pressed, the coordinate forms collapse
     
   move
     confirm that the robot can move up, down, forward, and can rotate
     confirm that attempting to move to an occupied space fails
+    confirm that the robot selected mesh follows the robot
 
   interact
     have a robot equip a block and interact with an empty area adjacent to other blocks, min. volume 2
@@ -64,7 +70,14 @@ web client functionality test
     confirm that the inventory updates automatically to show fewer of the selected block present
 
   craft
-    
+    confirm that crafting fails when you don't have the required raw materials
+    confirm that recipes with multiple materials and one product work (for example, craft a bowl from spruce wood)
+    confirm that recipes with multiple materials and multiple products work (for example, craft a spruce boat)
+    confirm that the inventory updates during the crafting process
+    confirm that crafting succeeds when you do have the required raw materials
+
+  inventory button
+
 
 
 
