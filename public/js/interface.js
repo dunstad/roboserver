@@ -62,10 +62,13 @@ function main() {
   // render inventory data received from robot
   socket.on('inventory data', (inventoryData)=>{
     console.dir(inventoryData);
-    var inv = new Inventory(inventoryData.data);
-    allRobotInfo[inventoryData.robot].addInventory(inv);
-    if (document.getElementById('robotSelect').value == inventoryData.robot) {
-      inv.addToDisplay(document.getElementById('inventoryContainer'));
+    var inventorySide = inventoryData.data.side;
+    if (!allRobotInfo[inventoryData.robot].getInventory(inventorySide)) {
+      var inv = new Inventory(inventoryData.data);
+      allRobotInfo[inventoryData.robot].addInventory(inv);
+      if (document.getElementById('robotSelect').value == inventoryData.robot) {
+        inv.addToDisplay(document.getElementById('inventoryContainer'));
+      }
     }
   });
 

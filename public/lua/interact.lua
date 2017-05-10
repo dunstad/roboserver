@@ -32,6 +32,16 @@ function M.sendSlotData(side, slotNum)
 end
 
 function M.sendInventoryData(side)
+  local size = M.sendInventoryMetadata(side);
+  if size then
+    for i = 1, size do
+      M.sendSlotData(side, i);
+    end
+  end
+  return size;
+end
+
+function M.sendInventoryMetadata(side)
   local inventory = {side = side};
   if side == -1 then
     inventory.size = robot.inventorySize();
@@ -41,9 +51,6 @@ function M.sendInventoryData(side)
   end
   if inventory.size then
     tcp.write({['inventory data']=inventory});
-    for i = 1, inventory.size do
-      M.sendSlotData(side, i);
-    end
   end
   return inventory.size;
 end

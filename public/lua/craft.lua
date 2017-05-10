@@ -107,8 +107,10 @@ function M.clearCraftingGrid()
         robot.select(slot);
         local firstSlot = M.firstAvailableSlot(slotInfo);
         robot.transferTo(firstSlot);
-        int.sendSlotData(-1, slot);
-        int.sendSlotData(-1, firstSlot);
+        local side = -1;
+        int.sendInventoryMetadata(side);
+        int.sendSlotData(side, slot);
+        int.sendSlotData(side, firstSlot);
       end
     end
   end
@@ -133,8 +135,10 @@ function M.moveItemToSlot(label, targetSlot, amount)
 	local slot = M.findItem(label);
 	if slot then
 		robot.select(slot);
-    int.sendSlotData(-1, slot);
-    int.sendSlotData(-1, targetSlot);
+    local side = -1;
+    int.sendInventoryMetadata(side);
+    int.sendSlotData(side, slot);
+    int.sendSlotData(side, targetSlot);
 		return robot.transferTo(targetSlot, amount);
 	end
 	return false;
