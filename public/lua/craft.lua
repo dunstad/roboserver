@@ -133,9 +133,9 @@ function M.moveItemToSlot(label, targetSlot, amount)
 	local slot = M.findItem(label);
 	if slot then
 		robot.select(slot);
-		return robot.transferTo(targetSlot, amount);
     int.sendSlotData(-1, slot);
     int.sendSlotData(-1, targetSlot);
+		return robot.transferTo(targetSlot, amount);
 	end
 	return false;
 end
