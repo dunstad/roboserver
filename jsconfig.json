@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    // "checkJs": true
+    "target": "ES6"
   },
   "include": [
     "public/js/*",

@@ -136,10 +136,11 @@ function M.moveItemToSlot(label, targetSlot, amount)
 	if slot then
 		robot.select(slot);
     local side = -1;
+		local result = robot.transferTo(targetSlot, amount);
     int.sendInventoryMetadata(side);
     int.sendSlotData(side, slot);
     int.sendSlotData(side, targetSlot);
-		return robot.transferTo(targetSlot, amount);
+    return result;
 	end
 	return false;
 end

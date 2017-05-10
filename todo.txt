@@ -3,6 +3,11 @@ version 1:
   features:
 
   fixes:
+    can't re-stack items
+    crafting wooden sword failed? spruce wood
+    swapping illegally allowed (remove predicting code?)
+    after crafting an item, send updates for the crafting grid
+    after making the page larger, camera can't rotate all the way around
 
   pre-release:
     write up test plan
