@@ -15,7 +15,7 @@ var db = new Datastore({ filename: 'users.db', autoload: true });
 
 var config = require('./public/js/config');
 
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 
 var app = express();
 
@@ -134,6 +134,5 @@ app.use(function(err, req, res, next) {
     error: err
   });
 });
-
 
 module.exports = app;

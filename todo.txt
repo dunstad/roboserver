@@ -14,7 +14,6 @@ version 1:
     bundle up all the stuff so it's easy to download and run
     test things
       find out if we can use a hostname for the ip config entry
-      test server side lua commands
       make sure config settings work as strings or their appropriate values
     update readme
     make a video
@@ -23,8 +22,7 @@ version 1:
 later:
 
   fixes:
-    robot can't put water in bucket from above the water? investigate
-
+  
   features:
     display most recently equipped item
     hotkeys for different tools

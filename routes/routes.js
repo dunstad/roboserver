@@ -3,7 +3,7 @@ var router = express.Router();
 
 var passport = require('passport');
 
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 
 function loggedIn(req, res, next) {
   if (req.isAuthenticated()) {next();} 
