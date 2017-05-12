@@ -3,6 +3,7 @@ version 1:
   features:
 
   fixes:
+    alt key default action not being prevented?
     after crafting an item, send updates for the crafting grid
     swapping illegally allowed (remove predicting code?)
     can't re-stack items
