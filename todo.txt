@@ -3,7 +3,7 @@ version 1:
   features:
 
   fixes:
-    swapping illegally allowed (remove predicting code?)
+    swapping code broken
     can't re-stack items
     after making the page larger, camera can't rotate all the way around
     crafting wooden sword failed? spruce wood
