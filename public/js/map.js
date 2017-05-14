@@ -201,6 +201,15 @@ function onWindowResize() {
   renderer.setSize( window.innerWidth, window.innerHeight );
   requestRender();
 
+  var pointerLockElement = document.pointerLockElement;
+  document.exitPointerLock();
+  if (pointerLockElement) {
+    // the lock doesn't happen unless we delay it for some reason
+    setTimeout(()=>{
+      pointerLockElement.requestPointerLock();
+    }, 10);
+  }
+
 }
 
 /**

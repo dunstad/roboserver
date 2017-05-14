@@ -3,7 +3,6 @@ version 1:
   features:
 
   fixes:
-    after making the page larger, camera can't rotate all the way around
 
   pre-release:
     write up test plan
@@ -22,6 +21,7 @@ later:
   features:
     display most recently equipped item
     hotkeys for different tools
+    key bindings
     item label to facade color map, use for map and inventory
     change gui based on what components the selected robot has
       modularize lua code so more of the requires/components are optional

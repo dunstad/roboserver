@@ -38,8 +38,12 @@ class PointerLockControls {
 			var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
 			var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
 
-			yawObject.rotation.y -= movementX * 0.002;
-			pitchObject.rotation.x -= movementY * 0.002;
+			// fixes a bug causing the camera to rotate when the window is resized occasionally
+			// may 14 2017
+			if (Math.abs(movementX) < 300 && Math.abs(movementY) < 300) {
+				yawObject.rotation.y -= movementX * 0.002;
+				pitchObject.rotation.x -= movementY * 0.002;
+			}
 
 			pitchObject.rotation.x = Math.max( - PI_2, Math.min( PI_2, pitchObject.rotation.x ) );
 
@@ -110,7 +114,6 @@ class PointerLockControls {
 				case 16: // shift
 					moveDown = false;
 					break;
-
 
 				case 32: // space
 					moveUp = false;
