@@ -88,13 +88,6 @@ end
 
 function setAvailableComponents(path)
   local availableComponents = {};
-  
-  local raw = getConfig(path).raw;
-  local rawBool = (raw == "true" or raw == true) and true or false;
-  if rawBool then
-    table.insert(availableComponents, 'raw');
-  end
-
   setConfigOptions({components=availableComponents}, path);
 end
 

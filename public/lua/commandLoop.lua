@@ -13,7 +13,7 @@ function loadPackages()
   craft = require('craft');
   computer = require('computer');
   config = require('config');
-  raw = config.get(config.path).raw;
+  raw = config.get(config.path).components.raw;
   rawBool = (raw == "true" or raw == true) and true or false;
 end
 loadPackages();

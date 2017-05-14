@@ -201,6 +201,8 @@ function onWindowResize() {
   renderer.setSize( window.innerWidth, window.innerHeight );
   requestRender();
 
+  // cancel and re-apply the pointer lock when the window resizes
+  // if we don't, when the window gets bigger the camera can't rotate freely
   var pointerLockElement = document.pointerLockElement;
   document.exitPointerLock();
   if (pointerLockElement) {
