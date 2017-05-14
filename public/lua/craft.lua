@@ -238,7 +238,15 @@ end
 
 function M.craft(itemName)
   M.clearCraftingGrid();
-  return M.deepCraft(itemName, {});
+  local result = M.deepCraft(itemName, {});
+  local side = -1;
+  int.sendInventoryMetadata(side);
+  for k, slotNum in pairs(craftingSlots) do
+    if slotNum then
+      int.sendSlotData(side, slotNum);
+    end
+  end
+  return result;
 end
 
 function copyTable(table1)

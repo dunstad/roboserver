@@ -117,7 +117,7 @@ var commandMap = {
    * @returns {string}
    */
   craft: function(itemName) {
-    return "local c = craft.craft('" + itemName + "'); int.sendInventoryData(-1); return c;";
+    return "return craft.craft('" + itemName + "');";
   },
 
   /**
