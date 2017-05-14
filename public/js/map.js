@@ -32,7 +32,7 @@ var cutawayForm = new CutawayForm(
   document.getElementById('operationButton'),
   document.getElementById('cutawayValue')
 );
-var altKeyIsPressed;
+var altOrCtrlKeyPressed;
 var gameLoop;
 
 main();
@@ -98,11 +98,11 @@ function init() {
   window.addEventListener( 'resize', onWindowResize, false );
 
   document.addEventListener('keydown', (e)=>{
-    if (e.altKey) {e.preventDefault(); altKeyIsPressed = true;}
+    if (e.altKey || e.ctrlKey) {e.preventDefault(); altOrCtrlKeyPressed = true;}
   });
 
   document.addEventListener('keyup', (e)=>{
-    if (!e.altKey) {altKeyIsPressed = false;}
+    if (!(e.altKey || e.ctrlKey)) {altOrCtrlKeyPressed = false;}
   });
 
   selectedRobotMaterial = new THREE.MeshLambertMaterial({ color: 0xff9999, opacity: 0.9, transparent: true });
@@ -229,7 +229,7 @@ function placeSelector() {
     normal.multiplyScalar(voxelSideLength);
 
     rollOverMesh.position.copy(intersect.object.position);
-    if (!altKeyIsPressed) {
+    if (!altOrCtrlKeyPressed) {
       rollOverMesh.position.add(normal);
     }
 
