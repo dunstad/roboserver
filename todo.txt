@@ -4,7 +4,6 @@ version 1:
 
   fixes:
     after making the page larger, camera can't rotate all the way around
-    crafting wooden sword failed? spruce wood
 
   pre-release:
     write up test plan
