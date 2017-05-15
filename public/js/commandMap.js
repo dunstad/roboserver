@@ -108,7 +108,8 @@ var commandMap = {
    * @returns {string}
    */
   transfer: function(fromSlot, fromSide, toSlot, toSide, amount) {
-    return 'return int.transfer(' + [fromSlot, fromSide, toSlot, toSide, amount] + ');';
+    var parameters = [fromSlot, fromSide, toSlot, toSide, amount].filter(i=>i);
+    return 'return int.transfer(' + parameters + ');';
   },
 
   /**
@@ -117,7 +118,7 @@ var commandMap = {
    * @returns {string}
    */
   craft: function(itemName) {
-    return "local c = craft.craft('" + itemName + "'); int.sendInventoryData(-1); return c;";
+    return "return craft.craft('" + itemName + "');";
   },
 
   /**

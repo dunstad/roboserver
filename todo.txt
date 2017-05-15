@@ -3,15 +3,9 @@ version 1:
   features:
 
   fixes:
-    alt key default action not being prevented?
-    after crafting an item, send updates for the crafting grid
-    swapping illegally allowed (remove predicting code?)
-    can't re-stack items
-    after making the page larger, camera can't rotate all the way around
-    crafting wooden sword failed? spruce wood
+    interface.js failing to reveal command input if raw is true
 
   pre-release:
-    write up test plan
     bundle up all the stuff so it's easy to download and run
     test things
       find out if we can use a hostname for the ip config entry
@@ -27,6 +21,7 @@ later:
   features:
     display most recently equipped item
     hotkeys for different tools
+    key bindings
     item label to facade color map, use for map and inventory
     change gui based on what components the selected robot has
       modularize lua code so more of the requires/components are optional

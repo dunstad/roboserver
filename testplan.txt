@@ -29,8 +29,8 @@ web client functionality test
     confirm that robot sends its location and is rendered 
     confirm that robot sends a scan which is rendered
     confirm that the robot select shows the robot's name
-    confirm that when the robot has raw set to true, the command input becomes visible
-    confirm that when raw is false, the command input remains invisible
+    confirm that when the robot's components config contains raw set to true, the command input becomes visible
+    confirm that otherwise, the command input remains invisible
 
   test first robot connecting after web client is loaded
     confirm that robot sends its location and is rendered 
