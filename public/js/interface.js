@@ -13,18 +13,21 @@ function main() {
 
   // display command results received from robot
   socket.on('command result', (result)=>{
+    console.dir('command result');
     console.dir(result);
     addMessage(result.data, false);
   });
 
   // render map data received from robot
   socket.on('map data', (mapData)=>{
+    console.dir('map data');
     console.dir(mapData);
     addShapeVoxels(mapData.data, mapData.robot);
   });
 
   // render block data received from robot
   socket.on('block data', (blockData)=>{
+    console.dir('block data');
     console.dir(blockData);
     var pos = new WorldAndScenePoint(blockData.data.point, true);
     if (!(blockData.data.name == "minecraft:air")) {
@@ -35,6 +38,7 @@ function main() {
 
   // render map data received from robot
   socket.on('robot position', (pos)=>{
+    console.dir('robot position');
     console.dir(pos);
     moveRobotVoxel(new WorldAndScenePoint(pos.data, true), pos.robot);
     allRobotInfo[pos.robot].removeAllExternalInventories();
@@ -49,18 +53,21 @@ function main() {
 
   // remove selection because its task has been completed
   socket.on('delete selection', (index)=>{
+    console.dir('delete selection');
     console.dir(index);
     deleteSelection(selections, index.data);
   });
 
   // remove voxels corresponding to successfully dug blocks
   socket.on('dig success', (pos)=>{
+    console.dir('dig success');
     console.dir(pos);
     removeVoxel(new WorldAndScenePoint(pos.data, true));
   });
 
   // render inventory data received from robot
   socket.on('inventory data', (inventoryData)=>{
+    console.dir('inventory data');
     console.dir(inventoryData);
     var inventorySide = inventoryData.data.side;
     if (!allRobotInfo[inventoryData.robot].getInventory(inventorySide)) {
@@ -74,6 +81,7 @@ function main() {
 
   // todo
   socket.on('slot data', (slot)=>{
+    console.dir('slot data');
     console.dir(slot);
     allRobotInfo[slot.robot]
       .getInventory(slot.data.side)
@@ -82,6 +90,7 @@ function main() {
 
   // add listening robots to select
   socket.on('listen start', (data)=>{
+    console.dir('listen start');
     console.dir(data);
     var robotSelect = document.getElementById('robotSelect');
     var option = document.createElement('option');
@@ -96,6 +105,7 @@ function main() {
   
   // remove robots that stop listening from select
   socket.on('listen end', (data)=>{
+    console.dir('listen end');
     console.dir(data);
     var robotSelect = document.getElementById('robotSelect');
     var option = robotSelect.querySelector('[value=' + data.robot + ']');
@@ -105,6 +115,7 @@ function main() {
   
   // keep track of how much power robots have left
   socket.on('power level', (power)=>{
+    console.dir('power level');
     console.dir(power);
     allRobotInfo[power.robot].setPower(power.data);
     var currentRobot = document.getElementById('robotSelect').value;
@@ -114,11 +125,12 @@ function main() {
   });
 
   socket.on('available components', (components)=>{
+    console.dir('available components');
     console.dir(components);
     allRobotInfo[components.robot].setComponents(components.data);
     if (components.robot == document.getElementById('robotSelect').value) {
       hideComponentGUI();
-      for (componentName of allRobotInfo[components.robot].getComponents()) {
+      for (componentName in allRobotInfo[components.robot].getComponents()) {
         var componentElementIDs = componentElementMap[componentName];
         componentElementIDs.map((componentElementID)=>{
           document.getElementById(componentElementID).classList.remove('hidden');
