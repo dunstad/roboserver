@@ -475,7 +475,7 @@ function switchToRobot(robotName) {
     }
 
     hideComponentGUI();
-    for (componentName of robotData.getComponents()) {
+    for (componentName in robotData.getComponents()) {
       var componentElementIDs = componentElementMap[componentName];
       componentElementIDs.map((componentElementID)=>{
         document.getElementById(componentElementID).classList.remove('hidden');
