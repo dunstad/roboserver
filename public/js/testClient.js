@@ -155,7 +155,7 @@ function send(key, value) {
 }
 
 function decreasePower() {
-	power -= .05 * Math.random();
+	power -= .02 * Math.random();
 	send('power level', power);
 }
 
@@ -169,7 +169,8 @@ client.connect(port, host, function() {
 
 	sendWithCost('id', {robot: process.argv[2], account: process.argv[3]});
 	send('message', 'hi');
-	sendWithCost('available components', {raw:true});
+	var components = process.argv[4] ? {raw:true} : {};
+	sendWithCost('available components', components);
 
 	console.log('Connected');
 
