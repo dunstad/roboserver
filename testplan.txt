@@ -154,3 +154,8 @@ web client functionality test
     move internal stack to external empty slot
     move external stack to internal empty slot
     fail to move external stack to external empty slot
+
+  config
+    change position, orientation, booleans to string equivalents
+    change ip address to hostname
+    ensure things still work
