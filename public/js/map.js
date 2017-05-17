@@ -434,7 +434,7 @@ function addShapeVoxels(shape, robot) {
         var knownRobotPosition = false;
         for (var robot of Object.values(allRobotInfo)) {
           if (robot) {
-            var robotPos = robot.getPosition();
+            var robotPos = robot.getPosition().world();
             if (robotPos && robotPos.x == shapePoint.z && robotPos.y == shapePoint.y && robotPos.z == shapePoint.z) {
               knownRobotPosition = true;
             }
