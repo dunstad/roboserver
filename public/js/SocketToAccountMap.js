@@ -13,7 +13,7 @@ class SocketToAccountMap {
   /**
    * Get all the web client sockets listening of a particular account name.
    * @param {string} accountName
-   * @returns {object[]}
+   * @returns {SocketIO.Socket[]}
    */
   getClients(accountName) {
     var result = [];
@@ -29,26 +29,24 @@ class SocketToAccountMap {
   /**
    * Adds a new web client socket to our list for a particular account.
    * @param {string} accountName 
-   * @param {object} clientSocket
-   * @returns {boolean}
+   * @param {SocketIO.Socket} clientSocket
    */
   addClient(accountName, clientSocket) {
-    var result = false;
-
     this.accounts[accountName] = this.accounts[accountName] || {};
     var account = this.accounts[accountName];
+    
     account.clients = account.clients || [];
-   
     account.clients.push(clientSocket);
-    result = true;
 
-    return result;
+    for (var robotSocket of this.getRobots(accountName)) {
+      this.sendRobotStateToClients(robotSocket);
+    }
   }
   
   /**
    * Gets rid of a web client socket from our list for a particular account.
    * @param {string} accountName 
-   * @param {object} clientSocket
+   * @param {SocketIO.Socket} clientSocket
    * @returns {boolean}
    */
   removeClient(accountName, clientSocket) {
@@ -118,16 +116,13 @@ class SocketToAccountMap {
    * @returns {boolean}
    */
   setRobot(accountName, robotName, robotSocket) {
-    var result = undefined;
-
     this.accounts[accountName] = this.accounts[accountName] || {};
     var account = this.accounts[accountName];
+    
     account.robots = account.robots || {};
-
     account.robots[robotName] = robotSocket;
-    result = true;
 
-    return result;
+    if (robotSocket) {this.sendRobotStateToClients(robotSocket);}
   }
 
   /**
@@ -148,6 +143,18 @@ class SocketToAccountMap {
       result = true;
     }
     return result;
+  }
+
+  /**
+   * Used when robots or web clients connect to the server to send the current state of robots.
+   * @param {object} robotSocket 
+   */
+  sendRobotStateToClients(robotSocket) {
+    console.dir(robotSocket)
+    this.sendToClients(robotSocket.id.account, "listen start", {robot: robotSocket.id.robot});
+    this.sendToRobot(robotSocket.id.account, robotSocket.id.robot, "command", "return pos.sendLocation();");
+    this.sendToRobot(robotSocket.id.account, robotSocket.id.robot, "command", "for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1); end return true;");
+    this.sendToRobot(robotSocket.id.account, robotSocket.id.robot, "command", "local conf = require('config'); require('tcp').write({['available components']=conf.get(conf.path).components});");
   }
 
 }

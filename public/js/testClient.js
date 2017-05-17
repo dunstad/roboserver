@@ -187,7 +187,7 @@ client.on('data', (rawMessages)=>{
 	for (var data of messages) {
 		if (data.command) {
 			
-			if (data.command == 'for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1) end return true;') {
+			if (data.command == 'for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1); end return true;') {
 				console.log('sending map!');
 				sendWithCost('map data', testScan);
 			}
