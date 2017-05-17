@@ -138,7 +138,7 @@ command input
 
 inventory logic
   
-  move empty slot onto stack
+  move empty slot onto stack (what's the expected behavior?)
   move stack onto empty slot
   move stack onto different stack
   move stack onto similar stack (combined stack size <= max stack size)
