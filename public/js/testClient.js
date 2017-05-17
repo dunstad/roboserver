@@ -169,9 +169,6 @@ client.connect(port, host, function() {
 
 	sendWithCost('id', {robot: process.argv[2], account: process.argv[3]});
 	send('message', 'hi');
-	var components = process.argv[4] ? {raw:true} : {};
-	sendWithCost('available components', components);
-
 	console.log('Connected');
 
 });
@@ -204,7 +201,8 @@ client.on('data', (rawMessages)=>{
 				sendWithCost('robot position', pos);
 			}
 			else if (data.command == "local conf = require('config'); require('tcp').write({['available components']=conf.get(conf.path).components});") {
-				sendWithCost('available components', {raw:true});
+				var components = process.argv[7] ? {raw:true} : {};
+				sendWithCost('available components', components);
 			}
 			else {
 				console.log('responding to command: ' + data.command);
