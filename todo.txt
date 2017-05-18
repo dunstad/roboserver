@@ -3,8 +3,6 @@ version 1:
   features:
 
   fixes:
-    split stack into similar stack (source partial, target full) goes over max stack size
-      test same stack stuff again
 
   pre-release:
     bundle up all the stuff so it's easy to download and run
