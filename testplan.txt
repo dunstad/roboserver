@@ -140,9 +140,10 @@ inventory logic
   
   move empty slot onto stack (what's the expected behavior?)
   move stack onto empty slot
-  move stack onto different stack
+  move stack onto different stack (should swap)
   move stack onto similar stack (combined stack size <= max stack size)
-  move stack onto similar stack (combined stack size > max stack size)
+  move stack onto similar stack (source partial, target full)
+  move stack onto similar stack (source full, target partial)
   
   split stack into empty slot
   split stack into different stack

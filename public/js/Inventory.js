@@ -153,7 +153,7 @@ var itemSwapStorage;
  */
 function itemDragStart(e) {
   dragStartElement = this;
-  if (e.ctrlKey) {
+  if (e.ctrlKey || e.altKey) {
     e.dataTransfer.setData('text/plain', 'split');
   }
   else {
