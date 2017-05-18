@@ -7,6 +7,7 @@ class Robot {
    * An organized collection of all important data about a connected robot.
    */
   constructor() {
+    this.showInventories = false;
     this.inventories = {};
     this.components = [];
   }
@@ -108,6 +109,21 @@ class Robot {
    */
   setComponents(components) {
     this.components = components;
+  }
+
+  /**
+   * Used to tell the UI whether this robot's inventories should be displayed or not.
+   * @returns {boolean}
+   */
+  getShowInventories() {
+    return this.showInventories;
+  }
+
+  /**
+   * Used when the inventory button is pressed. The UI reads this and changes accordingly.
+   */
+  toggleShowInventories() {
+    this.showInventories = !this.showInventories;
   }
 
 }

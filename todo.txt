@@ -15,6 +15,8 @@ version 1:
 later:
 
   fixes:
+    split command history by robot
+    disallow dragging empty inventory slots
   
   features:
     display most recently equipped item

@@ -463,6 +463,14 @@ function switchToRobot(robotName) {
     }
     
     var inventoryContainer = document.getElementById("inventoryContainer");
+    if (robotData.getShowInventories()) {
+      inventoryContainer.classList.remove('hidden');
+      sendCommand('viewInventory');
+    }
+    else {
+      inventoryContainer.classList.add('hidden');
+    }
+
     for (elem of Array.from(inventoryContainer.childNodes)) {
       elem.remove();
     }

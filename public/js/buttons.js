@@ -17,7 +17,10 @@ var buttonCallbacks = {
 
   'inventoryButton': ()=>{
     var inventoryContainer = document.getElementById('inventoryContainer');
-    if (inventoryContainer.classList.contains('hidden')) {
+    var currentRobot = allRobotInfo[document.getElementById('robotSelect').value];
+    currentRobot.toggleShowInventories();
+
+    if (currentRobot.getShowInventories()) {
       inventoryContainer.classList.remove('hidden');
       sendCommand('viewInventory');
     }
