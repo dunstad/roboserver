@@ -3,7 +3,6 @@ version 1:
   features:
 
   fixes:
-    the way inventory showing/hiding works is unintuitive
 
   pre-release:
     bundle up all the stuff so it's easy to download and run
