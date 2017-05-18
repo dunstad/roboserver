@@ -223,11 +223,11 @@ function validateTransfer(fromCell, toCell, amount) {
           !data1.damage && !data2.damage &&
           !data1.hasTag && !data2.hasTag) {
         var data2Space = data2.maxSize - data2.size;
-        if (data1.size <= data2Space) {
-          var amountToTransfer = amount || data1.size;
+        if (amount) {
+          var amountToTransfer = Math.min(amount, data2Space);
         }
         else {
-          var amountToTransfer = amount || data2Space;
+          var amountToTransfer = Math.min(data1.size, data2Space);
         }
         transferAndUpdate(fromCell, toCell, amountToTransfer);
         success = true;
