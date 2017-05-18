@@ -147,8 +147,8 @@ inventory logic
   
   split stack into empty slot
   split stack into different stack
-  split stack into similar stack (combined stack size <= max stack size)
-  split stack into similar stack (combined stack size > max stack size)
+  split stack into similar stack (amount <= space in target)
+  split stack into similar stack (amount > space in target)
   
   move internal stack to external empty slot
   move external stack to internal empty slot
