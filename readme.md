@@ -15,8 +15,8 @@ If you need the robot to stop listening, send `continueLoop=false` from the web 
 
 what version of opencomputers and openos do we need?
 
-control+drag to split stacks
-hold alt to put the selector inside a block
+control or alt + drag to split stacks
+hold control or alt to put the selector inside a block
 
 place uses selected slot, not equip slot
 

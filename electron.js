@@ -16,7 +16,8 @@ function createWindow () {
   mainWindow = new BrowserWindow({width: 800, height: 600})
 
   // and load the index.html of the app.
-  mainWindow.loadURL('http://127.0.0.1:80/login')
+  var webServerPort = require('./public/js/config.js').webServerPort;
+  mainWindow.loadURL('http://127.0.0.1:' + webServerPort + '/login')
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()

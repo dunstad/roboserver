@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var path = require('path');
 
 var routes = require('./routes/routes');
 
@@ -11,7 +12,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
 var Datastore = require('nedb-promise');
-var db = new Datastore({ filename: 'users.db', autoload: true });
+var db = new Datastore({ filename: path.join(__dirname, 'users.db'), autoload: true });
 
 var config = require('./public/js/config');
 
@@ -39,7 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 var session = require('express-session');
 
 var NedbStore = require('nedb-session-store')(session);
-app.set('sessionStore', new NedbStore({filename: 'sessions.db'}));
+app.set('sessionStore', new NedbStore({filename: path.join(__dirname, 'sessions.db')}));
 
 // required for passport session
 app.use(session({
