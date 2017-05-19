@@ -9,11 +9,11 @@ You may find that you need to change the OpenComputers configuration file to all
 
 Paste the command from lua/install.txt into your robot after ensuring it meets the minumum requirements.
 
+what version of opencomputers and openos do we need?
+
 Run `lua /home/lib/commandLoop.lua` to have the robot begin listening for commands from the web client.
 
 If you need the robot to stop listening, send `continueLoop=false` from the web client.
-
-what version of opencomputers and openos do we need?
 
 control or alt + drag to split stacks
 hold control or alt to put the selector inside a block

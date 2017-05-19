@@ -4,17 +4,15 @@ This program lets you control OpenComputers robots through a simple GUI. No Lua 
 
 ## Getting Started
 
-You need to get the Roboserver running, and you need to set up a robot to communicate with it.
-
 First off, there are two ways to run the Roboserver: as a standalone application, or as a server.
 
 ### Standalone
 
-You can download Roboserver for Windows, OS X, and Linux here. Unpack and run it when the download finishes. Congratulations, you're halfway done!
+You can download Roboserver for Windows, OS X, or Linux [here](). Unpack and run it when the download finishes. Congratulations, you're halfway done!
 
 ### Server
 
-You should probably skip this section unless you run your own Minecraft server and want to make this program easily available to your players.
+You should probably skip this section unless you run your own Minecraft server and want to let your players access the Roboserver from their browser.
 
 ### Robot
 
@@ -26,9 +24,9 @@ You need a robot with at minimum the following parts:
 * T1 Hard Disk Drive with OpenOS installed
 * Internet Card
 * Geolyzer
+* Inventory Upgrade
 * Inventory Controller
 * Crafting Upgrade
-* Inventory Upgrade
 
 (If you decide to use Creatix, you'll have to give it a Geolyzer.)
 
@@ -38,7 +36,7 @@ Once your robot is running and OpenOS is installed, just run this command:
 pastebin stillneedtodothis
 ```
 
-After answering a few questions about your robot, it will connect to the server you started in the previous step. Congratulations, you're done!
+After answering a few questions about your robot, it will connect to the server you started in the previous step. Congratulations, you're done! Check out [this guide](guide.md) for some helpful tips about using the Roboserver.
 
 ## License
 
