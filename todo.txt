@@ -5,7 +5,7 @@ version 1:
   fixes:
 
   pre-release:
-    bundle up all the stuff so it's easy to download and run
+    replace the placeholder icons and favicon
     test things
     update readme
     make a video

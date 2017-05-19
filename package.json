@@ -7,7 +7,7 @@
     "server": "node ./bin/www",
     "server-dev": "nodemon ./bin/www",
     "electron": "./node_modules/.bin/electron electron.js",
-    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds"
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=public/icons/placeholder_icon.icns --prune=true --out=release-builds"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -32,12 +32,13 @@
     "electron-packager": "^8.7.0",
     "nodemon": "^1.11.0"
   },
+  "main": "electron.js",
   "description": "This is a HTTP and TCP server which OpenComputers robots can read and execute commands from.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dunstad/roboserver.git"
   },
-  "author": "",
+  "author": "dunstad",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/dunstad/roboserver/issues"
