@@ -3,6 +3,9 @@ version 1:
   features:
 
   fixes:
+    explain the controls within the program somewhere
+    make lua download fall back to github if the server isn't running
+    make robot install use pastebin
 
   pre-release:
     replace the placeholder icons and favicon
