@@ -2,11 +2,11 @@
 
 This program lets you control OpenComputers robots through a simple GUI. No Lua coding necessary!
 
+![A robot being controlled by the Roboserver](public/assets/tree.gif)
+
 ## Getting Started
 
 First off, there are two ways to run the Roboserver: as a standalone application, or as a server.
-
-[](public/assets/tree.gif)
 
 ### Standalone
 
