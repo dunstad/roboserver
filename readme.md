@@ -1,6 +1,6 @@
 ## Roboserver
 
-This is a HTTP and TCP server which OpenComputers robots can read and execute commands from.  
+This is a HTTP and TCP server which OpenComputers robots can read and execute commands from.
 
 **Getting Started**
 To run the HTTP/TCP server: `npm start` or `npm run dev` from the root directory. This allows you to access the web client and send messages to any listening robots.

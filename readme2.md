@@ -6,6 +6,8 @@ This program lets you control OpenComputers robots through a simple GUI. No Lua 
 
 First off, there are two ways to run the Roboserver: as a standalone application, or as a server.
 
+[](public/assets/tree.gif)
+
 ### Standalone
 
 You can download Roboserver for Windows, OS X, or Linux [here](). Unpack and run it when the download finishes. Congratulations, you're halfway done!
