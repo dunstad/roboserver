@@ -22,6 +22,11 @@ later:
     disallow dragging empty inventory slots
   
   features:
+    turn hardness values into hardness classes based on data accuracy
+      i.e., say a block could be either hardness 2 or 1.5
+      show hardness classes for the block the cursor is on
+      highlight blocks of a specific hardness class
+      highlight neighbors of a block that fit in the same hardness class
     display most recently equipped item
     hotkeys for different tools
     key bindings
