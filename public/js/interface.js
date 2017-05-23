@@ -438,7 +438,7 @@ function initCraftSelect() {
   fetchPromise("/js/OCRecipes.json").then(addRecipes).catch(console.dir);
 
   // prevent hotkeys from working here
-  craftSelect.parentElement.addEventListener('keydown', (e)=>{alert("?"); e.stopPropagation();});
+  craftSelect.parentElement.addEventListener('keydown', (e)=>{e.stopPropagation();});
 
   var craftButton = document.getElementById("craftButton");
   craftButton.addEventListener('click', (e)=>{

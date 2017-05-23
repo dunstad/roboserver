@@ -99,7 +99,7 @@ function init() {
 
   document.addEventListener('keydown', (e)=>{
     if (e.altKey || e.ctrlKey) {e.preventDefault(); altOrCtrlKeyPressed = true;}
-    else if (e.keyCode == 191 && e.shiftKey) {alert("!"); e.preventDefault(); $('#controlsDisplay').modal('toggle');}
+    else if (e.keyCode == 191 && e.shiftKey) {e.preventDefault(); $('#controlsDisplay').modal('toggle');}
   });
 
   document.addEventListener('keyup', (e)=>{
@@ -108,7 +108,7 @@ function init() {
 
   // stop key events triggering inside text fields
   Array.from(document.querySelectorAll('input[type=text]')).map((elem)=>{
-    elem.addEventListener('keydown', (e)=>{alert("?"); e.stopPropagation();});
+    elem.addEventListener('keydown', (e)=>{e.stopPropagation();});
   });
 
   selectedRobotMaterial = new THREE.MeshLambertMaterial({ color: 0xff9999, opacity: 0.9, transparent: true });
