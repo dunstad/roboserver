@@ -6,6 +6,7 @@ version 1:
     make lua download fall back to github if the server isn't running
     make robot install use pastebin
     get a new gif for the readme that doesn't have player UI showing
+    put usage tips somewhere
 
   pre-release:
     replace the placeholder icons and favicon
