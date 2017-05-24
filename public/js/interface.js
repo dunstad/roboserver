@@ -162,6 +162,7 @@ function main() {
   initCraftSelect();
   initRobotSelect();
   initCutawayForm();
+  initModal();
 
 }
 
@@ -550,4 +551,14 @@ function initCutawayForm() {
     });
     requestRender();
   });
+}
+
+/**
+ * Display the controls if the user hasn't visited the page before.
+ */
+function initModal() {
+  if (!localStorage.getItem('controlsHaveBeenShown')) {
+    $('#controlsDisplay').modal('show');
+    localStorage.setItem('controlsHaveBeenShown', 'true');
+  }
 }
