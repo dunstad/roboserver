@@ -14,7 +14,15 @@ You can download Roboserver for Windows, OS X, or Linux [here](). Unpack and run
 
 ### Server
 
-You should probably skip this section unless you run your own Minecraft server and want to let your players access the Roboserver from their browser.
+You should probably skip to the Robot section of this readme unless you run your own Minecraft server and want to let your players access the Roboserver from their browser.
+
+1. Install Node.js and npm.
+2. Clone this repository.
+3. Run ```npm install``` in the project directory.
+4. Rename ```public/js/config.example.js``` to ```public/js/config.js``` and optionally change the settings inside.
+5. Run ```npm run server``` in the project directory.
+
+Congratulations, you're halfway done!
 
 ### Robot
 
