@@ -1,34 +1,57 @@
-## Roboserver
+# Roboserver
 
-This is a HTTP and TCP server which OpenComputers robots can read and execute commands from.
+This program lets you control OpenComputers robots through a simple GUI. No Lua coding necessary!
 
-**Getting Started**
-To run the HTTP/TCP server: `npm start` or `npm run dev` from the root directory. This allows you to access the web client and send messages to any listening robots.
+![A robot being controlled by the Roboserver](public/assets/tree.gif)
 
-You may find that you need to change the OpenComputers configuration file to allow it to connect to your server.
+## Getting Started
 
-Paste the command from lua/install.txt into your robot after ensuring it meets the minumum requirements.
+First off, there are two ways to run the Roboserver: as a standalone application, or as a server.
 
-what version of opencomputers and openos do we need?
+### Standalone
 
-Run `lua /home/lib/commandLoop.lua` to have the robot begin listening for commands from the web client.
+You can download Roboserver for Windows, OS X, or Linux [here](). Unpack and run it when the download finishes. Congratulations, you're halfway done!
 
-If you need the robot to stop listening, send `continueLoop=false` from the web client.
+### Server
 
-control or alt + drag to split stacks
-hold control or alt to put the selector inside a block
+You should probably skip to the Robot section of this readme unless you run your own Minecraft server and want to let your players access the Roboserver from their browser.
 
-place uses selected slot, not equip slot
+1. Install Node.js and npm.
+2. Clone this repository.
+3. Run ```npm install``` in the project directory.
+4. Rename ```public/js/config.example.js``` to ```public/js/config.js``` and optionally change the settings inside.
+5. Run ```npm run server``` in the project directory.
 
-opencomputers minimum system requirements
-  *gold case
-  *t2 cpu
-  *t1 memory x2
-  *EEPROM (Lua BIOS)
-  *t1 hard disk drive with OpenOS installed
-  *internet card
+Congratulations, you're halfway done!
 
-  *geolyzer
-  *inventory controller
-  *crafting upgrade
-  *inventory upgrade
+### Robot
+
+You need a robot with at minimum the following parts:
+* Gold Case
+* EEPROM (Lua BIOS)
+* T2 CPU
+* T1 Memory x2
+* T1 Hard Disk Drive with OpenOS installed
+* Internet Card
+* Geolyzer
+* Inventory Upgrade
+* Inventory Controller
+* Crafting Upgrade
+
+(If you decide to use Creatix, you'll have to give it a Geolyzer.)
+
+Once your robot is running and OpenOS is installed, just run this command:
+
+```
+pastebin stillneedtodothis
+```
+
+After answering a few questions about your robot, it will connect to the server you started in the previous step. Congratulations, you're done! Check out [this guide](guide.md) for some helpful tips about using the Roboserver.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+This project is made possible by the continued effort of all the wonderful people who contribute to [OpenComputers](https://github.com/MightyPirates/OpenComputers).
