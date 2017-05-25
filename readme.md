@@ -1,6 +1,6 @@
 # Roboserver
 
-This program lets you control OpenComputers robots through a simple GUI. No Lua coding necessary!
+This project lets you control [OpenComputers](http://ocdoc.cil.li/) robots through a simple GUI. No Lua coding necessary!
 
 ![A robot being controlled by the Roboserver](public/assets/tree.gif)
 
@@ -49,6 +49,21 @@ pastebin stillneedtodothis
 ```
 
 After answering a few questions about your robot, it will connect to the server you started in the previous step. Congratulations, you're done! Next check out [these tips](tips.md) on how to use the Roboserver.
+
+## Reporting Bugs
+
+Before creating an issue, please make sure you've read the [usage tips](tips.md), and check that it hasn't already been reported.
+
+When reporting a bug in the [issue tracker](https://github.com/dunstad/roboserver/issues?q=is%3Aopen), in order to help me address your issue as quickly as possible, please provide the following information:
+
+1. What version you're using of Minecraft, OpenComputers, and the Roboserver.
+1. Steps to reproduce the problem
+2. The expected behavior
+3. The actual behavior
+
+If you have them, screenshots, video, or error messages are always welcome.
+
+Feel free to create a pull request if you think you've resolved an outstanding issue.
 
 ## License
 
