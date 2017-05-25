@@ -5,7 +5,7 @@ version 1:
   fixes:
     make lua download fall back to github if the server isn't running
     make robot install use pastebin
-    put usage tips somewhere
+    make sure this works: ```lua /home/lib/config.lua components {raw=true}```
 
   pre-release:
     replace the placeholder icons and favicon
