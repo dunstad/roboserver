@@ -6,7 +6,7 @@ This project lets you control [OpenComputers](http://ocdoc.cil.li/) robots throu
 
 ## Getting Started
 
-(Tested on Minecraft version 1.10.2, OpenComputers version 1.6. If something's broken for your version, see [Reporting Bugs](#reporting-bugs))
+(Tested on Minecraft version 1.10.2, OpenComputers version 1.6. If something's broken for your version, see [Reporting Bugs](#reporting-bugs)).
 
 There are two ways to run the Roboserver: as a [standalone application](#standalone), or as a [server](#server). If you're not sure which is right for you, read the standalone section.
 
