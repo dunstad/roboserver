@@ -16,7 +16,7 @@ Congratulations, you're halfway done! Next check out the [Robot](#robot) section
 
 ### Server
 
-Unless you run your own Minecraft server and want to let your players access the Roboserver from their browser, you should read the [Standalone](#standalone) section instead.
+Unless you run your own Minecraft server and want to let your players access the Roboserver from a web browser, you should read the [Standalone](#standalone) section instead.
 
 1. Install Node.js and npm.
 2. Clone this repository.
