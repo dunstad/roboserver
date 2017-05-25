@@ -26,6 +26,8 @@ Unless you run your own Minecraft server and want to let your players access the
 4. Rename ```public/js/config.example.js``` to ```public/js/config.js``` and optionally change the settings inside.
 5. Run ```npm run server``` in the project directory.
 
+If you're running the Roboserver on the same network as any robots trying to connect to it, you may need to change the blacklist settings in your OpenComputers configuration file.
+
 Congratulations, you're halfway done! Next check out the [Robot](#robot) section.
 
 ### Robot
