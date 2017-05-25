@@ -6,15 +6,15 @@ This program lets you control OpenComputers robots through a simple GUI. No Lua 
 
 ## Getting Started
 
-First off, there are two ways to run the Roboserver: as a standalone application, or as a server.
+First off, there are two ways to run the Roboserver: as a [standalone](#standalone) application, or as a [server](#server). If you're not sure which is right for you, read the standalone section.
 
 ### Standalone
 
-You can download Roboserver for Windows, OS X, or Linux [here](). Unpack and run it when the download finishes. Congratulations, you're halfway done!
+You can download Roboserver for Windows, OS X, or Linux [here](). Unpack and run it when the download finishes. Congratulations, you're halfway done! Next check out the [Robot](#robot) section.
 
 ### Server
 
-You should probably skip to the Robot section of this readme unless you run your own Minecraft server and want to let your players access the Roboserver from their browser.
+Unless you run your own Minecraft server and want to let your players access the Roboserver from their browser, you should read the [Standalone](#standalone) section instead.
 
 1. Install Node.js and npm.
 2. Clone this repository.
@@ -22,7 +22,7 @@ You should probably skip to the Robot section of this readme unless you run your
 4. Rename ```public/js/config.example.js``` to ```public/js/config.js``` and optionally change the settings inside.
 5. Run ```npm run server``` in the project directory.
 
-Congratulations, you're halfway done!
+Congratulations, you're halfway done! Next check out the [Robot](#robot) section.
 
 ### Robot
 
