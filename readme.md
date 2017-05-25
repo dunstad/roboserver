@@ -10,7 +10,7 @@ First off, there are two ways to run the Roboserver: as a [standalone](#standalo
 
 ### Standalone
 
-You can download Roboserver for Windows, OS X, or Linux [here](). Unpack and run it when the download finishes.
+You can download Roboserver for Windows, OS X, or Linux [here](). Unpack and run it when the download finishes. You'll also need to remove "127.0.0.0/8" from the blacklist in your OpenComputers configuration file, otherwise your robot will be unable to connect.
 
 Congratulations, you're halfway done! Next check out the [Robot](#robot) section.
 
