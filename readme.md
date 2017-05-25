@@ -10,7 +10,9 @@ First off, there are two ways to run the Roboserver: as a [standalone](#standalo
 
 ### Standalone
 
-You can download Roboserver for Windows, OS X, or Linux [here](). Unpack and run it when the download finishes. Congratulations, you're halfway done! Next check out the [Robot](#robot) section.
+You can download Roboserver for Windows, OS X, or Linux [here](). Unpack and run it when the download finishes.
+
+Congratulations, you're halfway done! Next check out the [Robot](#robot) section.
 
 ### Server
 
@@ -46,7 +48,7 @@ Once your robot is running and OpenOS is installed, just run this command:
 pastebin stillneedtodothis
 ```
 
-After answering a few questions about your robot, it will connect to the server you started in the previous step. Congratulations, you're done! Check out [this guide](guide.md) for some helpful tips about using the Roboserver.
+After answering a few questions about your robot, it will connect to the server you started in the previous step. Congratulations, you're done! Next check out [these tips](tips.md) on how to use the Roboserver.
 
 ## License
 
