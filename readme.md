@@ -56,14 +56,14 @@ Before creating an issue, please make sure you've read the [usage tips](tips.md)
 
 When reporting a bug in the [issue tracker](https://github.com/dunstad/roboserver/issues?q=is%3Aopen), in order to help me address your issue as quickly as possible, please provide the following information:
 
-1. What version you're using of Minecraft, OpenComputers, and the Roboserver.
+1. What version you're using of Minecraft and OpenComputers.
 1. Steps to reproduce the problem
 2. The expected behavior
 3. The actual behavior
 
 If you have them, screenshots, video, or error messages are always welcome.
 
-Feel free to create a pull request if you think you've resolved an outstanding issue.
+Feel free to create a pull request if you've resolved an outstanding issue.
 
 ## License
 
