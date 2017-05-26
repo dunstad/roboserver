@@ -6,7 +6,7 @@ This project lets you control [OpenComputers](http://ocdoc.cil.li/) robots throu
 
 ## Getting Started
 
-(Tested on Minecraft version 1.10.2, OpenComputers version 1.6. If something's broken for your version, see [Reporting Bugs](#reporting-bugs)).
+(Tested on Minecraft version 1.10.2, OpenComputers version 1.6. If something's broken for your version, see [Reporting Bugs](#reporting-bugs).)
 
 There are two ways to run the Roboserver: as a [standalone application](#standalone), or as a [server](#server). If you're not sure which is right for you, read the standalone section.
 
@@ -34,11 +34,13 @@ Congratulations, you're halfway done! Next check out the [Robot](#robot) section
 
 #### Creative
 
-(If you decide to use Creatix, you'll have to give it a Geolyzer.)
+Set down the Creatix robot, run ```install```, select OpenOS, and reboot it when the install completes. Make sure to put a Geolyzer in its upgrade slot (not its tool slot!).
+
+Congratulations! Your new robot now has a fresh operating system. To finish up, see [Installation](#installation).
 
 #### Survival
 
-You need a robot with at minimum the following parts:
+You need to craft at minimum the following parts for your robot:
 * [Gold Case](http://crafting-guide.com/browse/opencomputers/computer_case_tier_2/)
 * [EEPROM (Lua BIOS)](http://crafting-guide.com/browse/opencomputers/eeprom_lua_bios/)
 * [T2 CPU](http://crafting-guide.com/browse/opencomputers/central_processing_unit_cpu_tier_2/)
@@ -49,6 +51,12 @@ You need a robot with at minimum the following parts:
 * [Inventory Upgrade](http://crafting-guide.com/browse/opencomputers/inventory_upgrade/)
 * [Inventory Controller Upgrade](http://crafting-guide.com/browse/opencomputers/inventory_controller_upgrade/)
 * [Crafting Upgrade](http://crafting-guide.com/browse/opencomputers/crafting_upgrade/)
+
+Place all these parts in an Assembler. You'll probably also want a Keyboard and a Screen. Power and start the assembler, and in a moment your robot will be ready to go!
+
+Now set down your shiny new robot, run ```install```, select OpenOS, and reboot it when the install completes.
+
+Congratulations! Your robot now has a fresh operating system. To finish up, see [Installation](#installation).
 
 #### Installation
 
