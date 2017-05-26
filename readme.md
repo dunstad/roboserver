@@ -54,7 +54,7 @@ You need to craft at minimum the following parts for your robot:
 * [Inventory Controller Upgrade](http://crafting-guide.com/browse/opencomputers/inventory_controller_upgrade/)
 * [Crafting Upgrade](http://crafting-guide.com/browse/opencomputers/crafting_upgrade/)
 
-Place all these parts in an [Electronics Assembler](http://crafting-guide.com/browse/opencomputers/electronics_assembler/). You'll probably also want a [Keyboard](http://crafting-guide.com/browse/opencomputers/keyboard/) and a [Screen](http://crafting-guide.com/browse/opencomputers/screen_tier_1/). Power and start the assembler, and in a moment your robot will be ready to go!
+Place all these parts in an [Electronics Assembler](http://crafting-guide.com/browse/opencomputers/electronics_assembler/). You'll probably also want to put a [Keyboard](http://crafting-guide.com/browse/opencomputers/keyboard/) and a [Screen](http://crafting-guide.com/browse/opencomputers/screen_tier_1/) in. Power and start the assembler, and in a moment your robot will be ready to go!
 
 Now set down your shiny new robot, run ```install```, select OpenOS, and reboot it when the install completes.
 
