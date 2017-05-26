@@ -32,6 +32,12 @@ Congratulations, you're halfway done! Next check out the [Robot](#robot) section
 
 ### Robot
 
+#### Creative
+
+(If you decide to use Creatix, you'll have to give it a Geolyzer.)
+
+#### Survival
+
 You need a robot with at minimum the following parts:
 * [Gold Case](http://crafting-guide.com/browse/opencomputers/computer_case_tier_2/)
 * [EEPROM (Lua BIOS)](http://crafting-guide.com/browse/opencomputers/eeprom_lua_bios/)
@@ -44,9 +50,9 @@ You need a robot with at minimum the following parts:
 * [Inventory Controller Upgrade](http://crafting-guide.com/browse/opencomputers/inventory_controller_upgrade/)
 * [Crafting Upgrade](http://crafting-guide.com/browse/opencomputers/crafting_upgrade/)
 
-(If you decide to use Creatix, you'll have to give it a Geolyzer.)
+#### Installation
 
-Once your robot is running and OpenOS is installed, just run this command:
+Now that your robot is running and OpenOS is installed, just run this command:
 
 ```
 pastebin stillneedtodothis
