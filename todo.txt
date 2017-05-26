@@ -3,6 +3,7 @@ version 1:
   features:
 
   fixes:
+    add openos floppy instructions to robot setup guide
     make lua download fall back to github if the server isn't running (second wget without -f)
     make robot install use pastebin
     make sure this works: ```lua /home/lib/config.lua components {raw=true}```
@@ -20,14 +21,14 @@ later:
     disallow dragging empty inventory slots
   
   features:
+    display most recently equipped item
+    hotkeys for different tools
     turn hardness values into hardness classes based on data accuracy
       i.e., say a block could be either hardness 2 or 1.5
       show hardness classes for the block the cursor is on
       highlight blocks of a specific hardness class
       highlight neighbors of a block that fit in the same hardness class
-    display most recently equipped item
-    hotkeys for different tools
-    key bindings
+    ability to change key bindings
     item label to facade color map, use for map and inventory
     change gui based on what components the selected robot has
       modularize lua code so more of the requires/components are optional
