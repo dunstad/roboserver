@@ -4,6 +4,7 @@ version 1:
 
   fixes:
     add openos floppy instructions to robot setup guide
+    don't forget the graphics card
     make lua download fall back to github if the server isn't running (second wget without -f)
     make robot install use pastebin
     make sure this works: ```lua /home/lib/config.lua components {raw=true}```
