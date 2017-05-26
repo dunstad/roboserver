@@ -56,7 +56,7 @@ After answering a few questions about your robot, it will connect to the server 
 
 ## Reporting Bugs
 
-Before creating an issue, please make sure you've read the [usage tips](tips.md), and check that it hasn't already been reported.
+Before creating an issue, please read the [usage tips](tips.md), and check that it hasn't already been reported.
 
 When reporting a bug in the [issue tracker](https://github.com/dunstad/roboserver/issues?q=is%3Aopen), in order to help me address your issue as quickly as possible, please provide the following information:
 
