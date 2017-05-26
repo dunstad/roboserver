@@ -32,6 +32,8 @@ Congratulations, you're halfway done! Next check out the [Robot](#robot) section
 
 ### Robot
 
+If you just want to try the program out without any fuss, head to the [Creative](#creative) section. If you want to use this in an existing survival world, you'll want to follow the steps [here](#survival).
+
 #### Creative
 
 Set down the Creatix robot, run ```install```, select OpenOS, and reboot it when the install completes. Make sure to put a Geolyzer in its upgrade slot (not its tool slot!).
@@ -52,7 +54,7 @@ You need to craft at minimum the following parts for your robot:
 * [Inventory Controller Upgrade](http://crafting-guide.com/browse/opencomputers/inventory_controller_upgrade/)
 * [Crafting Upgrade](http://crafting-guide.com/browse/opencomputers/crafting_upgrade/)
 
-Place all these parts in an Assembler. You'll probably also want a Keyboard and a Screen. Power and start the assembler, and in a moment your robot will be ready to go!
+Place all these parts in an [Electronics Assembler](http://crafting-guide.com/browse/opencomputers/electronics_assembler/). You'll probably also want a [Keyboard](http://crafting-guide.com/browse/opencomputers/keyboard/) and a [Screen](http://crafting-guide.com/browse/opencomputers/screen_tier_1/). Power and start the assembler, and in a moment your robot will be ready to go!
 
 Now set down your shiny new robot, run ```install```, select OpenOS, and reboot it when the install completes.
 
