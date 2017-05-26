@@ -33,16 +33,16 @@ Congratulations, you're halfway done! Next check out the [Robot](#robot) section
 ### Robot
 
 You need a robot with at minimum the following parts:
-* Gold Case
-* EEPROM (Lua BIOS)
-* T2 CPU
-* T1 Memory x2
-* T1 Hard Disk Drive with OpenOS installed
-* Internet Card
-* Geolyzer
-* Inventory Upgrade
-* Inventory Controller
-* Crafting Upgrade
+* [Gold Case](http://crafting-guide.com/browse/opencomputers/computer_case_tier_2/)
+* [EEPROM (Lua BIOS)](http://crafting-guide.com/browse/opencomputers/eeprom_lua_bios/)
+* [T2 CPU](http://crafting-guide.com/browse/opencomputers/central_processing_unit_cpu_tier_2/)
+* [T1 Memory](http://crafting-guide.com/browse/opencomputers/memory_tier_1/) x2
+* [T1 Hard Disk Drive](http://crafting-guide.com/browse/opencomputers/hard_disk_drive_tier_1/) with [OpenOS](http://crafting-guide.com/browse/opencomputers/floppy_disk_openos/) installed
+* [Internet Card](http://crafting-guide.com/browse/opencomputers/internet_card/)
+* [Geolyzer](http://crafting-guide.com/browse/opencomputers/geolyzer/)
+* [Inventory Upgrade](http://crafting-guide.com/browse/opencomputers/inventory_upgrade/)
+* [Inventory Controller Upgrade](http://crafting-guide.com/browse/opencomputers/inventory_controller_upgrade/)
+* [Crafting Upgrade](http://crafting-guide.com/browse/opencomputers/crafting_upgrade/)
 
 (If you decide to use Creatix, you'll have to give it a Geolyzer.)
 
