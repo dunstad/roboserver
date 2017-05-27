@@ -3,6 +3,8 @@ version 1:
   features:
 
   fixes:
+    inventory display should open when you interact with a chest
+    remove focus command history on esc
     add openos floppy instructions to robot setup guide
     don't forget the graphics card
     make lua download fall back to github if the server isn't running (second wget without -f)
