@@ -385,7 +385,6 @@ function initPointerLock() {
       if (document.pointerLockElement === pointerLockElement) {controls.enabled = true;}
       else {
         controls.enabled = false;
-        document.getElementById('commandInput').focus();
       }
     }
 
