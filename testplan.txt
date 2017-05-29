@@ -12,6 +12,7 @@ run all tests on a robot built to the minimum requirements:
 
 lua installation on robot
   paste install.txt into a robot's terminal
+  make sure to test it with and without the server running locally
   easy config should ask you for information
   make sure it successfully connects to the specified server
 

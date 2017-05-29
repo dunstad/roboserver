@@ -3,10 +3,8 @@ version 1:
   features:
 
   fixes:
-    inventory display should open when you interact with a chest (done?)
     add openos floppy instructions to robot setup guide
     don't forget the graphics card
-    make lua download fall back to github if the server isn't running (second wget without -f)
     make robot install use pastebin
     make sure this works: ```lua /home/lib/config.lua components {raw=true}```
 
@@ -15,6 +13,7 @@ version 1:
     test things
     update readme
     set up github so i can develop without breaking the release
+    update install script to point to release
 
 later:
 
