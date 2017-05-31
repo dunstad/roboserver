@@ -61,15 +61,13 @@ There are a few other parts you will probably want that make your robot easier t
 * [Screen](http://crafting-guide.com/browse/opencomputers/screen_tier_1/)
 * [Graphics Card (Tier 1)](http://crafting-guide.com/browse/opencomputers/graphics_card_tier_1/)
 
-Place all these parts in an [Electronics Assembler](http://crafting-guide.com/browse/opencomputers/electronics_assembler/). Power and start the assembler, and in a moment your robot will be ready to go!
+Place all these parts in an [Electronics Assembler](http://crafting-guide.com/browse/opencomputers/electronics_assembler/). Power and start the assembler, and when your robot is finished, place it in the world and power it on.
 
-Now set down your shiny new robot, run ```install```, select OpenOS, and reboot it when the install completes.
-
-Congratulations! Your robot now has a fresh operating system. To finish up, see [Installation](#installation).
+Congratulations, your new robot is ready to go! To finish up, see [Installation](#installation).
 
 #### Installation
 
-Now that your robot is running and OpenOS is installed, just run this command:
+Now that your robot is running and OpenOS is installed, just run this command on it:
 
 ```
 pastebin stillneedtodothis
