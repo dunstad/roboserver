@@ -81,6 +81,7 @@ function main() {
       }
     }
 
+    // reveal inventories when any change occurs
     if (!allRobotInfo[inventoryData.robot].getShowInventories()) {
       allRobotInfo[inventoryData.robot].toggleShowInventories();
     }
