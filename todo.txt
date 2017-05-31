@@ -3,8 +3,6 @@ version 1:
   features:
 
   fixes:
-    add openos floppy instructions to robot setup guide
-    don't forget the graphics card
     make robot install use pastebin
 
   pre-release:

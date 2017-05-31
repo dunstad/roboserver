@@ -42,19 +42,26 @@ Congratulations! Your new robot now has a fresh operating system. To finish up, 
 
 #### Survival
 
+If you have no previous experience with OpenComputers, you should take a look at [this guide](http://ocdoc.cil.li/tutorial:oc1_basic_computer).
+
 You need to craft at minimum the following parts for your robot:
-* [Gold Case](http://crafting-guide.com/browse/opencomputers/computer_case_tier_2/)
+* [Computer Case (Tier 2)](http://crafting-guide.com/browse/opencomputers/computer_case_tier_2/)
 * [EEPROM (Lua BIOS)](http://crafting-guide.com/browse/opencomputers/eeprom_lua_bios/)
-* [T2 CPU](http://crafting-guide.com/browse/opencomputers/central_processing_unit_cpu_tier_2/)
-* [T1 Memory](http://crafting-guide.com/browse/opencomputers/memory_tier_1/) x2
-* [T1 Hard Disk Drive](http://crafting-guide.com/browse/opencomputers/hard_disk_drive_tier_1/) with [OpenOS](http://crafting-guide.com/browse/opencomputers/floppy_disk_openos/) installed
+* [CPU (Tier 2)](http://crafting-guide.com/browse/opencomputers/central_processing_unit_cpu_tier_2/)
+* [Memory (Tier 1)](http://crafting-guide.com/browse/opencomputers/memory_tier_1/) x2
+* [Hard Disk Drive (Tier 1)](http://crafting-guide.com/browse/opencomputers/hard_disk_drive_tier_1/) with [OpenOS](http://crafting-guide.com/browse/opencomputers/floppy_disk_openos/) installed
 * [Internet Card](http://crafting-guide.com/browse/opencomputers/internet_card/)
 * [Geolyzer](http://crafting-guide.com/browse/opencomputers/geolyzer/)
 * [Inventory Upgrade](http://crafting-guide.com/browse/opencomputers/inventory_upgrade/)
 * [Inventory Controller Upgrade](http://crafting-guide.com/browse/opencomputers/inventory_controller_upgrade/)
 * [Crafting Upgrade](http://crafting-guide.com/browse/opencomputers/crafting_upgrade/)
 
-Place all these parts in an [Electronics Assembler](http://crafting-guide.com/browse/opencomputers/electronics_assembler/). You'll probably also want to put a [Keyboard](http://crafting-guide.com/browse/opencomputers/keyboard/) and a [Screen](http://crafting-guide.com/browse/opencomputers/screen_tier_1/) in. Power and start the assembler, and in a moment your robot will be ready to go!
+There are a few other parts you will probably want that make your robot easier to use:
+* [Keyboard](http://crafting-guide.com/browse/opencomputers/keyboard/)
+* [Screen](http://crafting-guide.com/browse/opencomputers/screen_tier_1/)
+* [Graphics Card (Tier 1)](http://crafting-guide.com/browse/opencomputers/graphics_card_tier_1/)
+
+Place all these parts in an [Electronics Assembler](http://crafting-guide.com/browse/opencomputers/electronics_assembler/). Power and start the assembler, and in a moment your robot will be ready to go!
 
 Now set down your shiny new robot, run ```install```, select OpenOS, and reboot it when the install completes.
 
