@@ -19,6 +19,8 @@ later:
     disallow dragging empty inventory slots
   
   features:
+    computercraft support
+    perform initial configuration from application?
     display most recently equipped item
     hotkeys for different tools
     turn hardness values into hardness classes based on data accuracy
