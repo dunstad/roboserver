@@ -6,7 +6,6 @@ version 1:
     add openos floppy instructions to robot setup guide
     don't forget the graphics card
     make robot install use pastebin
-    make sure this works: ```lua /home/lib/config.lua components {raw=true}```
 
   pre-release:
     replace the placeholder icons and favicon
