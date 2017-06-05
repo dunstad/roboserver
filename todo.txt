@@ -3,6 +3,7 @@ version 1:
   features:
 
   fixes:
+    robot install fails to default to github
     make robot install use pastebin
 
   pre-release:
