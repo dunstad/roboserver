@@ -69,9 +69,9 @@ move
   confirmed that opened external inventories are removed upon move
 
 interact
-  have a robot equip a block and interact with an empty area adjacent to other blocks, min. volume 2
-  confirm that the robot now has 2 less of the equipped block
-  confirm that interacting with an inventory opens it and makes inventories visible
+  have a robot equip a block and interact with an empty space adjacent to another block
+  confirm that the robot now has 1 less of the equipped block
+  confirm that interacting with an inventory causes it and the robot's inventory to display
 
 inspect
   inspect an area that appears empty but actually has a block

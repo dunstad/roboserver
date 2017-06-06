@@ -3,7 +3,12 @@ version 1:
   features:
 
   fixes:
+    robot interacting with a chest should show robot inventory
+    robot interacting with empty space should remove block from display
+    robot failing to place one block should not prevent it from placing others
     robot install fails to default to github
+    grid not being updated after crafting to remove materials from grid
+    clickable commands need a clickable cursor on hover
     make robot install use pastebin
 
   pre-release:
