@@ -1,0 +1,11 @@
+<svg width="500" height="500" viewBox="0 0 2000 2000" xmlns="http://www.w3.org/2000/svg">
+  <!--
+    Math.sqrt(3) / 2
+    0.8660254037844386
+    Math.sqrt(3)
+    1.7320508075688772
+  -->
+  <polygon points="0,500 866,0 1732,500 866,1000" style="fill:#F1A6B3;"/>
+  <polygon points="0,500 866,1000 866,2000 0,1500" style="fill:#B87380;"/>
+  <polygon points="1732,500 866,1000 866,2000 1732,1500" style="fill:#E28D99;"/>
+</svg>
