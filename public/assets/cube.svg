@@ -6,6 +6,6 @@
     1.7320508075688772
   -->
   <polygon points="0,500 866,0 1732,500 866,1000" style="fill:#F1A6B3;"/>
-  <polygon points="0,500 866,1000 866,2000 0,1500" style="fill:#B87380;"/>
-  <polygon points="1732,500 866,1000 866,2000 1732,1500" style="fill:#E28D99;"/>
+  <polygon points="0,500 867,1000 867,2000 0,1500" style="fill:#B87380;"/>
+  <polygon points="1732,500 866,999 866,2000 1732,1500" style="fill:#E28D99;"/>
 </svg>
