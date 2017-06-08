@@ -21,10 +21,10 @@ version 1:
 later:
 
   fixes:
-    split command history by robot
     disallow dragging empty inventory slots
   
   features:
+    split command history by robot
     allow robot install to default to offline instead of always using github 
     computercraft support
     perform initial configuration from application?
