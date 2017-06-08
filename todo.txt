@@ -12,7 +12,6 @@ version 1:
     make robot install use pastebin
 
   pre-release:
-    replace the placeholder icons and favicon
     test things
     update readme
     set up github so i can develop without breaking the release
