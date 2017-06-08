@@ -1,5 +1,5 @@
 local path = '/home/lib';
-local codeURL = 'http://localhost/lua';
+local codeURL = 'https://raw.githubusercontent.com/dunstad/roboserver/master/lua';
 local fileName = '/downloadCode.lua'
 os.execute('wget -f ' .. codeURL .. fileName .. ' ' .. path .. fileName);
 local dl = require("downloadCode");

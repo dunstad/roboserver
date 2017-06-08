@@ -4,12 +4,11 @@ version 1:
 
   fixes:
     robot interacting with a chest should show robot inventory (should be fixed)
+    grid not being updated after crafting to remove materials from grid (should be fixed)
     robot inspecting empty space should remove block from display
       what does geolyzer.analyze return for air blocks?
     robot failing to place one block should not prevent it from placing others
       not sure why this is happening right now
-    grid not being updated after crafting to remove materials from grid (should be fixed)
-    robot install fails to default to github
     make robot install use pastebin
 
   pre-release:
@@ -26,6 +25,7 @@ later:
     disallow dragging empty inventory slots
   
   features:
+    allow robot install to default to offline instead of always using github 
     computercraft support
     perform initial configuration from application?
     display most recently equipped item

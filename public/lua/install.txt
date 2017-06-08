@@ -1,4 +1,3 @@
 mkdir /home/lib;
-wget -f http://localhost/lua/setup.lua /home/lib/setup.lua;
 wget https://raw.githubusercontent.com/dunstad/roboserver/master/lua/setup.lua /home/lib/setup.lua;
 lua /home/lib/setup.lua;
