@@ -137,6 +137,10 @@ body {
   outline-offset: -1px;
 }
 
+.inline-block {
+  display: inline-block;
+}
+
 /* bootstrap modifications */
 
 .panel-default {
