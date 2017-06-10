@@ -9,6 +9,7 @@
   * what does geolyzer.analyze return for air blocks?
 * robot failing to place one block should not prevent it from placing others
   * not sure why this is happening right now
+* other blocks should not be colored light pink, why's it happening?
 * make robot install use pastebin
 
 ## pre-release
