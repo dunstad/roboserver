@@ -100,6 +100,8 @@ function M.firstAvailableSlot(stackInfo)
 end
 
 function M.clearCraftingGrid()
+  local side = -1;
+  int.sendInventoryMetadata(side);
   for i, slot in pairs(craftingSlots) do
     if slot then
       if robot.count(slot) > 0 then
@@ -107,11 +109,9 @@ function M.clearCraftingGrid()
         robot.select(slot);
         local firstSlot = M.firstAvailableSlot(slotInfo);
         robot.transferTo(firstSlot);
+        int.sendSlotData(side, firstSlot);
       end
-      local side = -1;
-      int.sendInventoryMetadata(side);
       int.sendSlotData(side, slot);
-      int.sendSlotData(side, firstSlot);
     end
   end
 end

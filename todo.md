@@ -3,10 +3,6 @@
 ## features
 
 ## fixes
-* robot interacting with a chest should show robot inventory (should be fixed)
-* grid not being updated after crafting to remove materials from grid (should be fixed)
-* robot inspecting empty space should remove block from display
-  * what does geolyzer.analyze return for air blocks?
 * robot failing to place one block should not prevent it from placing others
   * not sure why this is happening right now
 * other blocks should not be colored light pink, why's it happening?
