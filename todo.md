@@ -19,6 +19,7 @@
 
 ## fixes
 * disallow dragging empty inventory slots
+* names can appear twice in the robot select
   
 ## features
 split command history by robot
