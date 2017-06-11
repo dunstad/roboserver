@@ -6,6 +6,7 @@
 * robot failing to place one block should not prevent it from placing others
   * not sure why this is happening right now
 * other blocks should not be colored light pink, why's it happening?
+  * robots are apparently stone colored when not selected?
 * make robot install use pastebin
 
 ## pre-release
