@@ -441,11 +441,8 @@ function addShapeVoxels(shape, robot) {
         for (var robot of Object.values(allRobotInfo)) {
           if (robot) {
             var robotPos = robot.getPosition().world();
-            if (robotPos && robotPos.x == shapePoint.z && robotPos.y == shapePoint.y && robotPos.z == shapePoint.z) {
+            if (robotPos && robotPos.x == shapePoint.x && robotPos.y == shapePoint.y && robotPos.z == shapePoint.z) {
               knownRobotPosition = true;
-              console.dir("!")
-              console.dir(robotPos)
-              console.dir(shapePoint)
             }
          }
         }
@@ -461,9 +458,6 @@ function addShapeVoxels(shape, robot) {
           var material;
           if (knownRobotPosition) {
             material = robotMaterial;
-            console.dir("?")
-            console.dir(robotPos)
-            console.dir(shapePoint)
           }
           else {
             material = colorFromHardness(shape.data[index]);
