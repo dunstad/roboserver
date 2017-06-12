@@ -49,7 +49,7 @@ function M.volume(x, z, y, w, d, h, times)
   -- round the numbers to save space in the json
   -- important because robots have a limited write buffer
   for i = 1, result.data.n do
-    result.data[i] = round(result.data[j]);
+    result.data[i] = round(result.data[i]);
   end
 
   tcp.write({['map data']=result});
