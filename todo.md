@@ -3,8 +3,6 @@
 ## features
 
 ## fixes
-* other blocks should not be colored light pink, why's it happening?
-  * robots are apparently stone colored when not selected?
 * robot map data longer than write buffer
   * we really don't need more than two decimal places in the json
 * robot failing to place one block should not prevent it from placing others
