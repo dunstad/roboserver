@@ -3,8 +3,6 @@
 ## features
 
 ## fixes
-* robot map data longer than write buffer
-  * we really don't need more than two decimal places in the json
 * robot failing to place one block should not prevent it from placing others
   * not sure why this is happening right now
 * make robot install use pastebin
