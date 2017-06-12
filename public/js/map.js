@@ -438,6 +438,8 @@ function addShapeVoxels(shape, robot) {
         var shapePoint = new THREE.Vector3(xWithOffset, yWithOffset, zWithOffset);
 
         var knownRobotPosition = false;
+        console.dir("robot info")
+        console.dir(allRobotInfo)
         for (var robot of Object.values(allRobotInfo)) {
           if (robot) {
             var robotPos = robot.getPosition().world();
