@@ -12,6 +12,9 @@ function M.weightedAverage(n1, w1, n2, w2)
   return (n1*w1 + n2*w2)/(w1 + w2);
 end
 
+-- round a number to 2 decimal places
+function round(num) return tonumber(string.format("%." .. 2 .. "f", num)) end
+
 function M.volume(x, z, y, w, d, h, times)
   -- default to 0 (which is true in lua)
   if times then
@@ -42,6 +45,13 @@ function M.volume(x, z, y, w, d, h, times)
     weight = weight + 1;
 
   end
+
+  -- round the numbers to save space in the json
+  -- important because robots have a limited write buffer
+  for i = 1, result.data.n do
+    result.data[i] = round(result.data[j]);
+  end
+
   tcp.write({['map data']=result});
 end
 
