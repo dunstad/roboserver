@@ -458,6 +458,9 @@ function addShapeVoxels(shape, robot) {
           var material;
           if (knownRobotPosition) {
             material = robotMaterial;
+            console.dir("!")
+            console.dir(robotPos)
+            console.dir(shapePoint)
           }
           else {
             material = colorFromHardness(shape.data[index]);
