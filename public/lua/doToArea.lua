@@ -44,7 +44,7 @@ end
 function M.doToAllPoints(pointList, action)
   local success = true;
   for i = 1, #pointList do
-    success = success and action(pointList[i]);
+    success = action(pointList[i]) and success;
   end
   return success;
 end

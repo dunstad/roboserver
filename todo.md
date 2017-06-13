@@ -1,10 +1,9 @@
 # version 1
 
 ## features
+* right click should cancel selections
 
 ## fixes
-* robot failing to place one block should not prevent it from placing others
-  * not sure why this is happening right now
 * make robot install use pastebin
 
 ## pre-release
@@ -20,6 +19,7 @@
   * need to make the server properly handle tcp messages that get broken into parts
 * disallow dragging empty inventory slots
 * names can appear twice in the robot select
+* move select mesh when selected robot disconnects
   
 ## features
 split command history by robot
