@@ -16,6 +16,8 @@
 # later
 
 ## fixes
+* telling the robot to cat a longish file crashes the server
+  * need to make the server properly handle tcp messages that get broken into parts
 * disallow dragging empty inventory slots
 * names can appear twice in the robot select
   
