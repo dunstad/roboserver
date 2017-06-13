@@ -4,6 +4,7 @@
 * right click should cancel selections
 
 ## fixes
+* if inventory not present when equip is used, it should all be read in
 * make robot install use pastebin
 
 ## pre-release
