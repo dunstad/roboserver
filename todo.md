@@ -1,11 +1,8 @@
 # version 1
 
 ## features
-* right click should cancel selections (might be complete)
 
 ## fixes
-* if inventory not present when equip is used, it should all be read in (should be fixed)
-  * add robot inv check to equip button press
 * make robot install use pastebin
 
 ## pre-release
