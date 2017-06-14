@@ -194,44 +194,51 @@ function slowRender() {
 }
 
 /**
- * Allows specifying an area of voxels. Used for digging.
+ * Allows specifying an area of voxels. Used for digging and placing blocks.
  */
 function initSelectAreaTools() {
-  renderer.domElement.addEventListener('click', ()=>{
-    var digToolActive = document.getElementById('digTool').checked;
-    var placeToolActive = document.getElementById('placeTool').checked;
-    if (controls.enabled && (digToolActive || placeToolActive)) {
-      var pos = new WorldAndScenePoint(rollOverMesh.position, false);
-      if (!selectStart.isComplete()) {
-        selectStart.setFromPoint(pos);
-      }
-      else if (!selectEnd.isComplete()) {
-        selectEnd.setFromPoint(pos);
-      }
-      else {
-        var startPoint = selectStart.getPoint();
-        var endPoint = selectEnd.getPoint();
-
-        var selection = makeBoxAround(startPoint, endPoint, rollOverMaterial);
-        scene.add(selection);
-        var selectionIndex = addSelection(selections, selection);
-        
-        var startPointLua = objectToLuaString(startPoint.world());
-        var endPointLua = objectToLuaString(endPoint.world());
-        var scanLevel = document.getElementById('scanLevelSelect').value;
-        
-        if (digToolActive) {
-          var commandName = 'dig';
+  renderer.domElement.addEventListener('click', (e)=>{
+    // left click
+    if (e.button == 0) {
+      var digToolActive = document.getElementById('digTool').checked;
+      var placeToolActive = document.getElementById('placeTool').checked;
+      if (controls.enabled && (digToolActive || placeToolActive)) {
+        var pos = new WorldAndScenePoint(rollOverMesh.position, false);
+        if (!selectStart.isComplete()) {
+          selectStart.setFromPoint(pos);
         }
-        else if (placeToolActive) {
-          var commandName = 'place';
+        else if (!selectEnd.isComplete()) {
+          selectEnd.setFromPoint(pos);
         }
-        var commandParameters = [startPointLua, endPointLua, selectionIndex, scanLevel];
-        sendCommand(commandName, commandParameters);
+        else {
+          var startPoint = selectStart.getPoint();
+          var endPoint = selectEnd.getPoint();
 
-        selectStart.clear();
-        selectEnd.clear();
+          var selection = makeBoxAround(startPoint, endPoint, rollOverMaterial);
+          scene.add(selection);
+          var selectionIndex = addSelection(selections, selection);
+          
+          var startPointLua = objectToLuaString(startPoint.world());
+          var endPointLua = objectToLuaString(endPoint.world());
+          var scanLevel = document.getElementById('scanLevelSelect').value;
+          
+          if (digToolActive) {
+            var commandName = 'dig';
+          }
+          else if (placeToolActive) {
+            var commandName = 'place';
+          }
+          var commandParameters = [startPointLua, endPointLua, selectionIndex, scanLevel];
+          sendCommand(commandName, commandParameters);
+
+          selectStart.clear();
+          selectEnd.clear();
+        }
       }
+    }
+    // right click
+    else if (e.button == 2) {
+      clearSelection();
     }
   });
 }
@@ -269,7 +276,8 @@ function initCommandInput() {
 }
 
 /**
- * Sends a command to robots telling them to move to the coordinate clicked on.
+ * Sends a command to robots telling them to move to the coordinate clicked on,
+ * and then do something depending on the selected tool.
  */
 function initClickTools() {
   renderer.domElement.addEventListener('click', ()=>{

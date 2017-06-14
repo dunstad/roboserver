@@ -93,6 +93,13 @@ place
 * confirm that blocks are now shown as placed in the empty spaces
 * confirm that the inventory updates automatically to show fewer of the selected block present
 
+coordinate forms
+* confirm that clicking once with either the swing or place tools selected fills in the first form
+* confirm that with the first form already filled in, clicking with these tools selected fills in the second form
+* confirm that after a click with both forms already filled, they are both cleared.
+* confirm that the coordinate forms are cleared when the selected tool changes
+* what's the current behaviour for partially filled forms?
+
 craft
 * confirm that crafting fails when you don't have the required raw materials
 * confirm that recipes with multiple materials and one product work (for example, craft a bowl from spruce wood)

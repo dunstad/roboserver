@@ -20,7 +20,7 @@
 
 * With the inspect tool selected, the robot will report in the command history panel exactly what is at the highlighted point.
 
-* The swing and place tools require you to select an area to operate on. With either of these tools selected, first click on one corner of the area you want to change. Next, click on the opposite corner of the area you want to change. Now you can either click a third time to finalize the area, or change it using the coordinate boxes on the right side of the screen. If you want to stop before finalizing, click a separate tool and your selection will be undone.
+* The swing and place tools require you to select an area to operate on. With either of these tools selected, first click on one corner of the area you want to change. Next, click on the opposite corner of the area you want to change. Now you can either click a third time to finalize the area, or change it using the coordinate boxes on the right side of the screen. If you want to stop before finalizing, right click while controlling the camera, or click a button for a separate tool, and your selection will be undone.
 
 * With the swing tool selected, the robot will perform a left click action with its equipped tool on every block in the specified area. This can be used for things like digging and attacking.
 

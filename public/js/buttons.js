@@ -30,6 +30,13 @@ var buttonCallbacks = {
   },
 
   'equipButton': ()=>{
+    var inventoryContainer = document.getElementById('inventoryContainer');
+    
+    // get the robot's inventory if we didn't have it yet
+    if (!allRobotInfo[inventoryData.robot].getInventory(-1)) {
+      sendCommand('viewInventory');
+    }
+
     sendCommand('equip');
     inventoryContainer.classList.remove('hidden');
   },
