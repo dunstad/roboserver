@@ -3,6 +3,7 @@
 ## features
 
 ## fixes
+* fix crafting code bug (crafts wooden hoe instead of pick, 5 birch logs only in inv)
 * make robot install use pastebin
 
 ## features
