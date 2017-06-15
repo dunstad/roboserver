@@ -6,7 +6,6 @@
 * make robot install use pastebin
 
 ## features
-* right click should cancel selections (might be complete)
 
 ## pre-release
 * test things
