@@ -1,0 +1,12 @@
+<svg viewBox="-134 0 2000 2000" xmlns="http://www.w3.org/2000/svg">
+  <!--
+    Math.sqrt(3) / 2
+    0.8660254037844386
+    Math.sqrt(3)
+    1.7320508075688772
+  -->
+  <rect x="-134" y="0" width="2000" height="2000" fill="white" />
+  <polygon points="0,500 866,0 1732,500 866,1000" style="fill:#F1A6B3;"/>
+  <polygon points="0,500 867,1000 867,2000 0,1500" style="fill:#B87380;"/>
+  <polygon points="1732,500 866,999 866,2000 1732,1500" style="fill:#E28D99;"/>
+</svg>
