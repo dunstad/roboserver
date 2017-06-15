@@ -1,12 +1,12 @@
-# version 1
-
-## features
-* right click should cancel selections (might be complete)
+# 1.0
 
 ## fixes
 * if inventory not present when equip is used, it should all be read in (should be fixed)
   * add robot inv check to equip button press
 * make robot install use pastebin
+
+## features
+* right click should cancel selections (might be complete)
 
 ## pre-release
 * test things
@@ -14,7 +14,7 @@
 * set up github so i can develop without breaking the release
 * update install script to point to release
 
-# later
+# 1.1
 
 ## fixes
 * telling the robot to cat a longish file crashes the server
@@ -22,11 +22,21 @@
 * disallow dragging empty inventory slots
 * names can appear twice in the robot select
 * move select mesh when selected robot disconnects
-  
+
 ## features
-split command history by robot
+* computercraft support (kind of)
+  * this means taking the lua code in commandMap.js and putting it directly on the robot
+  * commandMap.js will send json that represents the command we want to perform and any parameters
+  * we'll leave how those commands are executed up to the client receiving them
+* redo the test client to act based on the new command structure
+  * make a fake world for the test client to interact with
+  * should be able to move, dig, place, inspect, open inventories and move items around
+* automate testing (selenium? webdriver?)
+
+# later
+* customizable crafting recipes
+* split command history by robot
 * allow robot install to default to offline instead of always using github 
-* computercraft support
 * perform initial configuration from application?
 * display most recently equipped item
 * hotkeys for different tools
@@ -59,6 +69,7 @@ split command history by robot
 * set waypoints in account for complicated pathing
 * all known inventories tracked per account, robots check those first when crafting or building
 * how to split up a selection among multiple robots?
+  * vertically should work fine most of the time
 * visual tool for chaining robot commands together to automate tasks
 * edit lua files on robot with an editor in browser
 * blueprint storage and rendering
@@ -69,3 +80,6 @@ split command history by robot
   * add ability to send scans to different maps? or is it one roboserver per mc server?
   * detect maximum scan batch size based on available memory
   * don't add to the scene any voxels which are surrounded?
+  * merge and split voxel meshes based on distance from robot
+    * sort of like how minecraft loads chunks, hopefully this approach would improve rendering speed
+    * impossible to retain individual coloring?
