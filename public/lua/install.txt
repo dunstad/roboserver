@@ -1,3 +1,0 @@
-mkdir /home/lib;
-wget https://raw.githubusercontent.com/dunstad/roboserver/master/public/lua/setup.lua /home/lib/setup.lua;
-lua /home/lib/setup.lua;
