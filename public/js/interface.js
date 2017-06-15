@@ -160,8 +160,8 @@ function main() {
     {buttonID: 'moveTool', eventListener: clearSelection},
     {buttonID: 'interactTool', eventListener: clearSelection},
     {buttonID: 'inspectTool', eventListener: clearSelection},
-    {buttonID: 'digTool', eventListener: slowRender},
-    {buttonID: 'placeTool', eventListener: slowRender}
+    {buttonID: 'digTool', eventListener: ()=>{clearSelection(); slowRender();}},
+    {buttonID: 'placeTool', eventListener: ()=>{clearSelection(); slowRender();}}
   ];
 
   for (var toolButtonInfo of toolButtonListeners) {

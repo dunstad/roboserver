@@ -31,9 +31,10 @@ var buttonCallbacks = {
 
   'equipButton': ()=>{
     var inventoryContainer = document.getElementById('inventoryContainer');
+    var currentRobot = allRobotInfo[document.getElementById('robotSelect').value];
     
     // get the robot's inventory if we didn't have it yet
-    if (!allRobotInfo[inventoryData.robot].getInventory(-1)) {
+    if (!currentRobot.getInventory(-1)) {
       sendCommand('viewInventory');
     }
 
