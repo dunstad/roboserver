@@ -102,8 +102,10 @@ coordinate forms
 
 craft
 * confirm that crafting fails when you don't have the required raw materials
-* confirm that recipes with multiple materials and one product work (for example, craft a bowl from spruce wood)
-* confirm that recipes with multiple materials and multiple products work (for example, craft a spruce boat)
+* confirm that recipes with multiple materials and one product work (a bowl from spruce wood logs)
+* confirm that recipes with multiple materials and multiple products work (spruce boat from logs)
+* confirm that recipes which require a material to be crafted multiple times work (chest from logs)
+* confirm that recipes where one material is used to craft another work (wooden pickaxe from logs)
 * confirm that the inventory updates during the crafting process
 * confirm that crafting succeeds when you do have the required raw materials
 
