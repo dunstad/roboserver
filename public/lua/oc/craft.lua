@@ -189,12 +189,7 @@ function M.deepCraft(mainLabel, previousLabels)
             if partCraftSuccess then
               if partLabel then
                 
-                local partCountInPattern = M.countInPattern(partLabel, pattern);
-                local function notEnough()
-                  return M.countInInventory(partLabel) < partCountInPattern;
-                end
-
-                while notEnough() and partCraftSuccess  do
+                while not enough(partLabel, pattern) and partCraftSuccess  do
                   partCraftSuccess = M.deepCraft(partLabel, copyTable(previousLabels));
                 end
 
@@ -211,7 +206,7 @@ function M.deepCraft(mainLabel, previousLabels)
 
   local patternCraftSuccess = false;
   if allPartsCraftSuccess then
-    patternCraftSuccess = M.craftPattern(pattern);
+    patternCraftSuccess = M.craftPattern(pattern, mainLabel);
     if not patternCraftSuccess then
       print("Failed to craft " .. mainLabel);
     else
@@ -225,15 +220,24 @@ function M.deepCraft(mainLabel, previousLabels)
 
 end
 
-function M.craftPattern(pattern)
-  -- move the parts to the appropriate slots
-	for i, partLabel in pairs(pattern) do
-		M.moveItemToSlot(partLabel, M.convertGridToSlot(i), 1);
-	end
-  robot.select(1);
-  local craftSuccess = craft(1);
-  M.clearCraftingGrid();
-	return craftSuccess;
+function M.craftPattern(pattern, mainLabel)
+  local craftSuccess;
+
+  if M.allPatternPartsPresent(pattern) then
+    -- move the parts to the appropriate slots
+    for i, partLabel in pairs(pattern) do
+      M.moveItemToSlot(partLabel, M.convertGridToSlot(i), 1);
+    end
+    robot.select(1);
+    craftSuccess = craft(1);
+    M.clearCraftingGrid();
+  else
+    -- iterate again to make sure we get all the parts
+    -- not super elegant but easy to write
+    craftSuccess = M.craft(mainLabel);
+  end
+
+  return craftSuccess;
 end
 
 function M.craft(itemName)
@@ -247,6 +251,22 @@ function M.craft(itemName)
     end
   end
   return result;
+end
+
+function M.enough(partLabel, pattern)
+  return M.countInInventory(partLabel) >= M.countInPattern(partLabel, pattern);
+end
+
+function M.allPatternPartsPresent(pattern)
+  local allPartsPresent = true;
+
+  for i, partLabel in pairs(pattern) do
+    if allPartsPresent and not enough(partLabel, pattern) then
+      allPartsPresent = false;
+    end
+  end
+
+  return allPartsPresent;
 end
 
 function copyTable(table1)
