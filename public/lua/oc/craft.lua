@@ -189,7 +189,7 @@ function M.deepCraft(mainLabel, previousLabels)
             if partCraftSuccess then
               if partLabel then
                 
-                while not enough(partLabel, pattern) and partCraftSuccess  do
+                while not M.enough(partLabel, pattern) and partCraftSuccess  do
                   partCraftSuccess = M.deepCraft(partLabel, copyTable(previousLabels));
                 end
 
@@ -261,8 +261,10 @@ function M.allPatternPartsPresent(pattern)
   local allPartsPresent = true;
 
   for i, partLabel in pairs(pattern) do
-    if allPartsPresent and not enough(partLabel, pattern) then
-      allPartsPresent = false;
+    if partLabel then
+      if not allPartsPresent or not M.enough(partLabel, pattern) then
+        allPartsPresent = false;
+      end
     end
   end
 
