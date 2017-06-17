@@ -4,6 +4,8 @@
 
 ## fixes
 * fix crafting code bug (crafts wooden hoe instead of pick, 5 birch logs only in inv)
+  * check pattern parts count right before crafting
+  * if not enough, return deepcraft
 * make robot install use pastebin
 
 ## features
@@ -34,6 +36,9 @@
 * automate testing (selenium? webdriver?)
 
 # later
+* current order of acting on an area of blocks not the most efficient
+  * maybe do a column at a time but sort those by distance
+  * alternatively sort all the points by distance after each action
 * customizable crafting recipes
 * split command history by robot
 * allow robot install to default to offline instead of always using github 
