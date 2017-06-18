@@ -3,9 +3,7 @@
 ## features
 
 ## fixes
-* fix crafting code bug (crafts wooden hoe instead of pick, 5 birch logs only in inv)
-  * check pattern parts count right before crafting
-  * if not enough, return deepcraft
+* how to handle install script url with git release?
 * make robot install use pastebin
 
 ## features
