@@ -9,7 +9,7 @@
 ## features
 
 ## pre-release
-* test things
+* test things in other browsers
 * update readme
 * set up github so i can develop without breaking the release
 * update install script to point to release
@@ -22,6 +22,7 @@
 * disallow dragging empty inventory slots
 * names can appear twice in the robot select
 * move select mesh when selected robot disconnects
+* item names in the rightmost column of an inventory overflow past the right edge
 
 ## features
 * computercraft support (kind of)
