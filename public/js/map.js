@@ -209,6 +209,7 @@ function onWindowResize() {
 
   // cancel and re-apply the pointer lock when the window resizes
   // if we don't, when the window gets bigger the camera can't rotate freely
+  // this causes the camera controls to totally fail in safari
   var pointerLockElement = document.pointerLockElement;
   document.exitPointerLock();
   if (pointerLockElement) {
