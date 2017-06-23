@@ -440,9 +440,13 @@ function addShapeVoxels(shape, robot) {
         var knownRobotPosition = false;
         for (var robot of Object.values(allRobotInfo)) {
           if (robot) {
-            var robotPos = robot.getPosition().world();
-            if (robotPos && robotPos.x == shapePoint.x && robotPos.y == shapePoint.y && robotPos.z == shapePoint.z) {
-              knownRobotPosition = true;
+            var robotPoint = robot.getPosition();
+            // this stops an error if a robot has connected but not sent their location yet
+            if (robotPoint) {
+              var robotPos = robotPoint.world();
+              if (robotPos && robotPos.x == shapePoint.x && robotPos.y == shapePoint.y && robotPos.z == shapePoint.z) {
+                knownRobotPosition = true;
+              }
             }
          }
         }

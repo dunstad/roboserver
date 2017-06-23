@@ -23,14 +23,17 @@ login
 * confirm that login fails for incorrect password on existing accounts
 * confirm that login succeeds for correct password on existing account
 
-test page load with no listening robots
-* command input box will be hidden, power will be empty, robot select will be empty
+robot connections on page load
+* test page load with no listening robots
+  * command input box will be hidden, power will be empty, robot select will be empty
 * test page load with a listening robot
-* confirm that robot sends its location and is rendered 
-* confirm that robot sends a scan which is rendered
-* confirm that the robot select shows the robot's name
-* confirm that when the robot's components config contains raw set to true, the command input becomes visible
-* confirm that otherwise, the command input remains invisible
+  * confirm that robot sends its location and is rendered 
+  * confirm that robot sends a scan which is rendered
+  * confirm that the robot select shows the robot's name
+  * confirm that when the robot's components config contains raw set to true, the command input becomes visible
+  * confirm that otherwise, the command input remains invisible
+* test page load with two listening robots
+  * make sure everything goes just like the check with one robot
 
 test first robot connecting after web client is loaded
 * confirm that robot sends its location and is rendered 
