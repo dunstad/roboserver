@@ -4,9 +4,6 @@
 
 ## fixes
 * how to handle install script url with git release?
-* look for alternative fix to the camera getting stuck when resizing in chrome
-  * the current fix makes the camera unusable in safari
-  * see if we can fix it in pointerLockControls
 * make robot install use pastebin
 
 ## features

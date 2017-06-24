@@ -405,9 +405,7 @@ function initPointerLock() {
 
     function pointerLockChangeCB(event) {
       if (document.pointerLockElement === pointerLockElement) {controls.enabled = true;}
-      else {
-        controls.enabled = false;
-      }
+      else {controls.enabled = false;}
     }
 
     // Hook pointer lock state change events
