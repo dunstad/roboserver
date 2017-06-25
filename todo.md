@@ -3,6 +3,7 @@
 ## features
 
 ## fixes
+* split the readme up into separate interlinked pages
 * how to handle install script url with git release?
 * make robot install use pastebin
 
