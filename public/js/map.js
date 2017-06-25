@@ -98,8 +98,12 @@ function init() {
   window.addEventListener( 'resize', onWindowResize, false );
 
   document.addEventListener('keydown', (e)=>{
+    const questionMarkCode = 199;
+    const escCode = 27;
     if (e.altKey || e.ctrlKey) {e.preventDefault(); altOrCtrlKeyPressed = true;}
-    else if (e.keyCode == 191 && e.shiftKey) {e.preventDefault(); $('#controlsDisplay').modal('toggle');}
+    else if (e.keyCode == questionMarkCode && e.shiftKey) {e.preventDefault(); $('#controlsDisplay').modal('toggle');}
+    // electron doesn't make esc cancel pointerlock like most browsers do by default
+    else if (e.keyCode == escCode) {e.preventDefault(); document.exitPointerLock();}
   });
 
   document.addEventListener('keyup', (e)=>{

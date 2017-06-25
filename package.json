@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "./node_modules/.bin/electron electron.js",
+    "start": "electron electronApp.js",
     "server": "node ./bin/www",
     "server-dev": "nodemon ./bin/www",
-    "electron": "./node_modules/.bin/electron electron.js",
-    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=public/assets/placeholder_icon.icns --prune=true --out=release-builds"
+    "electron": "electron electronApp.js",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=public/assets/placeholder_icon.icns --prune=true --out=release-builds",
+    "package-win": "electron-packager . --overwrite --platform=win32 --arch=x64 --icon=public/assets/placeholder_icon.ico --prune=true --out=release-builds"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -32,7 +33,7 @@
     "electron-packager": "^8.7.0",
     "nodemon": "^1.11.0"
   },
-  "main": "electron.js",
+  "main": "electronApp.js",
   "description": "This is a HTTP and TCP server which OpenComputers robots can read and execute commands from.",
   "repository": {
     "type": "git",

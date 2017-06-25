@@ -12,8 +12,16 @@ const url = require('url')
 let mainWindow
 
 function createWindow () {
+  
+  // start the web server
+  require('./bin/www')
+
+  console.log('!')
+
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600})
+  
+  console.log('!')
 
   // and load the index.html of the app.
   var webServerPort = require('./public/js/config.js').webServerPort;
@@ -34,7 +42,7 @@ function createWindow () {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-electronApp.on('ready', createWindow)
+electronApp.on('ready', ()=>{setTimeout(createWindow, 1000)})
 
 // Quit when all windows are closed.
 electronApp.on('window-all-closed', function () {
@@ -52,5 +60,3 @@ electronApp.on('activate', function () {
     createWindow()
   }
 })
-
-require('./bin/www')

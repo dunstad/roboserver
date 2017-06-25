@@ -212,6 +212,9 @@
 
     </div>
 
+    <!-- Insert this line above script imports to fix electron import path for jquery -->
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+
     <script src='/js/lib/three.js-master/build/three.js'></script>
     <!--<script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r81/three.min.js'></script> -->
 		<script src='/js/lib/PointerLockControls.js'></script>
@@ -236,6 +239,9 @@
 		<script src='/js/buttons.js'></script>
 		<script src='/js/tooltips.js'></script>
 		<script src='/js/message.js'></script>
+
+    <!-- Insert this line after script imports to fix electron import path for jquery -->
+    <script>if (window.module) module = window.module;</script>
 
   </body>
 </html>
