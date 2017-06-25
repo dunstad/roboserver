@@ -4,6 +4,7 @@
 
 ## fixes
 * split the readme up into separate interlinked pages
+* explain the colors
 * how to handle install script url with git release?
 * make robot install use pastebin
 
