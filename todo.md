@@ -7,7 +7,7 @@
 * split the readme up into separate interlinked pages
 * explain the colors
 * make pastebin for install command and add to docs
-* update install script urls when doing the release commit
+* update install script urls when doing the release commit (also package.json version)
 
 ## features
 
