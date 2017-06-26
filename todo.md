@@ -3,19 +3,13 @@
 ## features
 
 ## fixes
-* make safari and other browsers behave differently during window resizing
+* drag items cursor weird in edge?
 * split the readme up into separate interlinked pages
 * explain the colors
-* how to handle install script url with git release?
-* make robot install use pastebin
+* make pastebin for install command and add to docs
+* update install script urls when doing the release commit
 
 ## features
-
-## pre-release
-* test things in other browsers
-* update readme
-* set up github so i can develop without breaking the release
-* update install script to point to release
 
 # 1.1
 
