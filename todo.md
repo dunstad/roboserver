@@ -3,7 +3,7 @@
 ## features
 
 ## fixes
-* inventory items not visible while dragging in safari?
+* make safari and other browsers behave differently during window resizing
 * split the readme up into separate interlinked pages
 * explain the colors
 * how to handle install script url with git release?
@@ -20,6 +20,8 @@
 # 1.1
 
 ## fixes
+* inventory items not visible while dragging in safari
+  * not easy to test, as i don't own a mac
 * telling the robot to cat a longish file crashes the server
   * need to make the server properly handle tcp messages that get broken into parts
 * disallow dragging empty inventory slots

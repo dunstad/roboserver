@@ -211,10 +211,27 @@ function onWindowResize() {
   renderer.setSize( window.innerWidth, window.innerHeight );
   requestRender();
 
-  // cancel the pointer lock when the window resizes
-  // if we don't, when the window gets bigger the camera can't rotate freely
-  // but if we do, safari is unusable :/
-  // document.exitPointerLock();
+  // unfortunately necessary to separate code by browser here
+  var ua = navigator.userAgent.toLowerCase(); 
+  // runs for safari
+  if (ua.indexOf('safari') != -1 && ua.indexOf('chrome') == -1) {
+    
+    // do nothing on window resize, because of safari's banner
+    // which causes the page to resize when the pointer is locked
+
+  // runs for everyone else
+  } else {
+    // cancel and reapply the pointer lock when the window resizes
+    // if we don't, when the window gets bigger the camera can't rotate freely
+    var pointerLockElement = document.pointerLockElement;
+    document.exitPointerLock();
+    if (pointerLockElement) {
+      // the lock doesn't happen unless we delay it for some reason
+      setTimeout(()=>{
+        pointerLockElement.requestPointerLock();
+      }, 10);
+    }
+  }
 
 }
 
