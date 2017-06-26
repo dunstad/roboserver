@@ -33,15 +33,15 @@
 * automate testing (selenium? webdriver?)
 
 # later
+* allow robot install to default to offline instead of always using github 
+* perform initial configuration from application?
+* hotkeys for different tools
 * current order of acting on an area of blocks not the most efficient
   * maybe do a column at a time but sort those by distance
   * alternatively sort all the points by distance after each action
 * customizable crafting recipes
 * split command history by robot
-* allow robot install to default to offline instead of always using github 
-* perform initial configuration from application?
 * display most recently equipped item
-* hotkeys for different tools
 * turn hardness values into hardness classes based on data accuracy
   * i.e., say a block could be either hardness 2 or 1.5
   * show hardness classes for the block the cursor is on
@@ -59,7 +59,6 @@
   * send orientation
 * add external->external transfer support (use a robot slot)
 * drop items function in interface
-* add moveVoxel for lighter robot movement in rendering code
 * make water/lava transparent
 * action recording feature to make automation easy
   * specify number of loops, duration of sleep between
