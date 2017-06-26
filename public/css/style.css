@@ -103,6 +103,10 @@ body {
   user-select: none;
 }
 
+.mc-td > div {
+  cursor: pointer;
+}
+
 .hidden {
   display: none;
 }

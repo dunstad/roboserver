@@ -3,7 +3,6 @@
 ## features
 
 ## fixes
-* drag items cursor weird in edge?
 * split the readme up into separate interlinked pages
 * explain the colors
 * make pastebin for install command and add to docs
