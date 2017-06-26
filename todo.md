@@ -3,6 +3,7 @@
 ## features
 
 ## fixes
+* inventory items not visible while dragging in safari?
 * split the readme up into separate interlinked pages
 * explain the colors
 * how to handle install script url with git release?
