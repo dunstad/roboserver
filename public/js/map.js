@@ -213,7 +213,8 @@ function onWindowResize() {
 
   // cancel the pointer lock when the window resizes
   // if we don't, when the window gets bigger the camera can't rotate freely
-  document.exitPointerLock();
+  // but if we do, safari is unusable :/
+  // document.exitPointerLock();
 
 }
 
