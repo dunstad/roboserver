@@ -21,10 +21,6 @@ There are a few other parts you will probably want that make your robot easier t
 
 Place all these parts in an [Electronics Assembler](http://crafting-guide.com/browse/opencomputers/electronics_assembler/). Power and start the assembler, and when your robot is finished, place it in the world and power it on.
 
-Congratulations, your new robot is ready to go! To finish up, see [Installation](#installation).
-
-#### Installation
-
 Now that your robot is running and OpenOS is installed, just run this command on it:
 
 ```

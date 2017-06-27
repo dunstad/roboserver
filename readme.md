@@ -21,7 +21,7 @@ Alternatively, if you've got a bit of technical know-how and more time on your h
 
 ## Reporting Bugs
 
-Before creating an issue, please read the [usage tips](tips.md), and check that it hasn't already been reported.
+Before creating an issue, please read the [usage tips](documentation/tips.md), and check that it hasn't already been reported.
 
 When reporting a bug in the [issue tracker](https://github.com/dunstad/roboserver/issues?q=is%3Aopen), in order to help me address your issue as quickly as possible, please provide the following information:
 

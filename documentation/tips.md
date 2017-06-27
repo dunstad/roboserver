@@ -4,9 +4,11 @@
 
 * All buttons and fields in the UI have helpful tooltips you can view by hovering the cursor over them.
 
-* Clicking on the screen will lock the cursor in place, allowing you to control the camera.
+* Clicking on the map will lock the cursor in place, allowing you to control the camera.
 
 * All commands are issued to the currently selected robot. Change which robot is selected with the dropdown in the top right.
+
+* If you send a new command to a robot while it's already running one, it will start the second command as soon as it finishes the first.
 
 ### Tools
 
@@ -51,7 +53,7 @@ Drag and drop an item stack to move it, and click on a slot to select it.
 
 * You can easily modify configuration settings using the following command: ```lua /home/lib/config.lua settingName settingValue```. This can be useful for changing the coordinates and orientation of your robot.
 
-* If you want to be able to send any Lua code to your robot from the web interface, edit ```/home/lib/config.txt``` and change ```components={}``` to ```components={raw=true}```. This will cause a command input field to appear in the command history panel when you have the configured robot selected.
+* If you want to be able to send arbitrary Lua code to your robot from the web interface, edit ```/home/lib/config.txt``` and change ```components={}``` to ```components={raw=true}```. This will cause a command input field to appear in the command history panel when you have the configured robot selected.
 
 * The command input field appends a return to the front of whatever you enter, which is convenient sometimes and inconvenient others. If you have statements reporting syntax errors that shouldn't be, this is likely why. You can work around it if you need to by wrapping your code in a function.
 
