@@ -1,6 +1,6 @@
 ### Standalone
 
-You can download Roboserver for Windows, OS X, or Linux [here](https://www.patreon.com/dunstad). Unpack and run it when the download finishes. You'll also need to remove "127.0.0.0/8" from the blacklist in your OpenComputers configuration file, otherwise your robot will be unable to connect.
+You can download Roboserver for Windows, OS X, or Linux [here](https://www.patreon.com/posts/12155391). Unpack and run it when the download finishes. You'll also need to remove "127.0.0.0/8" from the blacklist in your OpenComputers configuration file, otherwise your robot will be unable to connect.
 
 Congratulations, you're halfway done! Now let's get a robot set up.
 

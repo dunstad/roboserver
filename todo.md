@@ -4,7 +4,6 @@
 
 ## fixes
 * test pastebin command
-* add link to executables in documentation
 * update install script urls when doing the release commit
   * package.json (version number)
   * install.txt
