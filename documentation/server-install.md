@@ -2,6 +2,8 @@
 
 Following these instructions will let you access the Roboserver directly from your web browser. If you want, you can even make it available over a network so your friends can too.
 
+(If this is too much trouble, you can become a [patron](https://www.patreon.com/dunstad) to gain access to the desktop version of the Roboserver.)
+
 1. Install Node.js and Node Package Manager (npm).
 2. Clone this repository.
 3. Checkout a [released version](https://github.com/dunstad/roboserver/releases).
