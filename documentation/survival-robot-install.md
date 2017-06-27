@@ -24,7 +24,7 @@ Place all these parts in an [Electronics Assembler](http://crafting-guide.com/br
 Now that your robot is running and OpenOS is installed, just run this command on it:
 
 ```
-pastebin A8sKscJS
+pastebin run A8sKscJS
 ```
 
 After answering a few questions about your robot, it will connect to the server you started in the previous step. Congratulations, you're done! Next check out [these tips](tips.md) on how to use the Roboserver.

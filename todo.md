@@ -3,7 +3,9 @@
 ## features
 
 ## fixes
-* test pastebin command
+* change pastebin to just pasting install.txt
+* prompt function doesn't exist in electron
+* update banner link
 * update install script urls when doing the release commit
   * package.json (version number)
   * install.txt
