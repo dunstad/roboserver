@@ -3,7 +3,7 @@
 Following these instructions will let you access the Roboserver directly from your web browser. If you want, you can even make it available over a network so your friends can too.
 
 1. Install Node.js and Node Package Manager (npm).
-2. Clone this repository.
+2. Clone a [released version](https://github.com/dunstad/roboserver/releases) of this repository.
 3. Run ```npm install``` in the project directory.
 4. Rename ```public/js/config.example.js``` to ```public/js/config.js``` and optionally change the settings inside.
 5. Run ```npm run server``` in the project directory.
