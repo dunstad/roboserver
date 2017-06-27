@@ -10,6 +10,8 @@
 
 * If you send a new command to a robot while it's already running one, it will start the second command as soon as it finishes the first.
 
+* Wondering why the colors of the map are so weird? [See here.](faq.md)
+
 ### Tools
 
 * The five buttons in the Tools panel change what happens at your cursor location when you click while controlling the camera.

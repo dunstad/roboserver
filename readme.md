@@ -9,7 +9,7 @@ Here are a few things the Roboserver simplifies:
 * Crafting complex items
 * Repetitive construction
 * Locating ore underground
-* And more!
+* [And more!](https://www.youtube.com/watch?v=2lbb0-yfSdw)
 
 ## Getting Started
 
