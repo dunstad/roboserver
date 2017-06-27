@@ -3,10 +3,13 @@
 ## features
 
 ## fixes
-* split the readme up into separate interlinked pages
 * explain the colors
-* make pastebin for install command and add to docs
-* update install script urls when doing the release commit (also package.json version)
+* test pastebin command
+* update install script urls when doing the release commit
+  * package.json (version number)
+  * install.txt
+  * setup.lua
+  * downloadCode.lua
 
 ## features
 
@@ -33,6 +36,7 @@
 * automate testing (selenium? webdriver?)
 
 # later
+* display current version number
 * allow robot install to default to offline instead of always using github 
 * perform initial configuration from application?
 * hotkeys for different tools
