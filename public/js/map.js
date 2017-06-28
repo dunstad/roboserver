@@ -98,7 +98,7 @@ function init() {
   window.addEventListener( 'resize', onWindowResize, false );
 
   document.addEventListener('keydown', (e)=>{
-    const questionMarkCode = 199;
+    const questionMarkCode = 191;
     const escCode = 27;
     if (e.altKey || e.ctrlKey) {e.preventDefault(); altOrCtrlKeyPressed = true;}
     else if (e.keyCode == questionMarkCode && e.shiftKey) {e.preventDefault(); $('#controlsDisplay').modal('toggle');}
