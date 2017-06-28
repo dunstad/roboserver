@@ -38,8 +38,17 @@
           <h5 class="modal-title">Amount to Transfer</h5>
         </div>
         <div class='modal-body'>
-          <input type='number'></input>
-          <button id='transferButton'>Transfer</button>
+
+          <div class='input-group input-group-sm'>
+            
+            <input class='form-control' type='number' min='0' max='64'></input>
+
+            <span class='input-group-btn'>
+              <button class='btn btn-primary' type='button' id='transferButton'>Transfer</button>
+            </span>
+
+          </div>
+
         </div>
       </div>
     </div>
