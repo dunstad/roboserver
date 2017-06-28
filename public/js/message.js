@@ -1,7 +1,7 @@
 function main() {
   var bannerMessage = document.getElementById('bannerMessage');
   var messages = [
-    '<a href="">Your support</a> makes this project possible. Thanks!',
+    '<a href="https://www.patreon.com/dunstad">Your support</a> makes this project possible. Thanks!',
   ];
   var randomMessage = messages[Math.floor(Math.random() * messages.length)];
   bannerMessage.innerHTML = randomMessage;
