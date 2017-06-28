@@ -172,7 +172,7 @@ function itemDrop(e) {
       validateTransfer(dragStartElement, this);
     }
     else if (operation == 'split') {
-      $('#itemTransferAmountInput').modal('show');
+      $('#itemTransferAmountModal').modal('show');
       validateTransfer(dragStartElement, this, parseInt(prompt('Number of items to move:')));
     }
   }
