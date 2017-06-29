@@ -173,10 +173,27 @@ function itemDrop(e) {
     }
     else if (operation == 'split') {
       $('#itemTransferAmountModal').modal('show');
-      validateTransfer(dragStartElement, this, parseInt(prompt('Number of items to move:')));
+      GLOBALS.inProgressTransfer = {};
+      GLOBALS.inProgressTransfer.start = dragStartElement;
+      GLOBALS.inProgressTransfer.end = this;
+      document.getElementById('transferAmountInput').focus();
     }
   }
 }
+
+/**
+ * Runs the specific number of items transfer when the button in the modal is clicked.
+ */
+document.getElementById('itemTransferAmountForm').addEventListener('submit', (e)=>{
+  var transferAmountInput = document.getElementById('transferAmountInput')
+  validateTransfer(
+    GLOBALS.inProgressTransfer.start,
+    GLOBALS.inProgressTransfer.end,
+    transferAmountInput.value
+  );
+  $('#itemTransferAmountModal').modal('hide');
+  transferAmountInput.clear();
+});
 
 /**
  * Allows table cells to receive drops.

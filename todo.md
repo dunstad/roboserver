@@ -3,20 +3,20 @@
 ## features
 
 ## fixes
-* change pastebin to just pasting install.txt
 * prompt function doesn't exist in electron
-* update banner link
 * update install script urls when doing the release commit
   * package.json (version number)
   * install.txt
   * setup.lua
   * downloadCode.lua
+  * in robot install documentation
 
 ## features
 
 # 1.1
 
 ## fixes
+* move more globals to the new GLOBALS object
 * inventory items not visible while dragging in safari
   * not easy to test, as i don't own a mac
 * telling the robot to cat a longish file crashes the server
