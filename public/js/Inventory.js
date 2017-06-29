@@ -192,7 +192,7 @@ document.getElementById('itemTransferAmountForm').addEventListener('submit', (e)
     transferAmountInput.value
   );
   $('#itemTransferAmountModal').modal('hide');
-  transferAmountInput.clear();
+  transferAmountInput.value = '';
 });
 
 /**
