@@ -21,10 +21,12 @@ There are a few other parts you will probably want that make your robot easier t
 
 Place all these parts in an [Electronics Assembler](http://crafting-guide.com/browse/opencomputers/electronics_assembler/). Power and start the assembler, and when your robot is finished, place it in the world and power it on.
 
-Now that your robot is running and OpenOS is installed, just run this command on it:
+Now that your robot is running and OpenOS is installed, just paste this into it:
 
 ```
-pastebin run A8sKscJS
+mkdir /home/lib;
+wget https://raw.githubusercontent.com/dunstad/roboserver/master/public/lua/oc/setup.lua /home/lib/setup.lua;
+lua /home/lib/setup.lua;
 ```
 
 After answering a few questions about your robot, it will connect to the server you started in the previous step. Congratulations, you're done! Next check out [these tips](tips.md) on how to use the Roboserver.

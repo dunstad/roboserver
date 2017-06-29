@@ -3,14 +3,13 @@
 ## features
 
 ## fixes
-* change pastebin to just pasting install.txt
 * prompt function doesn't exist in electron
-* update banner link
 * update install script urls when doing the release commit
   * package.json (version number)
   * install.txt
   * setup.lua
   * downloadCode.lua
+  * robot setup documentation
 
 ## features
 
