@@ -9,13 +9,18 @@
   * install.txt
   * setup.lua
   * downloadCode.lua
+<<<<<<< HEAD
   * robot setup documentation
+=======
+  * in robot install documentation
+>>>>>>> f86ffdc26610f36d0a3b64617d8e6e20b558a0fa
 
 ## features
 
 # 1.1
 
 ## fixes
+* move more globals to the new GLOBALS object
 * inventory items not visible while dragging in safari
   * not easy to test, as i don't own a mac
 * telling the robot to cat a longish file crashes the server
