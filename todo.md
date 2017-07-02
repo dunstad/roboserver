@@ -9,11 +9,7 @@
   * install.txt
   * setup.lua
   * downloadCode.lua
-<<<<<<< HEAD
   * robot setup documentation
-=======
-  * in robot install documentation
->>>>>>> f86ffdc26610f36d0a3b64617d8e6e20b558a0fa
 
 ## features
 
