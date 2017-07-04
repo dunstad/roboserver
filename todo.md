@@ -3,7 +3,6 @@
 ## features
 
 ## fixes
-* prompt function doesn't exist in electron
 * update install script urls when doing the release commit
   * package.json (version number)
   * install.txt
