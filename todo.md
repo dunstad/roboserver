@@ -1,17 +1,3 @@
-# 1.0
-
-## features
-
-## fixes
-* update install script urls when doing the release commit
-  * package.json (version number)
-  * install.txt
-  * setup.lua
-  * downloadCode.lua
-  * robot setup documentation
-
-## features
-
 # 1.1
 
 ## fixes
