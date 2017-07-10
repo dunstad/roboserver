@@ -8,7 +8,8 @@
     "server-dev": "nodemon ./bin/www",
     "electron": "electron electronApp.js",
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=public/assets/placeholder_icon.icns --prune=true --out=release-builds",
-    "package-win": "electron-packager . --overwrite --platform=win32 --arch=x64 --icon=public/assets/placeholder_icon.ico --prune=true --out=release-builds"
+    "package-win": "electron-packager . --overwrite --platform=win32 --arch=x64 --icon=public/assets/placeholder_icon.ico --prune=true --out=release-builds",
+    "package-all": "electron-packager . --overwrite --all --icon=public/assets/placeholder_icon.icns --prune=true --out=release-builds"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
