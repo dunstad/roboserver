@@ -123,8 +123,11 @@ function main() {
     console.dir(data);
     var robotSelect = document.getElementById('robotSelect');
     var option = robotSelect.querySelector('[value=' + data.robot + ']');
-    robotSelect.removeChild(option);
     allRobotInfo[data.robot] = undefined;
+    robotSelect.removeChild(option);
+    robotSelect.value = '';
+    selectedRobotMesh.visible = false;
+    requestRender();
   });
   
   // keep track of how much power robots have left
@@ -416,7 +419,7 @@ function initPointerLock() {
       pointerLockElement.requestPointerLock();
     }, false);
 
-    var clickThroughElements = ['bottomLeftUI', 'messageContainer', 'inventoryContainer'];
+    var clickThroughElements = ['bottomLeftUI', 'messageContainer', 'inventoryContainer', 'buttonContainer'];
     for (elemName of clickThroughElements) {
       let clickThroughElem = document.getElementById(elemName);
       clickThroughElem.addEventListener('click', function(event) {
@@ -502,6 +505,7 @@ function switchToRobot(robotName) {
     var robotPos = robotData.getPosition();
     if (robotPos) {
       selectedRobotMesh.position.copy(robotPos.scene());
+      selectedRobotMesh.visible = true;
       requestRender();
     }
 
