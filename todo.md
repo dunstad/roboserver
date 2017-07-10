@@ -1,7 +1,6 @@
 # 1.1
 
 ## fixes
-* (re?)move select mesh when selected robot disconnects
 * names can appear twice in the robot select
 * disallow dragging empty inventory slots
 * telling the robot to cat a longish file crashes the server
