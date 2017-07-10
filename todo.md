@@ -1,15 +1,15 @@
 # 1.1
 
 ## fixes
+* item names in the rightmost column of an inventory overflow past the right edge
+* disallow dragging empty inventory slots
+* (re?)move select mesh when selected robot disconnects
+* names can appear twice in the robot select
+* telling the robot to cat a longish file crashes the server
+  * need to make the server properly handle tcp messages that get broken into parts
 * move more globals to the new GLOBALS object
 * inventory items not visible while dragging in safari
   * not easy to test, as i don't own a mac
-* telling the robot to cat a longish file crashes the server
-  * need to make the server properly handle tcp messages that get broken into parts
-* disallow dragging empty inventory slots
-* names can appear twice in the robot select
-* move select mesh when selected robot disconnects
-* item names in the rightmost column of an inventory overflow past the right edge
 
 ## features
 * computercraft support (kind of)
@@ -20,6 +20,7 @@
   * make a fake world for the test client to interact with
   * should be able to move, dig, place, inspect, open inventories and move items around
 * automate testing (selenium? webdriver?)
+  * the goal here is to test the web client and server code, not the code running on the robot
 
 # later
 * display current version number
