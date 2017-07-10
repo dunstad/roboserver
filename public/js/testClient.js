@@ -49,6 +49,19 @@ var testInventory1Slots = [
 			'name': "minecraft:stone",
 			'size': 3
 		}
+	},
+	{
+		side: -1,
+		slotNum: 7,
+		contents: {
+			'damage': 0,
+			'hasTag': false,
+			'label': "Wooden Sword?",
+			'maxDamage': 100,
+			'maxSize': 1,
+			'name': "minecraft:wooden_sword?",
+			'size': 1
+		}
 	}
 ];
 

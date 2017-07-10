@@ -1,7 +1,6 @@
 # 1.1
 
 ## fixes
-* item names in the rightmost column of an inventory overflow past the right edge
 * disallow dragging empty inventory slots
 * (re?)move select mesh when selected robot disconnects
 * names can appear twice in the robot select
