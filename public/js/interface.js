@@ -124,10 +124,13 @@ function main() {
     var robotSelect = document.getElementById('robotSelect');
     var option = robotSelect.querySelector('[value=' + data.robot + ']');
     allRobotInfo[data.robot] = undefined;
+    // if the disconnecting robot is the currently selected robot
+    if (robotSelect.value == data.robot) {
+      robotSelect.value = '';
+      selectedRobotMesh.visible = false;
+      requestRender();
+    }
     robotSelect.removeChild(option);
-    robotSelect.value = '';
-    selectedRobotMesh.visible = false;
-    requestRender();
   });
   
   // keep track of how much power robots have left
