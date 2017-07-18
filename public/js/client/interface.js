@@ -462,8 +462,8 @@ function initCraftSelect() {
     $('.selectpicker').selectpicker('refresh');
   }
   
-  fetchPromise("/js/minecraftRecipes.json").then(addRecipes).catch(console.dir);
-  fetchPromise("/js/OCRecipes.json").then(addRecipes).catch(console.dir);
+  fetchPromise("/js/recipes/minecraftRecipes.json").then(addRecipes).catch(console.dir);
+  fetchPromise("/js/recipes/OCRecipes.json").then(addRecipes).catch(console.dir);
 
   // prevent hotkeys from working here
   craftSelect.parentElement.addEventListener('keydown', (e)=>{e.stopPropagation();});

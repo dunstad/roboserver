@@ -10,7 +10,7 @@ function main(server, app) {
   // start http/socket.io server code
 
   var io = require('socket.io')(server);
-  var config = require('./config');
+  var config = require('../config/config');
 
   var passportSocketIo = require('passport.socketio');
   io.use(passportSocketIo.authorize({

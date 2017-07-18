@@ -14,7 +14,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var Datastore = require('nedb-promise');
 var db = new Datastore({ filename: path.join(__dirname, 'users.db'), autoload: true });
 
-var config = require('./public/js/config');
+var config = require('./public/js//config/config');
 
 var bcrypt = require('bcryptjs');
 
