@@ -107,9 +107,11 @@ function main() {
     console.dir('listen start');
     console.dir(data);
     var robotSelect = document.getElementById('robotSelect');
-    var option = document.createElement('option');
-    option.text = data.robot;
-    option.value = data.robot;
+    if (!robotSelect.querySelector('[value=' + data.robot + ']')) {
+      var option = document.createElement('option');
+      option.text = data.robot;
+      option.value = data.robot;
+    }
     if (!allRobotInfo[data.robot]) {allRobotInfo[data.robot] = new Robot();}
     if (robotSelect.options.length == 0) {
       switchToRobot(data.robot);

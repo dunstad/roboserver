@@ -1,7 +1,6 @@
 # 1.1
 
 ## fixes
-* names can appear twice in the robot select
 * disallow dragging empty inventory slots
 * telling the robot to cat a longish file crashes the server
   * need to make the server properly handle tcp messages that get broken into parts
@@ -21,6 +20,7 @@
   * the goal here is to test the web client and server code, not the code running on the robot
 
 # later
+* find blocks feature (make non-matches mostly transparent)
 * display current version number
 * allow robot install to default to offline instead of always using github 
 * perform initial configuration from application?

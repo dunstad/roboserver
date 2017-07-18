@@ -82,22 +82,45 @@ function main(server, app) {
           console.log(key, dataJSON[key]);
           if (key == 'id') {
             tcpSocket.id = dataJSON[key];
-            accounts.setRobot(tcpSocket.id.account, tcpSocket.id.robot, tcpSocket);
-            console.log("robot " + tcpSocket.id.robot + " identified for account " + tcpSocket.id.account);
+            if (accounts.getRobot(tcpSocket.id.account, tcpSocket.id.robot)) {
+              var errorString = 'a robot called ' + tcpSocket.id.robot +
+                ' is already connected to account ' + tcpSocket.id.account;
+              disconnectRobot(tcpSocket, errorString);
+            }
+            else {
+              accounts.setRobot(tcpSocket.id.account, tcpSocket.id.robot, tcpSocket);
+              console.log("robot " + tcpSocket.id.robot + " identified for account " + tcpSocket.id.account);
+            }
           }
           else if (tcpSocket.id && tcpSocket.id.account && tcpSocket.id.robot) {
             accounts.sendToClients(tcpSocket.id.account, key, {data: dataJSON[key], robot: tcpSocket.id.robot});
           }
           else {
             var errorString = 'unidentified robots cannot send messages';
-            console.log(errorString);
-            tcpSocket.write(JSON.stringify({message: errorString}) + '\r\n');
+            disconnectRobot(tcpSocket, errorString);
           }
         }
       }
 
-  	});
+    });
+    
+    /**
+     * Disconnects a robot without notifying the web client.
+     * Used for unidentified robots and duplicate identifiers.
+     * @param {object} robotSocket 
+     * @param {string} errorString 
+     */
+    function disconnectRobot(robotSocket, errorString) {
+      console.log(errorString);
+      tcpSocket.write(JSON.stringify({message: errorString}) + '\r\n');
+      tcpSocket.endedByServer = true;
+      tcpSocket.end();
+    }
 
+    /**
+     * Tells the web client a robot has disconnected.
+     * @param {object} robotSocket 
+     */
     function notifyOfDisconnect(robotSocket) {
       if (robotSocket.id) {
         accounts.setRobot(robotSocket.id.account, robotSocket.id.robot);
@@ -113,7 +136,9 @@ function main(server, app) {
 
   	// Remove the client from the list when it leaves
   	tcpSocket.on('end', ()=>{
-      notifyOfDisconnect(tcpSocket);
+      if (!tcpSocket.endedByServer) {
+        notifyOfDisconnect(tcpSocket);
+      }
   	});
 
   	 tcpSocket.on('close', ()=>{console.log('closed');});
