@@ -67,7 +67,7 @@
 * mapping:
   * Set up database
   * persistent server side maps that robots can read
-  * add ability to send scans to different maps? or is it one roboserver per mc server?
+  * dimension selector to handle robots in different dimensions or worlds
   * detect maximum scan batch size based on available memory
   * don't add to the scene any voxels which are surrounded?
   * merge and split voxel meshes based on distance from robot
