@@ -16,12 +16,8 @@ function createWindow () {
   // start the web server
   require('./bin/www')
 
-  console.log('!')
-
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600})
-  
-  console.log('!')
 
   // and load the index.html of the app.
   var webServerPort = require('./public/js/config.js').webServerPort;
