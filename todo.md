@@ -1,11 +1,7 @@
 # 1.1
 
 ## fixes
-<<<<<<< HEAD
 * move select robot mesh away when selecting the empty option
-* names can appear twice in the robot select
-=======
->>>>>>> 3ac9199b943dff3dc18e5ce5ae38a16357b1f1ea
 * disallow dragging empty inventory slots
 * telling the robot to cat a longish file crashes the server
   * need to make the server properly handle tcp messages that get broken into parts
