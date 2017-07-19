@@ -107,9 +107,11 @@ function main() {
     console.dir('listen start');
     console.dir(data);
     var robotSelect = document.getElementById('robotSelect');
-    var option = document.createElement('option');
-    option.text = data.robot;
-    option.value = data.robot;
+    if (!robotSelect.querySelector('[value=' + data.robot + ']')) {
+      var option = document.createElement('option');
+      option.text = data.robot;
+      option.value = data.robot;
+    }
     if (!allRobotInfo[data.robot]) {allRobotInfo[data.robot] = new Robot();}
     if (robotSelect.options.length == 0) {
       switchToRobot(data.robot);
@@ -460,8 +462,8 @@ function initCraftSelect() {
     $('.selectpicker').selectpicker('refresh');
   }
   
-  fetchPromise("/js/minecraftRecipes.json").then(addRecipes).catch(console.dir);
-  fetchPromise("/js/OCRecipes.json").then(addRecipes).catch(console.dir);
+  fetchPromise("/js/recipes/minecraftRecipes.json").then(addRecipes).catch(console.dir);
+  fetchPromise("/js/recipes/OCRecipes.json").then(addRecipes).catch(console.dir);
 
   // prevent hotkeys from working here
   craftSelect.parentElement.addEventListener('keydown', (e)=>{e.stopPropagation();});

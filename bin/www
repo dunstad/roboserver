@@ -12,7 +12,7 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || require('../public/js/config.js').webServerPort);
+var port = normalizePort(process.env.PORT || require('../public/js/config/config.js').webServerPort);
 app.set('port', port);
 
 /**
@@ -22,7 +22,7 @@ app.set('port', port);
 var server = http.createServer(app);
 
 // add socket.io handlers and create tcp server
-require('../public/js/customizeServer.js')(server, app);
+require('../public/js/server/customizeServer.js')(server, app);
 
 /**
  * Listen on provided port, on all network interfaces.

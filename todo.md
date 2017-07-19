@@ -1,8 +1,11 @@
 # 1.1
 
 ## fixes
+<<<<<<< HEAD
 * move select robot mesh away when selecting the empty option
 * names can appear twice in the robot select
+=======
+>>>>>>> 3ac9199b943dff3dc18e5ce5ae38a16357b1f1ea
 * disallow dragging empty inventory slots
 * telling the robot to cat a longish file crashes the server
   * need to make the server properly handle tcp messages that get broken into parts
@@ -22,6 +25,7 @@
   * the goal here is to test the web client and server code, not the code running on the robot
 
 # later
+* find blocks feature (make non-matches mostly transparent)
 * display current version number
 * allow robot install to default to offline instead of always using github 
 * perform initial configuration from application?
@@ -68,7 +72,7 @@
 * mapping:
   * Set up database
   * persistent server side maps that robots can read
-  * add ability to send scans to different maps? or is it one roboserver per mc server?
+  * dimension selector to handle robots in different dimensions or worlds
   * detect maximum scan batch size based on available memory
   * don't add to the scene any voxels which are surrounded?
   * merge and split voxel meshes based on distance from robot
