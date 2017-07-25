@@ -1,7 +1,6 @@
 # 1.1
 
 ## fixes
-* move select robot mesh away when selecting the empty option (maybe fixed)
 * disallow dragging empty inventory slots
 * telling the robot to cat a longish file crashes the server
   * need to make the server properly handle tcp messages that get broken into parts
