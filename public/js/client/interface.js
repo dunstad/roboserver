@@ -525,6 +525,7 @@ function switchToRobot(robotName) {
   }
   else {
     selectedRobotMesh.visible = false;
+    requestRender();
   }
 }
 
