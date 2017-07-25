@@ -21,6 +21,7 @@
   * the goal here is to test the web client and server code, not the code running on the robot
 
 # later
+* alternate reality glasses roboserver client
 * find blocks feature (make non-matches mostly transparent)
 * display current version number
 * allow robot install to default to offline instead of always using github 
