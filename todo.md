@@ -2,6 +2,7 @@
 
 ## fixes
 * disallow dragging empty inventory slots
+* inventories are rendering with more slots than they actually have
 * telling the robot to cat a longish file crashes the server
   * need to make the server properly handle tcp messages that get broken into parts
 * move more globals to the new GLOBALS object
