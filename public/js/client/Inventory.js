@@ -76,19 +76,21 @@ function renderInventory(inventoryData) {
   for (var i = 0; i < numRows; i++) {
     var row = table.insertRow(-1);
     for (var j = 0; j < numCols; j++) {
-      var cell = row.insertCell(-1);
-      cell.classList.add('mc-td');
-      if (inventoryData.side == -1) {
-        cell.addEventListener('click', changeSelectedSlot);
-      }
-      
-      cell.addEventListener('dragover', allowDrop);
-      cell.addEventListener('drop', itemDrop);
+      if ((i * 4) + j < inventoryData.size) {
+        var cell = row.insertCell(-1);
+        cell.classList.add('mc-td');
+        if (inventoryData.side == -1) {
+          cell.addEventListener('click', changeSelectedSlot);
+        }
+        
+        cell.addEventListener('dragover', allowDrop);
+        cell.addEventListener('drop', itemDrop);
 
-      var slotNumber = (i * numCols) + j + 1;
-      cell.setAttribute('data-slotNumber', slotNumber);
-      if (inventoryData.selected == slotNumber) {
-        cell.setAttribute('data-selected', true);
+        var slotNumber = (i * numCols) + j + 1;
+        cell.setAttribute('data-slotNumber', slotNumber);
+        if (inventoryData.selected == slotNumber) {
+          cell.setAttribute('data-selected', true);
+        }
       }
     }
   }
