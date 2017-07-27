@@ -81,10 +81,10 @@ function renderInventory(inventoryData) {
       if (inventoryData.side == -1) {
         cell.addEventListener('click', changeSelectedSlot);
       }
+      
       cell.addEventListener('dragover', allowDrop);
       cell.addEventListener('drop', itemDrop);
-      cell.addEventListener('dragstart', itemDragStart);
-      cell.setAttribute('draggable', true);
+
       var slotNumber = (i * numCols) + j + 1;
       cell.setAttribute('data-slotNumber', slotNumber);
       if (inventoryData.selected == slotNumber) {
@@ -136,6 +136,9 @@ function renderItem(itemData) {
   var itemDiv = document.createElement('div');
   itemDiv.setAttribute('title', itemData.label + ', ' + itemData.size);
 
+  itemDiv.addEventListener('dragstart', itemDragStart);
+  itemDiv.setAttribute('draggable', true);
+
   itemDiv.appendChild(document.createTextNode(itemData.label));
   itemDiv.appendChild(document.createElement('br'));
   itemDiv.appendChild(document.createTextNode(itemData.size));
@@ -152,7 +155,7 @@ var itemSwapStorage;
  * @param {Event} e 
  */
 function itemDragStart(e) {
-  dragStartElement = this;
+  dragStartElement = this.parentElement;
   if (e.ctrlKey || e.altKey) {
     e.dataTransfer.setData('text/plain', 'split');
   }
