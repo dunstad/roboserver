@@ -37,6 +37,7 @@
   * Set up database
   * persistent server side maps that robots can read
   * dimension selector to handle robots in different dimensions or worlds
+    * while we're changing the ui, put scan size selector next to scan button
   * detect maximum scan batch size based on available memory
   * don't add to the scene any voxels which are surrounded?
   * merge and split voxel meshes based on distance from robot
