@@ -113,10 +113,12 @@ function main() {
       option.value = data.robot;
     }
     if (!allRobotInfo[data.robot]) {allRobotInfo[data.robot] = new Robot();}
-    if (robotSelect.options.length == 1) {
-      switchToRobot(data.robot);
-    }
     robotSelect.add(option);
+    if (robotSelect.options.length == 1) {
+      robotSelect.querySelector().selected = true;
+      // does this trigger switchToRobot on its own?
+      // switchToRobot(data.robot);
+    }
   });
   
   // remove robots that stop listening from select
