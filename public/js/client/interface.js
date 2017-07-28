@@ -113,7 +113,7 @@ function main() {
       option.value = data.robot;
     }
     if (!allRobotInfo[data.robot]) {allRobotInfo[data.robot] = new Robot();}
-    if (robotSelect.options.length == 0) {
+    if (robotSelect.options.length == 1) {
       switchToRobot(data.robot);
     }
     robotSelect.add(option);
