@@ -3,6 +3,8 @@
 ## fixes
 * telling the robot to cat a longish file crashes the server
   * need to make the server properly handle tcp messages that get broken into parts
+  * this will separate the data while keeping the separators so we can tell which parts are complete
+  * "abc\rdef\rghi".match(/.+?(\r|$)/g)
 * move more globals to the new GLOBALS object
 * inventory items not visible while dragging in safari
   * not easy to test, as i don't own a mac

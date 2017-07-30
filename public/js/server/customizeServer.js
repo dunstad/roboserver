@@ -103,6 +103,19 @@ function main(server, app) {
       }
 
     });
+
+
+    var oldTCPString = '';
+
+    /**
+     * Piece together any tcp messages which got broken into pieces.
+     * Also save any pieces we don't have the end of yet.
+     * @param {string} tcpString 
+     * @param {string} oldTCPString 
+     */
+    function parseTCPData(tcpString, oldTCPString) {
+
+    }
     
     /**
      * Disconnects a robot without notifying the web client.
