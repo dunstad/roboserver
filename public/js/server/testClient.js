@@ -170,10 +170,12 @@ function send(key, value) {
 	serializedData = JSON.stringify(data) + '\r\n';
 
 	if (serializedData.length > writeBufferLength) {
-		
+		dataChunks = str.match(/[\s\S]{1,3}/g) || [];
+		dataChunks.map(client.write);
 	}
-
-	client.write(serializedData);
+	else {
+		client.write(serializedData);
+	}
 
 }
 
