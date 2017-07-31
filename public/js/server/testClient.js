@@ -162,9 +162,19 @@ var client = new net.Socket();
 var power = 1;
 
 function send(key, value) {
+	
+	const writeBufferLength = Infinity;
+
 	var data = {};
 	data[key] = value;
-	client.write(JSON.stringify(data) + '\r\n');
+	serializedData = JSON.stringify(data) + '\r\n';
+
+	if (serializedData.length > writeBufferLength) {
+		
+	}
+
+	client.write(serializedData);
+
 }
 
 function decreasePower() {
