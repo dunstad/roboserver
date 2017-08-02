@@ -107,7 +107,7 @@ function main(server, app) {
     });
 
 
-    var oldTCPString = '';
+    let oldTCPString = '';
 
     /**
      * Used to piece together any tcp messages which got broken up.
@@ -116,10 +116,23 @@ function main(server, app) {
      * @param {string} oldTCPString 
      */
     function parseTCPData(tcpString, oldTCPString) {
-      tcpMessages = tcpString.match(/.+?(\r|$)/g);
-      for (tcpMessage of tcpMessages) {
-        let containsDelimiter = tcpString.indexOf(delimiter) != -1;
+      let completeMessages = [];
+      const tcpMessages = tcpString.match(/.+?(\r|$)/g);
+      for (let tcpMessage of tcpMessages) {
+
+        const assembledTCPMessage = oldTCPString ? oldTCPString + tcpMessage : tcpMessage;
+        oldTCPString = '';
+
+        const containsDelimiter = assembledTCPMessage.indexOf(delimiter) != -1;
+        if (!containsDelimiter) {
+          oldTCPString = assembledTCPMessage;
+        }
+        else {
+          completeMessages.push(tcpMessage);
+        }
+
       }
+      return completeMessages;
     }
     
     /**
@@ -130,9 +143,9 @@ function main(server, app) {
      */
     function disconnectRobot(robotSocket, errorString) {
       console.log(errorString);
-      tcpSocket.write(JSON.stringify({message: errorString}) + delimiter);
-      tcpSocket.endedByServer = true;
-      tcpSocket.end();
+      robotSocket.write(JSON.stringify({message: errorString}) + delimiter);
+      robotSocket.endedByServer = true;
+      robotSocket.end();
     }
 
     /**
