@@ -1,6 +1,8 @@
 var accounts = new (require('./SocketToAccountMap'))();
 var getCommandString = require('./commandMap');
 
+const delimiter = '\r\n';
+
 /**
  * Starts the TCP server and adds event listeners to the HTTP server.
  * @param {object} server 
@@ -69,12 +71,12 @@ function main(server, app) {
 
     // test write
   	tcpSocket.write(
-      JSON.stringify({message: "hello, it's the tcp server!"}) + '\r\n'
+      JSON.stringify({message: "hello, it's the tcp server!"}) + delimiter
     );
 
   	// relay command results from robot to web server
   	tcpSocket.on('data', (data)=>{
-  		var dataJSONList = data.toString().split('\r\n').filter(item=>item).map(JSON.parse);
+  		var dataJSONList = data.toString().split(delimiter).filter(item=>item).map(JSON.parse);
 
   		// separate tcp data into various messages
       for (var dataJSON of dataJSONList) {
@@ -108,13 +110,16 @@ function main(server, app) {
     var oldTCPString = '';
 
     /**
-     * Piece together any tcp messages which got broken into pieces.
+     * Used to piece together any tcp messages which got broken up.
      * Also save any pieces we don't have the end of yet.
      * @param {string} tcpString 
      * @param {string} oldTCPString 
      */
     function parseTCPData(tcpString, oldTCPString) {
-
+      tcpMessages = tcpString.match(/.+?(\r|$)/g);
+      for (tcpMessage of tcpMessages) {
+        let containsDelimiter = tcpString.indexOf(delimiter) != -1;
+      }
     }
     
     /**
@@ -125,7 +130,7 @@ function main(server, app) {
      */
     function disconnectRobot(robotSocket, errorString) {
       console.log(errorString);
-      tcpSocket.write(JSON.stringify({message: errorString}) + '\r\n');
+      tcpSocket.write(JSON.stringify({message: errorString}) + delimiter);
       tcpSocket.endedByServer = true;
       tcpSocket.end();
     }
