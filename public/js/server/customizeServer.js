@@ -117,7 +117,7 @@ function main(server, app) {
      */
     function parseTCPData(tcpString, oldTCPString) {
       let completeMessages = [];
-      const tcpMessages = tcpString.match(/.+?(\r|$)/g);
+      const tcpMessages = tcpString.match(/.+?(\r\n|$)/g);
       for (let tcpMessage of tcpMessages) {
 
         const assembledTCPMessage = oldTCPString ? oldTCPString + tcpMessage : tcpMessage;
@@ -128,7 +128,7 @@ function main(server, app) {
           oldTCPString = assembledTCPMessage;
         }
         else {
-          completeMessages.push(tcpMessage);
+          completeMessages.push(assembledTCPMessage);
         }
 
       }
