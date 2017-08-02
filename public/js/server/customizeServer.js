@@ -74,9 +74,13 @@ function main(server, app) {
       JSON.stringify({message: "hello, it's the tcp server!"}) + delimiter
     );
 
+    let tcpRemainder = '';
+
   	// relay command results from robot to web server
   	tcpSocket.on('data', (data)=>{
-  		var dataJSONList = data.toString().split(delimiter).filter(item=>item).map(JSON.parse);
+      const parsedTCP = parseTCPData();
+      remainder = parsedTCP.remainder;
+      const dataJSONList = parsedTCP.messages.map(JSON.parse);
 
   		// separate tcp data into various messages
       for (var dataJSON of dataJSONList) {
@@ -110,19 +114,19 @@ function main(server, app) {
      * Used to piece together any tcp messages which got broken up,
      * and find any pieces we don't have the end of yet.
      * @param {string} tcpString 
-     * @param {string} oldTCPString 
+     * @param {string} tcpRemainder 
      */
-    function parseTCPData(tcpString, oldTCPString) {
+    function parseTCPData(tcpString, tcpRemainder) {
       let completeMessages = [];
       const tcpMessages = tcpString.match(/.+?(\r\n|$)/g);
       for (let tcpMessage of tcpMessages) {
 
-        const assembledTCPMessage = oldTCPString ? oldTCPString + tcpMessage : tcpMessage;
-        oldTCPString = '';
+        const assembledTCPMessage = tcpRemainder ? tcpRemainder + tcpMessage : tcpMessage;
+        tcpRemainder = '';
 
         const containsDelimiter = assembledTCPMessage.indexOf(delimiter) != -1;
         if (!containsDelimiter) {
-          oldTCPString = assembledTCPMessage;
+          tcpRemainder = assembledTCPMessage;
         }
         else {
           completeMessages.push(assembledTCPMessage);
@@ -130,8 +134,8 @@ function main(server, app) {
 
       }
       let result = {
-        json: completeMessages,
-        remainder: oldTCPString,
+        messages: completeMessages,
+        remainder: tcpRemainder,
       };
       return result;
     }
