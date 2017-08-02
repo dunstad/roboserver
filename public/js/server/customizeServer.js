@@ -79,7 +79,7 @@ function main(server, app) {
   	// relay command results from robot to web server
   	tcpSocket.on('data', (data)=>{
       const parsedTCP = parseTCPData(data.toString(), tcpRemainder);
-      remainder = parsedTCP.remainder;
+      tcpRemainder = parsedTCP.remainder;
       const dataJSONList = parsedTCP.messages.map(JSON.parse);
 
   		// separate tcp data into various messages

@@ -163,15 +163,17 @@ var power = 1;
 
 function send(key, value) {
 	
-	const writeBufferLength = Infinity;
+	// const writeBufferLength = 99999;
+	const writeBufferLength = 20;
 
-	var data = {};
+	let data = {};
 	data[key] = value;
 	serializedData = JSON.stringify(data) + '\r\n';
 
 	if (serializedData.length > writeBufferLength) {
-		dataChunks = str.match(/[\s\S]{1,3}/g) || [];
-		dataChunks.map(client.write);
+		chunkRegExp = new RegExp('[\\s\\S]{1,' + writeBufferLength + '}', 'g');
+		dataChunks = serializedData.match(chunkRegExp) || [];
+		dataChunks.map(client.write, client);
 	}
 	else {
 		client.write(serializedData);
