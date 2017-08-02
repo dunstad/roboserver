@@ -106,12 +106,9 @@ function main(server, app) {
 
     });
 
-
-    let oldTCPString = '';
-
     /**
-     * Used to piece together any tcp messages which got broken up.
-     * Also save any pieces we don't have the end of yet.
+     * Used to piece together any tcp messages which got broken up,
+     * and find any pieces we don't have the end of yet.
      * @param {string} tcpString 
      * @param {string} oldTCPString 
      */
@@ -132,7 +129,11 @@ function main(server, app) {
         }
 
       }
-      return completeMessages;
+      let result = {
+        json: completeMessages,
+        remainder: oldTCPString,
+      };
+      return result;
     }
     
     /**
