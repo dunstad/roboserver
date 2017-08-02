@@ -1,10 +1,7 @@
 # 1.1
 
 ## fixes
-* test whether telling the robot to cat a longish file still crashes the server
 * move more globals to the new GLOBALS object
-* inventory items not visible while dragging in safari
-  * not easy to test, as i don't own a mac
 
 ## features
 * computercraft support (kind of)
