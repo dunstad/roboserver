@@ -4,15 +4,17 @@
 * move more globals to the new GLOBALS object
 
 ## features
+* automate testing for edge, firefox, chrome with webdriver
+  * the goal here is to test the web client and server code, not the code running on the robot
+* change the test client to act based on the new command structure
+  * put test data for the test client in a separate file
+  * make the test client importable so it can be manipulated by the integration tests
+  * make a fake world for the test client to interact with
+  * should be able to move, dig, place, inspect, open inventories and move items around
 * computercraft support (kind of)
   * this means taking the lua code in commandMap.js and putting it directly on the robot
   * commandMap.js will send json that represents the command we want to perform and any parameters
   * we'll leave how those commands are executed up to the client receiving them
-* redo the test client to act based on the new command structure
-  * make a fake world for the test client to interact with
-  * should be able to move, dig, place, inspect, open inventories and move items around
-* automate testing (selenium? webdriver?)
-  * the goal here is to test the web client and server code, not the code running on the robot
 * display current version number
 
 # later
