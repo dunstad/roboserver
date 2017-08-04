@@ -1,11 +1,6 @@
 const net = require('net');
 let testData = require('./testData');
 
-function sendWithCost(key, value) {
-	send(key, value);
-	decreasePower();
-}
-
 // var pos = {
 // 	x: parseInt(process.argv[4]) || 4,
 // 	y: parseInt(process.argv[5]) || 4,
@@ -65,7 +60,6 @@ class testClient {
 	constructor(testData) {
 		this.testData = testData;
 		this.client = new net.Socket();
-		this.client.connect(this.testData.port, this.testData.host, this.connectionListener);
 		this.robotName = this.testData.robotName;
 		this.accountName = this.testData.accountName;
 		this.dimension = this.testData.dimension;
@@ -91,10 +85,19 @@ class testClient {
 
 	}
 
+	sendWithCost(key, value) {
+		this.send(key, value);
+		this.decreasePower();
+	}
+
 	connectionListener() {
 		this.sendWithCost('id', {robot: process.argv[2], account: process.argv[3]});
 		this.send('message', 'hi');
 		console.log('Connected');
+	}
+
+	connect() {
+		this.client.connect(this.testData.port, this.testData.host, this.connectionListener);
 	}
 
 	addNoise(scan) {
