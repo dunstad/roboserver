@@ -1,45 +1,5 @@
-var net = require('net');
-
-// connect to local instance or production instance
-var port = 3001;
-var host = '127.0.0.1';
-
+const net = require('net');
 let testData = require('testData');
-
-// let's add some noise to testScan
-var mapData = testData.scan.data;
-for (var key in mapData) {
-	if (mapData[key] == 1) {
-		mapData[key] = Math.random() * 6;
-	}
-}
-
-var client = new net.Socket();
-var power = 1;
-
-function send(key, value) {
-	
-	const writeBufferLength = 20;
-
-	let data = {};
-	data[key] = value;
-	serializedData = JSON.stringify(data) + '\r\n';
-
-	if (serializedData.length > writeBufferLength) {
-		chunkRegExp = new RegExp('[\\s\\S]{1,' + writeBufferLength + '}', 'g');
-		dataChunks = serializedData.match(chunkRegExp) || [];
-		dataChunks.map(client.write, client);
-	}
-	else {
-		client.write(serializedData);
-	}
-
-}
-
-function decreasePower() {
-	power -= .02 * Math.random();
-	send('power level', power);
-}
 
 function sendWithCost(key, value) {
 	send(key, value);
@@ -108,3 +68,58 @@ setInterval(()=>{
 	sendWithCost('robot position', pos);
 	offset *= -1;
 }, 1000 * 5);
+
+class testClient {
+
+	constructor(testData) {
+		this.testData = testData;
+		this.client = new net.Socket();
+		this.client.connect(this.testData.port, this.testData.host, this.connectionListener);
+		this.robotName = this.testData.robotName;
+		this.accountName = this.testData.accountName;
+		this.dimension = this.testData.dimension;
+		this.power = 1;
+		this.writeBufferLength = 20;
+		this.delimiter = '\r\n';
+	}
+
+	send(key, value) {
+
+		let data = {};
+		data[key] = value;
+		const serializedData = JSON.stringify(data) + this.delimiter;
+
+		if (serializedData.length > this.writeBufferLength) {
+			const chunkRegExp = new RegExp('[\\s\\S]{1,' + this.writeBufferLength + '}', 'g');
+			const dataChunks = serializedData.match(chunkRegExp) || [];
+			dataChunks.map(this.client.write, this.client);
+		}
+		else {
+			this.client.write(serializedData);
+		}
+
+	}
+
+	connectionListener() {
+		this.sendWithCost('id', {robot: process.argv[2], account: process.argv[3]});
+		this.send('message', 'hi');
+		console.log('Connected');
+	}
+
+	addNoise(scan) {
+		let mapData = this.testData.scan.data;
+		for (var key in mapData) {
+			if (mapData[key] == 1) {
+				mapData[key] = Math.random() * 6;
+			}
+		}
+	}
+
+	decreasePower() {
+		this.power -= .02 * Math.random();
+		send('power level', this.power);
+	}
+
+}
+
+module.exports = testClient;

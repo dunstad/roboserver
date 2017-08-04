@@ -1,5 +1,11 @@
 module.exports = {
 
+  host: '127.0.0.1',
+  port: 3001,
+  robotName: 'rob',
+  accountName: 'admin',
+  dimension: 'overworld',
+
   internalInventory: {
     meta: {
       'size': 64,
