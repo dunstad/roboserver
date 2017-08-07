@@ -1,5 +1,4 @@
 const net = require('net');
-let testData = require('./testData');
 
 // var pos = {
 // 	x: parseInt(process.argv[4]) || 4,
@@ -90,14 +89,12 @@ class testClient {
 		this.decreasePower();
 	}
 
-	connectionListener() {
-		this.sendWithCost('id', {robot: process.argv[2], account: process.argv[3]});
-		this.send('message', 'hi');
-		console.log('Connected');
-	}
-
 	connect() {
-		this.client.connect(this.testData.port, this.testData.host, this.connectionListener);
+		this.client.connect(this.testData.port, this.testData.host, ()=>{
+			this.sendWithCost('id', {robot: this.testData.robotName, account: this.testData.accountName});
+			this.send('message', 'hi');
+			console.log('Connected');
+		});
 	}
 
 	addNoise(scan) {
@@ -111,7 +108,7 @@ class testClient {
 
 	decreasePower() {
 		this.power -= .02 * Math.random();
-		send('power level', this.power);
+		this.send('power level', this.power);
 	}
 
 }
