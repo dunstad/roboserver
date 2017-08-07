@@ -1,6 +1,6 @@
 Messages are sent in JSON format and deserialized upon arrival. A message object has one key from a list here. The form of the value at that key isn't yet documented.
 
-#### sent to web clients
+### sent from robot to server
 * message
 * command result
 * map data
@@ -15,8 +15,20 @@ Messages are sent in JSON format and deserialized upon arrival. A message object
 * power level
 * available components
 
-#### sent to robots
-(kind of in progress, need to move commandMap to the robot side)
+### sent from web client to server
+
+#### format
+```
+{
+  command: {
+    name: "commandName",
+    parameters: [param1, param2, ...],
+    robot: "robotName"
+  }
+}
+```
+
+#### command names
 * scanArea
 * viewInventory
 * equip
@@ -29,3 +41,6 @@ Messages are sent in JSON format and deserialized upon arrival. A message object
 * transfer
 * craft
 * raw
+* new ones needed for the protocol change
+  * sendPosition
+  * sendComponents

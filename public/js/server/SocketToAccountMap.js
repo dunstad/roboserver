@@ -150,11 +150,10 @@ class SocketToAccountMap {
    * @param {object} robotSocket 
    */
   sendRobotStateToClients(robotSocket) {
-    console.dir(robotSocket)
     this.sendToClients(robotSocket.id.account, "listen start", {robot: robotSocket.id.robot});
-    this.sendToRobot(robotSocket.id.account, robotSocket.id.robot, "command", "return pos.sendLocation();");
-    this.sendToRobot(robotSocket.id.account, robotSocket.id.robot, "command", "for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1); end return true;");
-    this.sendToRobot(robotSocket.id.account, robotSocket.id.robot, "command", "local conf = require('config'); require('tcp').write({['available components']=conf.get(conf.path).components});");
+    this.sendToRobot(robotSocket.id.account, robotSocket.id.robot, "command", {name: "sendPosition", parameters: []});
+    this.sendToRobot(robotSocket.id.account, robotSocket.id.robot, "command", {name: "scanArea", parameters: [1]});
+    this.sendToRobot(robotSocket.id.account, robotSocket.id.robot, "command", {name: "sendComponents", parameters: []});
   }
 
 }

@@ -51,9 +51,8 @@ function main(server, app) {
     // relay commands to the tcp server
     socket.on('command', (data)=>{
       console.dir(data);
-      var commandString = getCommandString(data.command.name, data.command.parameters);
       var commandType = data.command.name == "raw" ? "raw command" : "command";
-      accounts.sendToRobot(socket.request.user.username, data.robot, commandType, commandString);
+      accounts.sendToRobot(socket.request.user.username, data.robot, commandType, data.command);
     });
 
   });
