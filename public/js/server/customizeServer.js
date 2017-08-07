@@ -1,5 +1,4 @@
 var accounts = new (require('./SocketToAccountMap'))();
-var getCommandString = require('./commandMap');
 
 const delimiter = '\r\n';
 
