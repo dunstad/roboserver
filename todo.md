@@ -1,6 +1,8 @@
 # 1.1
 
 ## fixes
+* tcp remainder needs to be separate per robot i think
+  * error occurs when you connect test client, disconnect, then connect a second time
 * move more globals to the new GLOBALS object
 
 ## features

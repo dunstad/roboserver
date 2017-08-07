@@ -118,6 +118,8 @@ function main(server, app) {
       let completeMessages = [];
       const tcpMessageRegExp = new RegExp('.+?(' + delimiter + '|$)', 'g');
       const tcpMessages = tcpString.match(tcpMessageRegExp) || [];
+      console.log('tcpString', 'tcpRemainder')
+      console.log(tcpString, "###", tcpRemainder)
       for (let tcpMessage of tcpMessages) {
 
         const assembledTCPMessage = tcpRemainder ? tcpRemainder + tcpMessage : tcpMessage;
