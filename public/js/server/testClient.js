@@ -51,11 +51,100 @@ class testClient {
 		this.socket.on('close', function() {
 			console.log('Connection closed');
 		});
+
+		this.commandMap = {
+
+			scanArea: (scanLevel)=>{
+
+			},
+
+			viewInventory: ()=>{
+
+			},
+
+			equip: ()=>{
+
+			},
+			
+			dig: (v1, v2, selectionIndex, scanLevel)=>{
+
+			},
+			
+			place: (v1, v2, selectionIndex, scanLevel)=>{
+
+			},
+			
+			move: (x, y, z, scanLevel)=>{
+
+			},
+			
+			interact: (coord, scanLevel)=>{
+
+			},
+			
+			inspect: (coord, scanLevel)=>{
+
+			},
+			
+			select: (slotNum)=>{
+
+			},
+
+			transfer: (fromSlot, fromSide, toSlot, toSide, amount)=>{
+
+			},
+			
+			craft: (itemName)=>{
+
+			},
+			
+			raw: (commandString)=>{
+
+			},
+			
+			sendPosition: ()=>{
+
+			},
+			
+			sendComponents: ()=>{
+				
+			},
+
+		};
 		this.socket.on('data', (rawMessages)=>{
 			let messages = String(rawMessages).split('\r\n').filter(s=>s).map(JSON.parse);
 			for (let data of messages) {
 				if (data.command) {
 					console.log('Received:', data.command.name, data.command.parameters);
+					this.commandMap[data.command.name](...data.command.parameters);
+
+						if (data.command == 'for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1); end return true;') {
+							console.log('sending map!');
+							sendWithCost('map data', testData.scan);
+						}
+						else if (data.command == 'return int.sendInventoryData(-1);') {
+							console.log('sending inventory!');
+							sendWithCost('inventory data', testData.internalInventory.meta);
+							for (slot of testData.internalInventory.slots) {sendWithCost('slot data', slot);}
+							sendWithCost('inventory data', testData.externalInventory.meta);
+							for (slot of testData.externalInventory.slots) {sendWithCost('slot data', slot);}
+						}
+						else if (data.command == 'return pos.sendLocation();') {
+							console.log('sending location')
+							sendWithCost('robot position', pos);
+						}
+						else if (data.command == "local conf = require('config'); require('tcp').write({['available components']=conf.get(conf.path).components});") {
+							var components = process.argv[7] ? {raw:true} : {};
+							sendWithCost('available components', components);
+						}
+						else {
+							console.log('responding to command: ' + data.command);
+							sendWithCost('command result', [true, 'received command: ' + data.command]);
+						}
+
+				}
+				else if (data.message) {
+					console.log(data.message);
 				}
 			}
 		});
