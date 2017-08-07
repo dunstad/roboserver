@@ -6,6 +6,12 @@ module.exports = {
   accountName: 'admin',
   dimension: 'overworld',
 
+  position: {
+    x: 4,
+    y: 4,
+    z: 4,
+  },
+
   internalInventory: {
     meta: {
       'size': 64,
@@ -65,7 +71,7 @@ module.exports = {
           'size': 1
         }
       }
-    ]
+    ],
   },
 
   externalInventory: {
@@ -113,7 +119,7 @@ module.exports = {
           'size': 25
         }
       }
-    ]
+    ],
   },
 
   scan: {
@@ -151,7 +157,7 @@ module.exports = {
       26: 1,
       27: 1,
       n: 27
-    }
-  }
+    },
+  },
   
 };

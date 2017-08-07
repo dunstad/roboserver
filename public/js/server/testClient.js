@@ -1,11 +1,5 @@
 const net = require('net');
 
-// var pos = {
-// 	x: parseInt(process.argv[4]) || 4,
-// 	y: parseInt(process.argv[5]) || 4,
-// 	z: parseInt(process.argv[6]) || 4
-// }
-
 // client.on('data', (rawMessages)=>{
 // 	console.log('Received: ' + rawMessages);
 // 	messages = String(rawMessages).split('\r\n').filter(s=>s).map(JSON.parse);
@@ -43,28 +37,25 @@ const net = require('net');
 // 	}
 // });
 
-// client.on('close', function() {
-// 	console.log('Connection closed');
-// });
-
-// var offset = 1;
-// setInterval(()=>{
-// 	pos.y += offset;
-// 	sendWithCost('robot position', pos);
-// 	offset *= -1;
-// }, 1000 * 5);
-
 class testClient {
 
 	constructor(testData) {
+		
 		this.testData = testData;
-		this.client = new net.Socket();
-		this.robotName = this.testData.robotName;
-		this.accountName = this.testData.accountName;
-		this.dimension = this.testData.dimension;
+		
 		this.power = 1;
 		this.writeBufferLength = 20;
 		this.delimiter = '\r\n';
+
+		this.socket = new net.Socket();
+		this.socket.on('close', function() {
+			console.log('Connection closed');
+		});
+		this.socket.on('data', (rawMessages)=>{
+			console.log('Received: ' + rawMessages);
+			let messages = String(rawMessages).split('\r\n').filter(s=>s).map(JSON.parse);
+		});
+
 	}
 
 	send(key, value) {
@@ -76,10 +67,10 @@ class testClient {
 		if (serializedData.length > this.writeBufferLength) {
 			const chunkRegExp = new RegExp('[\\s\\S]{1,' + this.writeBufferLength + '}', 'g');
 			const dataChunks = serializedData.match(chunkRegExp) || [];
-			dataChunks.map(this.client.write, this.client);
+			dataChunks.map(this.socket.write, this.socket);
 		}
 		else {
-			this.client.write(serializedData);
+			this.socket.write(serializedData);
 		}
 
 	}
@@ -90,7 +81,7 @@ class testClient {
 	}
 
 	connect() {
-		this.client.connect(this.testData.port, this.testData.host, ()=>{
+		this.socket.connect(this.testData.port, this.testData.host, ()=>{
 			this.sendWithCost('id', {robot: this.testData.robotName, account: this.testData.accountName});
 			this.send('message', 'hi');
 			console.log('Connected');
