@@ -18,12 +18,12 @@ class testClient {
 		this.commandMap = {
 
 			scanArea: (scanLevel)=>{
-				sendWithCost('map data', this.testData.scan);
+				this.sendWithCost('map data', this.testData.scan);
 			},
 
 			viewInventory: ()=>{
-				sendWithCost('inventory data', this.testData.internalInventory.meta);
-				sendWithCost('slot data', this.testData.internalInventory.slots);
+				this.sendWithCost('inventory data', this.testData.internalInventory.meta);
+				this.sendWithCost('slot data', this.testData.internalInventory.slots);
 			},
 
 			equip: ()=>{},
@@ -45,15 +45,15 @@ class testClient {
 			craft: (itemName)=>{},
 			
 			raw: (commandString)=>{
-				sendWithCost('command result', [true, 'received command: ' + commandString]);
+				this.sendWithCost('command result', [true, 'received command: ' + commandString]);
 			},
 			
 			sendPosition: ()=>{
-				sendWithCost('robot position', this.testData.position);
+				this.sendWithCost('robot position', this.testData.position);
 			},
 			
 			sendComponents: ()=>{
-				sendWithCost('available components', this.testData.components);
+				this.sendWithCost('available components', this.testData.components);
 			},
 
 		};
