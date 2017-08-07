@@ -159,5 +159,9 @@ module.exports = {
       n: 27
     },
   },
+
+  components: {
+    raw: true,
+  },
   
 };
