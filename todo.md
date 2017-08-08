@@ -5,7 +5,6 @@
 
 ## features
 * change the test client to act based on the new command structure
-  * make the test client importable so it can be manipulated by the integration tests
   * make a fake world for the test client to interact with
   * should be able to move, dig, place, inspect, open inventories and move items around
 * automate testing for edge, firefox, chrome with webdriver

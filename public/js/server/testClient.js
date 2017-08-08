@@ -1,10 +1,21 @@
 const net = require('net');
+const InventoryData = require('../shared/InventoryData');
 
+/**
+ * Used to make sure the server is working properly. Attempts to replicate
+ * most of the function of the actual robot lua code. 
+ */
 class testClient {
 
+	/**
+	 * Set the test client's initial state based on testing data.
+	 * @param {object} testData 
+	 */
 	constructor(testData) {
 		
 		this.testData = testData;
+		this.inventory = new InventoryData(this.testData.internalInventory);
+		this.map;
 		
 		this.power = 1;
 		this.writeBufferLength = 20;
@@ -72,6 +83,11 @@ class testClient {
 
 	}
 
+	/**
+	 * Used to send data to the server, such as power level or position.
+	 * @param {string} key 
+	 * @param {object} value 
+	 */
 	send(key, value) {
 
 		let data = {};
@@ -89,11 +105,20 @@ class testClient {
 
 	}
 
+	/**
+	 * Used to simulate power consumption.
+	 * Sends a message and also a power level update.
+	 * @param {string} key 
+	 * @param {object} value 
+	 */
 	sendWithCost(key, value) {
 		this.send(key, value);
 		this.decreasePower();
 	}
 
+	/**
+	 * Used to identify the test client to the server and open the socket connection.
+	 */
 	connect() {
 		this.socket.connect(this.testData.port, this.testData.host, ()=>{
 			this.sendWithCost('id', {robot: this.testData.robotName, account: this.testData.accountName});
@@ -102,6 +127,10 @@ class testClient {
 		});
 	}
 
+	/**
+	 * Used to make the test map data a little more like real geolyzer scans.
+	 * @param {object} scan 
+	 */
 	addNoise(scan) {
 		let mapData = this.testData.scan.data;
 		for (var key in mapData) {
@@ -111,6 +140,9 @@ class testClient {
 		}
 	}
 
+	/**
+	 * Used to tell the server the test client now has less power than it did before.
+	 */
 	decreasePower() {
 		this.power -= .02 * Math.random();
 		this.send('power level', this.power);
