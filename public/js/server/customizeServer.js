@@ -72,12 +72,12 @@ function main(server, app) {
       JSON.stringify({message: "hello, it's the tcp server!"}) + delimiter
     );
 
-    let tcpRemainder = '';
-
   	// relay command results from robot to web server
   	tcpSocket.on('data', (data)=>{
-      const parsedTCP = parseTCPData(data.toString(), tcpRemainder);
-      tcpRemainder = parsedTCP.remainder;
+      if (!tcpSocket.remainder) {tcpSocket.remainder = '';}
+      console.log('remainder', tcpSocket.remainder)
+      const parsedTCP = parseTCPData(data.toString(), tcpSocket.remainder);
+      tcpSocket.remainder = parsedTCP.remainder;
       const dataJSONList = parsedTCP.messages.map(JSON.parse);
 
   		// separate tcp data into various messages
@@ -116,10 +116,8 @@ function main(server, app) {
      */
     function parseTCPData(tcpString, tcpRemainder) {
       let completeMessages = [];
-      const tcpMessageRegExp = new RegExp('.+?(' + delimiter + '|$)', 'g');
+      const tcpMessageRegExp = new RegExp('.*?' + delimiter + '|.+?$', 'g');
       const tcpMessages = tcpString.match(tcpMessageRegExp) || [];
-      console.log('tcpString', 'tcpRemainder')
-      console.log(tcpString, "###", tcpRemainder)
       for (let tcpMessage of tcpMessages) {
 
         const assembledTCPMessage = tcpRemainder ? tcpRemainder + tcpMessage : tcpMessage;
