@@ -15,7 +15,10 @@ class testClient {
 		
 		this.testData = testData;
 		this.inventory = new InventoryData(this.testData.internalInventory);
+		this.equipped;
 		this.map;
+		this.position = this.testData.position;
+		this.components = this.testData.components;
 		
 		this.power = 1;
 		this.writeBufferLength = 20;
@@ -33,11 +36,29 @@ class testClient {
 			},
 
 			viewInventory: ()=>{
-				this.sendWithCost('inventory data', this.testData.internalInventory.meta);
-				this.sendWithCost('slot data', this.testData.internalInventory.slots);
+				let inventoryMeta = {
+					size: this.inventory.size,
+					side: -1,
+					selected: this.inventory.selected,
+				};
+				this.sendWithCost('inventory data', inventoryMeta);
+				let inventorySlots = [];
+				for (let slotNum in this.inventory.slots) {
+					let inventorySlot = {
+						side: -1,
+						slotNum: slotNum,
+						contents: this.inventory.slots[slotNum],
+					};
+					inventorySlots.push(inventorySlot);
+				}
+				this.sendWithCost('slot data', inventorySlots);
 			},
 
-			equip: ()=>{},
+			equip: ()=>{
+				let temporarySlot = this.equipped;
+				this.equipped = this.inventory.slots[this.inventory.selected];
+				this.inventory.slots[this.inventory.selected] = temporarySlot;
+			},
 			
 			dig: (v1, v2, selectionIndex, scanLevel)=>{},
 			
@@ -49,7 +70,9 @@ class testClient {
 			
 			inspect: (coord, scanLevel)=>{},
 			
-			select: (slotNum)=>{},
+			select: (slotNum)=>{
+				this.selected = slotNum;
+			},
 
 			transfer: (fromSlot, fromSide, toSlot, toSide, amount)=>{},
 			
@@ -60,11 +83,11 @@ class testClient {
 			},
 			
 			sendPosition: ()=>{
-				this.sendWithCost('robot position', this.testData.position);
+				this.sendWithCost('robot position', this.position);
 			},
 			
 			sendComponents: ()=>{
-				this.sendWithCost('available components', this.testData.components);
+				this.sendWithCost('available components', this.components);
 			},
 
 		};
