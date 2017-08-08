@@ -36,28 +36,21 @@ class testClient {
 			},
 
 			viewInventory: ()=>{
-				let inventoryMeta = {
-					size: this.inventory.size,
-					side: -1,
-					selected: this.inventory.selected,
-				};
-				this.sendWithCost('inventory data', inventoryMeta);
-				let inventorySlots = [];
+				this.sendWithCost('inventory data', this.serializeMeta());
 				for (let slotNum in this.inventory.slots) {
-					let inventorySlot = {
-						side: -1,
-						slotNum: slotNum,
-						contents: this.inventory.slots[slotNum],
-					};
-					inventorySlots.push(inventorySlot);
+					this.sendWithCost('slot data', this.serializeSlot(slotNum));
 				}
-				this.sendWithCost('slot data', inventorySlots);
 			},
 
 			equip: ()=>{
 				let temporarySlot = this.equipped;
 				this.equipped = this.inventory.slots[this.inventory.selected];
 				this.inventory.slots[this.inventory.selected] = temporarySlot;
+				this.sendWithCost('inventory data', this.serializeMeta());
+				this.sendWithCost(
+					'slot data',
+					this.serializeSlot(this.inventory.selected)
+				);
 			},
 			
 			dig: (v1, v2, selectionIndex, scanLevel)=>{},
@@ -71,7 +64,7 @@ class testClient {
 			inspect: (coord, scanLevel)=>{},
 			
 			select: (slotNum)=>{
-				this.selected = slotNum;
+				this.inventory.selected = slotNum;
 			},
 
 			transfer: (fromSlot, fromSide, toSlot, toSide, amount)=>{},
@@ -104,6 +97,33 @@ class testClient {
 			}
 		});
 
+	}
+
+	/**
+	 * Used to make sending the test client's inventory data to the
+	 * server easier.
+	 * @param {number} slotNum 
+	 */
+	serializeMeta() {
+		let inventoryMeta = {
+			size: this.inventory.size,
+			side: -1,
+			selected: this.inventory.selected,
+		};
+		return inventoryMeta;
+	}
+	/**
+	 * Used to make sending the test client's slot data to the
+	 * server easier.
+	 * @param {number} slotNum 
+	 */
+	serializeSlot(slotNum) {
+		let inventorySlot = {
+			side: -1,
+			slotNum: slotNum,
+			contents: this.inventory.slots[slotNum],
+		};
+		return inventorySlot;
 	}
 
 	/**
