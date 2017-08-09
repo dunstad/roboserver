@@ -6,16 +6,21 @@ class InventoryData {
 
   /**
    * Used to set the initial state of a simulated inventory from test data.
-   * @param {object} inventoryDataObject 
+   * @param {object} inventoryMeta 
    */
-  constructor(inventoryDataObject) {
-    this.size = inventoryDataObject.meta.size;
-    this.side = inventoryDataObject.meta.side;
-    this.selected = inventoryDataObject.meta.selected;
+  constructor(inventoryMeta) {
+    this.size = inventoryMeta.meta.size;
+    this.side = inventoryMeta.meta.side;
+    this.selected = inventoryMeta.meta.selected;
     this.slots = {};
-    for (let slot of inventoryDataObject.slots) {
-      this.slots[slot.slotNum] = slot.contents;
-    }
+  }
+
+  /**
+   * Used to change the contents of a slot in the inventory.
+   * @param {object} inventorySlot 
+   */
+  setSlot(inventorySlot) {
+    this.slots[inventorySlot.slotNum] = inventorySlot.contents;
   }
 
 }

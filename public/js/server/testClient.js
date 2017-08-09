@@ -15,6 +15,9 @@ class testClient {
 		
 		this.testData = testData;
 		this.inventory = new InventoryData(this.testData.internalInventory);
+		for (let slot of this.testData.internalInventory.slots) {
+			this.inventory.setSlot(slot);
+		}
 		this.equipped;
 		this.map;
 		this.position = this.testData.position;
