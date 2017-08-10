@@ -136,8 +136,9 @@ class testClient {
 	 */
 	send(key, value) {
 
-		let data = {};
-		data[key] = value;
+		const data = {
+			[key]: value,
+		};
 		const serializedData = JSON.stringify(data) + this.delimiter;
 
 		if (serializedData.length > this.writeBufferLength) {
