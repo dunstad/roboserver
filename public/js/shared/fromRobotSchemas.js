@@ -69,6 +69,23 @@ const validators = {
     "additionalProperties": false,
   }),
 
+  position: ajv.compile({
+    "properties": {
+      "x": {"type": "integer",},
+      "y": {"type": "integer",},
+      "z": {"type": "integer",},
+    },
+    "required": ["x", "y", "z"],
+    "additionalProperties": false,
+  }),
+
+  components: ajv.compile({
+    "properties": {
+      "raw": {"type": "boolean",},
+    },
+    "additionalProperties": false,
+  }),
+
 };
 
 try {

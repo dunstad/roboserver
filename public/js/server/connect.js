@@ -1,4 +1,4 @@
 testData = require('./testData');
 testClient = new (require('./testClient'))(testData);
-validators = require('./fromRobotSchemas.js');
+validators = require('../shared/fromRobotSchemas.js');
 testClient.connect();
