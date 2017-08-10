@@ -79,11 +79,49 @@ const validators = {
     "additionalProperties": false,
   }),
 
+  geolyzerScan: ajv.compile({
+    "properties": {
+      "x": {"type": "integer",},
+      "y": {"type": "integer",},
+      "z": {"type": "integer",},
+      "w": {"type": "integer",},
+      "d": {"type": "integer",},
+      "data": {
+        "patternProperties": {
+          /*
+          i'm not going to try to make a regex that only
+          matches numbers up to n, so this schema does
+          validate some things which are not correct.
+          */
+          "\\d+": {"type": "number"}
+        },
+        "properties": {
+          "n": {"type": "integer"}
+        },
+        "required": ["n"],
+        "additionalProperties": false,
+      },
+    },
+    "required": ["x", "y", "z", "w", "d", "data"],
+    "additionalProperties": false,
+  }),
+
   components: ajv.compile({
     "properties": {
       "raw": {"type": "boolean",},
     },
     "additionalProperties": false,
+  }),
+
+  commandResult: ajv.compile({
+    "type": "array",
+    "items": [
+      { "type": "boolean" },
+      { "type": "string" },
+    ],
+    "additionalItems": false,
+    "minItems": 2,
+    "maxItems": 2,
   }),
 
 };
