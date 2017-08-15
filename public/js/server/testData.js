@@ -122,7 +122,7 @@ module.exports = {
     ],
   },
 
-  scan: {
+  geolyzerScan: {
     x: 0,
     z: 0,
     y: 0,

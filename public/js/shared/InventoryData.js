@@ -1,3 +1,4 @@
+let validators = require('./fromRobotSchemas.js');
 /**
  * Used to simulate an in-game inventory for the test client
  * and to represent the in-game inventory on the web client.
@@ -9,6 +10,7 @@ class InventoryData {
    * @param {object} inventoryMeta 
    */
   constructor(inventoryMeta) {
+    validators.inventoryMeta(inventoryMeta);
     this.size = inventoryMeta.meta.size;
     this.side = inventoryMeta.meta.side;
     this.selected = inventoryMeta.meta.selected;
@@ -20,6 +22,7 @@ class InventoryData {
    * @param {object} inventorySlot 
    */
   setSlot(inventorySlot) {
+    validators.inventorySlot(inventorySlot);
     this.slots[inventorySlot.slotNum] = inventorySlot.contents;
   }
 

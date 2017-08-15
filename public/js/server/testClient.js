@@ -1,5 +1,6 @@
 const net = require('net');
 const InventoryData = require('../shared/InventoryData');
+const InventoryData = require('../shared/MapData');
 
 /**
  * Used to make sure the server is working properly. Attempts to replicate
@@ -14,12 +15,13 @@ class testClient {
 	constructor(testData) {
 		
 		this.testData = testData;
-		this.inventory = new InventoryData(this.testData.internalInventory);
+		this.inventory = new InventoryData(this.testData.internalInventory.meta);
 		for (let slot of this.testData.internalInventory.slots) {
 			this.inventory.setSlot(slot);
 		}
 		this.equipped;
-		this.map;
+		this.map = new MapData();
+		this.map.setFromGeolyzerScan(this.testData.geolyzerScan);
 		this.position = this.testData.position;
 		this.components = this.testData.components;
 		
@@ -35,7 +37,7 @@ class testClient {
 		this.commandMap = {
 
 			scanArea: (scanLevel)=>{
-				this.sendWithCost('map data', this.testData.scan);
+				this.sendWithCost('map data', this.testData.geolyzerScan);
 			},
 
 			viewInventory: ()=>{
@@ -176,10 +178,10 @@ class testClient {
 
 	/**
 	 * Used to make the test map data a little more like real geolyzer scans.
-	 * @param {object} scan 
+	 * @param {object} geolyzerScan 
 	 */
-	addNoise(scan) {
-		let mapData = this.testData.scan.data;
+	addNoise(geolyzerScan) {
+		let mapData = this.testData.geolyzerScan.data;
 		for (var key in mapData) {
 			if (mapData[key] == 1) {
 				mapData[key] = Math.random() * 6;
