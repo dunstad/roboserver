@@ -124,6 +124,15 @@ const validators = {
     "maxItems": 2,
   }),
 
+  // block data
+  // delete selection
+  // dig success
+  // power level
+  
+  // listen start
+  // listen end
+  // id
+
 };
 
 try {
