@@ -6,7 +6,8 @@
 ## features
 * change the test client to act based on the new command structure
   * make a fake world for the test client to interact with
-  * should be able to move, dig, place, inspect, open inventories and move items around
+    * should be able to move, dig, place, inspect, open inventories and move items around
+    * implement scanArea
 * change oc lua code to use new command structure
 * automate testing for edge, firefox, chrome with webdriver
   * the goal here is to test the web client and server code, not the code running on the robot
