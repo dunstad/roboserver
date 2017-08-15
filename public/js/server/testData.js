@@ -160,6 +160,133 @@ module.exports = {
     },
   },
 
+  map: {
+    0: {
+      0: {
+        0: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+        1: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+        2: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+      },
+      1: {
+        0: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+        1: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+        2: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+      },
+      2: {
+        0: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+        1: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+        2: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+      },
+    },
+    1: {
+      0: {
+        0: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+        1: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+        2: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+      },
+      1: {
+        0: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+        2: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+      },
+      2: {
+        0: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+        1: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+        2: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+      },
+    },
+    2: {
+      0: {
+        0: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+        1: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+        2: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+      },
+      1: {
+        0: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+        2: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+      },
+      2: {
+        0: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+        1: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+        2: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+      },
+    },
+  },
+
   components: {
     raw: true,
   },
