@@ -1,6 +1,6 @@
 const net = require('net');
 const InventoryData = require('../shared/InventoryData');
-const InventoryData = require('../shared/MapData');
+const MapData = require('../shared/MapData');
 
 /**
  * Used to make sure the server is working properly. Attempts to replicate

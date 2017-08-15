@@ -41,6 +41,7 @@ class MapData {
     if (!this.map[x]) {this.map[x] = {};}
     if (!this.map[x][y]) {this.map[x][y] = {};}
     if (blockData) {
+      if (!this.map[x][y][z]) {this.map[x][y][z] = {};}
       Object.assign(this.map[x][y][z], blockData);
     }
     else {
@@ -67,7 +68,7 @@ class MapData {
           // also lua is indexed from 1
           let index = (x + 1) + z*geolyzerScan.w + y*geolyzerScan.w*geolyzerScan.d;
           
-          this.set(xWithOffset, yWithOffset, zWithOffset, geolyzerScan.data[index]);
+          this.set(xWithOffset, yWithOffset, zWithOffset, {"hardness": geolyzerScan.data[index]});
   
         }
       }
@@ -76,5 +77,5 @@ class MapData {
 
 }
   
-try {module.exports = InventoryData;}
+try {module.exports = MapData;}
 catch(e) {;}

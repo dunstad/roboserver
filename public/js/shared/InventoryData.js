@@ -11,9 +11,9 @@ class InventoryData {
    */
   constructor(inventoryMeta) {
     validators.inventoryMeta(inventoryMeta);
-    this.size = inventoryMeta.meta.size;
-    this.side = inventoryMeta.meta.side;
-    this.selected = inventoryMeta.meta.selected;
+    this.size = inventoryMeta.size;
+    this.side = inventoryMeta.side;
+    this.selected = inventoryMeta.selected;
     this.slots = {};
   }
 
