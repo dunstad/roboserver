@@ -251,10 +251,6 @@ module.exports = {
           "hardness": .5,
           "name": "minecraft:dirt",
         },
-        1: {
-          "hardness": .5,
-          "name": "minecraft:dirt",
-        },
         2: {
           "hardness": .5,
           "name": "minecraft:dirt",
@@ -278,6 +274,10 @@ module.exports = {
       },
       1: {
         0: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+        1: {
           "hardness": .5,
           "name": "minecraft:dirt",
         },

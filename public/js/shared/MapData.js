@@ -75,6 +75,21 @@ class MapData {
     }
   }
 
+  /**
+   * Store block data contained in the map data format
+   * @param {object} mapData 
+   */
+  setFromMapData(mapData) {
+    for (var xIndex in mapData) {
+      for (var yIndex in mapData[xIndex]) {
+        for (var zIndex in mapData[xIndex][yIndex]) {
+          let blockData = mapData[xIndex][yIndex][zIndex];
+          this.set(xIndex, yIndex, zIndex, blockData);
+        }
+      }
+    }
+  }
+  
 }
   
 try {module.exports = MapData;}

@@ -21,7 +21,7 @@ class testClient {
 		}
 		this.equipped;
 		this.map = new MapData();
-		this.map.setFromGeolyzerScan(this.testData.geolyzerScan);
+		this.map.setFromMapData(this.testData.map);
 		this.position = this.testData.position;
 		this.components = this.testData.components;
 		
@@ -64,9 +64,9 @@ class testClient {
 			
 							// this is how the geolyzer reports 3d data in a 1d array
 							// also lua is indexed from 1
-							let index = (x + 1) + z*geolyzerScan.w + y*geolyzerScan.w*geolyzerScan.d;
+							let index = (x + 1) + z*scanW + y*scanW*scanD;
 							
-							let blockData = this.map.get(xWithOffset, yWithOffset, zWithOffset);
+							let blockData = this.map.get(x, y, z);
 							newScan.data[index] = blockData && blockData.hardness ? blockData.hardness : 0;
 			
 						}
