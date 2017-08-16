@@ -23,6 +23,7 @@ class testClient {
 		this.map = new MapData();
 		this.map.setFromMapData(this.testData.map);
 		this.position = this.testData.position;
+		this.map.set(this.position.x, this.position.y, this.position.z, {"hardness": 2});		
 		this.components = this.testData.components;
 		
 		this.power = 1;
@@ -58,15 +59,19 @@ class testClient {
 					},
 				};
 
-				for (let x = scanX; x < scanX + scanW; x++) {
-					for (let z = scanZ; z < scanZ + scanD; z++) {
-						for (let y = scanY; y < scanY + (scanN / (scanW * scanD)); y++) {
+				for (let x = 0; x < scanW; x++) {
+					for (let z = 0; z < scanD; z++) {
+						for (let y = 0; y < (scanN / (scanW * scanD)); y++) {
+
+							let xWithOffset = x + scanX;
+							let yWithOffset = y + scanY;
+							let zWithOffset = z + scanZ;
 			
 							// this is how the geolyzer reports 3d data in a 1d array
 							// also lua is indexed from 1
 							let index = (x + 1) + z*scanW + y*scanW*scanD;
 							
-							let blockData = this.map.get(x, y, z);
+							let blockData = this.map.get(xWithOffset, yWithOffset, zWithOffset);
 							newScan.data[index] = blockData && blockData.hardness ? blockData.hardness : 0;
 			
 						}
