@@ -161,6 +161,22 @@ module.exports = {
   },
 
   map: {
+    [-2]: {
+      0: {
+        [-2]: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+      }
+    },
+    [-1]: {
+      0: {
+        [-1]: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+      }
+    },
     0: {
       0: {
         0: {
@@ -284,6 +300,30 @@ module.exports = {
           "name": "minecraft:dirt",
         },
       },
+    },
+    3: {
+      0: {
+        3: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+      }
+    },
+    4: {
+      0: {
+        4: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+      }
+    },
+    5: {
+      0: {
+        5: {
+          "hardness": .5,
+          "name": "minecraft:dirt",
+        },
+      }
     },
   },
 
