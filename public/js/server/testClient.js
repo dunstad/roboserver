@@ -99,19 +99,19 @@ class testClient {
 				this.inventory.selected = slotNum;
 			},
 
-			transfer: (fromSlot, fromSide, toSlot, toSide, amount)=>{
+			transfer: (fromSlotIndex, fromSide, toSlotIndex, toSide, amount)=>{
 				
 				let fromInv = this.inventories[fromSide];
-				let fromSlotSer = fromInv.serializeSlot(fromSlot);
+				let fromSlotSer = fromInv.serializeSlot(fromSlotIndex);
 				
 				let toInv = this.inventories[toSide];
-				let toSlotSer = toInv.serializeSlot(toSlot);
+				let toSlotSer = toInv.serializeSlot(toSlotIndex);
 				
 				let fromInvValid = fromInv.validateTransfer(fromSlotSer, toSlotSer, amount);
 				let toInvValid = toInv.validateTransfer(fromSlotSer, toSlotSer, amount);
 
 				if (fromInvValid && toInvValid) {
-					
+					moveItems(fromInv, fromSlotIndex, toInv, toSlotIndex, amount);
 				}
 				
 			},
@@ -145,6 +145,20 @@ class testClient {
 				}
 			}
 		});
+
+	}
+
+	/**
+	 * Used after a transfer is validated to actually change
+	 * the contents of the two inventories in a way that
+	 * obeys how Minecraft inventories are supposed to work.
+	 * @param {object} fromInv
+	 * @param {number} fromSlotIndex 
+	 * @param {object} toInv
+	 * @param {number} toSlotIndex 
+	 * @param {number} amount 
+	 */
+	moveItems(fromInv, fromSlotIndex, toInv, toSlotIndex, amount) {
 
 	}
 
