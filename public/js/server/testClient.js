@@ -63,9 +63,9 @@ class testClient {
 					for (let z = 0; z < scanD; z++) {
 						for (let y = 0; y < (scanN / (scanW * scanD)); y++) {
 
-							let xWithOffset = x + scanX;
-							let yWithOffset = y + scanY;
-							let zWithOffset = z + scanZ;
+							let xWithOffset = x + newScan.x;
+							let yWithOffset = y + newScan.y;
+							let zWithOffset = z + newScan.z;
 			
 							// this is how the geolyzer reports 3d data in a 1d array
 							// also lua is indexed from 1
