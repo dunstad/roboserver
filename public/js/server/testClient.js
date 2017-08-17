@@ -74,6 +74,8 @@ class testClient {
 			
 			move: (x, y, z, scanLevel)=>{
 				if (!this.map.get(x, y, z)) {
+					this.map.set(this.position.x, this.position.y, this.position.z);
+					this.map.set(x, y, z, {"hardness": 2});
 					this.position = {x:x,y:y,z:z};
 					this.commandMap.sendPosition();
 					this.commandMap.scanArea();
