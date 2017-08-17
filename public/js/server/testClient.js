@@ -48,7 +48,7 @@ class testClient {
 				this.sendWithCost('inventory data', inventoryMeta);
 
 				for (let slotNum in this.inventory.slots) {
-					let slotData = this.serializeSlot(slotNum);
+					let slotData = this.inventory.serializeSlot(slotNum);
 					this.sendWithCost('slot data', slotData);
 				}
 
@@ -63,7 +63,7 @@ class testClient {
 				let inventoryMeta = this.serializeMeta();
 				this.sendWithCost('inventory data', inventoryMeta);
 
-				let slotData = this.serializeSlot(this.inventory.selected);
+				let slotData = this.inventory.serializeSlot(this.inventory.selected);
 				this.sendWithCost('slot data', slotData);
 
 			},
@@ -73,6 +73,7 @@ class testClient {
 			place: (v1, v2, selectionIndex, scanLevel)=>{},
 			
 			move: (x, y, z, scanLevel)=>{
+				let result = true;
 				if (!this.map.get(x, y, z)) {
 					this.map.set(this.position.x, this.position.y, this.position.z);
 					this.map.set(x, y, z, {"hardness": 2});
@@ -82,7 +83,9 @@ class testClient {
 				}
 				else {
 					this.sendWithCost('command result', [false, "position already occupied"]);
+					result = false;
 				}
+				return result;
 			},
 			
 			interact: (coord, scanLevel)=>{},
@@ -93,7 +96,9 @@ class testClient {
 				this.inventory.selected = slotNum;
 			},
 
-			transfer: (fromSlot, fromSide, toSlot, toSide, amount)=>{},
+			transfer: (fromSlot, fromSide, toSlot, toSide, amount)=>{
+				
+			},
 			
 			craft: (itemName)=>{},
 			
@@ -184,19 +189,6 @@ class testClient {
 			selected: this.inventory.selected,
 		};
 		return inventoryMeta;
-	}
-	/**
-	 * Used to make sending the test client's slot data to the
-	 * server easier.
-	 * @param {number} slotNum 
-	 */
-	serializeSlot(slotNum) {
-		let inventorySlot = {
-			side: -1,
-			slotNum: slotNum,
-			contents: this.inventory.slots[slotNum],
-		};
-		return inventorySlot;
 	}
 
 	/**
