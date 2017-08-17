@@ -5,6 +5,7 @@
 
 ## features
 * change the test client to act based on the new command structure
+  * make slot contents nil/undefined instead of an empty table/object when there's no item
   * make a fake world for the test client to interact with
     * dig
     * place
