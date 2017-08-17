@@ -1,6 +1,7 @@
 const net = require('net');
 const InventoryData = require('../shared/InventoryData');
 const MapData = require('../shared/MapData');
+const validators = require('../shared/fromRobotSchemas.js');
 
 /**
  * Used to make sure the server is working properly. Attempts to replicate
@@ -42,28 +43,42 @@ class testClient {
 			},
 
 			viewInventory: ()=>{
+
+				let inventoryMeta = this.serializeMeta();
+				validators.inventoryMeta(inventoryMeta);
 				this.sendWithCost('inventory data', this.serializeMeta());
+
 				for (let slotNum in this.inventory.slots) {
-					this.sendWithCost('slot data', this.serializeSlot(slotNum));
+					let slotData = this.serializeSlot(slotNum);
+					validators.inventorySlot(slotData)
+					this.sendWithCost('slot data', slotData);
 				}
+
 			},
 
 			equip: ()=>{
+
 				let temporarySlot = this.equipped;
 				this.equipped = this.inventory.slots[this.inventory.selected];
 				this.inventory.slots[this.inventory.selected] = temporarySlot;
+
+				let inventoryMeta = this.serializeMeta();
+				validators.inventoryMeta(inventoryMeta);
 				this.sendWithCost('inventory data', this.serializeMeta());
-				this.sendWithCost(
-					'slot data',
-					this.serializeSlot(this.inventory.selected)
-				);
+
+				let slotData = this.serializeSlot(this.inventory.selected);
+				validators.inventorySlot(slotData)
+				this.sendWithCost('slot data', slotData);
+
 			},
 			
 			dig: (v1, v2, selectionIndex, scanLevel)=>{},
 			
 			place: (v1, v2, selectionIndex, scanLevel)=>{},
 			
-			move: (x, y, z, scanLevel)=>{},
+			move: (x, y, z, scanLevel)=>{
+
+			},
 			
 			interact: (coord, scanLevel)=>{},
 			
@@ -78,10 +93,13 @@ class testClient {
 			craft: (itemName)=>{},
 			
 			raw: (commandString)=>{
-				this.sendWithCost('command result', [true, 'received command: ' + commandString]);
+				let resultData = [true, 'received command: ' + commandString];
+				validators.commandResult(resultData);
+				this.sendWithCost('command result', resultData);
 			},
 			
 			sendPosition: ()=>{
+				validators.position(this.position);
 				this.sendWithCost('robot position', this.position);
 			},
 			
@@ -178,11 +196,34 @@ class testClient {
 	}
 
 	/**
+	 * Used to make sure we're sending messages the server can understand.
+	 * @param {string} key 
+	 * @param {any} value 
+	 */
+	validate(key, value) {
+		console.log(key, value)
+		let keyToValidatorMap = {
+			'inventory data': validators.inventoryMeta,
+			'slot data': validators.inventorySlot,
+			'command result': validators.commandResult,
+			'robot position': validators.position,
+			'available components': validators.components,
+			'map data': validators.geolyzerScan,
+			'id': validators.id,
+			'message': validators.message,
+			'power level': validators.powerLevel,
+		};
+		validators[keyToValidatorMap[key]](value);
+	}
+
+	/**
 	 * Used to send data to the server, such as power level or position.
 	 * @param {string} key 
 	 * @param {object} value 
 	 */
 	send(key, value) {
+
+		this.validate(key, value);
 
 		const data = {
 			[key]: value,
