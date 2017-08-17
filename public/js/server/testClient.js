@@ -20,6 +20,9 @@ class testClient {
 		for (let slot of this.testData.internalInventory.slots) {
 			this.inventory.setSlot(slot);
 		}
+		this.inventories = {
+			[-1]: this.inventory,
+		};
 		this.equipped;
 		this.map = new MapData();
 		this.map.setFromMapData(this.testData.map);
@@ -97,6 +100,19 @@ class testClient {
 			},
 
 			transfer: (fromSlot, fromSide, toSlot, toSide, amount)=>{
+				
+				let fromInv = this.inventories[fromSide];
+				let fromSlotSer = fromInv.serializeSlot(fromSlot);
+				
+				let toInv = this.inventories[toSide];
+				let toSlotSer = toInv.serializeSlot(toSlot);
+				
+				let fromInvValid = fromInv.validateTransfer(fromSlotSer, toSlotSer, amount);
+				let toInvValid = toInv.validateTransfer(fromSlotSer, toSlotSer, amount);
+
+				if (fromInvValid && toInvValid) {
+					
+				}
 				
 			},
 			
