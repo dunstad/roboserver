@@ -281,6 +281,8 @@ class testClient {
 	 */
 	decreasePower() {
 		this.power -= .02 * Math.random();
+		// magical power reset
+		if (this.power < 0) {this.power = 1}
 		this.send('power level', this.power);
 	}
 
