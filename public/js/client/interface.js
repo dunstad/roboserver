@@ -108,15 +108,18 @@ function main() {
     console.dir(data);
     var robotSelect = document.getElementById('robotSelect');
     if (!robotSelect.querySelector('[value=' + data.robot + ']')) {
+      
       var option = document.createElement('option');
       option.text = data.robot;
       option.value = data.robot;
+      
+      robotSelect.add(option);
+      if (robotSelect.options.length <= 2) {
+        option.selected = true;
+      }
+
     }
     if (!allRobotInfo[data.robot]) {allRobotInfo[data.robot] = new Robot();}
-    robotSelect.add(option);
-    if (robotSelect.options.length <= 2) {
-      option.selected = true;
-    }
   });
   
   // remove robots that stop listening from select
