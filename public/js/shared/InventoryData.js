@@ -29,6 +29,7 @@ class InventoryData {
   /**
 	 * Used to format slot data in a way the server understands.
 	 * @param {number} slotNum 
+   * @returns {object}
 	 */
 	serializeSlot(slotNum) {
 		let inventorySlot = {
@@ -43,13 +44,14 @@ class InventoryData {
  * Used to make sure a transfer obeys inventory rules before we execute it.
  * @param {object} fromSlot 
  * @param {object} toSlot 
- * @param {number} desiredTransferAmount 
+ * @param {number} desiredTransferAmount
+ * @return {number}
  */
   validateTransfer(fromSlot, toSlot, desiredTransferAmount) {
     if (fromSlot.contents) {validators.inventorySlot(fromSlot);}
     if (toSlot.contents) {validators.inventorySlot(toSlot);}
 
-    let success = false;
+    let finalTransferAmount = 0;
     
     if (!fromSlot.contents || fromSlot.side !== -1 && toSlot.side !== -1) {;}
     else {
@@ -59,7 +61,7 @@ class InventoryData {
       else if (!toSlot.contents) {
         console.log("b")
         // transferAndUpdate(fromSlot, toSlot, desiredTransferAmount || fromItemStack.size);
-        success = true;
+        finalTransferAmount = desiredTransferAmount || fromItemStack.size;
       }
       else {
         console.log("c")
@@ -81,13 +83,14 @@ class InventoryData {
             }
             console.log("g")
             // transferAndUpdate(fromSlot, toSlot, actualTransferAmount);
-            success = true;
+            finalTransferAmount = actualTransferAmount;
           }
         }
         else {
           console.log("h")
           if (!desiredTransferAmount) {
             console.log("i")
+            finalTransferAmount = fromItemStack.size;
             // swapCells(fromSlot, toSlot);
           }
         }

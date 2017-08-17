@@ -110,8 +110,8 @@ class testClient {
 				let fromInvValid = fromInv.validateTransfer(fromSlotSer, toSlotSer, amount);
 				let toInvValid = toInv.validateTransfer(fromSlotSer, toSlotSer, amount);
 
-				if (fromInvValid && toInvValid) {
-					moveItems(fromInv, fromSlotIndex, toInv, toSlotIndex, amount);
+				if (fromInvValid && toInvValid && fromInvValid == toInvValid) {
+					moveItems(fromInv, fromSlotIndex, toInv, toSlotIndex, fromInvValid);
 				}
 				
 			},
@@ -159,7 +159,12 @@ class testClient {
 	 * @param {number} amount 
 	 */
 	moveItems(fromInv, fromSlotIndex, toInv, toSlotIndex, amount) {
+		if (true) {
 
+		}
+		else {
+			
+		}
 	}
 
 	/**
