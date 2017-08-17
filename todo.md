@@ -6,7 +6,6 @@
 ## features
 * change the test client to act based on the new command structure
   * make a fake world for the test client to interact with
-    * move
     * dig
     * place
     * inspect
