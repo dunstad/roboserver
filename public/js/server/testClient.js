@@ -45,12 +45,10 @@ class testClient {
 			viewInventory: ()=>{
 
 				let inventoryMeta = this.serializeMeta();
-				validators.inventoryMeta(inventoryMeta);
-				this.sendWithCost('inventory data', this.serializeMeta());
+				this.sendWithCost('inventory data', inventoryMeta);
 
 				for (let slotNum in this.inventory.slots) {
 					let slotData = this.serializeSlot(slotNum);
-					validators.inventorySlot(slotData)
 					this.sendWithCost('slot data', slotData);
 				}
 
@@ -63,11 +61,9 @@ class testClient {
 				this.inventory.slots[this.inventory.selected] = temporarySlot;
 
 				let inventoryMeta = this.serializeMeta();
-				validators.inventoryMeta(inventoryMeta);
-				this.sendWithCost('inventory data', this.serializeMeta());
+				this.sendWithCost('inventory data', inventoryMeta);
 
 				let slotData = this.serializeSlot(this.inventory.selected);
-				validators.inventorySlot(slotData)
 				this.sendWithCost('slot data', slotData);
 
 			},
@@ -77,7 +73,14 @@ class testClient {
 			place: (v1, v2, selectionIndex, scanLevel)=>{},
 			
 			move: (x, y, z, scanLevel)=>{
-
+				if (!this.map.get(x, y, z)) {
+					this.position = {x:x,y:y,z:z};
+					this.commandMap.sendPosition();
+					this.commandMap.scanArea();
+				}
+				else {
+					this.sendWithCost('command result', [false, "position already occupied"]);
+				}
 			},
 			
 			interact: (coord, scanLevel)=>{},
@@ -94,12 +97,10 @@ class testClient {
 			
 			raw: (commandString)=>{
 				let resultData = [true, 'received command: ' + commandString];
-				validators.commandResult(resultData);
 				this.sendWithCost('command result', resultData);
 			},
 			
 			sendPosition: ()=>{
-				validators.position(this.position);
 				this.sendWithCost('robot position', this.position);
 			},
 			
@@ -108,6 +109,7 @@ class testClient {
 			},
 
 		};
+
 		this.socket.on('data', (rawMessages)=>{
 			let messages = String(rawMessages).split('\r\n').filter(s=>s).map(JSON.parse);
 			for (let data of messages) {
@@ -201,7 +203,6 @@ class testClient {
 	 * @param {any} value 
 	 */
 	validate(key, value) {
-		console.log(key, value)
 		let keyToValidatorMap = {
 			'inventory data': validators.inventoryMeta,
 			'slot data': validators.inventorySlot,
