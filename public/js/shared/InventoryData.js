@@ -46,41 +46,54 @@ class InventoryData {
  * @param {number} desiredTransferAmount 
  */
   validateTransfer(fromSlot, toSlot, desiredTransferAmount) {
-    if (fromSlot) {validators.inventorySlot(fromSlot);}
-    if (toSlot) {validators.inventorySlot(toSlot);}
+    if (fromSlot.contents) {validators.inventorySlot(fromSlot);}
+    if (toSlot.contents) {validators.inventorySlot(toSlot);}
 
     let success = false;
     
-    if (!fromSlot || fromSlot.side !== -1 && toSlot.side !== -1) {;}
+    if (!fromSlot.contents || fromSlot.side !== -1 && toSlot.side !== -1) {;}
     else {
+      console.log("a")
       let fromItemStack = fromSlot.contents;
       if (desiredTransferAmount > fromItemStack.size || desiredTransferAmount < 1) {;}
-      else if (!toSlot) {
-        transferAndUpdate(fromSlot, toSlot, desiredTransferAmount || fromItemStack.size);
+      else if (!toSlot.contents) {
+        console.log("b")
+        // transferAndUpdate(fromSlot, toSlot, desiredTransferAmount || fromItemStack.size);
         success = true;
       }
       else {
+        console.log("c")
         let toItemStack = toSlot.contents;
         if (fromItemStack.name == toItemStack.name &&
-            !fromItemStack.damage && !toItemStack.damage &&
-            !fromItemStack.hasTag && !toItemStack.hasTag) {
+          !fromItemStack.damage && !toItemStack.damage &&
+          !fromItemStack.hasTag && !toItemStack.hasTag) {
+          console.log("d")
           var toItemStackSpace = toItemStack.maxSize - toItemStack.size;
-          if (desiredTransferAmount) {
-            let actualTransferAmount = Math.min(desiredTransferAmount, toItemStackSpace);
-          }
+          if (toItemStackSpace < 1) {;}
           else {
-            let actualTransferAmount = Math.min(fromItemStack.size, toItemStackSpace);
+            if (desiredTransferAmount) {
+              console.log("e")
+              let actualTransferAmount = Math.min(desiredTransferAmount, toItemStackSpace);
+            }
+            else {
+              console.log("f")
+              let actualTransferAmount = Math.min(fromItemStack.size, toItemStackSpace);
+            }
+            console.log("g")
+            // transferAndUpdate(fromSlot, toSlot, actualTransferAmount);
+            success = true;
           }
-          transferAndUpdate(fromSlot, toSlot, actualTransferAmount);
-          success = true;
         }
         else {
+          console.log("h")
           if (!desiredTransferAmount) {
-            swapCells(fromSlot, toSlot);
+            console.log("i")
+            // swapCells(fromSlot, toSlot);
           }
         }
       }
     }
+    console.log("j")
     return success;
   }
 
