@@ -38,48 +38,7 @@ class testClient {
 		this.commandMap = {
 
 			scanArea: (scanLevel)=>{
-
-				// this.sendWithCost('map data', this.testData.geolyzerScan);
-				// for i=-2,5 do sendScan.volume(-3, -3, i, 8, 8, 1) end;
-				let scanX = -3;
-				let scanY = -2;
-				let scanZ = -3;
-				let scanW = 8;
-				let scanD = 8;
-				let scanN = scanW * scanD * 8/* difference between -2 and 5 */;
-
-				let newScan = {
-					x: scanX + this.position.x,
-					y: scanY + this.position.y,
-					z: scanZ + this.position.z,
-					w: scanW,
-					d: scanD,
-					data: {
-						n: scanN,
-					},
-				};
-
-				for (let x = 0; x < scanW; x++) {
-					for (let z = 0; z < scanD; z++) {
-						for (let y = 0; y < (scanN / (scanW * scanD)); y++) {
-
-							let xWithOffset = x + newScan.x;
-							let yWithOffset = y + newScan.y;
-							let zWithOffset = z + newScan.z;
-			
-							// this is how the geolyzer reports 3d data in a 1d array
-							// also lua is indexed from 1
-							let index = (x + 1) + z*scanW + y*scanW*scanD;
-							
-							let blockData = this.map.get(xWithOffset, yWithOffset, zWithOffset);
-							newScan.data[index] = blockData && blockData.hardness ? blockData.hardness : 0;
-			
-						}
-					}
-				}
-
-				this.sendWithCost('map data', newScan);
-
+				this.geolyzerScan(-3, -3, -2, 8, 8, 8);
 			},
 
 			viewInventory: ()=>{
@@ -143,6 +102,51 @@ class testClient {
 				}
 			}
 		});
+
+	}
+
+	/**
+	 * Used to send map data as the geolyzer would.
+	 * @param {number} x 
+	 * @param {number} z 
+	 * @param {number} y 
+	 * @param {number} w 
+	 * @param {number} d 
+	 * @param {number} h 
+	 */
+	geolyzerScan(xOffset, zOffset, yOffset, w, d, h) {
+
+		let newScan = {
+			x: xOffset + this.position.x,
+			y: yOffset + this.position.y,
+			z: zOffset + this.position.z,
+			w: w,
+			d: d,
+			data: {
+				n: w * d * h,
+			},
+		};
+
+		for (let x = 0; x < w; x++) {
+			for (let z = 0; z < d; z++) {
+				for (let y = 0; y < (newScan.data.n / (w * d)); y++) {
+
+					let xWithOffset = x + newScan.x;
+					let yWithOffset = y + newScan.y;
+					let zWithOffset = z + newScan.z;
+	
+					// this is how the geolyzer reports 3d data in a 1d array
+					// also lua is indexed from 1
+					let index = (x + 1) + z*w + y*w*d;
+					
+					let blockData = this.map.get(xWithOffset, yWithOffset, zWithOffset);
+					newScan.data[index] = blockData && blockData.hardness ? blockData.hardness : 0;
+	
+				}
+			}
+		}
+
+		this.sendWithCost('map data', newScan);
 
 	}
 
