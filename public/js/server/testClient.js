@@ -213,7 +213,7 @@ class testClient {
 			'message': validators.message,
 			'power level': validators.powerLevel,
 		};
-		validators[keyToValidatorMap[key]](value);
+		keyToValidatorMap[key](value);
 	}
 
 	/**

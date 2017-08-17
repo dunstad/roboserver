@@ -112,7 +112,7 @@ const validators = {
     },
     "additionalProperties": false,
   }),
-
+  
   commandResult: ajv.compile({
     "type": "array",
     "items": [
@@ -123,11 +123,25 @@ const validators = {
     "minItems": 2,
     "maxItems": 2,
   }),
-
-  // id
-  // message
-  // power level
   
+  id: ajv.compile({
+    "properties": {
+      "robot": {"type": "string",},
+      "account": {"type": "string",},
+    },
+    "additionalProperties": false,
+  }),
+
+  powerLevel: ajv.compile({
+    "type": "number",
+    "minimum": 0,
+    "maximum": 1,
+  }),
+
+  message: ajv.compile({
+    "type": "string",
+  }),
+
   // delete selection
   // block data
   // dig success
