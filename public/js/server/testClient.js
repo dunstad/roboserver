@@ -111,7 +111,7 @@ class testClient {
 				let toInvValid = toInv.validateTransfer(fromSlotSer, toSlotSer, amount);
 
 				if (fromInvValid && toInvValid && fromInvValid == toInvValid) {
-					moveItems(fromInv, fromSlotIndex, toInv, toSlotIndex, fromInvValid);
+					this.moveItems(fromInv, fromSlotIndex, toInv, toSlotIndex, fromInvValid);
 				}
 				
 			},
@@ -165,21 +165,21 @@ class testClient {
 		let toItemStack = toInv.slots[toSlotIndex];
 		if (toItemStack) {
 			if (fromInv.canStack(fromItemStack, toItemStack)) {
-				fromItemStack.size -= amount;
-				toItemStack.size += amount;
-				if (!fromItemStack.size) {
-					fromItemStack = undefined;
+				fromInv.slots[fromSlotIndex].size -= amount;
+				toInv.slots[toSlotIndex].size += amount;
+				if (!fromInv.slots[fromSlotIndex].size) {
+					fromInv.slots[fromSlotIndex] = undefined;
 				}
 			}
 			else {
 				let temporaryItemStack = toItemStack;
-				toItemStack = fromItemStack;
-				fromItemStack = temporaryItemStack;
+				toInv.slots[toSlotIndex] = fromItemStack;
+				fromInv.slots[fromSlotIndex] = temporaryItemStack;
 			}
 		}
 		else {
-			toItemStack = fromItemStack;
-			fromItemStack = undefined;
+			toInv.slots[toSlotIndex] = fromItemStack;
+			fromInv.slots[fromSlotIndex] = undefined;
 		}
 	}
 

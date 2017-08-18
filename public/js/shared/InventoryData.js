@@ -83,18 +83,19 @@ class InventoryData {
       else {
         console.log("c")
         let toItemStack = toSlot.contents;
-        if (canStack(fromItemStack, toItemStack)) {
+        if (this.canStack(fromItemStack, toItemStack)) {
           console.log("d")
           var toItemStackSpace = toItemStack.maxSize - toItemStack.size;
           if (toItemStackSpace < 1) {;}
           else {
+            let actualTransferAmount;
             if (desiredTransferAmount) {
               console.log("e")
-              let actualTransferAmount = Math.min(desiredTransferAmount, toItemStackSpace);
+              actualTransferAmount = Math.min(desiredTransferAmount, toItemStackSpace);
             }
             else {
               console.log("f")
-              let actualTransferAmount = Math.min(fromItemStack.size, toItemStackSpace);
+              actualTransferAmount = Math.min(fromItemStack.size, toItemStackSpace);
             }
             console.log("g")
             // transferAndUpdate(fromSlot, toSlot, actualTransferAmount);
@@ -112,7 +113,7 @@ class InventoryData {
       }
     }
     console.log("j")
-    return success;
+    return finalTransferAmount;
   }
 
 }
