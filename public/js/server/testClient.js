@@ -152,6 +152,8 @@ class testClient {
 	 * Used after a transfer is validated to actually change
 	 * the contents of the two inventories in a way that
 	 * obeys how Minecraft inventories are supposed to work.
+	 * If this is used without first testing the validity of
+	 * the transfer, you might break your inventory.
 	 * @param {object} fromInv
 	 * @param {number} fromSlotIndex 
 	 * @param {object} toInv
@@ -159,11 +161,25 @@ class testClient {
 	 * @param {number} amount 
 	 */
 	moveItems(fromInv, fromSlotIndex, toInv, toSlotIndex, amount) {
-		if (true) {
-
+		let fromItemStack = fromInv.slots[fromSlotIndex];
+		let toItemStack = toInv.slots[toSlotIndex];
+		if (toItemStack) {
+			if (fromInv.canStack(fromItemStack, toItemStack)) {
+				fromItemStack.size -= amount;
+				toItemStack.size += amount;
+				if (!fromItemStack.size) {
+					fromItemStack = undefined;
+				}
+			}
+			else {
+				let temporaryItemStack = toItemStack;
+				toItemStack = fromItemStack;
+				fromItemStack = temporaryItemStack;
+			}
 		}
 		else {
-			
+			toItemStack = fromItemStack;
+			fromItemStack = undefined;
 		}
 	}
 

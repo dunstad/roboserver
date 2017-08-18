@@ -38,7 +38,24 @@ class InventoryData {
 			contents: this.slots[slotNum],
 		};
 		return inventorySlot;
-	}
+  }
+  
+  /**
+   * Used to determine whether items can stack.
+   * Doesn't take into account remaining space in the stacks.
+   * @param {object} itemStack1 
+   * @param {object} itemStack2 
+   */
+  canStack(itemStack1, itemStack2) {
+    let sameName = itemStack1.name == itemStack2.name;
+    let noDamage = !itemStack1.damage && !itemStack2.damage;
+    let noTag = !itemStack1.hasTag && !itemStack2.hasTag;
+    let result = false;
+    if (sameName && noDamage && noTag) {
+      result = true;
+    }
+    return result;
+  }
 
 /**
  * Used to make sure a transfer obeys inventory rules before we execute it.
@@ -66,9 +83,7 @@ class InventoryData {
       else {
         console.log("c")
         let toItemStack = toSlot.contents;
-        if (fromItemStack.name == toItemStack.name &&
-          !fromItemStack.damage && !toItemStack.damage &&
-          !fromItemStack.hasTag && !toItemStack.hasTag) {
+        if (canStack(fromItemStack, toItemStack)) {
           console.log("d")
           var toItemStackSpace = toItemStack.maxSize - toItemStack.size;
           if (toItemStackSpace < 1) {;}
