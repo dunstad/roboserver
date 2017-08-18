@@ -152,16 +152,25 @@ class testClient {
 	 * Used to get all the points we perform area
 	 * actions like dig and place on.
 	 * @param {object} v1 
-	 * @param {object} v2 
+	 * @param {object} v2
+	 * @return {object[]}
 	 */
 	getBoxPoints(v1, v2) {
-		let minPoint = M.getMinPoint(corner1, corner2);
-		let maxPoint = M.getMaxPoint(corner1, corner2);
+		let minPoint = {
+			x: Math.min(v1.x, v2.x),
+			y: Math.min(v1.y, v2.y),
+			z: Math.min(v1.z, v2.z),
+		};
+		let maxPoint = {
+			x: Math.max(v1.x, v2.x),
+			y: Math.max(v1.y, v2.y),
+			z: Math.max(v1.z, v2.z),
+		};
 		let points = [];
-		for (let x = minPoint.x; x < maxPoint.x; x++) {
-			for (let y = minPoint.y; y < maxPoint.y; y++) {
-				for (let z = minPoint.z; z < maxPoint.z; z++) {
-					points.push({x=x,y=y,z=z});
+		for (let x = minPoint.x; x <= maxPoint.x; x++) {
+			for (let y = minPoint.y; y <= maxPoint.y; y++) {
+				for (let z = minPoint.z; z <= maxPoint.z; z++) {
+					points.push({x:x,y:y,z:z});
 				}
 			}
 		}
