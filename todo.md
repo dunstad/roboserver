@@ -10,8 +10,7 @@
     * dig
     * place
     * inspect
-    * open inventory
-    * move items around
+    * open inventories in the world
 * change oc lua code to use new command structure
 * automate testing for edge, firefox, chrome with webdriver
   * the goal here is to test the web client and server code, not the code running on the robot
