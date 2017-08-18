@@ -149,6 +149,26 @@ class testClient {
 	}
 
 	/**
+	 * Used to get all the points we perform area
+	 * actions like dig and place on.
+	 * @param {object} v1 
+	 * @param {object} v2 
+	 */
+	getBoxPoints(v1, v2) {
+		let minPoint = M.getMinPoint(corner1, corner2);
+		let maxPoint = M.getMaxPoint(corner1, corner2);
+		let points = [];
+		for (let x = minPoint.x; x < maxPoint.x; x++) {
+			for (let y = minPoint.y; y < maxPoint.y; y++) {
+				for (let z = minPoint.z; z < maxPoint.z; z++) {
+					points.push({x=x,y=y,z=z});
+				}
+			}
+		}
+		return points;
+	}
+
+	/**
 	 * Used after a transfer is validated to actually change
 	 * the contents of the two inventories in a way that
 	 * obeys how Minecraft inventories are supposed to work.
