@@ -142,9 +142,18 @@ const validators = {
     "type": "string",
   }),
 
+  digSuccess: ajv.compile({
+    "properties": {
+      "x": {"type": "integer",},
+      "y": {"type": "integer",},
+      "z": {"type": "integer",},
+    },
+    "required": ["x", "y", "z"],
+    "additionalProperties": false,
+  }),
+
   // delete selection
   // block data
-  // dig success
 
 };
 

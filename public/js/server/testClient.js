@@ -73,9 +73,9 @@ class testClient {
 			
 			dig: (v1, v2, selectionIndex, scanLevel)=>{
 				let points = this.getBoxPoints(v1, v2);
-				for (point of points) {
+				for (let point of points) {
 					this.map.set(point.x, point.y, point.z);
-					sendWithCost('dig success', point);
+					this.sendWithCost('dig success', point);
 				}
 			},
 			
@@ -293,6 +293,7 @@ class testClient {
 			'id': validators.id,
 			'message': validators.message,
 			'power level': validators.powerLevel,
+			'dig success': validators.digSuccess,
 		};
 		keyToValidatorMap[key](value);
 	}
