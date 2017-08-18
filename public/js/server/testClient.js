@@ -71,7 +71,13 @@ class testClient {
 
 			},
 			
-			dig: (v1, v2, selectionIndex, scanLevel)=>{},
+			dig: (v1, v2, selectionIndex, scanLevel)=>{
+				let points = this.getBoxPoints(v1, v2);
+				for (point of points) {
+					this.map.set(point.x, point.y, point.z);
+					sendWithCost('dig success', point);
+				}
+			},
 			
 			place: (v1, v2, selectionIndex, scanLevel)=>{},
 			
