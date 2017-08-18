@@ -72,47 +72,34 @@ class InventoryData {
     
     if (!fromSlot.contents || fromSlot.side !== -1 && toSlot.side !== -1) {;}
     else {
-      console.log("a")
       let fromItemStack = fromSlot.contents;
       if (desiredTransferAmount > fromItemStack.size || desiredTransferAmount < 1) {;}
       else if (!toSlot.contents) {
-        console.log("b")
-        // transferAndUpdate(fromSlot, toSlot, desiredTransferAmount || fromItemStack.size);
         finalTransferAmount = desiredTransferAmount || fromItemStack.size;
       }
       else {
-        console.log("c")
         let toItemStack = toSlot.contents;
         if (this.canStack(fromItemStack, toItemStack)) {
-          console.log("d")
           var toItemStackSpace = toItemStack.maxSize - toItemStack.size;
           if (toItemStackSpace < 1) {;}
           else {
             let actualTransferAmount;
             if (desiredTransferAmount) {
-              console.log("e")
               actualTransferAmount = Math.min(desiredTransferAmount, toItemStackSpace);
             }
             else {
-              console.log("f")
               actualTransferAmount = Math.min(fromItemStack.size, toItemStackSpace);
             }
-            console.log("g")
-            // transferAndUpdate(fromSlot, toSlot, actualTransferAmount);
             finalTransferAmount = actualTransferAmount;
           }
         }
         else {
-          console.log("h")
           if (!desiredTransferAmount) {
-            console.log("i")
             finalTransferAmount = fromItemStack.size;
-            // swapCells(fromSlot, toSlot);
           }
         }
       }
     }
-    console.log("j")
     return finalTransferAmount;
   }
 
