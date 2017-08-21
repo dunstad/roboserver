@@ -5,14 +5,16 @@
 
 ## features
 * change the test client to act based on the new command structure
-  * make slot contents nil/undefined instead of an empty table/object when there's no item
   * make a fake world for the test client to interact with
     * test client doesn't handle dig parameter format properly
       * change to use 6 parameters instead of stringy lua tables
     * place
     * inspect
     * open inventories in the world
+  * make slot contents nil/undefined instead of an empty table/object when there's no item
 * change oc lua code to use new command structure
+  * update inventory slot to have nil instead of empty tables
+  * update dig to use 6 parameters instead of two table strings
 * automate testing for edge, firefox, chrome with webdriver
   * the goal here is to test the web client and server code, not the code running on the robot
 * port oc lua to cc
