@@ -77,6 +77,7 @@ class testClient {
 					this.map.set(point.x, point.y, point.z);
 					this.sendWithCost('dig success', point);
 				}
+				this.sendWithCost('delete selection', selectionIndex);
 			},
 			
 			place: (v1, v2, selectionIndex, scanLevel)=>{},
@@ -294,6 +295,7 @@ class testClient {
 			'message': validators.message,
 			'power level': validators.powerLevel,
 			'dig success': validators.digSuccess,
+			'delete selection': validators.deleteSelection,
 		};
 		keyToValidatorMap[key](value);
 	}

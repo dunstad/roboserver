@@ -7,7 +7,8 @@
 * change the test client to act based on the new command structure
   * make slot contents nil/undefined instead of an empty table/object when there's no item
   * make a fake world for the test client to interact with
-    * make dig send delete selection event
+    * test client doesn't handle dig parameter format properly
+      * change to use 6 parameters instead of stringy lua tables
     * place
     * inspect
     * open inventories in the world

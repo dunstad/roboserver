@@ -152,7 +152,9 @@ const validators = {
     "additionalProperties": false,
   }),
 
-  // delete selection
+  deleteSelection: ajv.compile({
+    "type": "integer",
+  }),
   // block data
 
 };
