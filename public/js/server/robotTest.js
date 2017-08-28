@@ -2,6 +2,8 @@ let testData = require('./testData');
 let testClient = new (require('./testClient'))(testData);
 let validators = require('../shared/fromRobotSchemas.js');
 
+testClient.socket = false;
+
 testClient.commandMap.scanArea(1);
 testClient.commandMap.viewInventory();
 testClient.commandMap.equip();

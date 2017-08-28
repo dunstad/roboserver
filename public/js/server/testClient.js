@@ -314,13 +314,15 @@ class testClient {
 		};
 		const serializedData = JSON.stringify(data) + this.delimiter;
 
-		if (serializedData.length > this.writeBufferLength) {
-			const chunkRegExp = new RegExp('[\\s\\S]{1,' + this.writeBufferLength + '}', 'g');
-			const dataChunks = serializedData.match(chunkRegExp) || [];
-			dataChunks.map(this.socket.write, this.socket);
-		}
-		else {
-			this.socket.write(serializedData);
+		if (this.socket) { // set to false during testing
+			if (serializedData.length > this.writeBufferLength) {
+				const chunkRegExp = new RegExp('[\\s\\S]{1,' + this.writeBufferLength + '}', 'g');
+				const dataChunks = serializedData.match(chunkRegExp) || [];
+				dataChunks.map(this.socket.write, this.socket);
+			}
+			else {
+				this.socket.write(serializedData);
+			}
 		}
 
 	}
