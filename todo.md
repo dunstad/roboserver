@@ -5,6 +5,7 @@
 
 ## features
 * how to assert tcp output?
+  * maybe have the robot send to a socket the test listens on?
 * change the test client to act based on the new command structure
   * make a fake world for the test client to interact with
     * test client doesn't handle dig parameter format properly
