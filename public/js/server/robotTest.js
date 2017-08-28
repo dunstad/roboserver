@@ -12,3 +12,7 @@ testClient.commandMap.interact(1, 1, 1, 1);
 testClient.commandMap.inspect(1, 1, 1, 1);
 testClient.commandMap.select(2);
 testClient.commandMap.transfer(2, -1, 3, -1, 2);
+// craft not tested since it's all on the robot
+// same for raw
+testClient.commandMap.sendPosition();
+testClient.commandMap.sendComponents();
