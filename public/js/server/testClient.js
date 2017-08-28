@@ -71,7 +71,9 @@ class testClient {
 
 			},
 			
-			dig: (v1, v2, selectionIndex, scanLevel)=>{
+			dig: (x1, y1, z1, x2, y2, z2, selectionIndex, scanLevel)=>{
+				let v1 ={x:x1, y:y1, z:z1};
+				let v2 ={x:x2, y:y2, z:z2};
 				let points = this.getBoxPoints(v1, v2);
 				for (let point of points) {
 					this.map.set(point.x, point.y, point.z);
@@ -80,7 +82,16 @@ class testClient {
 				this.sendWithCost('delete selection', selectionIndex);
 			},
 			
-			place: (v1, v2, selectionIndex, scanLevel)=>{},
+			place: (x1, y1, z1, x2, y2, z2, selectionIndex, scanLevel)=>{
+				let v1 ={x:x1, y:y1, z:z1};
+				let v2 ={x:x2, y:y2, z:z2};
+				let points = this.getBoxPoints(v1, v2);
+				for (let point of points) {
+					// this.map.set(point.x, point.y, point.z);
+					// this.sendWithCost('dig success', point);
+				}
+				this.sendWithCost('delete selection', selectionIndex);
+			},
 			
 			move: (x, y, z, scanLevel)=>{
 				let result = true;
@@ -98,9 +109,9 @@ class testClient {
 				return result;
 			},
 			
-			interact: (coord, scanLevel)=>{},
+			interact: (x, y, z, scanLevel)=>{},
 			
-			inspect: (coord, scanLevel)=>{},
+			inspect: (x, y, z, scanLevel)=>{},
 			
 			select: (slotNum)=>{
 				this.inventory.selected = slotNum;

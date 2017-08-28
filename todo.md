@@ -4,7 +4,7 @@
 * move more globals to the new GLOBALS object
 
 ## features
-* add stub mode for test client send method
+* how to assert tcp output?
 * change the test client to act based on the new command structure
   * make a fake world for the test client to interact with
     * test client doesn't handle dig parameter format properly
