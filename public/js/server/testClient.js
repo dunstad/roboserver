@@ -42,7 +42,8 @@ class testClient {
 		this.commandMap = {
 
 			scanArea: (scanLevel)=>{
-				this.geolyzerScan(-3, -3, -2, 8, 8, 8);
+				let scan = this.geolyzerScan(-3, -3, -2, 8, 8, 8);
+				this.sendWithCost('map data', scan);
 			},
 
 			viewInventory: ()=>{
@@ -59,9 +60,7 @@ class testClient {
 
 			equip: ()=>{
 
-				let temporarySlot = this.equipped;
-				this.equipped = this.inventory.slots[this.inventory.selected];
-				this.inventory.slots[this.inventory.selected] = temporarySlot;
+				this.equip();
 
 				let inventoryMeta = this.serializeMeta();
 				this.sendWithCost('inventory data', inventoryMeta);
@@ -72,20 +71,16 @@ class testClient {
 			},
 			
 			dig: (x1, y1, z1, x2, y2, z2, selectionIndex, scanLevel)=>{
-				let v1 ={x:x1, y:y1, z:z1};
-				let v2 ={x:x2, y:y2, z:z2};
-				let points = this.getBoxPoints(v1, v2);
+				let points = this.getBoxPoints(x1, y1, z1, x2, y2, z2);
 				for (let point of points) {
-					this.map.set(point.x, point.y, point.z);
+					this.dig(point.x, point.y, point.z);
 					this.sendWithCost('dig success', point);
 				}
 				this.sendWithCost('delete selection', selectionIndex);
 			},
 			
 			place: (x1, y1, z1, x2, y2, z2, selectionIndex, scanLevel)=>{
-				let v1 ={x:x1, y:y1, z:z1};
-				let v2 ={x:x2, y:y2, z:z2};
-				let points = this.getBoxPoints(v1, v2);
+				let points = this.getBoxPoints(x1, y1, z1, x2, y2, z2);
 				for (let point of points) {
 					// this.map.set(point.x, point.y, point.z);
 					// this.sendWithCost('dig success', point);
@@ -167,13 +162,35 @@ class testClient {
 	}
 
 	/**
+	 * Used when the dig command is received to alter the map appropriately.
+	 */
+	dig(x, y, z) {
+		this.map.set(x, y, z);
+	}
+
+	/**
+	 * Used when the equip command is received. Changes the inventory to equip the item.
+	 */
+	equip() {
+		let temporarySlot = this.equipped;
+		this.equipped = this.inventory.slots[this.inventory.selected];
+		this.inventory.slots[this.inventory.selected] = temporarySlot;
+	}
+
+	/**
 	 * Used to get all the points we perform area
 	 * actions like dig and place on.
-	 * @param {object} v1 
-	 * @param {object} v2
+	 * @param {number} x1 
+	 * @param {number} y1 
+	 * @param {number} z1 
+	 * @param {number} x2
+	 * @param {number} y2
+	 * @param {number} z2
 	 * @return {object[]}
 	 */
-	getBoxPoints(v1, v2) {
+	getBoxPoints(x1, y1, z1, x2, y2, z2) {
+		let v1 ={x:x1, y:y1, z:z1};
+		let v2 ={x:x2, y:y2, z:z2};
 		let minPoint = {
 			x: Math.min(v1.x, v2.x),
 			y: Math.min(v1.y, v2.y),
@@ -271,7 +288,7 @@ class testClient {
 			}
 		}
 
-		this.sendWithCost('map data', newScan);
+		return newScan;
 
 	}
 
