@@ -1,40 +1,25 @@
 # 1.1
 
 ## fixes
-* move more globals to the new GLOBALS object
 
 ## features
-* how to assert tcp output?
-  * maybe have the robot send to a socket the test listens on?
-* change the test client to act based on the new command structure
-  * make a fake world for the test client to interact with
-    * test client doesn't handle dig parameter format properly
-      * change to use 6 parameters instead of stringy lua tables
-    * place
-    * inspect
-    * open inventories in the world
+* refactor test client command map so functions can be unit tested
+* implement more test client functionality to be used for testing
+  * place
+  * inspect
+  * open inventories in the world
   * make slot contents nil/undefined instead of an empty table/object when there's no item
+* write json schema for web client
+* add unit tests for web client
 * change oc lua code to use new command structure
   * update inventory slot to have nil instead of empty tables
   * update dig to use 6 parameters instead of two table strings
-* automate testing for edge, firefox, chrome with webdriver
-  * the goal here is to test the web client and server code, not the code running on the robot
-* port oc lua to cc
 * display current version number
   * is the version number stored in a single place right now?
 
-# later
-
 ## big
-* alternate reality glasses roboserver client
-  * fork openglasses
-  * make it work with computercraft
-  * highlight the block we're looking at
-  * implement move command on punch first
-  * create a way to select a tool in the overlay
-  * implement the other tools
-  * display contents of inventories when looking at them
-  * use map data for x-ray vision?
+* port oc lua to cc
+  * create new scanner compatible with both?
 * blueprint storage and rendering
 * mapping:
   * Set up database
@@ -46,10 +31,18 @@
   * merge and split voxel meshes based on distance from robot
     * sort of like how minecraft loads chunks, hopefully this approach would improve rendering speed
     * impossible to retain individual coloring?
+* alternate reality glasses roboserver client
+  * fork openglasses
+  * make it work with computercraft
+  * highlight the block we're looking at
+  * implement move command on punch first
+  * create a way to select a tool in the overlay
+  * implement the other tools
+  * display contents of inventories when looking at them
+  * use map data for x-ray vision?
 * visual tool for chaining robot commands together to automate tasks
   * first make an action recording feature
   * specify number of loops, duration of sleep between
-* neural network to help predict block ids from hardness maps
 * edit lua files on robot with an editor in browser
 
 ## small
