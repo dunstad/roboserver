@@ -110,21 +110,21 @@ class testClient {
 			transfer: (fromSlotIndex, fromSide, toSlotIndex, toSide, amount)=>{
 				
 				let fromInv = this.inventories[fromSide];
-				let fromSlotSer = fromInv.serializeSlot(fromSlotIndex);
-				
 				let toInv = this.inventories[toSide];
-				let toSlotSer = toInv.serializeSlot(toSlotIndex);
 				
-				let fromInvValid = fromInv.validateTransfer(fromSlotSer, toSlotSer, amount);
-				let toInvValid = toInv.validateTransfer(fromSlotSer, toSlotSer, amount);
-
-				if (fromInvValid && toInvValid && fromInvValid == toInvValid) {
-					this.moveItems(fromInv, fromSlotIndex, toInv, toSlotIndex, fromInvValid);
-					
+				let result = this.moveItems(fromInv, fromSlotIndex, toInv, toSlotIndex, fromInvValid);
+				
+				if (result) {
 					let fromSlotData = fromInv.serializeSlot(fromSlotIndex);
-					this.sendWithCost('slot data', slotData);
+					this.sendWithCost('slot data', fromSlotData);
+					
+					let toSlotData = toInv.serializeSlot(toSlotIndex);
+					this.sendWithCost('slot data', toSlotData);
 				}
-				
+				else {
+					this.sendWithCost('command result', [false, "transfer failed"]);
+				}
+			
 			},
 			
 			craft: (itemName)=>{},
@@ -248,35 +248,45 @@ class testClient {
 	 * Used after a transfer is validated to actually change
 	 * the contents of the two inventories in a way that
 	 * obeys how Minecraft inventories are supposed to work.
-	 * If this is used without first testing the validity of
-	 * the transfer, you might break your inventory.
 	 * @param {object} fromInv
 	 * @param {number} fromSlotIndex 
 	 * @param {object} toInv
 	 * @param {number} toSlotIndex 
 	 * @param {number} amount 
+	 * @return {boolean}
 	 */
 	moveItems(fromInv, fromSlotIndex, toInv, toSlotIndex, amount) {
-		let fromItemStack = fromInv.slots[fromSlotIndex];
-		let toItemStack = toInv.slots[toSlotIndex];
-		if (toItemStack) {
-			if (fromInv.canStack(fromItemStack, toItemStack)) {
-				fromInv.slots[fromSlotIndex].size -= amount;
-				toInv.slots[toSlotIndex].size += amount;
-				if (!fromInv.slots[fromSlotIndex].size) {
-					fromInv.slots[fromSlotIndex] = undefined;
+		let fromSlotSer = fromInv.serializeSlot(fromSlotIndex);		
+		let toSlotSer = toInv.serializeSlot(toSlotIndex);
+		
+		let fromInvValid = fromInv.validateTransfer(fromSlotSer, toSlotSer, amount);
+		let toInvValid = toInv.validateTransfer(fromSlotSer, toSlotSer, amount);
+
+		let result = false;
+		if (fromInvValid && toInvValid && fromInvValid == toInvValid) {
+			result = true;
+			let fromItemStack = fromInv.slots[fromSlotIndex];
+			let toItemStack = toInv.slots[toSlotIndex];
+			if (toItemStack) {
+				if (fromInv.canStack(fromItemStack, toItemStack)) {
+					fromInv.slots[fromSlotIndex].size -= amount;
+					toInv.slots[toSlotIndex].size += amount;
+					if (!fromInv.slots[fromSlotIndex].size) {
+						fromInv.slots[fromSlotIndex] = undefined;
+					}
+				}
+				else {
+					let temporaryItemStack = toItemStack;
+					toInv.slots[toSlotIndex] = fromItemStack;
+					fromInv.slots[fromSlotIndex] = temporaryItemStack;
 				}
 			}
 			else {
-				let temporaryItemStack = toItemStack;
 				toInv.slots[toSlotIndex] = fromItemStack;
-				fromInv.slots[fromSlotIndex] = temporaryItemStack;
+				fromInv.slots[fromSlotIndex] = undefined;
 			}
 		}
-		else {
-			toInv.slots[toSlotIndex] = fromItemStack;
-			fromInv.slots[fromSlotIndex] = undefined;
-		}
+		return result;
 	}
 
 	/**

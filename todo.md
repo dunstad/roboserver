@@ -3,7 +3,7 @@
 ## fixes
 
 ## features
-* refactor test client command map so functions can be unit tested
+* add unit tests for test client
 * implement more test client functionality to be used for testing
   * place
   * inspect
