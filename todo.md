@@ -17,6 +17,8 @@
 * display current version number
   * is the version number stored in a single place right now?
 
+# later
+
 ## big
 * port oc lua to cc
   * create new scanner compatible with both?
