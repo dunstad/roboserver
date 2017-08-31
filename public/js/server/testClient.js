@@ -82,7 +82,7 @@ class testClient {
 			place: (x1, y1, z1, x2, y2, z2, selectionIndex, scanLevel)=>{
 				let points = this.getBoxPoints(x1, y1, z1, x2, y2, z2);
 				for (let point of points) {
-					// this.map.set(point.x, point.y, point.z);
+					// this.place(point.x, point.y, point.z);
 					// this.sendWithCost('dig success', point);
 				}
 				this.sendWithCost('delete selection', selectionIndex);
@@ -104,7 +104,7 @@ class testClient {
 			inspect: (x, y, z, scanLevel)=>{},
 			
 			select: (slotNum)=>{
-				this.inventory.selected = slotNum;
+				this.select(slotNum);
 			},
 
 			transfer: (fromSlotIndex, fromSide, toSlotIndex, toSide, amount)=>{
@@ -120,6 +120,9 @@ class testClient {
 
 				if (fromInvValid && toInvValid && fromInvValid == toInvValid) {
 					this.moveItems(fromInv, fromSlotIndex, toInv, toSlotIndex, fromInvValid);
+					
+					let fromSlotData = fromInv.serializeSlot(fromSlotIndex);
+					this.sendWithCost('slot data', slotData);
 				}
 				
 			},
@@ -154,6 +157,15 @@ class testClient {
 			}
 		});
 
+	}
+
+	/**
+	 * Used when receiving the select command to alter the map state
+	 * in a way that obeys Minecraft's rules.
+	 * @param {number} slotNum 
+	 */
+	select(slotNum) {
+		this.inventory.selected = slotNum;
 	}
 
 	/**
