@@ -17,11 +17,13 @@
 * display current version number
   * is the version number stored in a single place right now?
 
+# 1.2
+* port oc lua to cc
+  * create new scanner compatible with both?
+
 # later
 
 ## big
-* port oc lua to cc
-  * create new scanner compatible with both?
 * blueprint storage and rendering
 * mapping:
   * Set up database
