@@ -89,19 +89,14 @@ class testClient {
 			},
 			
 			move: (x, y, z, scanLevel)=>{
-				let result = true;
-				if (!this.map.get(x, y, z)) {
-					this.map.set(this.position.x, this.position.y, this.position.z);
-					this.map.set(x, y, z, {"hardness": 2});
-					this.position = {x:x,y:y,z:z};
+				let result = this.move(x, y, z);
+				if (result) {
 					this.commandMap.sendPosition();
 					this.commandMap.scanArea();
 				}
 				else {
 					this.sendWithCost('command result', [false, "position already occupied"]);
-					result = false;
 				}
-				return result;
 			},
 			
 			interact: (x, y, z, scanLevel)=>{},
@@ -162,7 +157,32 @@ class testClient {
 	}
 
 	/**
-	 * Used when the dig command is received to alter the map appropriately.
+	 * Used when receiving the move command to alter the map state
+	 * in a way that obeys Minecraft's rules.
+	 * @param {number} x 
+	 * @param {number} y 
+	 * @param {number} z 
+	 * @return {boolean}
+	 */
+	move(x, y, z) {
+		let result = true;
+		if (!this.map.get(x, y, z)) {
+			this.map.set(this.position.x, this.position.y, this.position.z);
+			this.map.set(x, y, z, {"hardness": 2});
+			this.position = {x:x,y:y,z:z};
+		}
+		else {
+			result = false;
+		}
+		return result;
+	}
+
+	/**
+	 * Used when the dig command is received to alter the map
+	 * in a way that obeys Minecraft's rules.
+	 * @param {number} x 
+	 * @param {number} y
+	 * @param {number} z
 	 */
 	dig(x, y, z) {
 		this.map.set(x, y, z);
