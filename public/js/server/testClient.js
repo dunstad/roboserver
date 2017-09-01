@@ -135,11 +135,13 @@ class testClient {
 			},
 			
 			sendPosition: ()=>{
-				this.sendWithCost('robot position', this.position);
+				let position = this.getPosition();
+				this.sendWithCost('robot position', position);
 			},
 			
 			sendComponents: ()=>{
-				this.sendWithCost('available components', this.components);
+				let components = this.getComponents();
+				this.sendWithCost('available components', components);
 			},
 
 		};
@@ -157,6 +159,20 @@ class testClient {
 			}
 		});
 
+	}
+
+	/**
+	 * Used by unit tests as well as the command map
+	 */
+	getPosition() {
+		return this.position;
+	}
+
+	/**
+	 * Used by unit tests as well as the command map
+	 */
+	getComponents() {
+		return this.components;
 	}
 
 	/**
