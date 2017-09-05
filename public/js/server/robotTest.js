@@ -1,5 +1,6 @@
-let testData = require('./testData');
-let validators = require('../shared/fromRobotSchemas.js');
+const testData = require('./testData');
+const validators = require('../shared/fromRobotSchemas.js');
+const assert = require('assert');
 
 /*
 testClient.socket = false;
@@ -21,14 +22,8 @@ testClient.commandMap.sendComponents();
 */
 
 /**
- * Used to extract coordinate data from a geolyzer scan.
- * @param {number} x 
- * @param {number} y 
- * @param {number} z 
- * @return {number}
+ * Used to ensure the geolyzer scan function works properly.
  */
-function getIndex(x, y, z) {return (x + 1) + z*w + y*w*d;}
-
 function testGeolyzerScan() {
   let testClient = new (require('./testClient'))(testData);
   let x = -3;
@@ -38,17 +33,43 @@ function testGeolyzerScan() {
   let d = 8;
   let scan = testClient.geolyzerScan(x, z, y, w, d, 8);
   validators.geolyzerScan(scan);
+  
+  /**
+   * Gets the data index of a particular coordinate in
+   * a geolyzer scan.
+   * @param {number} x 
+   * @param {number} y 
+   * @param {number} z 
+   * @return {number}
+   */
+  function getIndex(x, y, z) {return (x + 1) + z*w + y*w*d;}
 
-  // scan coordinates are not absolute but map ones are
-  // fix this
-  function testCoord(x, y, z) {
-    let scanHardness = scan.data[getIndex(x, y, z)];
-    let testDataHardness = testData.map[x][y][z].hardness;
-    assert(scanHardness == testDataHardness);
+  /**
+   * Compares scanned hardness values with map hardness values
+   *  at the given coordinate to make sure they match.
+   * @param {number} mapX 
+   * @param {number} mapY 
+   * @param {number} mapZ 
+   */
+  function testCoord(mapX, mapY, mapZ) {
+    let scanX = mapX - scan.x;
+    let scanY = mapY - scan.y;
+    let scanZ = mapZ - scan.z;
+    let scanIndex = getIndex(scanX, scanY, scanZ);
+    let scanHardness = scan.data[scanIndex];
+    let clientMapHardness = testClient.map.get(mapX, mapY, mapZ).hardness || 0;
+    console.log("coordinate", scanX, scanY, scanZ);
+    console.log("hardness", scanHardness, clientMapHardness)
+    console.log()
+    assert(scanHardness == clientMapHardness);
   }
 
   // a coordinate with a block
+  testCoord(2, 2, 2);
   // a coordinate without a block
+  testCoord(3, 3, 3);
   // the test client's position
+  testCoord(4, 4, 4);
 }
 
+testGeolyzerScan();
