@@ -61,9 +61,6 @@ let tests = {
       let scanIndex = getIndex(scanX, scanY, scanZ);
       let scanHardness = scan.data[scanIndex];
       let clientMapHardness = testClient.map.get(mapX, mapY, mapZ).hardness || 0;
-      console.log("coordinate", scanX, scanY, scanZ);
-      console.log("hardness", scanHardness, clientMapHardness)
-      console.log()
       assert(scanHardness == clientMapHardness);
     }
 
@@ -77,19 +74,17 @@ let tests = {
 
   testSerializeMeta: (testClient)=>{
 
-    
+    let inventoryMeta = testClient.serializeMeta();
 
-  },
-
-  testSerializeSlot: (testClient)=>{
-
-
+    assert(inventoryMeta.size == testClient.inventory.size);
+    assert(inventoryMeta.side == -1);
+    assert(inventoryMeta.selected == this.inventory.selected);
 
   },
 
   testEquip: (testClient)=>{
 
-
+    
 
   },
 
