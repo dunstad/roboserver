@@ -7,7 +7,7 @@ const validators = require('../shared/fromRobotSchemas.js');
  * Used to make sure the server is working properly. Attempts to replicate
  * most of the function of the actual robot lua code. 
  */
-class testClient {
+class TestClient {
 
 	/**
 	 * Set the test client's initial state based on testing data.
