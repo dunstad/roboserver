@@ -95,7 +95,6 @@ let tests = {
 
     testClient.equip();
 
-    // not sure if this comparison works well enough here
     assert(testClient.equipped == selectedSlotStack);
     assert(!testInventory.slots[selectedIndex]);
 
@@ -103,7 +102,7 @@ let tests = {
 
   testGetBoxPoints: (testClient)=>{
 
-
+    
 
   },
 
