@@ -460,4 +460,4 @@ class TestClient {
 
 }
 
-module.exports = testClient;
+module.exports = TestClient;

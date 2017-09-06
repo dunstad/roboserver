@@ -78,13 +78,26 @@ let tests = {
 
     assert(inventoryMeta.size == testClient.inventory.size);
     assert(inventoryMeta.side == -1);
-    assert(inventoryMeta.selected == this.inventory.selected);
+    assert(inventoryMeta.selected == testClient.inventory.selected);
 
   },
 
   testEquip: (testClient)=>{
 
-    
+    assert(!testClient.equipped);
+
+    let testInventory = testClient.inventory;
+    let selectedIndex = testInventory.selected;
+    let selectedSlotStack = testInventory.slots[selectedIndex];
+
+    // make sure there's an item in the selected slot
+    assert(testInventory.slots[selectedIndex]);
+
+    testClient.equip();
+
+    // not sure if this comparison works for item stacks
+    assert(testClient.equipped == selectedSlotStack);
+    assert(!testInventory.slots[selectedIndex]);
 
   },
 
