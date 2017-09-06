@@ -117,6 +117,30 @@ let tests = {
 
   },
 
+  testInteract: (testClient)=>{
+
+
+
+  },
+
+  testInspect: (testClient)=>{
+
+
+
+  },
+
+  testSelect: (testClient)=>{
+
+
+
+  },
+
+  testMoveItems: (testClient)=>{
+
+
+
+  },
+
   testGetPosition: (testClient)=>{
 
 
