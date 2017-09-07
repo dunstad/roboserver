@@ -196,8 +196,14 @@ let tests = {
     testClient.moveItems(inv, 1, inv, 3, 1);
     assert(slots[1].size == 62);
     assert(slots[3].size == 1);
-
+    
     // swap different item stacks
+    assert(slots[6].label == 'Wooden Sword?');
+    assert(slots[5].label == 'Stone');
+    testClient.moveItems(inv, 6, inv, 5, 1);
+    assert(slots[6].label == 'Stone');
+    assert(slots[5].label == 'Wooden Sword?');
+
     // fail to combine different item stacks
 
   },
