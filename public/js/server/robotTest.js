@@ -165,7 +165,9 @@ let tests = {
 
   testSelect: (testClient)=>{
 
-
+    assert(testClient.inventory.selected != 4);
+    testClient.select(4);
+    assert(testClient.inventory.selected == 4);
 
   },
 
