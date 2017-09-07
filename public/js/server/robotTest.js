@@ -205,6 +205,11 @@ let tests = {
     assert(slots[5].label == 'Wooden Sword?');
 
     // fail to combine different item stacks
+    assert(slots[6].label == 'Stone');
+    assert(slots[6].size == 3);
+    assert(slots[5].label == 'Wooden Sword?');
+    let combineDifferent = testClient.moveItems(inv, 6, inv, 5, 1);
+    assert(!combineDifferent);
 
   },
 
