@@ -94,7 +94,7 @@ class InventoryData {
           }
         }
         else {
-          if (!desiredTransferAmount) {
+          if (!desiredTransferAmount || desiredTransferAmount == fromItemStack.size) {
             finalTransferAmount = fromItemStack.size;
           }
         }
