@@ -132,7 +132,22 @@ let tests = {
 
   testMove: (testClient)=>{
 
-
+    let pos = testClient.position;
+    
+    assert(pos.x == 4);
+    assert(pos.y == 4);
+    assert(pos.z == 4);
+    assert(testClient.map.get(4, 4, 4).hardness == 2);
+    assert(!testClient.map.get(3, 3, 3).hardness);
+    
+    testClient.move(3, 3, 3);
+    let newPos = testClient.position;
+    
+    assert(newPos.x == 3);
+    assert(newPos.y == 3);
+    assert(newPos.z == 3);
+    assert(testClient.map.get(3, 3, 3).hardness == 2);
+    assert(!testClient.map.get(4, 4, 4).hardness);
 
   },
 
