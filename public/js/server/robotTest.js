@@ -173,19 +173,23 @@ let tests = {
 
   testMoveItems: (testClient)=>{
 
-
+    
 
   },
 
   testGetPosition: (testClient)=>{
 
-
+    let pos = testClient.getPosition();
+    assert(pos.x == testClient.position.x);
+    assert(pos.y == testClient.position.y);
+    assert(pos.z == testClient.position.z);
 
   },
 
   testGetComponents: (testClient)=>{
 
-
+    let components = testClient.getComponents();
+    assert(components == testClient.components);
 
   },
 
