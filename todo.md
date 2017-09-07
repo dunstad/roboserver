@@ -8,7 +8,7 @@
 * implement more test client functionality to be used for testing
   * place
   * inspect
-  * open inventories in the world
+  * on some trigger send external inventory data
   * make slot contents nil/undefined instead of an empty table/object when there's no item
 * write json schema for web client
 * add unit tests for web client
