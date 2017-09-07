@@ -102,13 +102,23 @@ let tests = {
 
   testGetBoxPoints: (testClient)=>{
 
-    
+    let boxPoints = testClient.getBoxPoints(1, 1, 1, 1, 1, 2);
+
+    assert(boxPoints.length == 2);
+
+    assert(boxPoints[0].x == 1);
+    assert(boxPoints[0].y == 1);
+    assert(boxPoints[0].z == 1);
+
+    assert(boxPoints[1].x == 1);
+    assert(boxPoints[1].y == 1);
+    assert(boxPoints[1].z == 2);
 
   },
 
   testDig: (testClient)=>{
 
-
+    
 
   },
 
