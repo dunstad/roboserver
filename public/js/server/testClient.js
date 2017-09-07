@@ -261,8 +261,7 @@ class TestClient {
 	}
 
 	/**
-	 * Used after a transfer is validated to actually change
-	 * the contents of the two inventories in a way that
+	 * Change the contents of the two inventories in a way that
 	 * obeys how Minecraft inventories are supposed to work.
 	 * @param {object} fromInv
 	 * @param {number} fromSlotIndex 
@@ -298,8 +297,12 @@ class TestClient {
 				}
 			}
 			else {
-				toInv.slots[toSlotIndex] = fromItemStack;
-				fromInv.slots[fromSlotIndex] = undefined;
+				toInv.slots[toSlotIndex] = Object.assign({}, fromInv.slots[fromSlotIndex]); 
+				fromInv.slots[fromSlotIndex].size -= amount;
+				toInv.slots[toSlotIndex].size = amount;
+				if (fromInv.slots[fromSlotIndex].size == 0) {
+					fromInv.slots[fromSlotIndex] = undefined;
+				}
 			}
 		}
 		return result;

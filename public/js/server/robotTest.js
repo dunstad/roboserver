@@ -173,7 +173,32 @@ let tests = {
 
   testMoveItems: (testClient)=>{
 
+    let inv = testClient.inventory;
+    let slots = inv.slots;
+
+    // move item to an empty slot
+    assert(slots[7].label == 'Wooden Sword?');
+    assert(!slots[6]);
+    testClient.moveItems(inv, 7, inv, 6, 1);
+    assert(slots[6].label == 'Wooden Sword?');
+    assert(!slots[7]);
     
+    // combine item stacks
+    assert(slots[1].size == 64);
+    assert(slots[2].size == 37);
+    testClient.moveItems(inv, 1, inv, 2, 1);
+    assert(slots[1].size == 63);
+    assert(slots[2].size == 38);
+
+    // split item stack
+    assert(slots[1].size == 63);
+    assert(!slots[3]);
+    testClient.moveItems(inv, 1, inv, 3, 1);
+    assert(slots[1].size == 62);
+    assert(slots[3].size == 1);
+
+    // swap different item stacks
+    // fail to combine different item stacks
 
   },
 
