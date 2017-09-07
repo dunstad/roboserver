@@ -9,7 +9,6 @@
   * place
   * inspect
   * on some trigger send external inventory data
-  * make slot contents nil/undefined instead of an empty table/object when there's no item
 * write json schema for web client
 * add unit tests for web client
 * change oc lua code to use new command structure
