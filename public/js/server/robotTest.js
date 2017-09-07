@@ -75,7 +75,7 @@ let tests = {
   testSerializeMeta: (testClient)=>{
 
     let inventoryMeta = testClient.serializeMeta();
-
+    
     assert(inventoryMeta.size == testClient.inventory.size);
     assert(inventoryMeta.side == -1);
     assert(inventoryMeta.selected == testClient.inventory.selected);
@@ -95,7 +95,7 @@ let tests = {
 
     testClient.equip();
 
-    assert(testClient.equipped == selectedSlotStack);
+    assert.deepEqual(testClient.equipped, selectedSlotStack);
     assert(!testInventory.slots[selectedIndex]);
 
   },
@@ -216,16 +216,14 @@ let tests = {
   testGetPosition: (testClient)=>{
 
     let pos = testClient.getPosition();
-    assert(pos.x == testClient.position.x);
-    assert(pos.y == testClient.position.y);
-    assert(pos.z == testClient.position.z);
+    assert.deepEqual(pos, testClient.position);
 
   },
 
   testGetComponents: (testClient)=>{
 
     let components = testClient.getComponents();
-    assert(components == testClient.components);
+    assert.deepEqual(components, testClient.components);
 
   },
 
