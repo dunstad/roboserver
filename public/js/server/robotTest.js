@@ -118,7 +118,9 @@ let tests = {
 
   testDig: (testClient)=>{
 
-    
+    assert(testClient.map.get(2, 2, 2));
+    testClient.dig(2, 2, 2)
+    assert(!testClient.map.get(2, 2, 2));
 
   },
 
