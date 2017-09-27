@@ -75,6 +75,7 @@ let tests = {
   testSerializeMeta: (testClient)=>{
 
     let inventoryMeta = testClient.serializeMeta();
+    validators.inventoryMeta(inventoryMeta);
     
     assert(inventoryMeta.size == testClient.inventory.size);
     assert(inventoryMeta.side == -1);
