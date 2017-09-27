@@ -1,7 +1,8 @@
 const testData = require('./testData');
 const validators = require('../shared/fromRobotSchemas.js');
 const assert = require('assert');
-const TestClient = require('../shared/InventoryData');
+const InventoryData = require('../shared/InventoryData');
+const runTests = require('./runTests.js');
 
 function setup(testData) {
   let inventory = new InventoryData(testData.internalInventory.meta);
@@ -13,19 +14,7 @@ function setup(testData) {
 
 let tests = {
 
-  testSerializeMeta: (testClient)=>{
-
-    let inventoryMeta = testClient.serializeMeta();
-    validators.inventoryMeta(inventoryMeta);
-    
-    assert(inventoryMeta.size == testClient.inventory.size);
-    assert(inventoryMeta.side == -1);
-    assert(inventoryMeta.selected == testClient.inventory.selected);
-
-  },
-
-
-  testThing: (testClient)=>{
+  testThing: (inventory)=>{
 
 
 
@@ -33,6 +22,4 @@ let tests = {
 
 }
 
-for (let testName in tests) {
-  tests[testName](setup(testData));
-}
+runTests(tests, setup, testData);

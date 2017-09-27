@@ -2,6 +2,7 @@ const testData = require('./testData');
 const validators = require('../shared/fromRobotSchemas.js');
 const assert = require('assert');
 const TestClient = require('./TestClient');
+const runTests = require('./runTests.js');
 
 function setup(testData) {
   return new (TestClient)(testData);
@@ -231,6 +232,4 @@ let tests = {
 
 }
 
-for (let testName in tests) {
-  tests[testName](setup(testData));
-}
+runTests(tests, setup, testData);

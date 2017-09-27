@@ -4,7 +4,6 @@
 
 ## features
 * separate test files for InventoryData and MapData
-  * add a testing library?
 * implement more test client functionality to be used for testing
   * place
   * inspect

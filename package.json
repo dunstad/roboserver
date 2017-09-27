@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "test": "node ./public/js/server/robotTest.js",
+    "test": "node ./public/js/server/robotTest.js && node ./public/js/server/inventoryTest.js",
     "start": "electron electronApp.js",
     "server": "node ./bin/www",
     "server-dev": "nodemon ./bin/www",
