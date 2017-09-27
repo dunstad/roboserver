@@ -1,4 +1,4 @@
-Messages are sent in JSON format and deserialized upon arrival. A message object has one key from a list here. The form of the value at that key isn't yet documented.
+Messages are sent in JSON format and deserialized upon arrival. A message object has one key from a list here. The form of the value at that key is contained in the schemas for [messages from robots](../public/js/shared/fromRobotSchemas.js) and [messages from web clients](../public/js/shared/fromClientSchemas.js).
 
 ### sent from robot to server
 * message
