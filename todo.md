@@ -3,7 +3,7 @@
 ## fixes
 
 ## features
-* separate test files for InventoryData and MapData
+* separate test file for MapData
 * implement more test client functionality to be used for testing
   * place
   * inspect

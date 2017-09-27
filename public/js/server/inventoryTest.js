@@ -14,9 +14,15 @@ function setup(testData) {
 
 let tests = {
 
-  testThing: (inventory)=>{
+  testSerializeSlot: (inventory)=>{
 
-
+    for (slotNum in inventory.slots) {
+      let slot = inventory.serializeSlot(slotNum);
+      validators.inventorySlot(slot);
+      assert(slot.side == inventory.side);
+      assert(slot.slotNum == slotNum);
+      assert.deepEqual(slot.contents, inventory.slots[slotNum]);
+    }
 
   },
 
