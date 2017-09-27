@@ -9,6 +9,7 @@
   * place
   * inspect
   * on some trigger send external inventory data
+* add a block data schema to fromRobotSchemas
 * write json schema for web client
 * add unit tests for web client
 * change oc lua code to use new command structure
