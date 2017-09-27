@@ -424,7 +424,15 @@ class TestClient {
 	 */
 	sendWithCost(key, value) {
 		this.send(key, value);
-		this.decreasePower();
+		this.sendDecreasedPower();
+	}
+
+	/**
+	 * Used when initially connecting to the server. Separated out
+	 * so it can be checked in the unit tests.
+	 */
+	getID() {
+		return {robot: this.testData.robotName, account: this.testData.accountName};
 	}
 
 	/**
@@ -432,7 +440,7 @@ class TestClient {
 	 */
 	connect() {
 		this.socket.connect(this.testData.port, this.testData.host, ()=>{
-			this.sendWithCost('id', {robot: this.testData.robotName, account: this.testData.accountName});
+			this.sendWithCost('id', this.getID());
 			this.send('message', 'hi');
 			console.log('Connected');
 		});
@@ -452,13 +460,20 @@ class TestClient {
 	}
 
 	/**
-	 * Used to tell the server the test client now has less power than it did before.
+	 * 
 	 */
 	decreasePower() {
 		this.power -= .02 * Math.random();
 		// magical power reset
 		if (this.power < 0) {this.power = 1}
-		this.send('power level', this.power);
+		return this.power;
+	}
+
+	/**
+	 * Used to tell the server the test client now has less power than it did before.
+	 */
+	sendDecreasedPower() {
+		this.send('power level', decreasePower());
 	}
 
 }

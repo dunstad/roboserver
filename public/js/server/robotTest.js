@@ -104,6 +104,7 @@ let tests = {
   testGetBoxPoints: (testClient)=>{
 
     let boxPoints = testClient.getBoxPoints(1, 1, 1, 1, 1, 2);
+    for (point of boxPoints) {validators.digSuccess(point);}
 
     assert(boxPoints.length == 2);
 
@@ -143,6 +144,7 @@ let tests = {
     
     testClient.move(3, 3, 3);
     let newPos = testClient.position;
+    validators.position(newPos);
     
     assert(newPos.x == 3);
     assert(newPos.y == 3);
@@ -217,6 +219,7 @@ let tests = {
   testGetPosition: (testClient)=>{
 
     let pos = testClient.getPosition();
+    validators.position(pos);
     assert.deepEqual(pos, testClient.position);
 
   },
@@ -224,7 +227,24 @@ let tests = {
   testGetComponents: (testClient)=>{
 
     let components = testClient.getComponents();
+    validators.components(components);
     assert.deepEqual(components, testClient.components);
+
+  },
+
+  testGetID: (testClient)=>{
+
+    let id = testClient.getID();
+    validators.id(id);
+
+  },
+
+  testDecreasePower: (testClient)=>{
+
+    let startingPower = testClient.power;
+    let lowerPower = testClient.decreasePower();
+    validators.powerLevel(lowerPower);
+    assert(startingPower > lowerPower);
 
   },
 
