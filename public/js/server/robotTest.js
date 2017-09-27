@@ -3,26 +3,7 @@ const validators = require('../shared/fromRobotSchemas.js');
 const assert = require('assert');
 const TestClient = require('./TestClient');
 
-/*
-testClient.socket = false;
-
-testClient.commandMap.scanArea(1);
-testClient.commandMap.viewInventory();
-testClient.commandMap.equip();
-testClient.commandMap.dig(0, 0, 0, 1, 1, 1, 0, 0);
-testClient.commandMap.place(0, 0, 0, 1, 1, 1, 0, 0);
-testClient.commandMap.move(2, 2, 2, 1);
-testClient.commandMap.interact(1, 1, 1, 1);
-testClient.commandMap.inspect(1, 1, 1, 1);
-testClient.commandMap.select(2);
-testClient.commandMap.transfer(2, -1, 3, -1, 2);
-// craft not validated since it's all on the robot
-// same for raw
-testClient.commandMap.sendPosition();
-testClient.commandMap.sendComponents();
-*/
-
-function setup() {
+function setup(testData) {
   return new (TestClient)(testData);
 }
 
@@ -251,5 +232,5 @@ let tests = {
 }
 
 for (let testName in tests) {
-  tests[testName](setup());
+  tests[testName](setup(testData));
 }
