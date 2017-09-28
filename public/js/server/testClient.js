@@ -82,8 +82,8 @@ class TestClient {
 			place: (x1, y1, z1, x2, y2, z2, selectionIndex, scanLevel)=>{
 				let points = this.getBoxPoints(x1, y1, z1, x2, y2, z2);
 				for (let point of points) {
-					// this.place(point.x, point.y, point.z);
-					// this.sendWithCost('dig success', point);
+					let blockData = this.place(point.x, point.y, point.z);
+					this.sendWithCost('block data', blockData);
 				}
 				this.sendWithCost('delete selection', selectionIndex);
 			},
@@ -162,6 +162,19 @@ class TestClient {
 	}
 
 	/**
+	 * Used when the place command is received to alter
+	 * the map in a way that obeys Minecraft's rules.
+	 * @param {number} x 
+	 * @param {number} y 
+	 * @param {number} z 
+	 */
+	place(x, y, z) {
+		if (!this.map.get(x, y, z)) {
+			this.map.set(x, y, z, {'name': 'minecraft:dirt', 'hardness': .5});
+		}
+	}
+
+	/**
 	 * Used by unit tests as well as the command map
 	 */
 	getPosition() {
@@ -196,7 +209,7 @@ class TestClient {
 		let result = true;
 		if (!this.map.get(x, y, z)) {
 			this.map.set(this.position.x, this.position.y, this.position.z);
-			this.map.set(x, y, z, {"hardness": 2});
+			this.map.set(x, y, z, {'hardness': 2});
 			this.position = {x:x,y:y,z:z};
 		}
 		else {
