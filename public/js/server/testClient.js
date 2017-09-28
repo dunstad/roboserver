@@ -101,7 +101,10 @@ class TestClient {
 			
 			interact: (x, y, z, scanLevel)=>{},
 			
-			inspect: (x, y, z, scanLevel)=>{},
+			inspect: (x, y, z, scanLevel)=>{
+				let blockData = this.inspect(x, y, z);
+				this.sendWithCost('block data', blockData);
+			},
 			
 			select: (slotNum)=>{
 				this.select(slotNum);
@@ -159,6 +162,21 @@ class TestClient {
 			}
 		});
 
+	}
+
+	/**
+	 * 
+	 * @param {number} x 
+	 * @param {number} y 
+	 * @param {number} z 
+	 * @return {object | false}
+	 */
+	inspect(x, y, z) {
+		let blockData = this.map.get(x, y, z);
+		if (blockData) {
+			blockData.point = {x: x, y: y, z: z};
+		}
+		return blockData;
 	}
 
 	/**
