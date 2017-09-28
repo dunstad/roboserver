@@ -104,6 +104,12 @@ class TestClient {
 			inspect: (x, y, z, scanLevel)=>{
 				let blockData = this.inspect(x, y, z);
 				this.sendWithCost('block data', blockData);
+				if (blockData.name == 'minecraft:chest') {
+					this.sendWithCost('inventory data', this.testData.externalInventory.meta);
+					for (let slot in this.testData.externalInventory.slots) {
+						this.sendWithCost('slot data', slot);
+					}
+				}
 			},
 			
 			select: (slotNum)=>{

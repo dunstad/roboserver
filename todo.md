@@ -4,8 +4,7 @@
 
 ## features
 * get a screenshot of what geolyzer.analyze output looks like
-* implement more test client functionality to be used for testing
-  * on some trigger send external inventory data
+* make sure inspecting the chest with the test client works
 * write json schema for web client
 * add unit tests for web client
 * change oc lua code to use new command structure
