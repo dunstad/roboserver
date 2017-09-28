@@ -247,7 +247,26 @@ let tests = {
     }
     assert.deepEqual(testClient.place(3, 3, 3), testBlockData);
     
-  }
+  },
+
+  testInspect: (testClient)=>{
+
+    assert(!testClient.map.get(3, 3, 3));
+    assert(!testClient.inspect(3, 3, 3));
+    
+    assert(testClient.map.get(2, 2, 2));
+    let testBlockData = {
+      name: 'minecraft:dirt',
+      hardness: .5,
+      point: {
+        x: 2,
+        y: 2,
+        z: 2,
+      },
+    }
+    assert.deepEqual(testClient.inspect(2, 2, 2), testBlockData);
+
+  },
 
 }
 
