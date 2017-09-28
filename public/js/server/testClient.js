@@ -170,7 +170,7 @@ class TestClient {
 	 * @return {object | false}
 	 */
 	place(x, y, z) {
-		result = false;
+		let result = false;
 		if (!this.map.get(x, y, z)) {
 			let blockData = {name: 'minecraft:dirt', hardness: .5}
 			this.map.set(x, y, z, blockData);

@@ -19,6 +19,7 @@ function runTests(tests, setup, testData) {
     }
     catch (e) {
       console.log(testName, "failed");
+      console.log(e);
       console.log();
       failedTests++;
     }

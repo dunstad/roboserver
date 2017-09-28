@@ -230,6 +230,25 @@ let tests = {
 
   },
 
+  testPlace: (testClient)=>{
+
+    assert(testClient.map.get(2, 2, 2));
+    assert(!testClient.place(2, 2, 2));
+    
+    assert(!testClient.map.get(3, 3, 3));
+    let testBlockData = {
+      name: 'minecraft:dirt',
+      hardness: .5,
+      point: {
+        x: 3,
+        y: 3,
+        z: 3,
+      },
+    }
+    assert.deepEqual(testClient.place(3, 3, 3), testBlockData);
+    
+  }
+
 }
 
 runTests(tests, setup, testData);
