@@ -3,7 +3,7 @@
     "target": "ES6"
   },
   "include": [
-    "public/js/*",
+    "public/js/**/*",
     "public/js/lib/*",
     "public/js/lib/three.min.js"
   ],
