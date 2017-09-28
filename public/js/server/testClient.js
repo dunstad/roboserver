@@ -167,11 +167,17 @@ class TestClient {
 	 * @param {number} x 
 	 * @param {number} y 
 	 * @param {number} z 
+	 * @return {object | false}
 	 */
 	place(x, y, z) {
+		result = false;
 		if (!this.map.get(x, y, z)) {
-			this.map.set(x, y, z, {'name': 'minecraft:dirt', 'hardness': .5});
+			let blockData = {name: 'minecraft:dirt', hardness: .5}
+			this.map.set(x, y, z, blockData);
+			blockData.point = {x: x, y: y, z: z};
+			result = blockData;
 		}
+		return result;
 	}
 
 	/**
@@ -209,8 +215,8 @@ class TestClient {
 		let result = true;
 		if (!this.map.get(x, y, z)) {
 			this.map.set(this.position.x, this.position.y, this.position.z);
-			this.map.set(x, y, z, {'hardness': 2});
-			this.position = {x:x,y:y,z:z};
+			this.map.set(x, y, z, {hardness: 2});
+			this.position = {x: x, y: y, z: z};
 		}
 		else {
 			result = false;
@@ -250,8 +256,8 @@ class TestClient {
 	 * @return {object[]}
 	 */
 	getBoxPoints(x1, y1, z1, x2, y2, z2) {
-		let v1 ={x:x1, y:y1, z:z1};
-		let v2 ={x:x2, y:y2, z:z2};
+		let v1 ={x: x1, y: y1, z: z1};
+		let v2 ={x: x2, y: y2, z: z2};
 		let minPoint = {
 			x: Math.min(v1.x, v2.x),
 			y: Math.min(v1.y, v2.y),
