@@ -155,7 +155,13 @@ const validators = {
   deleteSelection: ajv.compile({
     "type": "integer",
   }),
-  // block data
+
+  blockData: ajv.compile({
+    "properties": {
+      "name": {"type": "string",},
+      "hardness": {"type": "number",},
+    },
+  }),
 
 };
 

@@ -385,6 +385,7 @@ class TestClient {
 			'power level': validators.powerLevel,
 			'dig success': validators.digSuccess,
 			'delete selection': validators.deleteSelection,
+			'block data': validators.blockData,
 		};
 		keyToValidatorMap[key](value);
 	}
