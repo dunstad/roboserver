@@ -5,7 +5,6 @@
 ## features
 * get a screenshot of what geolyzer.analyze output looks like
 * implement more test client functionality to be used for testing
-  * place
   * inspect
   * on some trigger send external inventory data
 * write json schema for web client
