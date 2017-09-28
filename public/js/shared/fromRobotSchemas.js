@@ -160,6 +160,15 @@ const validators = {
     "properties": {
       "name": {"type": "string",},
       "hardness": {"type": "number",},
+      "point": {
+        "properties": {
+          "x": {"type": "integer",},
+          "y": {"type": "integer",},
+          "z": {"type": "integer",},
+        },
+        "required": ["x", "y", "z"],
+        "additionalProperties": false,
+      },
     },
   }),
 
