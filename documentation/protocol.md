@@ -23,8 +23,8 @@ Messages are sent in JSON format and deserialized upon arrival. A message object
   command: {
     name: "commandName",
     parameters: [param1, param2, ...],
-    robot: "robotName"
   }
+  robot: "robotName"
 }
 ```
 
