@@ -79,6 +79,7 @@ for (let id in commandSchemas) {
   let subSchema = makeCommandSchema(id, commandSchemas[id]);
   makeCommandValidator(ajv, subSchema, id, validators);
 }
+
 try {
   module.exports = validators;
 }
