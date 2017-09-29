@@ -5,7 +5,7 @@
 ## features
 * get a screenshot of what geolyzer.analyze output looks like
 * make sure inspecting the chest with the test client works
-* write json schema for web client
+* add validators to web client
 * add unit tests for web client
 * change oc lua code to use new command structure
   * update inventory slot to have nil instead of empty tables
