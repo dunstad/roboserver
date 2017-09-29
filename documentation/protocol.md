@@ -16,19 +16,6 @@ Messages are sent in JSON format and deserialized upon arrival. A message object
 * available components
 
 ### sent from web client to server
-
-#### format
-```
-{
-  command: {
-    name: "commandName",
-    parameters: [param1, param2, ...],
-  }
-  robot: "robotName"
-}
-```
-
-#### command names
 * scanArea
 * viewInventory
 * equip
