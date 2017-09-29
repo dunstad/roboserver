@@ -58,6 +58,19 @@ function makeCommandSchema(name, parameters) {
 
 const commandSchemas = {
   scanArea: ['integer'],
+  viewInventory: [],
+  equip: [],
+  dig: Array(8).fill('integer'),
+  place: Array(8).fill('integer'),
+  move: Array(4).fill('integer'),
+  interact: Array(4).fill('integer'),
+  inspect: Array(4).fill('integer'),
+  select: ['integer'],
+  transfer: Array(5).fill('integer'),
+  craft: ['string'],
+  raw: ['string'],
+  sendPosition: [],
+  sendComponents: [],
 }
 
 const validators = {};
