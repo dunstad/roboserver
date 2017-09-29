@@ -130,6 +130,7 @@ const validators = {
       "account": {"type": "string",},
     },
     "additionalProperties": false,
+    "required": ["robot", "account"],
   }),
 
   powerLevel: ajv.compile({
@@ -170,6 +171,7 @@ const validators = {
         "additionalProperties": false,
       },
     },
+    "required": ["name", "hardness", "point"],
   }),
 
 };
