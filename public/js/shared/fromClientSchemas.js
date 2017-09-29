@@ -2,7 +2,8 @@ if (!Ajv) {var Ajv = require("ajv")};
 const ajv = Ajv({allErrors: true, $data: true});
 
 /**
- * 
+ * Used to automate adding this outside bit to all command schemas
+ * and adding their validator to module.exports.
  * @param {object} ajv 
  * @param {object} innerSchema 
  * @param {string} id
@@ -29,32 +30,41 @@ function makeCommandValidator(ajv, innerSchema, id, validators) {
 
 }
 
-const commandSchemas = {
-
-  scanArea: {
+/**
+ * Used to make creating command schemas easier, since they're all very similar.
+ * @param {string} name 
+ * @param {string[]} parameters 
+ */
+function makeCommandSchema(name, parameters) {
+  let schema = {
     "properties": {
       "name": {
         "type": "string",
-        "pattern": "^scanArea$",
+        "pattern": `^${name}$`,
       },
       "parameters": {
         "type": "array",
-        "items": [{ "type": "integer"}],
+        "items": parameters.map((s)=>{return {type: s}}),
         "additionalItems": false,
-        "minItems": 1,
-        "maxItems": 1,
+        "minItems": parameters.length,
+        "maxItems": parameters.length,
       },
     },
     "additionalProperties": false,
     "required": ["name", "parameters"],
-  },
-  
+  };
+  return schema;
+}
+
+const commandSchemas = {
+  scanArea: ['integer'],
 }
 
 const validators = {};
 
 for (let id in commandSchemas) {
-  makeCommandValidator(ajv, commandSchemas[id], id, validators);
+  let subSchema = makeCommandSchema(id, commandSchemas[id]);
+  makeCommandValidator(ajv, subSchema, id, validators);
 }
 try {
   module.exports = validators;
