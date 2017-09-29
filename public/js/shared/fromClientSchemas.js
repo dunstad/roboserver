@@ -36,6 +36,7 @@ function makeCommandValidator(ajv, innerSchema, id, validators) {
  * @param {string[]} parameters 
  */
 function makeCommandSchema(name, parameters) {
+
   let schema = {
     "properties": {
       "name": {
@@ -44,15 +45,25 @@ function makeCommandSchema(name, parameters) {
       },
       "parameters": {
         "type": "array",
-        "items": parameters.map((s)=>{return {type: s}}),
         "additionalItems": false,
-        "minItems": parameters.length,
-        "maxItems": parameters.length,
+        "minItems": 0,
+        "maxItems": 0,
       },
     },
     "additionalProperties": false,
     "required": ["name", "parameters"],
   };
+
+  if (parameters.length) {
+    schema.properties.parameters = {
+      "type": "array",
+      "items": parameters.map((s)=>{return {type: s}}),
+      "additionalItems": false,
+      "minItems": parameters.length,
+      "maxItems": parameters.length,
+    };
+  }
+
   return schema;
 }
 
