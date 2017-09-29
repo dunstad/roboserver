@@ -2,6 +2,8 @@ class WebClient {
 
   constructor() {
 
+    this.socket = io();
+
     this.commandMap = {
 
       "message": console.dir,
