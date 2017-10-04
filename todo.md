@@ -7,9 +7,7 @@
 * make sure inspecting the chest with the test client works
 * refactor map and interface code
   * MapRender shouldn't have this.selectStart/end
-  * does GUI have a MapRender or vice versa?
-  * should MapRender have a VoxelMap?
-  * maybe a Game class to connect everything would be best
+  * make a Game class to connect the pieces
 * add validators to web client
 * add unit tests for web client
 * change oc lua code to use new command structure
