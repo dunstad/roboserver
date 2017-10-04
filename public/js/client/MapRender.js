@@ -3,7 +3,9 @@ class MapRender {
     /**
      * Sets the initial scene.
      */
-    constructor() {
+    constructor(game) {
+
+      this.Game = game;
 
       this.framerate = 1000/30;
       this.voxelSideLength = 50;

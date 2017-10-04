@@ -1,6 +1,8 @@
 class WebClient {
 
-  constructor() {
+  constructor(game) {
+
+    this.Game = game;
 
     this.socket = io();
 

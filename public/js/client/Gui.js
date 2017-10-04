@@ -1,6 +1,8 @@
 class GUI {
 
-  constructor() {
+  constructor(game) {
+
+    this.Game = game;
 
     this.selectStart = new CoordForm(
       document.getElementById('selectStartX'),
@@ -20,7 +22,7 @@ class GUI {
       document.getElementById('cutawayValue')
     );
 
-    
+
 
   }
 
