@@ -171,6 +171,9 @@ function handleVisibilityChange() {
   }
 }
 
+/**
+ * Used to resume rendering when the tab becomes visible.
+ */
 function startGameLoop() {
   return setInterval(()=>{
     if (controls.enabled) {
