@@ -36,6 +36,31 @@ class GUI {
       elem.addEventListener('keydown', (e)=>{e.stopPropagation();});
     });
 
+    this.selectStart.addEventListener('input', ()=>{this.game.mapRender.removeSelectBox(); this.game.mapRender.requestRender()});
+    this.selectEnd.addEventListener('input', ()=>{this.game.mapRender.removeSelectBox(); this.game.mapRender.requestRender()});
+  
+    let toolButtonListeners = [
+      {buttonID: 'moveTool', eventListener: this.clearSelection},
+      {buttonID: 'interactTool', eventListener: this.clearSelection},
+      {buttonID: 'inspectTool', eventListener: this.clearSelection},
+      {buttonID: 'digTool', eventListener: ()=>{this.clearSelection(); this.slowRender();}},
+      {buttonID: 'placeTool', eventListener: ()=>{this.clearSelection(); this.slowRender();}}
+    ];
+  
+    for (let toolButtonInfo of toolButtonListeners) {
+      let button = document.getElementById(toolButtonInfo.buttonID).parentElement;
+      button.addEventListener('click', toolButtonInfo.eventListener);
+    }
+  
+    this.initPointerLock();
+    this.initCommandInput();
+    this.initClickTools();
+    this.initSelectAreaTools();
+    this.initCraftSelect();
+    this.initRobotSelect();
+    this.initCutawayForm();
+    this.initModal();
+
   }
 
   /**
