@@ -237,14 +237,14 @@ class MapRender {
         if (this.game.gui.selectStart.isComplete() && !this.game.gui.selectEnd.isComplete()) {
           this.scene.remove(this.rollOverMesh);
           if (!this.selectBox) {
-            this.selectBox = makeBoxAround(this.game.gui.selectStart.getPoint(), rollOverPoint, this.rollOverMaterial);
+            this.selectBox = this.makeBoxAround(this.game.gui.selectStart.getPoint(), rollOverPoint, this.rollOverMaterial);
             this.scene.add(this.selectBox);
           }
         }
         else if (!this.game.gui.selectStart.isComplete() && this.game.gui.selectEnd.isComplete()) {
           this.scene.remove(this.rollOverMesh);
           if (!this.selectBox) {
-            this.selectBox = makeBoxAround(rollOverPoint, this.game.gui.selectEnd.getPoint(), this.rollOverMaterial);
+            this.selectBox = this.makeBoxAround(rollOverPoint, this.game.gui.selectEnd.getPoint(), this.rollOverMaterial);
             this.scene.add(this.selectBox);
           }
         }
@@ -256,7 +256,7 @@ class MapRender {
     
       if (this.game.gui.selectStart.isComplete() && this.game.gui.selectEnd.isComplete()) {
         if (!this.selectBox) {
-          this.selectBox = makeBoxAround(this.game.gui.selectStart.getPoint(), this.game.gui.selectEnd.getPoint(), this.rollOverMaterial);
+          this.selectBox = this.makeBoxAround(this.game.gui.selectStart.getPoint(), this.game.gui.selectEnd.getPoint(), this.rollOverMaterial);
           this.scene.add(this.selectBox);
         }
       }
@@ -277,5 +277,61 @@ class MapRender {
         this.selectBox = undefined;
       }
     }
+
+    /**
+     * Creates a box. Used to indicate a selected area.
+     * @param {number} length 
+     * @param {number} height 
+     * @param {number} width 
+     * @param {THREE.Material} material 
+     * @param {WorldAndScenePoint} position 
+     * @returns {THREE.Mesh}
+     */
+    makeBox(length, height, width, material, position) {
+      let preventFlickeringOffset = 1;
+      let geometry = new THREE.BoxGeometry(
+        length + preventFlickeringOffset,
+        height + preventFlickeringOffset,
+        width + preventFlickeringOffset
+      );
+      let mesh = new THREE.Mesh(geometry, material || cubeMat);
+      if (position) {mesh.position.copy(position.scene());}
+      return mesh;
+    }
+
+    /**
+     * Finds the midpoint of two vectors. Used to position boxes between the two voxels at opposite corners.
+     * @param {WorldAndScenePoint} v1 
+     * @param {WorldAndScenePoint} v2 
+     * @returns {WorldAndScenePoint}
+     */
+    getMidpoint(v1, v2) {
+      let midpoint = v1.scene().clone();
+      midpoint.add(v2.scene());
+      midpoint.divideScalar(2);
+      return new WorldAndScenePoint(midpoint, false);
+    }
+
+    /**
+     * Creates a box with the given voxels at opposite corners. Used to indicate a selected area.
+     * @param {WorldAndScenePoint} startPoint
+     * @param {WorldAndScenePoint} endPoint
+     * @param {THREE.Material} material
+     * @returns {THREE.Mesh}
+     */
+    makeBoxAround(startPoint, endPoint, material) {
+      let midpoint = this.getMidpoint(startPoint, endPoint);
+      let sceneStart = startPoint.scene();
+      let sceneEnd = endPoint.scene();
+      let box = this.makeBox(
+        Math.abs(sceneEnd.x-sceneStart.x) + voxelSideLength,
+        Math.abs(sceneEnd.y-sceneStart.y) + voxelSideLength,
+        Math.abs(sceneEnd.z-sceneStart.z) + voxelSideLength,
+        material,
+        midpoint
+      );
+      return box;
+    }
+
   
   }
