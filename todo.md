@@ -5,9 +5,8 @@
 ## features
 * get a screenshot of what geolyzer.analyze output looks like
 * make sure inspecting the chest with the test client works
-* refactor map and interface code
-  * MapRender shouldn't have this.selectStart/end
-  * make a Game class to connect the pieces
+* refactor interface code
+  * hook up the new map and interface code
 * add validators to web client
 * add unit tests for web client
 * change oc lua code to use new command structure
