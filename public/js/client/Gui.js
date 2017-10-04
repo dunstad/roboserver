@@ -22,7 +22,7 @@ class GUI {
       document.getElementById('cutawayValue')
     );
 
-
+    this.container = document.createElement('div');
 
   }
 

@@ -14,12 +14,11 @@ class MapRender {
   
       this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 10000);
       this.scene = new THREE.Scene();
-      this.controls = new PointerLockControls(camera);
+      this.controls = new PointerLockControls(this.camera);
       this.scene.add(this.controls.getObject());
       this.raycaster = new THREE.Raycaster();
 
-      this.container = document.createElement( 'div' );
-      document.body.appendChild( container );
+      document.body.appendChild( this.game.GUI.container );
     
       // change the starting position of the camera/controls
       this.goToAndLookAt(this.controls, new WorldAndScenePoint(0, 0, 0, false));
