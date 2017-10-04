@@ -1,4 +1,4 @@
-class Gui {
+class GUI {
 
   constructor() {
 
