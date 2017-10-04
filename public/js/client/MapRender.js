@@ -344,14 +344,14 @@ class MapRender {
     
       let previousPosition = this.game.webClient.allRobotInfo[robot].getPosition();
       if (previousPosition) {
-        removeVoxel(previousPosition);
+        this.removeVoxel(previousPosition);
       }
     
-      addVoxel(pos, robotMaterial);
+      this.addVoxel(pos, robotMaterial);
     
-      allRobotInfo[robot].setPosition(pos);
+      this.game.webClient.allRobotInfo[robot].setPosition(pos);
     
-      requestRender();
+      this.requestRender();
     }
   
     /**
@@ -364,14 +364,14 @@ class MapRender {
       let voxel = new THREE.Mesh(cubeGeo, material || cubeMat);
       voxel.position.copy(pos.scene());
     
-      let priorVoxel = voxelMap.get(pos);
-      if (priorVoxel) {removeVoxel(pos);}
+      let priorVoxel = this.voxelMap.get(pos);
+      if (priorVoxel) {this.removeVoxel(pos);}
     
-      voxels.push(voxel);
-      voxelMap.set(pos, voxel);
-      scene.add(voxel);
+      this.voxels.push(voxel);
+      this.voxelMap.set(pos, voxel);
+      this.scene.add(voxel);
     
-      voxel.visible = cutawayForm.shouldBeRendered(pos);
+      voxel.visible = this.game.GUI.cutawayForm.shouldBeRendered(pos);
     
       return voxel;
     }
@@ -382,12 +382,12 @@ class MapRender {
      * @returns {boolean}
      */
     removeVoxel(pos) {
-      result = false;
-      let voxel = voxelMap.get(pos);
-      if (voxel && voxels.indexOf(voxel) != -1) {
-        scene.remove(voxel);
-        voxelMap.set(pos, undefined);
-        voxels.splice(voxels.indexOf(voxel), 1);
+      let result = false;
+      let voxel = this.voxelMap.get(pos);
+      if (voxel && this.voxels.indexOf(voxel) != -1) {
+        this.scene.remove(voxel);
+        this.voxelMap.set(pos, undefined);
+        this.voxels.splice(voxels.indexOf(voxel), 1);
         result = true;
       }
       requestRender();
