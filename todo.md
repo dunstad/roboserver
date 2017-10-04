@@ -5,6 +5,9 @@
 ## features
 * get a screenshot of what geolyzer.analyze output looks like
 * make sure inspecting the chest with the test client works
+* refactor map and interface code
+  * MapRender shouldn't have this.selectStart/end
+  * does GUI have a MapRender or vice versa?
 * add validators to web client
 * add unit tests for web client
 * change oc lua code to use new command structure
