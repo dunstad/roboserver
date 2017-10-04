@@ -342,7 +342,7 @@ class MapRender {
      */
     moveRobotVoxel(pos, robot) {
     
-      let previousPosition = allRobotInfo[robot].getPosition();
+      let previousPosition = this.game.webClient.allRobotInfo[robot].getPosition();
       if (previousPosition) {
         removeVoxel(previousPosition);
       }

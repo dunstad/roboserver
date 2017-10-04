@@ -6,6 +6,8 @@ class WebClient {
 
     this.socket = io();
 
+    this.allRobotInfo = {};
+
     this.commandMap = {
 
       "message": console.dir,

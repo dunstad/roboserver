@@ -4,6 +4,8 @@ class GUI {
 
     this.game = game;
 
+    this.selections = {};
+
     this.selectStart = new CoordForm(
       document.getElementById('selectStartX'),
       document.getElementById('selectStartY'),
