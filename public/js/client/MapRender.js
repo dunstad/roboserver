@@ -333,5 +333,203 @@ class MapRender {
       return box;
     }
 
+    // code for drawing minecraft maps
+
+    /**
+     * Removes the given robot's voxel and redraws it elsewhere.
+     * @param {WorldAndScenePoint} pos
+     * @param {string} robot
+     */
+    function moveRobotVoxel(pos, robot) {
+      
+        var previousPosition = allRobotInfo[robot].getPosition();
+        if (previousPosition) {
+          removeVoxel(previousPosition);
+        }
+      
+        addVoxel(pos, robotMaterial);
+      
+        allRobotInfo[robot].setPosition(pos);
+      
+        requestRender();
+      }
+      
+      /**
+       * Removes any existing voxel at the coordinates and adds a new one.
+       * @param {WorldAndScenePoint} pos
+       * @param {THREE.Material} material
+       * @returns {THREE.Mesh}
+       */
+      function addVoxel(pos, material) {
+        var voxel = new THREE.Mesh(cubeGeo, material || cubeMat);
+        voxel.position.copy(pos.scene());
+      
+        var priorVoxel = voxelMap.get(pos);
+        if (priorVoxel) {removeVoxel(pos);}
+      
+        voxels.push(voxel);
+        voxelMap.set(pos, voxel);
+        scene.add(voxel);
+      
+        voxel.visible = cutawayForm.shouldBeRendered(pos);
+      
+        return voxel;
+      }
+      
+      /**
+       * Removes the voxel at pos if there is one.
+       * @param {WorldAndScenePoint} pos
+       * @returns {boolean}
+       */
+      function removeVoxel(pos) {
+        result = false;
+        var voxel = voxelMap.get(pos);
+        if (voxel && voxels.indexOf(voxel) != -1) {
+          scene.remove(voxel);
+          voxelMap.set(pos, undefined);
+          voxels.splice(voxels.indexOf(voxel), 1);
+          result = true;
+        }
+        requestRender();
+        return result;
+      }
+      
+      /**
+       * Used to draw terrain data received from a robot.
+       * @param {object} shape
+       * @param {string} robot
+       */
+      function addShapeVoxels(shape, robot) {
+        for (var x = 0; x < shape.w; x++) {
+          for (var z = 0; z < shape.d; z++) {
+            for (var y = 0; y < (shape.data.n / (shape.w * shape.d)); y++) {
+      
+              var xWithOffset = x + shape.x;
+              var yWithOffset = y + shape.y;
+              var zWithOffset = z + shape.z;
+      
+              var shapePoint = new THREE.Vector3(xWithOffset, yWithOffset, zWithOffset);
+      
+              var knownRobotPosition = false;
+              for (var robot of Object.values(allRobotInfo)) {
+                if (robot) {
+                  var robotPoint = robot.getPosition();
+                  // this stops an error if a robot has connected but not sent their location yet
+                  if (robotPoint) {
+                    var robotPos = robotPoint.world();
+                    if (robotPos && robotPos.x == shapePoint.x && robotPos.y == shapePoint.y && robotPos.z == shapePoint.z) {
+                      knownRobotPosition = true;
+                    }
+                  }
+              }
+              }
+      
+              // this is how the geolyzer reports 3d data in a 1d array
+              // also lua is indexed from 1
+              var index = (x + 1) + z*shape.w + y*shape.w*shape.d;
+      
+              var worldPos = new WorldAndScenePoint(shapePoint, true);
+      
+              if (shape.data[index]) {
+      
+                var material;
+                if (knownRobotPosition) {
+                  material = robotMaterial;
+                }
+                else {
+                  material = colorFromHardness(shape.data[index]);
+                }
+      
+                addVoxel(worldPos, material);
+      
+              }
+      
+              else {
+                removeVoxel(worldPos);
+              }
+      
+            }
+          }
+        }
+        // have the shapes appear immediately when the camera isn't moving as well
+        requestRender();
+      }
+      
+      /**
+       * Converts ranges of noisy hardness values to specific colors.
+       * @param {number} hardness
+       * @returns {THREE.Material}
+       */
+      function colorFromHardness(hardness) {
+      
+        var closestMatch = 999; // arbitrarily high number
+        var oldDifference = Math.abs(closestMatch - hardness);
+        for (var key in hardnessToColorMap) {
+      
+          var newDifference = Math.abs(key - hardness);
+          if (newDifference < oldDifference) {
+            closestMatch = key;
+            oldDifference = newDifference;
+          }
+      
+        }
+      
+        return hardnessToColorMap[closestMatch];
+      
+      }
+      
+      /**
+       * Serializes objects to Lua tables. Makes sending commands to robots easier.
+       * @param {object} object 
+       * @returns {string}
+       */
+      function objectToLuaString(object) {
+        var luaString = '{';
+        for (var prop in object) {
+          if (object.hasOwnProperty(prop)) {
+            luaString = luaString + prop + '=' + object[prop] + ',';
+          }
+        }
+        luaString = luaString + '}'
+        return luaString;
+      }
+      
+      /**
+       * Removes the temporary selected area.
+       */
+      function removeSelectBox() {
+        if (selectBox) {
+          scene.remove(selectBox);
+          selectBox.geometry.dispose();
+          selectBox = undefined;
+        }
+      }
+      
+      /**
+       * Stores a selection so it can be shown until the task it's for is completed.
+       * @param {object} selections 
+       * @param {THREE.Mesh} selection 
+       * @returns {number}
+       */
+      function addSelection(selections, selection) {
+        removeSelectBox();
+        var counter = 0;
+        while (selections[counter]) {counter++;}
+        selections[counter] = selection;
+        return counter;
+      }
+      
+      /**
+       * Used to get rid of a selection when the task it's for is completed.
+       * @param {object} selections 
+       * @param {number} index 
+       */
+      function deleteSelection(selections, index) {
+        var selection = selections[index];
+        scene.remove(selection);
+        selection.geometry.dispose();
+        delete selections[index];
+        requestRender();
+      }
   
   }
