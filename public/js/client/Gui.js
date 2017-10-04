@@ -38,4 +38,47 @@ class GUI {
 
   }
 
+  /**
+   * Serializes objects to Lua tables. Makes sending commands to robots easier.
+   * @param {object} object 
+   * @returns {string}
+   */
+  objectToLuaString(object) {
+    let luaString = '{';
+    for (let prop in object) {
+      if (object.hasOwnProperty(prop)) {
+        luaString = luaString + prop + '=' + object[prop] + ',';
+      }
+    }
+    luaString = luaString + '}';
+    return luaString;
+  }
+
+  /**
+   * Stores a selection so it can be shown until the task it's for is completed.
+   * @param {object} selections 
+   * @param {THREE.Mesh} selection 
+   * @returns {number}
+   */
+  addSelection(selections, selection) {
+    this.game.mapRender.removeSelectBox();
+    let counter = 0;
+    while (this.selections[counter]) {counter++;}
+    this.selections[counter] = selection;
+    return counter;
+  }
+  
+  /**
+   * Used to get rid of a selection when the task it's for is completed.
+   * @param {object} selections 
+   * @param {number} index 
+   */
+  deleteSelection(selections, index) {
+    let selection = this.selections[index];
+    this.scene.remove(selection);
+    selection.geometry.dispose();
+    delete this.selections[index];
+    this.requestRender();
+  }
+
 }

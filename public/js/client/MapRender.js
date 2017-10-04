@@ -1,519 +1,492 @@
 class MapRender {
+
+  /**
+   * Sets the initial scene.
+   */
+  constructor(game) {
+
+    this.game = game;
+
+    this.framerate = 1000/30;
+    this.voxelSideLength = 50;
+    this.voxels = [];
+    this.voxelMap = new VoxelMap();
+
+    this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 10000);
+    this.scene = new THREE.Scene();
+    this.controls = new PointerLockControls(this.camera);
+    this.scene.add(this.controls.getObject());
+    this.raycaster = new THREE.Raycaster();
+
+    document.body.appendChild( this.game.GUI.container );
   
-    /**
-     * Sets the initial scene.
-     */
-    constructor(game) {
-
-      this.game = game;
-
-      this.framerate = 1000/30;
-      this.voxelSideLength = 50;
-      this.voxels = [];
-      this.voxelMap = new VoxelMap();
+    // change the starting position of the camera/controls
+    this.goToAndLookAt(this.controls, new WorldAndScenePoint(0, 0, 0, false));
   
-      this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 10000);
-      this.scene = new THREE.Scene();
-      this.controls = new PointerLockControls(this.camera);
-      this.scene.add(this.controls.getObject());
-      this.raycaster = new THREE.Raycaster();
-
-      document.body.appendChild( this.game.GUI.container );
-    
-      // change the starting position of the camera/controls
-      this.goToAndLookAt(this.controls, new WorldAndScenePoint(0, 0, 0, false));
-    
-      this.scene.add(this.controls.getObject());
-    
-      // cubes
-      this.voxelSideLength = 50;
-      this.cubeGeo = new THREE.BoxGeometry(this.voxelSideLength, this.voxelSideLength, this.voxelSideLength);
-      this.cubeMat = new THREE.MeshLambertMaterial({color: 0xfeb74c});
-    
-      this.rollOverMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff, opacity: 0.5, transparent: true });
-      this.rollOverMesh = new THREE.Mesh(this.cubeGeo, this.rollOverMaterial);
-      this.prevRollOverMeshPos = this.rollOverMesh.position.clone();
-      this.scene.add(this.rollOverMesh);
-    
-      // Lights
-    
-      this.ambientLight = new THREE.AmbientLight( 0x606060 );
-      this.scene.add(this.ambientLight);
-    
-      this.directionalLight = new THREE.DirectionalLight( 0xffffff );
-      this.directionalLight.position.set( 1, 0.75, 0.5 ).normalize();
-      this.scene.add(this.directionalLight);
-    
-      this.renderer = new THREE.WebGLRenderer({antialias: true});
-      this.renderer.setClearColor(0xf0f0f0);
-      this.renderer.setPixelRatio(window.devicePixelRatio);
-      this.renderer.setSize(window.innerWidth, window.innerHeight);
-      this.container.appendChild(this.renderer.domElement);
-    
-      window.addEventListener('resize', this.onWindowResize, false);
-    
-      document.addEventListener('keydown', (e)=>{
-        const escCode = 27;
-        if (e.altKey || e.ctrlKey) {e.preventDefault(); this.altOrCtrlKeyPressed = true;}
-        // electron doesn't make esc cancel pointerlock like most browsers do by default
-        else if (e.keyCode == escCode) {e.preventDefault(); document.exitPointerLock();}
-      });
-    
-      document.addEventListener('keyup', (e)=>{
-        if (!(e.altKey || e.ctrlKey)) {this.altOrCtrlKeyPressed = false;}
-      });
-    
-      this.selectedRobotMaterial = new THREE.MeshLambertMaterial({ color: 0xff9999, opacity: 0.9, transparent: true });
-      this.selectedRobotMesh = new THREE.Mesh(this.cubeGeo, this.selectedRobotMaterial);
-      this.scene.add(this.selectedRobotMesh);
-      this.robotMaterial = new THREE.MeshLambertMaterial({color:0xffcccc});
-    
-      this.hardnessToColorMap = {
-        // bedrock
-        '-1': new THREE.MeshLambertMaterial({color:0x000000}),
-        // leaves
-        0.2: new THREE.MeshLambertMaterial({color:0x00cc00}),
-        // glowstone
-        0.3: new THREE.MeshLambertMaterial({color:0xffcc00}),
-        // netherrack
-        0.4: new THREE.MeshLambertMaterial({color:0x800000}),
-        // dirt or sand
-        0.5: new THREE.MeshLambertMaterial({color:0xffc140}),
-        // grass block
-        0.6: new THREE.MeshLambertMaterial({color:0xddc100}),
-        // sandstone
-        0.8: new THREE.MeshLambertMaterial({color:0xffff99}),
-        // pumpkins or melons
-        1.0: new THREE.MeshLambertMaterial({color:0xfdca00}),
-        // smooth stone
-        1.5: new THREE.MeshLambertMaterial({color:0xcfcfcf}),
-        // cobblestone
-        2.0: new THREE.MeshLambertMaterial({color:0x959595}),
-        // ores
-        3.0: new THREE.MeshLambertMaterial({color:0x66ffff}),
-        // cobwebs
-        4.0: new THREE.MeshLambertMaterial({color:0xf5f5f5}),
-        // ore blocks
-        5.0: new THREE.MeshLambertMaterial({color:0xc60000}),
-        // obsidian
-        50: new THREE.MeshLambertMaterial({color:0x1f1f1f}),
-        // water or lava
-        100: new THREE.MeshLambertMaterial({color:0x9900cc})
-      };
-    
-      document.addEventListener("visibilitychange", this.handleVisibilityChange);
+    this.scene.add(this.controls.getObject());
   
-    }
+    // cubes
+    this.voxelSideLength = 50;
+    this.cubeGeo = new THREE.BoxGeometry(this.voxelSideLength, this.voxelSideLength, this.voxelSideLength);
+    this.cubeMat = new THREE.MeshLambertMaterial({color: 0xfeb74c});
+  
+    this.rollOverMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff, opacity: 0.5, transparent: true });
+    this.rollOverMesh = new THREE.Mesh(this.cubeGeo, this.rollOverMaterial);
+    this.prevRollOverMeshPos = this.rollOverMesh.position.clone();
+    this.scene.add(this.rollOverMesh);
+  
+    // Lights
+  
+    this.ambientLight = new THREE.AmbientLight( 0x606060 );
+    this.scene.add(this.ambientLight);
+  
+    this.directionalLight = new THREE.DirectionalLight( 0xffffff );
+    this.directionalLight.position.set( 1, 0.75, 0.5 ).normalize();
+    this.scene.add(this.directionalLight);
+  
+    this.renderer = new THREE.WebGLRenderer({antialias: true});
+    this.renderer.setClearColor(0xf0f0f0);
+    this.renderer.setPixelRatio(window.devicePixelRatio);
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.container.appendChild(this.renderer.domElement);
+  
+    window.addEventListener('resize', this.onWindowResize, false);
+  
+    document.addEventListener('keydown', (e)=>{
+      const escCode = 27;
+      if (e.altKey || e.ctrlKey) {e.preventDefault(); this.altOrCtrlKeyPressed = true;}
+      // electron doesn't make esc cancel pointerlock like most browsers do by default
+      else if (e.keyCode == escCode) {e.preventDefault(); document.exitPointerLock();}
+    });
+  
+    document.addEventListener('keyup', (e)=>{
+      if (!(e.altKey || e.ctrlKey)) {this.altOrCtrlKeyPressed = false;}
+    });
+  
+    this.selectedRobotMaterial = new THREE.MeshLambertMaterial({ color: 0xff9999, opacity: 0.9, transparent: true });
+    this.selectedRobotMesh = new THREE.Mesh(this.cubeGeo, this.selectedRobotMaterial);
+    this.scene.add(this.selectedRobotMesh);
+    this.robotMaterial = new THREE.MeshLambertMaterial({color:0xffcccc});
+  
+    this.hardnessToColorMap = {
+      // bedrock
+      '-1': new THREE.MeshLambertMaterial({color:0x000000}),
+      // leaves
+      0.2: new THREE.MeshLambertMaterial({color:0x00cc00}),
+      // glowstone
+      0.3: new THREE.MeshLambertMaterial({color:0xffcc00}),
+      // netherrack
+      0.4: new THREE.MeshLambertMaterial({color:0x800000}),
+      // dirt or sand
+      0.5: new THREE.MeshLambertMaterial({color:0xffc140}),
+      // grass block
+      0.6: new THREE.MeshLambertMaterial({color:0xddc100}),
+      // sandstone
+      0.8: new THREE.MeshLambertMaterial({color:0xffff99}),
+      // pumpkins or melons
+      1.0: new THREE.MeshLambertMaterial({color:0xfdca00}),
+      // smooth stone
+      1.5: new THREE.MeshLambertMaterial({color:0xcfcfcf}),
+      // cobblestone
+      2.0: new THREE.MeshLambertMaterial({color:0x959595}),
+      // ores
+      3.0: new THREE.MeshLambertMaterial({color:0x66ffff}),
+      // cobwebs
+      4.0: new THREE.MeshLambertMaterial({color:0xf5f5f5}),
+      // ore blocks
+      5.0: new THREE.MeshLambertMaterial({color:0xc60000}),
+      // obsidian
+      50: new THREE.MeshLambertMaterial({color:0x1f1f1f}),
+      // water or lava
+      100: new THREE.MeshLambertMaterial({color:0x9900cc})
+    };
+  
+    document.addEventListener("visibilitychange", this.handleVisibilityChange);
 
-    /**
-     * Moves to the specified point and looks toward it.
-     * Used to set our initial viewpoint, and when we change the selected robot.
-     * @param {PointerLockControls} controls 
-     * @param {WorldAndScenePoint} point
-     */
-    goToAndLookAt(controls, point) {
-      let scenePoint = point.scene();
-      let x = scenePoint.x;
-      let y = scenePoint.y;
-      let z = scenePoint.z;
-      let controlsObject = this.controls.getObject();
-      controlsObject.position.set(x, y + 800, z);
-      controlsObject.children[0].rotation.x = -1.5;
-    }
+  }
 
-    /**
-     * Makes sure everything looks fine after the window changes size.
-     */
-    onWindowResize() {
+  /**
+   * Moves to the specified point and looks toward it.
+   * Used to set our initial viewpoint, and when we change the selected robot.
+   * @param {PointerLockControls} controls 
+   * @param {WorldAndScenePoint} point
+   */
+  goToAndLookAt(controls, point) {
+    let scenePoint = point.scene();
+    let x = scenePoint.x;
+    let y = scenePoint.y;
+    let z = scenePoint.z;
+    let controlsObject = this.controls.getObject();
+    controlsObject.position.set(x, y + 800, z);
+    controlsObject.children[0].rotation.x = -1.5;
+  }
+
+  /**
+   * Makes sure everything looks fine after the window changes size.
+   */
+  onWindowResize() {
+    
+    this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.updateProjectionMatrix();
+
+    this.renderer.setSize( window.innerWidth, window.innerHeight );
+    this.requestRender();
+
+    // unfortunately necessary to separate code by browser here
+    let ua = navigator.userAgent.toLowerCase(); 
+    // runs for safari
+    if (ua.indexOf('safari') != -1 && ua.indexOf('chrome') == -1) {
       
-      this.camera.aspect = window.innerWidth / window.innerHeight;
-      this.camera.updateProjectionMatrix();
+      // do nothing on window resize, because of safari's banner
+      // which causes the page to resize when the pointer is locked
 
-      this.renderer.setSize( window.innerWidth, window.innerHeight );
+    // runs for everyone else
+    } else {
+      // cancel and reapply the pointer lock when the window resizes
+      // if we don't, when the window gets bigger the camera can't rotate freely
+      let pointerLockElement = document.pointerLockElement;
+      document.exitPointerLock();
+      if (pointerLockElement) {
+        // the lock doesn't happen unless we delay it for some reason
+        setTimeout(()=>{
+          pointerLockElement.requestPointerLock();
+        }, 10);
+      }
+    }
+
+  }
+
+  /**
+   * Stop the game loop when the tab isn't visible, and start it when it is.
+   * This prevents the tab from freezing when focus is returned.
+   */
+  handleVisibilityChange() {
+    if (document.hidden) {
+      clearInterval(this.gameLoop);
+      this.gameLoop = false;
+    } else  {
+      this.gameLoop = this.startGameLoop();
       this.requestRender();
-
-      // unfortunately necessary to separate code by browser here
-      let ua = navigator.userAgent.toLowerCase(); 
-      // runs for safari
-      if (ua.indexOf('safari') != -1 && ua.indexOf('chrome') == -1) {
-        
-        // do nothing on window resize, because of safari's banner
-        // which causes the page to resize when the pointer is locked
-
-      // runs for everyone else
-      } else {
-        // cancel and reapply the pointer lock when the window resizes
-        // if we don't, when the window gets bigger the camera can't rotate freely
-        let pointerLockElement = document.pointerLockElement;
-        document.exitPointerLock();
-        if (pointerLockElement) {
-          // the lock doesn't happen unless we delay it for some reason
-          setTimeout(()=>{
-            pointerLockElement.requestPointerLock();
-          }, 10);
-        }
-      }
-
     }
+  }
 
-    /**
-     * Stop the game loop when the tab isn't visible, and start it when it is.
-     * This prevents the tab from freezing when focus is returned.
-     */
-    handleVisibilityChange() {
-      if (document.hidden) {
-        clearInterval(this.gameLoop);
-        this.gameLoop = false;
-      } else  {
-        this.gameLoop = this.startGameLoop();
-        this.requestRender();
-      }
+  /**
+   * Only renders if there isn't too much activity to prevent excessive numbers of renders.
+   */
+  requestRender() {
+    let now = new Date().getTime();
+    let lastRenderTooRecent = now - this.lastRender < this.framerate;
+    if (!this.controls.enabled && this.gameLoop && !lastRenderTooRecent) {
+      requestAnimationFrame(this.render);
+      this.lastRender = new Date().getTime();
     }
+  }
 
-    /**
-     * Only renders if there isn't too much activity to prevent excessive numbers of renders.
-     */
-    requestRender() {
-      let now = new Date().getTime();
-      let lastRenderTooRecent = now - this.lastRender < this.framerate;
-      if (!this.controls.enabled && this.gameLoop && !lastRenderTooRecent) {
+  /**
+   * Used to resume rendering when the tab becomes visible.
+   */
+  startGameLoop() {
+    return setInterval(()=>{
+      if (this.controls.enabled) {
         requestAnimationFrame(this.render);
-        this.lastRender = new Date().getTime();
+        this.controls.update(this.framerate);
       }
-    }
+    }, this.framerate);
+  }
 
-    /**
-     * Used to resume rendering when the tab becomes visible.
-     */
-    startGameLoop() {
-      return setInterval(()=>{
-        if (this.controls.enabled) {
-          requestAnimationFrame(this.render);
-          this.controls.update(this.framerate);
-        }
-      }, this.framerate);
-    }
+  /**
+   * Places the hover guide, listens for the camera controls, and draws the scene.
+   */
+  render() {
+    this.placeSelector();
+    this.renderer.render(this.scene, this.camera);
+  }
 
-    /**
-     * Places the hover guide, listens for the camera controls, and draws the scene.
-     */
-    render() {
-      this.placeSelector();
-      this.renderer.render(this.scene, this.camera);
+  /**
+   * Determines where to place the hover guide.
+   */
+  placeSelector() {
+  
+    if (this.selectBox && !(this.prevRollOverMeshPos.equals(this.rollOverMesh.position))) {
+      this.removeSelectBox();
     }
-
-    /**
-     * Determines where to place the hover guide.
-     */
-    placeSelector() {
-    
-      if (this.selectBox && !(this.prevRollOverMeshPos.equals(this.rollOverMesh.position))) {
-        this.removeSelectBox();
+  
+    this.prevRollOverMeshPos = this.rollOverMesh.position.clone();
+  
+    let fromScreenCenter = new THREE.Vector2(
+      ((this.renderer.domElement.clientWidth / 2) / this.renderer.domElement.clientWidth) * 2 - 1,
+      -(((this.renderer.domElement.clientHeight / 2) / this.renderer.domElement.clientHeight) * 2 - 1)
+    );
+  
+    this.raycaster.setFromCamera(fromScreenCenter, this.camera);
+  
+    let intersects = this.raycaster.intersectObjects(this.voxels);
+    if (intersects.length > 0) {
+  
+      let intersect = intersects[0];
+      let normal = intersect.face.normal.clone();
+      normal.multiplyScalar(this.voxelSideLength);
+  
+      this.rollOverMesh.position.copy(intersect.object.position);
+      if (!this.altOrCtrlKeyPressed) {
+        this.rollOverMesh.position.add(normal);
       }
-    
-      this.prevRollOverMeshPos = this.rollOverMesh.position.clone();
-    
-      let fromScreenCenter = new THREE.Vector2(
-        ((this.renderer.domElement.clientWidth / 2) / this.renderer.domElement.clientWidth) * 2 - 1,
-        -(((this.renderer.domElement.clientHeight / 2) / this.renderer.domElement.clientHeight) * 2 - 1)
-      );
-    
-      this.raycaster.setFromCamera(fromScreenCenter, this.camera);
-    
-      let intersects = this.raycaster.intersectObjects(this.voxels);
-      if (intersects.length > 0) {
-    
-        let intersect = intersects[0];
-        let normal = intersect.face.normal.clone();
-        normal.multiplyScalar(this.voxelSideLength);
-    
-        this.rollOverMesh.position.copy(intersect.object.position);
-        if (!this.altOrCtrlKeyPressed) {
-          this.rollOverMesh.position.add(normal);
-        }
-    
-        let rollOverPoint = new WorldAndScenePoint(this.rollOverMesh.position, false);
-    
-        if (this.game.gui.selectStart.isComplete() && !this.game.gui.selectEnd.isComplete()) {
-          this.scene.remove(this.rollOverMesh);
-          if (!this.selectBox) {
-            this.selectBox = this.makeBoxAround(this.game.gui.selectStart.getPoint(), rollOverPoint, this.rollOverMaterial);
-            this.scene.add(this.selectBox);
-          }
-        }
-        else if (!this.game.gui.selectStart.isComplete() && this.game.gui.selectEnd.isComplete()) {
-          this.scene.remove(this.rollOverMesh);
-          if (!this.selectBox) {
-            this.selectBox = this.makeBoxAround(rollOverPoint, this.game.gui.selectEnd.getPoint(), this.rollOverMaterial);
-            this.scene.add(this.selectBox);
-          }
-        }
-        else {
-          this.scene.add(this.rollOverMesh);
-        }
-    
-      }
-    
-      if (this.game.gui.selectStart.isComplete() && this.game.gui.selectEnd.isComplete()) {
+  
+      let rollOverPoint = new WorldAndScenePoint(this.rollOverMesh.position, false);
+  
+      if (this.game.gui.selectStart.isComplete() && !this.game.gui.selectEnd.isComplete()) {
+        this.scene.remove(this.rollOverMesh);
         if (!this.selectBox) {
-          this.selectBox = this.makeBoxAround(this.game.gui.selectStart.getPoint(), this.game.gui.selectEnd.getPoint(), this.rollOverMaterial);
+          this.selectBox = this.makeBoxAround(this.game.gui.selectStart.getPoint(), rollOverPoint, this.rollOverMaterial);
           this.scene.add(this.selectBox);
         }
       }
-    
-      let worldCoords = new WorldAndScenePoint(this.rollOverMesh.position, false).world();
-      let hoverCoordDiv = document.getElementById('hoverGuideCoordinates');
-      hoverCoordDiv.innerHTML = String([worldCoords.x, worldCoords.y, worldCoords.z]);
-      
-    }
-
-    /**
-     * Removes the temporary selected area.
-     */
-    removeSelectBox() {
-      if (this.selectBox) {
-        this.scene.remove(this.selectBox);
-        this.selectBox.geometry.dispose();
-        this.selectBox = undefined;
+      else if (!this.game.gui.selectStart.isComplete() && this.game.gui.selectEnd.isComplete()) {
+        this.scene.remove(this.rollOverMesh);
+        if (!this.selectBox) {
+          this.selectBox = this.makeBoxAround(rollOverPoint, this.game.gui.selectEnd.getPoint(), this.rollOverMaterial);
+          this.scene.add(this.selectBox);
+        }
       }
-    }
-
-    /**
-     * Creates a box. Used to indicate a selected area.
-     * @param {number} length 
-     * @param {number} height 
-     * @param {number} width 
-     * @param {THREE.Material} material 
-     * @param {WorldAndScenePoint} position 
-     * @returns {THREE.Mesh}
-     */
-    makeBox(length, height, width, material, position) {
-      let preventFlickeringOffset = 1;
-      let geometry = new THREE.BoxGeometry(
-        length + preventFlickeringOffset,
-        height + preventFlickeringOffset,
-        width + preventFlickeringOffset
-      );
-      let mesh = new THREE.Mesh(geometry, material || cubeMat);
-      if (position) {mesh.position.copy(position.scene());}
-      return mesh;
-    }
-
-    /**
-     * Finds the midpoint of two vectors. Used to position boxes between the two voxels at opposite corners.
-     * @param {WorldAndScenePoint} v1 
-     * @param {WorldAndScenePoint} v2 
-     * @returns {WorldAndScenePoint}
-     */
-    getMidpoint(v1, v2) {
-      let midpoint = v1.scene().clone();
-      midpoint.add(v2.scene());
-      midpoint.divideScalar(2);
-      return new WorldAndScenePoint(midpoint, false);
-    }
-
-    /**
-     * Creates a box with the given voxels at opposite corners. Used to indicate a selected area.
-     * @param {WorldAndScenePoint} startPoint
-     * @param {WorldAndScenePoint} endPoint
-     * @param {THREE.Material} material
-     * @returns {THREE.Mesh}
-     */
-    makeBoxAround(startPoint, endPoint, material) {
-      let midpoint = this.getMidpoint(startPoint, endPoint);
-      let sceneStart = startPoint.scene();
-      let sceneEnd = endPoint.scene();
-      let box = this.makeBox(
-        Math.abs(sceneEnd.x-sceneStart.x) + voxelSideLength,
-        Math.abs(sceneEnd.y-sceneStart.y) + voxelSideLength,
-        Math.abs(sceneEnd.z-sceneStart.z) + voxelSideLength,
-        material,
-        midpoint
-      );
-      return box;
-    }
-
-    // code for drawing minecraft maps
-
-    /**
-     * Removes the given robot's voxel and redraws it elsewhere.
-     * @param {WorldAndScenePoint} pos
-     * @param {string} robot
-     */
-    moveRobotVoxel(pos, robot) {
-    
-      let previousPosition = this.game.webClient.allRobotInfo[robot].getPosition();
-      if (previousPosition) {
-        this.removeVoxel(previousPosition);
+      else {
+        this.scene.add(this.rollOverMesh);
       }
-    
-      this.addVoxel(pos, robotMaterial);
-    
-      this.game.webClient.allRobotInfo[robot].setPosition(pos);
-    
-      this.requestRender();
+  
     }
   
-    /**
-     * Removes any existing voxel at the coordinates and adds a new one.
-     * @param {WorldAndScenePoint} pos
-     * @param {THREE.Material} material
-     * @returns {THREE.Mesh}
-     */
-    addVoxel(pos, material) {
-      let voxel = new THREE.Mesh(cubeGeo, material || cubeMat);
-      voxel.position.copy(pos.scene());
-    
-      let priorVoxel = this.voxelMap.get(pos);
-      if (priorVoxel) {this.removeVoxel(pos);}
-    
-      this.voxels.push(voxel);
-      this.voxelMap.set(pos, voxel);
-      this.scene.add(voxel);
-    
-      voxel.visible = this.game.GUI.cutawayForm.shouldBeRendered(pos);
-    
-      return voxel;
-    }
-    
-    /**
-     * Removes the voxel at pos if there is one.
-     * @param {WorldAndScenePoint} pos
-     * @returns {boolean}
-     */
-    removeVoxel(pos) {
-      let result = false;
-      let voxel = this.voxelMap.get(pos);
-      if (voxel && this.voxels.indexOf(voxel) != -1) {
-        this.scene.remove(voxel);
-        this.voxelMap.set(pos, undefined);
-        this.voxels.splice(voxels.indexOf(voxel), 1);
-        result = true;
+    if (this.game.gui.selectStart.isComplete() && this.game.gui.selectEnd.isComplete()) {
+      if (!this.selectBox) {
+        this.selectBox = this.makeBoxAround(this.game.gui.selectStart.getPoint(), this.game.gui.selectEnd.getPoint(), this.rollOverMaterial);
+        this.scene.add(this.selectBox);
       }
-      requestRender();
-      return result;
     }
+  
+    let worldCoords = new WorldAndScenePoint(this.rollOverMesh.position, false).world();
+    let hoverCoordDiv = document.getElementById('hoverGuideCoordinates');
+    hoverCoordDiv.innerHTML = String([worldCoords.x, worldCoords.y, worldCoords.z]);
     
-    /**
-     * Used to draw terrain data received from a robot.
-     * @param {object} shape
-     * @param {string} robot
-     */
-    addShapeVoxels(shape, robot) {
-      for (let x = 0; x < shape.w; x++) {
-        for (let z = 0; z < shape.d; z++) {
-          for (let y = 0; y < (shape.data.n / (shape.w * shape.d)); y++) {
-    
-            let xWithOffset = x + shape.x;
-            let yWithOffset = y + shape.y;
-            let zWithOffset = z + shape.z;
-    
-            let shapePoint = new THREE.Vector3(xWithOffset, yWithOffset, zWithOffset);
-    
-            let knownRobotPosition = false;
-            for (let robot of Object.values(this.game.webClient.allRobotInfo)) {
-              if (robot) {
-                let robotPoint = robot.getPosition();
-                // this stops an error if a robot has connected but not sent their location yet
-                if (robotPoint) {
-                  let robotPos = robotPoint.world();
-                  if (robotPos && robotPos.x == shapePoint.x && robotPos.y == shapePoint.y && robotPos.z == shapePoint.z) {
-                    knownRobotPosition = true;
-                  }
+  }
+
+  /**
+   * Removes the temporary selected area.
+   */
+  removeSelectBox() {
+    if (this.selectBox) {
+      this.scene.remove(this.selectBox);
+      this.selectBox.geometry.dispose();
+      this.selectBox = undefined;
+    }
+  }
+
+  /**
+   * Creates a box. Used to indicate a selected area.
+   * @param {number} length 
+   * @param {number} height 
+   * @param {number} width 
+   * @param {THREE.Material} material 
+   * @param {WorldAndScenePoint} position 
+   * @returns {THREE.Mesh}
+   */
+  makeBox(length, height, width, material, position) {
+    let preventFlickeringOffset = 1;
+    let geometry = new THREE.BoxGeometry(
+      length + preventFlickeringOffset,
+      height + preventFlickeringOffset,
+      width + preventFlickeringOffset
+    );
+    let mesh = new THREE.Mesh(geometry, material || cubeMat);
+    if (position) {mesh.position.copy(position.scene());}
+    return mesh;
+  }
+
+  /**
+   * Finds the midpoint of two vectors. Used to position boxes between the two voxels at opposite corners.
+   * @param {WorldAndScenePoint} v1 
+   * @param {WorldAndScenePoint} v2 
+   * @returns {WorldAndScenePoint}
+   */
+  getMidpoint(v1, v2) {
+    let midpoint = v1.scene().clone();
+    midpoint.add(v2.scene());
+    midpoint.divideScalar(2);
+    return new WorldAndScenePoint(midpoint, false);
+  }
+
+  /**
+   * Creates a box with the given voxels at opposite corners. Used to indicate a selected area.
+   * @param {WorldAndScenePoint} startPoint
+   * @param {WorldAndScenePoint} endPoint
+   * @param {THREE.Material} material
+   * @returns {THREE.Mesh}
+   */
+  makeBoxAround(startPoint, endPoint, material) {
+    let midpoint = this.getMidpoint(startPoint, endPoint);
+    let sceneStart = startPoint.scene();
+    let sceneEnd = endPoint.scene();
+    let box = this.makeBox(
+      Math.abs(sceneEnd.x-sceneStart.x) + voxelSideLength,
+      Math.abs(sceneEnd.y-sceneStart.y) + voxelSideLength,
+      Math.abs(sceneEnd.z-sceneStart.z) + voxelSideLength,
+      material,
+      midpoint
+    );
+    return box;
+  }
+
+  // code for drawing minecraft maps
+
+  /**
+   * Removes the given robot's voxel and redraws it elsewhere.
+   * @param {WorldAndScenePoint} pos
+   * @param {string} robot
+   */
+  moveRobotVoxel(pos, robot) {
+  
+    let previousPosition = this.game.webClient.allRobotInfo[robot].getPosition();
+    if (previousPosition) {
+      this.removeVoxel(previousPosition);
+    }
+  
+    this.addVoxel(pos, robotMaterial);
+  
+    this.game.webClient.allRobotInfo[robot].setPosition(pos);
+  
+    this.requestRender();
+  }
+
+  /**
+   * Removes any existing voxel at the coordinates and adds a new one.
+   * @param {WorldAndScenePoint} pos
+   * @param {THREE.Material} material
+   * @returns {THREE.Mesh}
+   */
+  addVoxel(pos, material) {
+    let voxel = new THREE.Mesh(cubeGeo, material || cubeMat);
+    voxel.position.copy(pos.scene());
+  
+    let priorVoxel = this.voxelMap.get(pos);
+    if (priorVoxel) {this.removeVoxel(pos);}
+  
+    this.voxels.push(voxel);
+    this.voxelMap.set(pos, voxel);
+    this.scene.add(voxel);
+  
+    voxel.visible = this.game.GUI.cutawayForm.shouldBeRendered(pos);
+  
+    return voxel;
+  }
+  
+  /**
+   * Removes the voxel at pos if there is one.
+   * @param {WorldAndScenePoint} pos
+   * @returns {boolean}
+   */
+  removeVoxel(pos) {
+    let result = false;
+    let voxel = this.voxelMap.get(pos);
+    if (voxel && this.voxels.indexOf(voxel) != -1) {
+      this.scene.remove(voxel);
+      this.voxelMap.set(pos, undefined);
+      this.voxels.splice(voxels.indexOf(voxel), 1);
+      result = true;
+    }
+    requestRender();
+    return result;
+  }
+  
+  /**
+   * Used to draw terrain data received from a robot.
+   * @param {object} shape
+   * @param {string} robot
+   */
+  addShapeVoxels(shape, robot) {
+    for (let x = 0; x < shape.w; x++) {
+      for (let z = 0; z < shape.d; z++) {
+        for (let y = 0; y < (shape.data.n / (shape.w * shape.d)); y++) {
+  
+          let xWithOffset = x + shape.x;
+          let yWithOffset = y + shape.y;
+          let zWithOffset = z + shape.z;
+  
+          let shapePoint = new THREE.Vector3(xWithOffset, yWithOffset, zWithOffset);
+  
+          let knownRobotPosition = false;
+          for (let robot of Object.values(this.game.webClient.allRobotInfo)) {
+            if (robot) {
+              let robotPoint = robot.getPosition();
+              // this stops an error if a robot has connected but not sent their location yet
+              if (robotPoint) {
+                let robotPos = robotPoint.world();
+                if (robotPos && robotPos.x == shapePoint.x && robotPos.y == shapePoint.y && robotPos.z == shapePoint.z) {
+                  knownRobotPosition = true;
                 }
-            }
-            }
-    
-            // this is how the geolyzer reports 3d data in a 1d array
-            // also lua is indexed from 1
-            let index = (x + 1) + z*shape.w + y*shape.w*shape.d;
-    
-            let worldPos = new WorldAndScenePoint(shapePoint, true);
-    
-            if (shape.data[index]) {
-    
-              let material;
-              if (knownRobotPosition) {
-                material = robotMaterial;
               }
-              else {
-                material = this.colorFromHardness(shape.data[index]);
-              }
-    
-              this.addVoxel(worldPos, material);
-    
-            }
-    
-            else {
-              this.removeVoxel(worldPos);
-            }
-    
           }
+          }
+  
+          // this is how the geolyzer reports 3d data in a 1d array
+          // also lua is indexed from 1
+          let index = (x + 1) + z*shape.w + y*shape.w*shape.d;
+  
+          let worldPos = new WorldAndScenePoint(shapePoint, true);
+  
+          if (shape.data[index]) {
+  
+            let material;
+            if (knownRobotPosition) {
+              material = robotMaterial;
+            }
+            else {
+              material = this.colorFromHardness(shape.data[index]);
+            }
+  
+            this.addVoxel(worldPos, material);
+  
+          }
+  
+          else {
+            this.removeVoxel(worldPos);
+          }
+  
         }
       }
-      // have the shapes appear immediately when the camera isn't moving as well
-      this.requestRender();
     }
-    
-    /**
-     * Converts ranges of noisy hardness values to specific colors.
-     * @param {number} hardness
-     * @returns {THREE.Material}
-     */
-    colorFromHardness(hardness) {
-    
-      let closestMatch = 999; // arbitrarily high number
-      let oldDifference = Math.abs(closestMatch - hardness);
-      for (let key in this.hardnessToColorMap) {
-    
-        let newDifference = Math.abs(key - hardness);
-        if (newDifference < oldDifference) {
-          closestMatch = key;
-          oldDifference = newDifference;
-        }
-    
+    // have the shapes appear immediately when the camera isn't moving as well
+    this.requestRender();
+  }
+  
+  /**
+   * Converts ranges of noisy hardness values to specific colors.
+   * @param {number} hardness
+   * @returns {THREE.Material}
+   */
+  colorFromHardness(hardness) {
+  
+    let closestMatch = 999; // arbitrarily high number
+    let oldDifference = Math.abs(closestMatch - hardness);
+    for (let key in this.hardnessToColorMap) {
+  
+      let newDifference = Math.abs(key - hardness);
+      if (newDifference < oldDifference) {
+        closestMatch = key;
+        oldDifference = newDifference;
       }
-    
-      return this.hardnessToColorMap[closestMatch];
-    
+  
     }
-    
-    /**
-     * Removes the temporary selected area.
-     */
-    removeSelectBox() {
-      if (this.selectBox) {
-        this.scene.remove(selectBox);
-        this.selectBox.geometry.dispose();
-        this.selectBox = undefined;
-      }
+  
+    return this.hardnessToColorMap[closestMatch];
+  
+  }
+  
+  /**
+   * Removes the temporary selected area.
+   */
+  removeSelectBox() {
+    if (this.selectBox) {
+      this.scene.remove(selectBox);
+      this.selectBox.geometry.dispose();
+      this.selectBox = undefined;
     }
-    
-    /**
-     * Stores a selection so it can be shown until the task it's for is completed.
-     * @param {object} selections 
-     * @param {THREE.Mesh} selection 
-     * @returns {number}
-     */
-    addSelection(selections, selection) {
-      this.removeSelectBox();
-      let counter = 0;
-      while (this.selections[counter]) {counter++;}
-      this.selections[counter] = selection;
-      return counter;
-    }
-    
-    /**
-     * Used to get rid of a selection when the task it's for is completed.
-     * @param {object} selections 
-     * @param {number} index 
-     */
-    deleteSelection(selections, index) {
-      let selection = this.selections[index];
-      this.scene.remove(selection);
-      selection.geometry.dispose();
-      delete this.selections[index];
-      this.requestRender();
-    }
+  }
 
 }
