@@ -411,7 +411,7 @@ class MapRender {
             let shapePoint = new THREE.Vector3(xWithOffset, yWithOffset, zWithOffset);
     
             let knownRobotPosition = false;
-            for (let robot of Object.values(allRobotInfo)) {
+            for (let robot of Object.values(this.game.webClient.allRobotInfo)) {
               if (robot) {
                 let robotPoint = robot.getPosition();
                 // this stops an error if a robot has connected but not sent their location yet
@@ -437,22 +437,22 @@ class MapRender {
                 material = robotMaterial;
               }
               else {
-                material = colorFromHardness(shape.data[index]);
+                material = this.colorFromHardness(shape.data[index]);
               }
     
-              addVoxel(worldPos, material);
+              this.addVoxel(worldPos, material);
     
             }
     
             else {
-              removeVoxel(worldPos);
+              this.removeVoxel(worldPos);
             }
     
           }
         }
       }
       // have the shapes appear immediately when the camera isn't moving as well
-      requestRender();
+      this.requestRender();
     }
     
     /**
@@ -464,7 +464,7 @@ class MapRender {
     
       let closestMatch = 999; // arbitrarily high number
       let oldDifference = Math.abs(closestMatch - hardness);
-      for (let key in hardnessToColorMap) {
+      for (let key in this.hardnessToColorMap) {
     
         let newDifference = Math.abs(key - hardness);
         if (newDifference < oldDifference) {
@@ -474,34 +474,18 @@ class MapRender {
     
       }
     
-      return hardnessToColorMap[closestMatch];
+      return this.hardnessToColorMap[closestMatch];
     
-    }
-    
-    /**
-     * Serializes objects to Lua tables. Makes sending commands to robots easier.
-     * @param {object} object 
-     * @returns {string}
-     */
-    objectToLuaString(object) {
-      let luaString = '{';
-      for (let prop in object) {
-        if (object.hasOwnProperty(prop)) {
-          luaString = luaString + prop + '=' + object[prop] + ',';
-        }
-      }
-      luaString = luaString + '}'
-      return luaString;
     }
     
     /**
      * Removes the temporary selected area.
      */
     removeSelectBox() {
-      if (selectBox) {
-        scene.remove(selectBox);
-        selectBox.geometry.dispose();
-        selectBox = undefined;
+      if (this.selectBox) {
+        this.scene.remove(selectBox);
+        this.selectBox.geometry.dispose();
+        this.selectBox = undefined;
       }
     }
     
@@ -512,10 +496,10 @@ class MapRender {
      * @returns {number}
      */
     addSelection(selections, selection) {
-      removeSelectBox();
+      this.removeSelectBox();
       let counter = 0;
-      while (selections[counter]) {counter++;}
-      selections[counter] = selection;
+      while (this.selections[counter]) {counter++;}
+      this.selections[counter] = selection;
       return counter;
     }
     
@@ -525,11 +509,11 @@ class MapRender {
      * @param {number} index 
      */
     deleteSelection(selections, index) {
-      let selection = selections[index];
-      scene.remove(selection);
+      let selection = this.selections[index];
+      this.scene.remove(selection);
       selection.geometry.dispose();
-      delete selections[index];
-      requestRender();
+      delete this.selections[index];
+      this.requestRender();
     }
 
 }
