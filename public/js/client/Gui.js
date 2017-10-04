@@ -103,7 +103,9 @@ class GUI {
     this.scene.remove(selection);
     selection.geometry.dispose();
     delete this.selections[index];
-    this.requestRender();
+    this.game.mapRender.requestRender();
   }
+
+  
 
 }
