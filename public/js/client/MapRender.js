@@ -5,7 +5,7 @@ class MapRender {
      */
     constructor(game) {
 
-      this.Game = game;
+      this.game = game;
 
       this.framerate = 1000/30;
       this.voxelSideLength = 50;
@@ -235,17 +235,17 @@ class MapRender {
     
         let rollOverPoint = new WorldAndScenePoint(this.rollOverMesh.position, false);
     
-        if (this.selectStart.isComplete() && !this.selectEnd.isComplete()) {
+        if (this.game.gui.selectStart.isComplete() && !this.game.gui.selectEnd.isComplete()) {
           this.scene.remove(this.rollOverMesh);
           if (!this.selectBox) {
-            this.selectBox = makeBoxAround(this.selectStart.getPoint(), rollOverPoint, this.rollOverMaterial);
+            this.selectBox = makeBoxAround(this.game.gui.selectStart.getPoint(), rollOverPoint, this.rollOverMaterial);
             this.scene.add(this.selectBox);
           }
         }
-        else if (!this.selectStart.isComplete() && this.selectEnd.isComplete()) {
+        else if (!this.game.gui.selectStart.isComplete() && this.game.gui.selectEnd.isComplete()) {
           this.scene.remove(this.rollOverMesh);
           if (!this.selectBox) {
-            this.selectBox = makeBoxAround(rollOverPoint, this.selectEnd.getPoint(), this.rollOverMaterial);
+            this.selectBox = makeBoxAround(rollOverPoint, this.game.gui.selectEnd.getPoint(), this.rollOverMaterial);
             this.scene.add(this.selectBox);
           }
         }
@@ -255,9 +255,9 @@ class MapRender {
     
       }
     
-      if (this.selectStart.isComplete() && this.selectEnd.isComplete()) {
+      if (this.game.gui.selectStart.isComplete() && this.game.gui.selectEnd.isComplete()) {
         if (!this.selectBox) {
-          this.selectBox = makeBoxAround(this.selectStart.getPoint(), this.selectEnd.getPoint(), this.rollOverMaterial);
+          this.selectBox = makeBoxAround(this.game.gui.selectStart.getPoint(), this.game.gui.selectEnd.getPoint(), this.rollOverMaterial);
           this.scene.add(this.selectBox);
         }
       }

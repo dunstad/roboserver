@@ -2,7 +2,7 @@ class GUI {
 
   constructor(game) {
 
-    this.Game = game;
+    this.game = game;
 
     this.selectStart = new CoordForm(
       document.getElementById('selectStartX'),

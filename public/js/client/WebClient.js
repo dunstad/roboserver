@@ -2,7 +2,7 @@ class WebClient {
 
   constructor(game) {
 
-    this.Game = game;
+    this.game = game;
 
     this.socket = io();
 
