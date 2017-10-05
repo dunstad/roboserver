@@ -22,12 +22,20 @@ class WebClient {
         this.addMessage(result.data, false);
       },
 
+      /**
+       * Used to render map data received from robots.
+       * @param {object} mapData
+       */
       'map data': (mapData)=>{
         console.dir('map data');
         console.dir(mapData);
         this.game.mapRender.addShapeVoxels(mapData.data, mapData.robot);
       },
 
+      /**
+       * Used to render block data received from robots.
+       * @param {object} blockData
+       */
       'block data': (blockData)=>{
         console.dir('block data');
         console.dir(blockData);
@@ -38,6 +46,10 @@ class WebClient {
         else {this.game.mapRender.removeVoxel(pos);}
       },
 
+      /**
+       * Used to render the robot's position.
+       * @param {object} pos
+       */
       'robot position': (pos)=>{
         console.dir('robot position');
         console.dir(pos);
@@ -52,48 +64,72 @@ class WebClient {
         }
       },
 
+      /**
+       * 
+       */
       'delete selection': ()=>{
 
         
 
       },
 
+      /**
+       * 
+       */
       'dig success': ()=>{
 
         
 
       },
 
+      /**
+       * 
+       */
       'inventory data': ()=>{
 
         
 
       },
 
+      /**
+       * 
+       */
       'slot data': ()=>{
 
         
 
       },
 
+      /**
+       * 
+       */
       'listen start': ()=>{
 
         
 
       },
 
+      /**
+       * 
+       */
       'listen end': ()=>{
 
         
 
       },
 
+      /**
+       * 
+       */
       'power level': ()=>{
 
         
 
       },
 
+      /**
+       * 
+       */
       'available components': ()=>{
 
         
