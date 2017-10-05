@@ -65,21 +65,24 @@ class WebClient {
       },
 
       /**
-       * 
+       * Used to get rid of selection areas when their task is done.
+       * @param {object} index
        */
-      'delete selection': ()=>{
-
-        
-
+      'delete selection': (index)=>{
+        console.dir('delete selection');
+        console.dir(index);
+        this.game.GUI.deleteSelection(selections, index.data);
       },
 
       /**
-       * 
+       * Used to remove voxels after successfully digging the
+       * corresponding block in the world.
+       * @param {object} pos
        */
-      'dig success': ()=>{
-
-        
-
+      'dig success': (pos)=>{
+        console.dir('dig success');
+        console.dir(pos);
+        this.game.mapRender.removeVoxel(new WorldAndScenePoint(pos.data, true));
       },
 
       /**
