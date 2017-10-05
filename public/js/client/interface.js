@@ -36,7 +36,7 @@ function main() {
     else {removeVoxel(pos);}
   });
 
-  // render map data received from robot
+  // render location data received from robot
   socket.on('robot position', (pos)=>{
     console.dir('robot position');
     console.dir(pos);
