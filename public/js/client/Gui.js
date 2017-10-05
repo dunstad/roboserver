@@ -4,6 +4,10 @@ class GUI {
 
     this.game = game;
 
+    this.componentElementMap = {
+      'raw': ['commandInput', 'runInTerminalDiv']
+    };
+
     this.selections = {};
 
     this.selectStart = new CoordForm(
@@ -216,8 +220,8 @@ class GUI {
       let moveToolActive = document.getElementById('moveTool').checked;
       let interactToolActive = document.getElementById('interactTool').checked;
       let inspectToolActive = document.getElementById('inspectTool').checked;
-      if (controls.enabled && (moveToolActive || interactToolActive || inspectToolActive)) {
-        let coord = new WorldAndScenePoint(rollOverMesh.position, false).world();
+      if (this.game.mapRender.controls.enabled && (moveToolActive || interactToolActive || inspectToolActive)) {
+        let coord = new WorldAndScenePoint(this.game.mapRender.rollOverMesh.position, false).world();
         console.log(coord);
         let scanLevel = document.getElementById('scanLevelSelect').value;
         if (moveToolActive) {
@@ -226,11 +230,11 @@ class GUI {
         }
         else if (interactToolActive) {
           let commandName = 'interact';
-          let commandParameters = [objectToLuaString(coord), scanLevel];
+          let commandParameters = [this.objectToLuaString(coord), scanLevel];
         }
         else if (inspectToolActive) {
           let commandName = 'inspect';
-          let commandParameters = [objectToLuaString(coord), scanLevel];
+          let commandParameters = [this.objectToLuaString(coord), scanLevel];
         }
         sendCommand(commandName, commandParameters);
       }
@@ -247,14 +251,14 @@ class GUI {
   sendCommand(commandName, commandParameters, runInTerminal) {
     let result = false;
     let robotSelect = document.getElementById('robotSelect');
-    if (!robotSelect.value) {
+    if (!this.robotSelect.value) {
       console.dir('No robot selected!');
     }
     else {
       let commandString = commandName + "(" + (commandParameters || "") + ")"
       commandParameters = Array.isArray(commandParameters) ? commandParameters : [];
-      addMessage(commandString, true, runInTerminal, commandName, commandParameters);
-      socket.emit('command', {command: {name: commandName, parameters: commandParameters}, robot: robotSelect.value});
+      this.addMessage(commandString, true, runInTerminal, commandName, commandParameters);
+      this.game.webClient.socket.emit('command', {command: {name: commandName, parameters: commandParameters}, robot: this.robotSelect.value});
       result = true;
     }
     return result;
@@ -290,7 +294,7 @@ class GUI {
 
         let commandName = event.target.getAttribute("data-command-name");
         let commandParameters = JSON.parse(event.target.getAttribute("data-command-parameters"));
-        if (commandName) {sendCommand(commandName, commandParameters);}
+        if (commandName) {this.sendCommand(commandName, commandParameters);}
 
       });
 
@@ -299,7 +303,7 @@ class GUI {
 
     else {
       let subClass = 'output';
-      element.appendChild(renderCommandResponse(message));
+      element.appendChild(this.renderCommandResponse(message));
     }
 
     element.classList.add(subClass);
@@ -333,11 +337,11 @@ class GUI {
     // locking/unlocking the cursor, enabling/disabling controls
     if ('pointerLockElement' in document) {
 
-      let pointerLockElement = renderer.domElement;
+      let pointerLockElement = this.game.mapRender.renderer.domElement;
 
-      pointerLockChangeCB(event) {
-        if (document.pointerLockElement === pointerLockElement) {controls.enabled = true;}
-        else {controls.enabled = false;}
+      function pointerLockChangeCB(event) {
+        if (document.pointerLockElement === pointerLockElement) {this.game.mapRender.controls.enabled = true;}
+        else {this.game.mapRender.controls.enabled = false;}
       }
 
       // Hook pointer lock state change events
@@ -368,7 +372,7 @@ class GUI {
   initCraftSelect() {
     let craftSelect = document.getElementById("craftSelect");
 
-    addRecipes(recipes) {
+    function addRecipes(recipes) {
       let recipeNames = [];
       for (let recipe of recipes) {
         for (let recipeName of getRecipeNames(recipe)) {
@@ -398,7 +402,7 @@ class GUI {
       let craftSelect = document.getElementById("craftSelect");
       let commandName = 'craft';
       let commandParameters = [craftSelect.value];
-      sendCommand(commandName, commandParameters);
+      this.sendCommand(commandName, commandParameters);
 
     });
 
@@ -409,38 +413,38 @@ class GUI {
    * @param {string} robotName 
    */
   switchToRobot(robotName) {
-    let robotData = allRobotInfo[robotName];
+    let robotData = this.game.webClient.allRobotInfo[robotName];
     if (robotData) {
 
       let powerLevel = robotData.getPower();
       if (powerLevel) {
-        setPower(powerLevel);
+        this.setPower(powerLevel);
       }
       
       let inventoryContainer = document.getElementById("inventoryContainer");
       if (robotData.getShowInventories()) {
         inventoryContainer.classList.remove('hidden');
-        sendCommand('viewInventory');
+        this.sendCommand('viewInventory');
       }
       else {
         inventoryContainer.classList.add('hidden');
       }
 
-      for (elem of Array.from(inventoryContainer.childNodes)) {
+      for (let elem of Array.from(inventoryContainer.childNodes)) {
         elem.remove();
       }
-      allRobotInfo[robotName].getAllInventories().map(i=>i.addToDisplay(inventoryContainer));
+      this.game.webClient.allRobotInfo[robotName].getAllInventories().map(i=>i.addToDisplay(inventoryContainer));
 
       let robotPos = robotData.getPosition();
       if (robotPos) {
-        selectedRobotMesh.position.copy(robotPos.scene());
-        selectedRobotMesh.visible = true;
-        requestRender();
+        this.game.mapRender.selectedRobotMesh.position.copy(robotPos.scene());
+        this.game.mapRender.selectedRobotMesh.visible = true;
+        this.game.mapRender.requestRender();
       }
 
-      hideComponentGUI();
-      for (componentName in robotData.getComponents()) {
-        let componentElementIDs = componentElementMap[componentName];
+      this.hideComponentGUI();
+      for (let componentName in robotData.getComponents()) {
+        let componentElementIDs = this.componentElementMap[componentName];
         componentElementIDs.map((componentElementID)=>{
           document.getElementById(componentElementID).classList.remove('hidden');
         });
@@ -448,8 +452,8 @@ class GUI {
 
     }
     else {
-      selectedRobotMesh.visible = false;
-      requestRender();
+      this.game.mapRender.selectedRobotMesh.visible = false;
+      this.game.mapRender.requestRender();
     }
   }
 
@@ -467,7 +471,7 @@ class GUI {
    * Hides certain GUI elements when a robot that can't make use of them is selected.
    */
   hideComponentGUI() {
-    for (componentElementIDs of Object.values(componentElementMap)) {
+    for (componentElementIDs of Object.values(this.componentElementMap)) {
       componentElementIDs.map((componentElementID)=>{
         let componentElement = document.getElementById(componentElementID);
         if (!componentElement.classList.contains('hidden')) {
@@ -484,7 +488,7 @@ class GUI {
     let robotSelect = document.getElementById('robotSelect');
     robotSelect.addEventListener('change', (e)=>{
       console.log(e.target.value);
-      switchToRobot(e.target.value);
+      this.switchToRobot(e.target.value);
     });
   }
 
@@ -492,9 +496,9 @@ class GUI {
    * Moves the camera above the selected robot and faces it.
    */
   viewSelectedRobot() {
-    let robotData = allRobotInfo[document.getElementById('robotSelect').value];
-    goToAndLookAt(controls, robotData.getPosition());
-    requestRender();
+    let robotData = this.game.webClient.allRobotInfo[document.getElementById('robotSelect').value];
+    this.game.mapRender.goToAndLookAt(this.game.mapRender.controls, robotData.getPosition());
+    this.game.mapRender.requestRender();
   }
 
   /**
@@ -502,10 +506,10 @@ class GUI {
    */
   initCutawayForm() {
     cutawayForm.addChangeListener((e)=>{
-      voxelMap.forEach((voxel)=>{
-        voxel.visible = cutawayForm.shouldBeRendered(new WorldAndScenePoint(voxel.position, false));
+      this.game.mapRender.voxelMap.forEach((voxel)=>{
+        voxel.visible = this.cutawayForm.shouldBeRendered(new WorldAndScenePoint(voxel.position, false));
       });
-      requestRender();
+      this.game.mapRender.requestRender();
     });
   }
 
