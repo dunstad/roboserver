@@ -191,6 +191,9 @@ function main() {
 
 }
 
+/**
+ * Used to erase input from the coordinate forms.
+ */
 function clearSelection() {
   selectStart.clear();
   selectEnd.clear();
