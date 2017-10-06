@@ -205,6 +205,10 @@ class WebClient {
 
     };
 
+    for (let messageName in this.commandMap) {
+      this.socket.on(messageName, this.commandMap[messageName]);
+    }
+
   }
 
 }
