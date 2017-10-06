@@ -253,7 +253,6 @@
 		<script src='/js/client/VoxelMap.js'></script>
 		<script src='/js/client/CoordForm.js'></script>
 		<script src='/js/client/CutawayForm.js'></script>
-    <!-- script src='/js/client/map.js'></script -->
 		<script src='/js/client/MapRender.js'></script>
 
     <script type='text/javascript' src='/js/client/fetchPromise.js'></script>
@@ -264,7 +263,6 @@
 		<script src='/js/lib/bootstrap.min.js'></script>
 		<script src='/js/lib/bootstrap-select.min.js'></script>
 
-    <!-- script type='text/javascript' src='/js/client/interface.js'></script -->
     <script type='text/javascript' src='/js/client/GUI.js'></script>
     <script type='text/javascript' src='/js/client/WebClient.js'></script>
 		<script src='/js/client/buttons.js'></script>
@@ -273,7 +271,14 @@
     
     <script src='/js/lib/ajv.min.js'></script>
     
-		<script src='/js/client/Game.js'></script>
+    <script src='/js/client/Game.js'></script>
+    
+    <script>
+      GLOBALS = {};
+      GLOBALS.game = new Game();
+      GLOBALS.game.mapRender.render();
+      GLOBALS.game.mapRender.handleVisibilityChange();
+    </script>
 
     <!-- Insert this line after script imports to fix electron import path for jquery -->
     <script>if (window.module) module = window.module;</script>

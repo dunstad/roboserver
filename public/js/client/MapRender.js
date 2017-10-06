@@ -158,8 +158,6 @@ class MapRender {
    * This prevents the tab from freezing when focus is returned.
    */
   handleVisibilityChange() {
-    console.dir(this)
-    console.dir('!')
     if (document.hidden) {
       clearInterval(this.gameLoop);
       this.gameLoop = false;
