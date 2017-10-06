@@ -346,7 +346,7 @@ class MapRender {
       this.removeVoxel(previousPosition);
     }
   
-    this.addVoxel(pos, robotMaterial);
+    this.addVoxel(pos, this.robotMaterial);
   
     this.game.webClient.allRobotInfo[robot].setPosition(pos);
   
@@ -360,7 +360,7 @@ class MapRender {
    * @returns {THREE.Mesh}
    */
   addVoxel(pos, material) {
-    let voxel = new THREE.Mesh(cubeGeo, material || cubeMat);
+    let voxel = new THREE.Mesh(this.cubeGeo, material || this.cubeMat);
     voxel.position.copy(pos.scene());
   
     let priorVoxel = this.voxelMap.get(pos);
@@ -386,10 +386,10 @@ class MapRender {
     if (voxel && this.voxels.indexOf(voxel) != -1) {
       this.scene.remove(voxel);
       this.voxelMap.set(pos, undefined);
-      this.voxels.splice(voxels.indexOf(voxel), 1);
+      this.voxels.splice(this.voxels.indexOf(voxel), 1);
       result = true;
     }
-    requestRender();
+    this.requestRender();
     return result;
   }
   
@@ -433,7 +433,7 @@ class MapRender {
   
             let material;
             if (knownRobotPosition) {
-              material = robotMaterial;
+              material = this.robotMaterial;
             }
             else {
               material = this.colorFromHardness(shape.data[index]);

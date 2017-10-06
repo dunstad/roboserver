@@ -517,7 +517,7 @@ class TestClient {
 	 * Used to tell the server the test client now has less power than it did before.
 	 */
 	sendDecreasedPower() {
-		this.send('power level', decreasePower());
+		this.send('power level', this.decreasePower());
 	}
 
 }

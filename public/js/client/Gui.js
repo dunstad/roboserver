@@ -473,7 +473,7 @@ class GUI {
    * Hides certain GUI elements when a robot that can't make use of them is selected.
    */
   hideComponentGUI() {
-    for (componentElementIDs of Object.values(this.componentElementMap)) {
+    for (let componentElementIDs of Object.values(this.componentElementMap)) {
       componentElementIDs.map((componentElementID)=>{
         let componentElement = document.getElementById(componentElementID);
         if (!componentElement.classList.contains('hidden')) {
