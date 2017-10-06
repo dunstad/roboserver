@@ -6,7 +6,6 @@
 * get a screenshot of what geolyzer.analyze output looks like
 * make sure inspecting the chest with the test client works
 * refactor interface code
-  * hook up the new map and interface code
   * un-hardcode ids and move them to GUI
   * decouple maprender and gui?
 * add validators to web client
