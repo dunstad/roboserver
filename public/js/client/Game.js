@@ -5,8 +5,8 @@ class Game {
    */
   constructor() {
 
-    this.GUI = new GUI(this);
     this.mapRender = new MapRender(this);
+    this.GUI = new GUI(this);
     this.webClient = new WebClient(this);
 
   }

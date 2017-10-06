@@ -17,8 +17,6 @@ class MapRender {
     this.controls = new PointerLockControls(this.camera);
     this.scene.add(this.controls.getObject());
     this.raycaster = new THREE.Raycaster();
-
-    document.body.appendChild( this.game.GUI.container );
   
     // change the starting position of the camera/controls
     this.goToAndLookAt(this.controls, new WorldAndScenePoint(0, 0, 0, false));
@@ -48,7 +46,6 @@ class MapRender {
     this.renderer.setClearColor(0xf0f0f0);
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.container.appendChild(this.renderer.domElement);
   
     window.addEventListener('resize', this.onWindowResize, false);
   

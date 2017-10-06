@@ -29,6 +29,8 @@ class GUI {
     );
 
     this.container = document.createElement('div');
+    document.body.appendChild( this.container );
+    this.container.appendChild(this.game.mapRender.renderer.domElement);
 
     document.addEventListener('keydown', (e)=>{
       const questionMarkCode = 191;      
@@ -133,7 +135,7 @@ class GUI {
    * Allows specifying an area of voxels. Used for digging and placing blocks.
    */
   initSelectAreaTools() {
-    renderer.domElement.addEventListener('click', (e)=>{
+    this.game.mapRender.renderer.domElement.addEventListener('click', (e)=>{
       // left click
       if (e.button == 0) {
         let digToolActive = document.getElementById('digTool').checked;
@@ -216,7 +218,7 @@ class GUI {
    * and then do something depending on the selected tool.
    */
   initClickTools() {
-    renderer.domElement.addEventListener('click', ()=>{
+    this.game.mapRender.renderer.domElement.addEventListener('click', ()=>{
       let moveToolActive = document.getElementById('moveTool').checked;
       let interactToolActive = document.getElementById('interactTool').checked;
       let inspectToolActive = document.getElementById('inspectTool').checked;
@@ -353,7 +355,7 @@ class GUI {
       }, false);
 
       let clickThroughElements = ['bottomLeftUI', 'messageContainer', 'inventoryContainer', 'buttonContainer'];
-      for (elemName of clickThroughElements) {
+      for (let elemName of clickThroughElements) {
         let clickThroughElem = document.getElementById(elemName);
         clickThroughElem.addEventListener('click', function(event) {
           if (event.target == clickThroughElem) {
@@ -505,7 +507,7 @@ class GUI {
    * Used to update the map whenever we specify a new cutoff point.
    */
   initCutawayForm() {
-    cutawayForm.addChangeListener((e)=>{
+    this.cutawayForm.addChangeListener((e)=>{
       this.game.mapRender.voxelMap.forEach((voxel)=>{
         voxel.visible = this.cutawayForm.shouldBeRendered(new WorldAndScenePoint(voxel.position, false));
       });
