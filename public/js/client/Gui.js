@@ -347,7 +347,7 @@ class GUI {
       }
 
       // Hook pointer lock state change events
-      document.addEventListener( 'pointerlockchange', pointerLockChangeCB, false );
+      document.addEventListener( 'pointerlockchange', pointerLockChangeCB.bind(this), false );
       document.addEventListener( 'pointerlockerror', console.dir, false );
 
       pointerLockElement.addEventListener('click', function(event) {

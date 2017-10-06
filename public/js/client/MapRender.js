@@ -98,7 +98,7 @@ class MapRender {
       100: new THREE.MeshLambertMaterial({color:0x9900cc})
     };
   
-    document.addEventListener("visibilitychange", this.handleVisibilityChange);
+    document.addEventListener("visibilitychange", this.handleVisibilityChange.bind(this));
 
   }
 
@@ -158,6 +158,8 @@ class MapRender {
    * This prevents the tab from freezing when focus is returned.
    */
   handleVisibilityChange() {
+    console.dir(this)
+    console.dir('!')
     if (document.hidden) {
       clearInterval(this.gameLoop);
       this.gameLoop = false;
@@ -174,7 +176,7 @@ class MapRender {
     let now = new Date().getTime();
     let lastRenderTooRecent = now - this.lastRender < this.framerate;
     if (!this.controls.enabled && this.gameLoop && !lastRenderTooRecent) {
-      requestAnimationFrame(this.render);
+      requestAnimationFrame(this.render.bind(this));
       this.lastRender = new Date().getTime();
     }
   }
@@ -185,7 +187,7 @@ class MapRender {
   startGameLoop() {
     return setInterval(()=>{
       if (this.controls.enabled) {
-        requestAnimationFrame(this.render);
+        requestAnimationFrame(this.render.bind(this));
         this.controls.update(this.framerate);
       }
     }, this.framerate);
@@ -231,17 +233,17 @@ class MapRender {
   
       let rollOverPoint = new WorldAndScenePoint(this.rollOverMesh.position, false);
   
-      if (this.game.gui.selectStart.isComplete() && !this.game.gui.selectEnd.isComplete()) {
+      if (this.game.GUI.selectStart.isComplete() && !this.game.GUI.selectEnd.isComplete()) {
         this.scene.remove(this.rollOverMesh);
         if (!this.selectBox) {
-          this.selectBox = this.makeBoxAround(this.game.gui.selectStart.getPoint(), rollOverPoint, this.rollOverMaterial);
+          this.selectBox = this.makeBoxAround(this.game.GUI.selectStart.getPoint(), rollOverPoint, this.rollOverMaterial);
           this.scene.add(this.selectBox);
         }
       }
-      else if (!this.game.gui.selectStart.isComplete() && this.game.gui.selectEnd.isComplete()) {
+      else if (!this.game.GUI.selectStart.isComplete() && this.game.GUI.selectEnd.isComplete()) {
         this.scene.remove(this.rollOverMesh);
         if (!this.selectBox) {
-          this.selectBox = this.makeBoxAround(rollOverPoint, this.game.gui.selectEnd.getPoint(), this.rollOverMaterial);
+          this.selectBox = this.makeBoxAround(rollOverPoint, this.game.GUI.selectEnd.getPoint(), this.rollOverMaterial);
           this.scene.add(this.selectBox);
         }
       }
@@ -251,9 +253,9 @@ class MapRender {
   
     }
   
-    if (this.game.gui.selectStart.isComplete() && this.game.gui.selectEnd.isComplete()) {
+    if (this.game.GUI.selectStart.isComplete() && this.game.GUI.selectEnd.isComplete()) {
       if (!this.selectBox) {
-        this.selectBox = this.makeBoxAround(this.game.gui.selectStart.getPoint(), this.game.gui.selectEnd.getPoint(), this.rollOverMaterial);
+        this.selectBox = this.makeBoxAround(this.game.GUI.selectStart.getPoint(), this.game.GUI.selectEnd.getPoint(), this.rollOverMaterial);
         this.scene.add(this.selectBox);
       }
     }
