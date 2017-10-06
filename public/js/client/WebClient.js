@@ -86,59 +86,122 @@ class WebClient {
       },
 
       /**
-       * 
+       * Used to render inventory data received from robots.
+       * @param {object} inventoryData
        */
-      'inventory data': ()=>{
-
+      'inventory data': (inventoryData)=>{
         
-
+        console.dir('inventory data');
+        console.dir(inventoryData);
+        
+        let inventoryContainer = document.getElementById('inventoryContainer');
+        let inventorySide = inventoryData.data.side;
+        if (!this.allRobotInfo[inventoryData.robot].getInventory(inventorySide)) {
+          let inv = new Inventory(inventoryData.data);
+          this.allRobotInfo[inventoryData.robot].addInventory(inv);
+          if (document.getElementById('robotSelect').value == inventoryData.robot) {
+            inv.addToDisplay(inventoryContainer);
+          }
+        }
+    
+        // reveal inventories when any change occurs
+        if (!this.allRobotInfo[inventoryData.robot].getShowInventories()) {
+          this.allRobotInfo[inventoryData.robot].toggleShowInventories();
+        }
+        inventoryContainer.classList.remove('hidden');
+        // get the robot's inventory if we didn't have it yet
+        if (!this.allRobotInfo[inventoryData.robot].getInventory(-1)) {
+          this.game.GUI.sendCommand('viewInventory');
+        }
+    
       },
 
       /**
-       * 
+       * Used to render inventory slot data received from robots.
+       * @param {object} slot
        */
-      'slot data': ()=>{
-
-        
-
+      'slot data': (slot)=>{
+        console.dir('slot data');
+        console.dir(slot);
+        this.allRobotInfo[slot.robot]
+          .getInventory(slot.data.side)
+          .setSlot(slot.data.slotNum, slot.data.contents);
       },
 
       /**
-       * 
+       * Used to add listening robots to the select field.
+       * @param {object} data
        */
-      'listen start': ()=>{
-
-        
-
+      'listen start': (data)=>{
+        console.dir('listen start');
+        console.dir(data);
+        let robotSelect = document.getElementById('robotSelect');
+        if (!robotSelect.querySelector('[value=' + data.robot + ']')) {
+          
+          let option = document.createElement('option');
+          option.text = data.robot;
+          option.value = data.robot;
+          
+          robotSelect.add(option);
+          if (robotSelect.options.length <= 2) {
+            option.selected = true;
+          }
+    
+        }
+        if (!this.allRobotInfo[data.robot]) {this.allRobotInfo[data.robot] = new Robot();}
       },
 
       /**
-       * 
+       * Used to remove robots that stop listening from the select field.
+       * @param {object} data
        */
-      'listen end': ()=>{
-
-        
-
+      'listen end': (data)=>{
+        console.dir('listen end');
+        console.dir(data);
+        let robotSelect = document.getElementById('robotSelect');
+        let option = robotSelect.querySelector('[value=' + data.robot + ']');
+        this.allRobotInfo[data.robot] = undefined;
+        // if the disconnecting robot is the currently selected robot
+        if (robotSelect.value == data.robot) {
+          robotSelect.value = '';
+          this.game.mapRender.selectedRobotMesh.visible = false;
+          this.game.mapRender.requestRender();
+        }
+        robotSelect.removeChild(option);
       },
 
       /**
-       * 
+       * Used to display power levels received from robots.
+       * @param {object} power
        */
-      'power level': ()=>{
-
-        
-
+      'power level': (power)=>{
+        console.dir('power level');
+        console.dir(power);
+        this.allRobotInfo[power.robot].setPower(power.data);
+        let currentRobot = document.getElementById('robotSelect').value;
+        if (power.robot == currentRobot) {
+          this.game.GUI.setPower(power.data);
+        }
       },
 
       /**
-       * 
+       * Used to change the GUI based on what components robots have available.
+       * @param {object} components
        */
-      'available components': ()=>{
-
-        
-
+      'available components': (components)=>{
+        console.dir('available components');
+        console.dir(components);
+        this.allRobotInfo[components.robot].setComponents(components.data);
+        if (components.robot == document.getElementById('robotSelect').value) {
+          this.game.GUI.hideComponentGUI();
+          for (let componentName in this.allRobotInfo[components.robot].getComponents()) {
+            let componentElementIDs = this.game.GUI.componentElementMap[componentName];
+            componentElementIDs.map((componentElementID)=>{
+              document.getElementById(componentElementID).classList.remove('hidden');
+            });
+          }
+        }
       },
-
 
     };
 
