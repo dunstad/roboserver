@@ -226,19 +226,21 @@ class GUI {
         let coord = new WorldAndScenePoint(this.game.mapRender.rollOverMesh.position, false).world();
         console.log(coord);
         let scanLevel = document.getElementById('scanLevelSelect').value;
+        let commandName;
+        let commandParameters;
         if (moveToolActive) {
-          let commandName = 'move';
-          let commandParameters = [coord.x, coord.y, coord.z, scanLevel];
+          commandName = 'move';
+          commandParameters = [coord.x, coord.y, coord.z, scanLevel];
         }
         else if (interactToolActive) {
-          let commandName = 'interact';
-          let commandParameters = [this.objectToLuaString(coord), scanLevel];
+          commandName = 'interact';
+          commandParameters = [this.objectToLuaString(coord), scanLevel];
         }
         else if (inspectToolActive) {
-          let commandName = 'inspect';
-          let commandParameters = [this.objectToLuaString(coord), scanLevel];
+          commandName = 'inspect';
+          commandParameters = [this.objectToLuaString(coord), scanLevel];
         }
-        sendCommand(commandName, commandParameters);
+        this.sendCommand(commandName, commandParameters);
       }
     });
   }
@@ -253,14 +255,14 @@ class GUI {
   sendCommand(commandName, commandParameters, runInTerminal) {
     let result = false;
     let robotSelect = document.getElementById('robotSelect');
-    if (!this.robotSelect.value) {
+    if (!robotSelect.value) {
       console.dir('No robot selected!');
     }
     else {
       let commandString = commandName + "(" + (commandParameters || "") + ")"
       commandParameters = Array.isArray(commandParameters) ? commandParameters : [];
       this.addMessage(commandString, true, runInTerminal, commandName, commandParameters);
-      this.game.webClient.socket.emit('command', {command: {name: commandName, parameters: commandParameters}, robot: this.robotSelect.value});
+      this.game.webClient.socket.emit('command', {command: {name: commandName, parameters: commandParameters}, robot: robotSelect.value});
       result = true;
     }
     return result;
@@ -279,8 +281,9 @@ class GUI {
     let element = document.createElement('div');
     element.classList.add('message');
 
+    let subClass;
     if (isInput) {
-      let subClass = 'input';
+      subClass = 'input';
       element.setAttribute("data-checked", checked);
       element.setAttribute("data-command-name", commandName);
       element.setAttribute("data-command-parameters", JSON.stringify(commandParameters));
@@ -304,7 +307,7 @@ class GUI {
     }
 
     else {
-      let subClass = 'output';
+      subClass = 'output';
       element.appendChild(this.renderCommandResponse(message));
     }
 
