@@ -178,7 +178,7 @@ class TestClient {
 	 * @return {object}
 	 */
 	inspect(x, y, z) {
-		let blockData = this.map.get(x, y, z) || {};
+		let blockData = this.map.get(x, y, z) || {name: 'minecraft:air', hardness: 0};
 		blockData.point = {x: x, y: y, z: z};
 		return blockData;
 	}

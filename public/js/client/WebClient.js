@@ -42,9 +42,9 @@ class WebClient {
         let pos = new WorldAndScenePoint(blockData.data.point, true);
         if (!(blockData.data.name == 'minecraft:air' || !blockData.data.name)) {
           this.game.mapRender.addVoxel(pos, this.game.mapRender.colorFromHardness(blockData.data.hardness));
-          this.game.GUI.addMessage([`name: ${blockData.data.name}`, `hardness: ${blockData.data.hardness}`]);
         }
         else {this.game.mapRender.removeVoxel(pos);}
+        this.game.GUI.addMessage([`name: ${blockData.data.name}`, `hardness: ${blockData.data.hardness}`]);
       },
 
       /**

@@ -1,10 +1,9 @@
 # 1.1
 
 ## fixes
-* fix inspect air block not reporting anything
 
 ## features
-* make sure inspecting the chest with the test client works
+* fix inventory bug preventing external chest from working
 * refactor interface code
   * un-hardcode ids and move them to GUI
   * decouple maprender and gui?
