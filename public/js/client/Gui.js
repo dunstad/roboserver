@@ -46,11 +46,11 @@ class GUI {
     this.selectEnd.addEventListener('input', ()=>{this.game.mapRender.removeSelectBox(); this.game.mapRender.requestRender()});
   
     let toolButtonListeners = [
-      {buttonID: 'moveTool', eventListener: this.clearSelection},
-      {buttonID: 'interactTool', eventListener: this.clearSelection},
-      {buttonID: 'inspectTool', eventListener: this.clearSelection},
-      {buttonID: 'digTool', eventListener: ()=>{this.clearSelection(); this.slowRender();}},
-      {buttonID: 'placeTool', eventListener: ()=>{this.clearSelection(); this.slowRender();}}
+      {buttonID: 'moveTool', eventListener: this.clearSelection.bind(this)},
+      {buttonID: 'interactTool', eventListener: this.clearSelection.bind(this)},
+      {buttonID: 'inspectTool', eventListener: this.clearSelection.bind(this)},
+      {buttonID: 'digTool', eventListener: ()=>{this.clearSelection(); this.slowRender(this);}},
+      {buttonID: 'placeTool', eventListener: ()=>{this.clearSelection(); this.slowRender(this);}}
     ];
   
     for (let toolButtonInfo of toolButtonListeners) {
@@ -119,7 +119,7 @@ class GUI {
     this.selectStart.clear();
     this.selectEnd.clear();
     this.game.mapRender.removeSelectBox();
-    this.slowRender();
+    this.slowRender(this);
   }
 
   /**
@@ -127,7 +127,7 @@ class GUI {
    * Can't find an event for when that attribute changes, so we use setTimeout.
    */
   slowRender() {
-    setTimeout(this.game.mapRender.requestRender, 10);
+    setTimeout(this.game.mapRender.requestRender.bind(this.game.mapRender), 10);
   }
 
     

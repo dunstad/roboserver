@@ -19,7 +19,7 @@ class WebClient {
       'command result': (result)=>{
         console.dir('command result');
         console.dir(result);
-        this.addMessage(result.data, false);
+        this.game.GUI.addMessage(result.data, false);
       },
 
       /**

@@ -3,7 +3,6 @@
 ## fixes
 
 ## features
-* get a screenshot of what geolyzer.analyze output looks like
 * make sure inspecting the chest with the test client works
 * refactor interface code
   * un-hardcode ids and move them to GUI
