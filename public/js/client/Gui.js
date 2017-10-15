@@ -234,11 +234,11 @@ class GUI {
         }
         else if (interactToolActive) {
           commandName = 'interact';
-          commandParameters = [this.objectToLuaString(coord), scanLevel];
+          commandParameters = [coord.x, coord.y, coord.z, scanLevel];
         }
         else if (inspectToolActive) {
           commandName = 'inspect';
-          commandParameters = [this.objectToLuaString(coord), scanLevel];
+          commandParameters = [coord.x, coord.y, coord.z, scanLevel];
         }
         this.sendCommand(commandName, commandParameters);
       }

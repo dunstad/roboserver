@@ -40,8 +40,9 @@ class WebClient {
         console.dir('block data');
         console.dir(blockData);
         let pos = new WorldAndScenePoint(blockData.data.point, true);
-        if (!(blockData.data.name == 'minecraft:air')) {
+        if (!(blockData.data.name == 'minecraft:air' || !blockData.data.name)) {
           this.game.mapRender.addVoxel(pos, this.game.mapRender.colorFromHardness(blockData.data.hardness));
+          this.game.GUI.addMessage([`name: ${blockData.data.name}`, `hardness: ${blockData.data.hardness}`]);
         }
         else {this.game.mapRender.removeVoxel(pos);}
       },
@@ -97,7 +98,7 @@ class WebClient {
         let inventoryContainer = document.getElementById('inventoryContainer');
         let inventorySide = inventoryData.data.side;
         if (!this.allRobotInfo[inventoryData.robot].getInventory(inventorySide)) {
-          let inv = new Inventory(inventoryData.data);
+          let inv = new Inventory(inventoryData.data, this.game.GUI);
           this.allRobotInfo[inventoryData.robot].addInventory(inv);
           if (document.getElementById('robotSelect').value == inventoryData.robot) {
             inv.addToDisplay(inventoryContainer);

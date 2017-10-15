@@ -106,7 +106,7 @@ class TestClient {
 				this.sendWithCost('block data', blockData);
 				if (blockData.name == 'minecraft:chest') {
 					this.sendWithCost('inventory data', this.testData.externalInventory.meta);
-					for (let slot in this.testData.externalInventory.slots) {
+					for (let slot of this.testData.externalInventory.slots) {
 						this.sendWithCost('slot data', slot);
 					}
 				}
@@ -175,13 +175,11 @@ class TestClient {
 	 * @param {number} x 
 	 * @param {number} y 
 	 * @param {number} z 
-	 * @return {object | false}
+	 * @return {object}
 	 */
 	inspect(x, y, z) {
-		let blockData = this.map.get(x, y, z);
-		if (blockData) {
-			blockData.point = {x: x, y: y, z: z};
-		}
+		let blockData = this.map.get(x, y, z) || {};
+		blockData.point = {x: x, y: y, z: z};
 		return blockData;
 	}
 

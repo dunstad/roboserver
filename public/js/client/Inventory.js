@@ -6,7 +6,8 @@ class Inventory {
   /**
    * Used to display and track inventories.
    */
-  constructor(inventoryData) {
+  constructor(inventoryData, GUI) {
+    this.GUI = GUI;
     this.inventory = inventoryData;
     this.inventory.contents = {};
     this.table = renderInventory(inventoryData);
@@ -217,7 +218,7 @@ function changeSelectedSlot(e) {
   this.setAttribute('data-selected', true);
   var commandName = 'select';
   var commandParameters = [this.getAttribute('data-slotnumber')];
-  sendCommand(commandName, commandParameters);
+  this.GUI.sendCommand(commandName, commandParameters);
 }
 
 /**
@@ -305,7 +306,7 @@ function transferAndUpdate(fromCell, toCell, amount) {
       amount
     ];
     var commandName = 'transfer';
-    sendCommand(commandName, commandParameters);
+    this.GUI.sendCommand(commandName, commandParameters);
   }
 }
 
@@ -328,6 +329,6 @@ function swapCells(cell1, cell2) {
       getSide(cell2),
     ];
     var commandName = 'transfer';
-    sendCommand(commandName, commandParameters);
+    this.GUI.sendCommand(commandName, commandParameters);
   }
 }

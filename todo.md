@@ -1,6 +1,7 @@
 # 1.1
 
 ## fixes
+* fix inspect air block not reporting anything
 
 ## features
 * make sure inspecting the chest with the test client works
