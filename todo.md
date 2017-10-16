@@ -1,6 +1,7 @@
 # 1.1
 
 ## fixes
+update contributor list
 
 ## features
 * fix inventory bug preventing external chest from working
