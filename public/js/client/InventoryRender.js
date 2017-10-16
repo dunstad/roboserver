@@ -10,7 +10,22 @@ class InventoryRender {
     this.GUI = GUI;
     this.inventory = inventoryData;
     this.inventory.contents = {};
-    this.table = renderInventory(inventoryData);
+    this.table = this.renderInventory(inventoryData);
+
+    /**
+     * Runs the specific number of items transfer when the button in the modal is clicked.
+     */
+    document.getElementById('itemTransferAmountForm').addEventListener('submit', (e)=>{
+      var transferAmountInput = document.getElementById('transferAmountInput')
+      validateTransfer(
+        GLOBALS.inProgressTransfer.start,
+        GLOBALS.inProgressTransfer.end,
+        transferAmountInput.value
+      );
+      $('#itemTransferAmountModal').modal('hide');
+      transferAmountInput.value = '';
+    });
+
   }
 
   /**
@@ -33,7 +48,7 @@ class InventoryRender {
     var slotCell = this.table.rows[Math.trunc((slotNum - 1) / 4) + 1].cells[(slotNum - 1) % 4];
     if (slotCell.firstChild) {slotCell.firstChild.remove();}
     if (slotData && slotData.label) {
-      slotCell.appendChild(renderItem(slotData));
+      slotCell.appendChild(this.renderItem(slotData));
     }
     return slotData;
   }
@@ -79,11 +94,11 @@ class InventoryRender {
           var cell = row.insertCell(-1);
           cell.classList.add('mc-td');
           if (inventoryData.side == -1) {
-            cell.addEventListener('click', changeSelectedSlot);
+            cell.addEventListener('click', this.changeSelectedSlot);
           }
           
-          cell.addEventListener('dragover', allowDrop);
-          cell.addEventListener('drop', itemDrop);
+          cell.addEventListener('dragover', this.allowDrop);
+          cell.addEventListener('drop', this.itemDrop);
 
           var slotNumber = (i * numCols) + j + 1;
           cell.setAttribute('data-slotNumber', slotNumber);
@@ -148,15 +163,12 @@ class InventoryRender {
     return itemDiv;
   }
 
-  var dragStartElement;
-  var itemSwapStorage;
-
   /**
    * Stores item data for transfer.
    * @param {Event} e 
    */
   itemDragStart(e) {
-    dragStartElement = this.parentElement;
+    this.dragStartElement = this.parentElement;
     if (e.ctrlKey || e.altKey) {
       e.dataTransfer.setData('text/plain', 'split');
     }
@@ -170,34 +182,20 @@ class InventoryRender {
    * @param {Event} e 
    */
   itemDrop(e) {
-    if (dragStartElement != this) {
+    if (this.dragStartElement != this) {
       var operation = e.dataTransfer.getData('text');
       if (operation == 'move') {
-        validateTransfer(dragStartElement, this);
+        this.validateTransfer(this.dragStartElement, this);
       }
       else if (operation == 'split') {
         $('#itemTransferAmountModal').modal('show');
         GLOBALS.inProgressTransfer = {};
-        GLOBALS.inProgressTransfer.start = dragStartElement;
+        GLOBALS.inProgressTransfer.start = this.dragStartElement;
         GLOBALS.inProgressTransfer.end = this;
         document.getElementById('transferAmountInput').focus();
       }
     }
   }
-
-  /**
-   * Runs the specific number of items transfer when the button in the modal is clicked.
-   */
-  document.getElementById('itemTransferAmountForm').addEventListener('submit', (e)=>{
-    var transferAmountInput = document.getElementById('transferAmountInput')
-    validateTransfer(
-      GLOBALS.inProgressTransfer.start,
-      GLOBALS.inProgressTransfer.end,
-      transferAmountInput.value
-    );
-    $('#itemTransferAmountModal').modal('hide');
-    transferAmountInput.value = '';
-  });
 
   /**
    * Allows table cells to receive drops.
@@ -229,14 +227,14 @@ class InventoryRender {
     var success = false;
     
     if (!fromCell.firstChild ||
-        getSide(fromCell) !== -1 && getSide(toCell) !== -1) {;}
+        this.getSide(fromCell) !== -1 && this.getSide(toCell) !== -1) {;}
     else {
       var data1 = fromCell.firstChild.itemData;
       if (amount > data1.size || amount < 1) {;}
       else if (!toCell.firstChild) {
         console.dir(data1.size)
         console.dir(amount)
-        transferAndUpdate(fromCell, toCell, amount || data1.size);
+        this.transferAndUpdate(fromCell, toCell, amount || data1.size);
         success = true;
       }
       else {
@@ -251,12 +249,12 @@ class InventoryRender {
           else {
             var amountToTransfer = Math.min(data1.size, data2Space);
           }
-          transferAndUpdate(fromCell, toCell, amountToTransfer);
+          this.transferAndUpdate(fromCell, toCell, amountToTransfer);
           success = true;
         }
         else {
           if (!amount) {
-            swapCells(fromCell, toCell);
+            this.swapCells(fromCell, toCell);
           }
         }
       }
@@ -298,9 +296,9 @@ class InventoryRender {
 
       var commandParameters = [
         fromCell.getAttribute('data-slotnumber'),
-        getSide(fromCell),
+        this.getSide(fromCell),
         toCell.getAttribute('data-slotnumber'),
-        getSide(toCell),
+        this.getSide(toCell),
         amount
       ];
       var commandName = 'transfer';
@@ -315,16 +313,16 @@ class InventoryRender {
    */
   swapCells(cell1, cell2) {
     if (cell1.firstChild) {
-      var itemSwapStorage = cell1.firstChild;
+      this.itemSwapStorage = cell1.firstChild;
       cell1.removeChild(cell1.firstChild);
       if (cell2.firstChild) {cell1.appendChild(cell2.firstChild);}
-      if (itemSwapStorage) {cell2.appendChild(itemSwapStorage);}
+      if (this.itemSwapStorage) {cell2.appendChild(this.itemSwapStorage);}
 
       var commandParameters = [
         cell1.getAttribute('data-slotnumber'),
-        getSide(cell1),
+        this.getSide(cell1),
         cell2.getAttribute('data-slotnumber'),
-        getSide(cell2),
+        this.getSide(cell2),
       ];
       var commandName = 'transfer';
       this.GUI.sendCommand(commandName, commandParameters);
