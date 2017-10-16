@@ -7,7 +7,7 @@ class MapRender {
 
     this.game = game;
 
-    this.simple = false;
+    this.simple = Boolean(localStorage.getItem('simpleRendering'));
 
     this.framerate = 1000/30;
     this.voxelSideLength = 50;
