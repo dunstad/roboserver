@@ -7,6 +7,8 @@ class MapRender {
 
     this.game = game;
 
+    this.simple = true;
+
     this.framerate = 1000/30;
     this.voxelSideLength = 50;
     this.voxels = [];
@@ -23,15 +25,80 @@ class MapRender {
   
     this.scene.add(this.controls.getObject());
   
-    // cubes
+    this.hardnessToColorData = {
+      // bedrock
+      '-1': 0x000000,
+      // leaves
+      0.2: 0x00cc00,
+      // glowstone
+      0.3: 0xffcc00,
+      // netherrack
+      0.4: 0x800000,
+      // dirt or sand
+      0.5: 0xffc140,
+      // grass block
+      0.6: 0xddc100,
+      // sandstone
+      0.8: 0xffff99,
+      // pumpkins or melons
+      1.0: 0xfdca00,
+      // smooth stone
+      1.5: 0xcfcfcf,
+      // cobblestone
+      2.0: 0x959595,
+      // ores
+      3.0: 0x66ffff,
+      // cobwebs
+      4.0: 0xf5f5f5,
+      // ore blocks
+      5.0: 0xc60000,
+      // obsidian
+      50: 0x1f1f1f,
+      // water or lava
+      100: 0x9900cc
+    };
+
     this.voxelSideLength = 50;
-    this.cubeGeo = new THREE.BoxGeometry(this.voxelSideLength, this.voxelSideLength, this.voxelSideLength);
-    this.cubeMat = new THREE.MeshLambertMaterial({color: 0xfeb74c});
+    if (this.simple) {
+      // cubes
+      this.cubeGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(this.voxelSideLength, this.voxelSideLength, this.voxelSideLength));  
+      this.cubeMat = new THREE.LineBasicMaterial( { color: 0xffffff, linewidth: 1 } );
+
+      this.rollOverMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff, linewidth: 1, opacity: 0.5, transparent: true });
+      this.rollOverMesh = new THREE.LineSegments(this.cubeGeo, this.rollOverMaterial);
+
+      this.selectedRobotMaterial = new THREE.LineBasicMaterial({ color: 0xff9999, linewidth: 1, opacity: 0.9, transparent: true });
+      this.selectedRobotMesh = new THREE.LineSegments(this.cubeGeo, this.selectedRobotMaterial);
+
+      this.robotMaterial = new THREE.LineBasicMaterial({color:0xffcccc, linewidth: 1});
+
+      this.hardnessToColorMap = {};
+      for (let hardness in hardnessToColorData) {
+        this.hardnessToColorMap[hardness] = new THREE.LineBasicMaterial({color: hardnessToColorData[hardness], linewidth: 1});
+      }
+    }
+    else {
+      this.cubeGeo = new THREE.BoxGeometry(this.voxelSideLength, this.voxelSideLength, this.voxelSideLength);
+      this.cubeMat = new THREE.MeshLambertMaterial({color: 0xfeb74c});
+
+      this.rollOverMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff, opacity: 0.5, transparent: true });
+      this.rollOverMesh = new THREE.Mesh(this.cubeGeo, this.rollOverMaterial);
+
+      this.selectedRobotMaterial = new THREE.MeshLambertMaterial({ color: 0xff9999, opacity: 0.9, transparent: true });
+      this.selectedRobotMesh = new THREE.Mesh(this.cubeGeo, this.selectedRobotMaterial);
+
+      this.robotMaterial = new THREE.MeshLambertMaterial({color:0xffcccc});
+
+      this.hardnessToColorMap = {};
+      for (let hardness in hardnessToColorData) {
+        this.hardnessToColorMap[hardness] = new THREE.MeshLambertMaterial({color: hardnessToColorData[hardness]});
+      }
+    }
   
-    this.rollOverMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff, opacity: 0.5, transparent: true });
-    this.rollOverMesh = new THREE.Mesh(this.cubeGeo, this.rollOverMaterial);
     this.prevRollOverMeshPos = this.rollOverMesh.position.clone();
     this.scene.add(this.rollOverMesh);
+
+    this.scene.add(this.selectedRobotMesh);
   
     // Lights
   
@@ -59,44 +126,6 @@ class MapRender {
     document.addEventListener('keyup', (e)=>{
       if (!(e.altKey || e.ctrlKey)) {this.altOrCtrlKeyPressed = false;}
     });
-  
-    this.selectedRobotMaterial = new THREE.MeshLambertMaterial({ color: 0xff9999, opacity: 0.9, transparent: true });
-    this.selectedRobotMesh = new THREE.Mesh(this.cubeGeo, this.selectedRobotMaterial);
-    this.scene.add(this.selectedRobotMesh);
-    this.robotMaterial = new THREE.MeshLambertMaterial({color:0xffcccc});
-  
-    this.hardnessToColorMap = {
-      // bedrock
-      '-1': new THREE.MeshLambertMaterial({color:0x000000}),
-      // leaves
-      0.2: new THREE.MeshLambertMaterial({color:0x00cc00}),
-      // glowstone
-      0.3: new THREE.MeshLambertMaterial({color:0xffcc00}),
-      // netherrack
-      0.4: new THREE.MeshLambertMaterial({color:0x800000}),
-      // dirt or sand
-      0.5: new THREE.MeshLambertMaterial({color:0xffc140}),
-      // grass block
-      0.6: new THREE.MeshLambertMaterial({color:0xddc100}),
-      // sandstone
-      0.8: new THREE.MeshLambertMaterial({color:0xffff99}),
-      // pumpkins or melons
-      1.0: new THREE.MeshLambertMaterial({color:0xfdca00}),
-      // smooth stone
-      1.5: new THREE.MeshLambertMaterial({color:0xcfcfcf}),
-      // cobblestone
-      2.0: new THREE.MeshLambertMaterial({color:0x959595}),
-      // ores
-      3.0: new THREE.MeshLambertMaterial({color:0x66ffff}),
-      // cobwebs
-      4.0: new THREE.MeshLambertMaterial({color:0xf5f5f5}),
-      // ore blocks
-      5.0: new THREE.MeshLambertMaterial({color:0xc60000}),
-      // obsidian
-      50: new THREE.MeshLambertMaterial({color:0x1f1f1f}),
-      // water or lava
-      100: new THREE.MeshLambertMaterial({color:0x9900cc})
-    };
   
     document.addEventListener("visibilitychange", this.handleVisibilityChange.bind(this));
 
