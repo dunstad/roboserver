@@ -7,7 +7,7 @@ class MapRender {
 
     this.game = game;
 
-    this.simple = true;
+    this.simple = false;
 
     this.framerate = 1000/30;
     this.voxelSideLength = 50;
@@ -61,23 +61,29 @@ class MapRender {
     this.voxelSideLength = 50;
     if (this.simple) {
       // cubes
-      this.cubeGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(this.voxelSideLength, this.voxelSideLength, this.voxelSideLength));  
-      this.cubeMat = new THREE.LineBasicMaterial( { color: 0xffffff, linewidth: 1 } );
+      this.cubeGeo = new THREE.BoxGeometry(this.voxelSideLength, this.voxelSideLength, this.voxelSideLength);
+      this.cubeMat = new THREE.MeshLambertMaterial({color: 0xffffff, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1});
 
-      this.rollOverMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff, linewidth: 1, opacity: 0.5, transparent: true });
-      this.rollOverMesh = new THREE.LineSegments(this.cubeGeo, this.rollOverMaterial);
+      this.wireGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(this.voxelSideLength, this.voxelSideLength, this.voxelSideLength));
+      this.wireMat = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 1 } );
 
-      this.selectedRobotMaterial = new THREE.LineBasicMaterial({ color: 0xff9999, linewidth: 1, opacity: 0.9, transparent: true });
-      this.selectedRobotMesh = new THREE.LineSegments(this.cubeGeo, this.selectedRobotMaterial);
+      this.rollOverMesh = new THREE.Mesh(this.cubeGeo, this.cubeMat);
+      this.rollOverMesh.add(new THREE.LineSegments(this.wireGeo, this.wireMat));
 
-      this.robotMaterial = new THREE.LineBasicMaterial({color:0xffcccc, linewidth: 1});
+      this.selectedRobotMesh = new THREE.Mesh(this.cubeGeo, this.cubeMat);
+      this.selectedRobotMesh.add(new THREE.LineSegments(this.wireGeo, this.wireMat));
+
+      this.robotMaterial = this.cubeMat;
 
       this.hardnessToColorMap = {};
-      for (let hardness in hardnessToColorData) {
-        this.hardnessToColorMap[hardness] = new THREE.LineBasicMaterial({color: hardnessToColorData[hardness], linewidth: 1});
+      for (let hardness in this.hardnessToColorData) {
+        this.hardnessToColorMap[hardness] = this.cubeMat
       }
+
+      this.ambientLight = new THREE.AmbientLight( 0xf0f0f0 );
     }
     else {
+      // cubes
       this.cubeGeo = new THREE.BoxGeometry(this.voxelSideLength, this.voxelSideLength, this.voxelSideLength);
       this.cubeMat = new THREE.MeshLambertMaterial({color: 0xfeb74c});
 
@@ -90,24 +96,24 @@ class MapRender {
       this.robotMaterial = new THREE.MeshLambertMaterial({color:0xffcccc});
 
       this.hardnessToColorMap = {};
-      for (let hardness in hardnessToColorData) {
-        this.hardnessToColorMap[hardness] = new THREE.MeshLambertMaterial({color: hardnessToColorData[hardness]});
+      for (let hardness in this.hardnessToColorData) {
+        this.hardnessToColorMap[hardness] = new THREE.MeshLambertMaterial({color: this.hardnessToColorData[hardness]});
       }
+
+      // Lights
+      this.directionalLight = new THREE.DirectionalLight( 0xffffff );
+      this.directionalLight.position.set( 1, 0.75, 0.5 ).normalize();
+      this.scene.add(this.directionalLight);
+      
+      this.ambientLight = new THREE.AmbientLight( 0x606060 );
     }
+
+    this.scene.add(this.ambientLight);
   
     this.prevRollOverMeshPos = this.rollOverMesh.position.clone();
     this.scene.add(this.rollOverMesh);
 
     this.scene.add(this.selectedRobotMesh);
-  
-    // Lights
-  
-    this.ambientLight = new THREE.AmbientLight( 0x606060 );
-    this.scene.add(this.ambientLight);
-  
-    this.directionalLight = new THREE.DirectionalLight( 0xffffff );
-    this.directionalLight.position.set( 1, 0.75, 0.5 ).normalize();
-    this.scene.add(this.directionalLight);
   
     this.renderer = new THREE.WebGLRenderer({antialias: true});
     this.renderer.setClearColor(0xf0f0f0);
@@ -129,6 +135,24 @@ class MapRender {
   
     document.addEventListener("visibilitychange", this.handleVisibilityChange.bind(this));
 
+  }
+
+  /**
+   * Used to allow rendering in different ways.
+   * @param {THREE.Geometry} geometry 
+   * @param {THREE.Material} material 
+   * @return {THREE.Mesh || THREE.LineSegments}
+   */
+  createMesh(geometry, material, simple) {
+    let mesh;
+    if (simple) {
+      mesh = new THREE.Mesh(geometry, material);
+      mesh.add(new THREE.LineSegments(this.wireGeo, this.wireMat));
+    }
+    else {
+      mesh = new THREE.Mesh(geometry, material);
+    }
+    return mesh;
   }
 
   /**
@@ -320,7 +344,7 @@ class MapRender {
       height + preventFlickeringOffset,
       width + preventFlickeringOffset
     );
-    let mesh = new THREE.Mesh(geometry, material || cubeMat);
+    let mesh = this.createMesh(geometry, material || cubeMat, this.simple);
     if (position) {mesh.position.copy(position.scene());}
     return mesh;
   }
@@ -387,7 +411,7 @@ class MapRender {
    * @returns {THREE.Mesh}
    */
   addVoxel(pos, material) {
-    let voxel = new THREE.Mesh(this.cubeGeo, material || this.cubeMat);
+    let voxel = this.createMesh(this.cubeGeo, material || this.cubeMat, this.simple);
     voxel.position.copy(pos.scene());
   
     let priorVoxel = this.voxelMap.get(pos);
