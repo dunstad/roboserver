@@ -60,9 +60,9 @@ class Robot {
    * @param {Inventory} inventory 
    */
   addInventory(inventory) {
-    var oldInventory = this.inventories[inventory.getSide()];
+    var oldInventory = this.inventories[inventory.inventory.side];
     if (oldInventory) {oldInventory.removeFromDisplay();}
-    this.inventories[inventory.getSide()] = inventory;
+    this.inventories[inventory.inventory.side] = inventory;
   }
 
   /**

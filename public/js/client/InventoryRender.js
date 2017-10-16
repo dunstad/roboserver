@@ -18,8 +18,8 @@ class InventoryRender {
     document.getElementById('itemTransferAmountForm').addEventListener('submit', (e)=>{
       var transferAmountInput = document.getElementById('transferAmountInput')
       validateTransfer(
-        GLOBALS.inProgressTransfer.start,
-        GLOBALS.inProgressTransfer.end,
+        this.inProgressTransfer.start,
+        this.inProgressTransfer.end,
         transferAmountInput.value
       );
       $('#itemTransferAmountModal').modal('hide');
@@ -94,11 +94,11 @@ class InventoryRender {
           var cell = row.insertCell(-1);
           cell.classList.add('mc-td');
           if (inventoryData.side == -1) {
-            cell.addEventListener('click', this.changeSelectedSlot);
+            cell.addEventListener('click', this.changeSelectedSlot.bind(this));
           }
           
           cell.addEventListener('dragover', this.allowDrop);
-          cell.addEventListener('drop', this.itemDrop);
+          cell.addEventListener('drop', this.itemDrop.bind(this));
 
           var slotNumber = (i * numCols) + j + 1;
           cell.setAttribute('data-slotNumber', slotNumber);
@@ -152,7 +152,7 @@ class InventoryRender {
     var itemDiv = document.createElement('div');
     itemDiv.setAttribute('title', itemData.label + ', ' + itemData.size);
 
-    itemDiv.addEventListener('dragstart', itemDragStart);
+    itemDiv.addEventListener('dragstart', this.itemDragStart.bind(this));
     itemDiv.setAttribute('draggable', true);
 
     itemDiv.appendChild(document.createTextNode(itemData.label));
@@ -168,7 +168,8 @@ class InventoryRender {
    * @param {Event} e 
    */
   itemDragStart(e) {
-    this.dragStartElement = this.parentElement;
+    let cell = e.target;
+    this.dragStartElement = cell.parentElement;
     if (e.ctrlKey || e.altKey) {
       e.dataTransfer.setData('text/plain', 'split');
     }
@@ -182,16 +183,17 @@ class InventoryRender {
    * @param {Event} e 
    */
   itemDrop(e) {
-    if (this.dragStartElement != this) {
+    let cell = e.target;
+    if (this.dragStartElement != cell) {
       var operation = e.dataTransfer.getData('text');
       if (operation == 'move') {
-        this.validateTransfer(this.dragStartElement, this);
+        this.validateTransfer(this.dragStartElement, cell);
       }
       else if (operation == 'split') {
         $('#itemTransferAmountModal').modal('show');
-        GLOBALS.inProgressTransfer = {};
-        GLOBALS.inProgressTransfer.start = this.dragStartElement;
-        GLOBALS.inProgressTransfer.end = this;
+        this.inProgressTransfer = {};
+        this.inProgressTransfer.start = this.dragStartElement;
+        this.inProgressTransfer.end = cell;
         document.getElementById('transferAmountInput').focus();
       }
     }
@@ -210,10 +212,11 @@ class InventoryRender {
    * @param {Event} e 
    */
   changeSelectedSlot(e) {
-    this.parentElement.parentElement.querySelector('[data-selected=true]').removeAttribute('data-selected');
-    this.setAttribute('data-selected', true);
+    let cell = e.target;
+    cell.parentElement.parentElement.querySelector('[data-selected=true]').removeAttribute('data-selected');
+    cell.setAttribute('data-selected', true);
     var commandName = 'select';
-    var commandParameters = [this.getAttribute('data-slotnumber')];
+    var commandParameters = [cell.getAttribute('data-slotnumber')];
     this.GUI.sendCommand(commandName, commandParameters);
   }
 
@@ -224,6 +227,9 @@ class InventoryRender {
    * @param {number} amount 
    */
   validateTransfer(fromCell, toCell, amount) {
+    console.dir(fromCell)
+    console.dir(toCell)
+    console.dir(amount)
     var success = false;
     
     if (!fromCell.firstChild ||
@@ -292,7 +298,7 @@ class InventoryRender {
         var data2 = Object.assign({}, data1);
         data2.size = amount;
       }
-      toCell.appendChild(renderItem(data2));
+      toCell.appendChild(this.renderItem(data2));
 
       var commandParameters = [
         fromCell.getAttribute('data-slotnumber'),
