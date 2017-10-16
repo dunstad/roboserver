@@ -1,6 +1,6 @@
 var config = {};
 
-config.webServerPort = '8080';
+config.webServerPort = '80';
 config.expressSessionSecret = "testSecret"
 
 module.exports = config;

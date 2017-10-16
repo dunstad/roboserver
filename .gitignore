@@ -1,5 +1,5 @@
 /public/js/lib/three.js-master/*
-/public/js/config.js
+/public/js/config/config.js
 /recipes/*
 /node_modules/*
 *.log

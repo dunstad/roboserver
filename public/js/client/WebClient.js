@@ -98,7 +98,7 @@ class WebClient {
         let inventoryContainer = document.getElementById('inventoryContainer');
         let inventorySide = inventoryData.data.side;
         if (!this.allRobotInfo[inventoryData.robot].getInventory(inventorySide)) {
-          let inv = new Inventory(inventoryData.data, this.game.GUI);
+          let inv = new InventoryRender(inventoryData.data, this.game.GUI);
           this.allRobotInfo[inventoryData.robot].addInventory(inv);
           if (document.getElementById('robotSelect').value == inventoryData.robot) {
             inv.addToDisplay(inventoryContainer);
