@@ -120,6 +120,11 @@ class TestClient {
 				
 				let fromInv = this.inventories[fromSide];
 				let toInv = this.inventories[toSide];
+
+				let fromSlotSer = fromInv.serializeSlot(fromSlotIndex);		
+				let toSlotSer = toInv.serializeSlot(toSlotIndex);
+
+				let fromInvValid = fromInv.validateTransfer(fromSlotSer, toSlotSer, amount);
 				
 				let result = this.moveItems(fromInv, fromSlotIndex, toInv, toSlotIndex, fromInvValid);
 				

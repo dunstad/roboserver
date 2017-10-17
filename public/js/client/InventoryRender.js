@@ -5,27 +5,13 @@ class InventoryRender {
 
   /**
    * Used to display and track inventories.
+   * @param {object} inventoryData
+   * @param {GUI} GUI
    */
   constructor(inventoryData, GUI) {
-    this.GUI = GUI;
     this.inventory = inventoryData;
     this.inventory.contents = {};
-    this.table = this.renderInventory(inventoryData);
-
-    /**
-     * Runs the specific number of items transfer when the button in the modal is clicked.
-     */
-    document.getElementById('itemTransferAmountForm').addEventListener('submit', (e)=>{
-      let transferAmountInput = document.getElementById('transferAmountInput');
-      InventoryRender.validateTransfer(
-        GLOBALS.inProgressTransfer.start,
-        GLOBALS.inProgressTransfer.end,
-        transferAmountInput.value
-      );
-      $('#itemTransferAmountModal').modal('hide');
-      transferAmountInput.value = '';
-    });
-
+    this.table = this.renderInventory(inventoryData, GUI);
   }
 
   /**
@@ -57,7 +43,7 @@ class InventoryRender {
    * Gets the side this inventory is on. Used to tell if it's internal or external.
    * @returns {number}
    */
-  static getSide() {
+  getSide() {
     return this.inventory.side;
   }
 
@@ -80,8 +66,9 @@ class InventoryRender {
    * Creates an interactive visual representation of an inventory.
    * @param {object} inventoryData 
    * @returns {HTMLTableElement}
+   * @param {GUI} GUI
    */
-  renderInventory(inventoryData) {
+  renderInventory(inventoryData, GUI) {
     var table = document.createElement('table');
     table.classList.add('mc-table');
     table.setAttribute('data-side', inventoryData.side);
@@ -94,11 +81,11 @@ class InventoryRender {
           var cell = row.insertCell(-1);
           cell.classList.add('mc-td');
           if (inventoryData.side == -1) {
-            cell.addEventListener('click', this.changeSelectedSlot.bind(this));
+            cell.addEventListener('click', this.changeSelectedSlot.bind(GUI));
           }
           
           cell.addEventListener('dragover', this.allowDrop);
-          cell.addEventListener('drop', this.itemDrop.bind(this));
+          cell.addEventListener('drop', this.itemDrop.bind(GUI));
 
           var slotNumber = (i * numCols) + j + 1;
           cell.setAttribute('data-slotNumber', slotNumber);
@@ -152,7 +139,7 @@ class InventoryRender {
     var itemDiv = document.createElement('div');
     itemDiv.setAttribute('title', itemData.label + ', ' + itemData.size);
 
-    itemDiv.addEventListener('dragstart', this.itemDragStart.bind(this));
+    itemDiv.addEventListener('dragstart', InventoryRender.itemDragStart);
     itemDiv.setAttribute('draggable', true);
 
     itemDiv.appendChild(document.createTextNode(itemData.label));
@@ -167,7 +154,7 @@ class InventoryRender {
    * Stores item data for transfer.
    * @param {Event} e 
    */
-  itemDragStart(e) {
+  static itemDragStart(e) {
     let cell = e.target;
     GLOBALS.dragStartElement = cell.parentElement;
     if (e.ctrlKey || e.altKey) {
@@ -188,7 +175,7 @@ class InventoryRender {
     if (GLOBALS.dragStartElement != cell) {
       let operation = e.dataTransfer.getData('text');
       if (operation == 'move') {
-        InventoryRender.validateTransfer(GLOBALS.dragStartElement, targetElement);
+        InventoryRender.validateTransfer(GLOBALS.dragStartElement, targetElement, 0, this);
       }
       else if (operation == 'split') {
         $('#itemTransferAmountModal').modal('show');
@@ -214,11 +201,12 @@ class InventoryRender {
    */
   changeSelectedSlot(e) {
     let cell = e.target;
-    cell.parentElement.parentElement.querySelector('[data-selected=true]').removeAttribute('data-selected');
-    cell.setAttribute('data-selected', true);
+    let targetElement = cell.tagName == "TD" ? cell : cell.parentElement;
+    targetElement.parentElement.parentElement.querySelector('[data-selected=true]').removeAttribute('data-selected');
+    targetElement.setAttribute('data-selected', true);
     var commandName = 'select';
-    var commandParameters = [cell.getAttribute('data-slotnumber')];
-    this.GUI.sendCommand(commandName, commandParameters);
+    var commandParameters = [targetElement.getAttribute('data-slotnumber')];
+    this.sendCommand(commandName, commandParameters);
   }
 
   /**
@@ -226,8 +214,9 @@ class InventoryRender {
    * @param {HTMLTableCellElement} fromCell 
    * @param {HTMLTableCellElement} toCell 
    * @param {number} amount 
+   * @param {GUI} GUI
    */
-  static validateTransfer(fromCell, toCell, amount) {
+  static validateTransfer(fromCell, toCell, amount, GUI) {
     var success = false;
     
     if (!fromCell.firstChild ||
@@ -236,7 +225,7 @@ class InventoryRender {
       var data1 = fromCell.firstChild.itemData;
       if (amount > data1.size || amount < 1) {;}
       else if (!toCell.firstChild) {
-        InventoryRender.transferAndUpdate(fromCell, toCell, amount || data1.size);
+        InventoryRender.transferAndUpdate(fromCell, toCell, amount || data1.size, GUI);
         success = true;
       }
       else {
@@ -251,12 +240,12 @@ class InventoryRender {
           else {
             var amountToTransfer = Math.min(data1.size, data2Space);
           }
-          InventoryRender.transferAndUpdate(fromCell, toCell, amountToTransfer);
+          InventoryRender.transferAndUpdate(fromCell, toCell, amountToTransfer, GUI);
           success = true;
         }
         else {
           if (!amount) {
-            InventoryRender.swapCells(fromCell, toCell);
+            InventoryRender.swapCells(fromCell, toCell, GUI);
           }
         }
       }
@@ -269,7 +258,7 @@ class InventoryRender {
    * Tells you which inventory a cell is in.
    * @param {HTMLTableCellElement} cell 
    */
-  getSide(cell) {
+  static getSide(cell) {
     return parseInt(cell.parentElement.parentElement.parentElement.getAttribute('data-side'));
   }
 
@@ -278,8 +267,9 @@ class InventoryRender {
    * @param {HTMLTableCellElement} fromCell 
    * @param {HTMLTableCellElement} toCell 
    * @param {number} amount 
+   * @param {GUI} GUI
    */
-  static transferAndUpdate(fromCell, toCell, amount) {
+  static transferAndUpdate(fromCell, toCell, amount, GUI) {
     if (amount) {
       var data1 = fromCell.firstChild.itemData;
       data1.size -= amount;
@@ -304,16 +294,17 @@ class InventoryRender {
         amount
       ];
       var commandName = 'transfer';
-      this.GUI.sendCommand(commandName, commandParameters);
+      GUI.sendCommand(commandName, commandParameters);
     }
   }
 
   /**
    * Exchanges the children of two table cells. Used to swap item slots.
    * @param {HTMLTableCellElement} cell1 
-   * @param {HTMLTableCellElement} cell2 
+   * @param {HTMLTableCellElement} cell2
+   * @param {GUI} GUI
    */
-  static swapCells(cell1, cell2) {
+  static swapCells(cell1, cell2, GUI) {
     if (cell1.firstChild) {
       let itemSwapStorage = cell1.firstChild;
       cell1.removeChild(cell1.firstChild);
@@ -327,7 +318,7 @@ class InventoryRender {
         InventoryRender.getSide(cell2),
       ];
       var commandName = 'transfer';
-      this.GUI.sendCommand(commandName, commandParameters);
+      GUI.sendCommand(commandName, commandParameters);
     }
   }
 

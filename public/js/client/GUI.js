@@ -67,6 +67,21 @@ class GUI {
     this.initCutawayForm();
     this.initModal();
 
+    /**
+     * Transfers the specified number of items when the button in the modal is clicked.
+     */
+    document.getElementById('itemTransferAmountForm').addEventListener('submit', (e)=>{
+      let transferAmountInput = document.getElementById('transferAmountInput');
+      InventoryRender.validateTransfer(
+        GLOBALS.inProgressTransfer.start,
+        GLOBALS.inProgressTransfer.end,
+        transferAmountInput.value,
+        this
+      );
+      $('#itemTransferAmountModal').modal('hide');
+      transferAmountInput.value = '';
+    });
+
   }
 
   /**
