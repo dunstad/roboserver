@@ -17,11 +17,9 @@ class InventoryRender {
      */
     document.getElementById('itemTransferAmountForm').addEventListener('submit', (e)=>{
       let transferAmountInput = document.getElementById('transferAmountInput');
-      console.dir(this.inProgressTransfer)
-      console.log('1')
-      this.validateTransfer(
-        this.inProgressTransfer.start,
-        this.inProgressTransfer.end,
+      InventoryRender.validateTransfer(
+        GLOBALS.inProgressTransfer.start,
+        GLOBALS.inProgressTransfer.end,
         transferAmountInput.value
       );
       $('#itemTransferAmountModal').modal('hide');
@@ -50,7 +48,7 @@ class InventoryRender {
     var slotCell = this.table.rows[Math.trunc((slotNum - 1) / 4) + 1].cells[(slotNum - 1) % 4];
     if (slotCell.firstChild) {slotCell.firstChild.remove();}
     if (slotData && slotData.label) {
-      slotCell.appendChild(this.renderItem(slotData));
+      slotCell.appendChild(InventoryRender.renderItem(slotData));
     }
     return slotData;
   }
@@ -59,7 +57,7 @@ class InventoryRender {
    * Gets the side this inventory is on. Used to tell if it's internal or external.
    * @returns {number}
    */
-  getSide() {
+  static getSide() {
     return this.inventory.side;
   }
 
@@ -150,7 +148,7 @@ class InventoryRender {
    * @param {object} itemData 
    * @returns {HTMLDivElement}
    */
-  renderItem(itemData) {
+  static renderItem(itemData) {
     var itemDiv = document.createElement('div');
     itemDiv.setAttribute('title', itemData.label + ', ' + itemData.size);
 
@@ -171,7 +169,7 @@ class InventoryRender {
    */
   itemDragStart(e) {
     let cell = e.target;
-    this.dragStartElement = cell.parentElement;
+    GLOBALS.dragStartElement = cell.parentElement;
     if (e.ctrlKey || e.altKey) {
       e.dataTransfer.setData('text/plain', 'split');
     }
@@ -187,17 +185,16 @@ class InventoryRender {
   itemDrop(e) {
     let cell = e.target;
     let targetElement = cell.tagName == "TD" ? cell : cell.parentElement;
-    if (this.dragStartElement != cell) {
+    if (GLOBALS.dragStartElement != cell) {
       let operation = e.dataTransfer.getData('text');
       if (operation == 'move') {
-        this.validateTransfer(this.dragStartElement, targetElement);
+        InventoryRender.validateTransfer(GLOBALS.dragStartElement, targetElement);
       }
       else if (operation == 'split') {
         $('#itemTransferAmountModal').modal('show');
-        this.inProgressTransfer = {};
-        this.inProgressTransfer.start = this.dragStartElement;
-        this.inProgressTransfer.end = targetElement;
-        console.dir(this.inProgressTransfer)
+        GLOBALS.inProgressTransfer = {};
+        GLOBALS.inProgressTransfer.start = GLOBALS.dragStartElement;
+        GLOBALS.inProgressTransfer.end = targetElement;
         document.getElementById('transferAmountInput').focus();
       }
     }
@@ -230,16 +227,16 @@ class InventoryRender {
    * @param {HTMLTableCellElement} toCell 
    * @param {number} amount 
    */
-  validateTransfer(fromCell, toCell, amount) {
+  static validateTransfer(fromCell, toCell, amount) {
     var success = false;
     
     if (!fromCell.firstChild ||
-        this.getSide(fromCell) !== -1 && this.getSide(toCell) !== -1) {;}
+        InventoryRender.getSide(fromCell) !== -1 && InventoryRender.getSide(toCell) !== -1) {;}
     else {
       var data1 = fromCell.firstChild.itemData;
       if (amount > data1.size || amount < 1) {;}
       else if (!toCell.firstChild) {
-        this.transferAndUpdate(fromCell, toCell, amount || data1.size);
+        InventoryRender.transferAndUpdate(fromCell, toCell, amount || data1.size);
         success = true;
       }
       else {
@@ -254,12 +251,12 @@ class InventoryRender {
           else {
             var amountToTransfer = Math.min(data1.size, data2Space);
           }
-          this.transferAndUpdate(fromCell, toCell, amountToTransfer);
+          InventoryRender.transferAndUpdate(fromCell, toCell, amountToTransfer);
           success = true;
         }
         else {
           if (!amount) {
-            this.swapCells(fromCell, toCell);
+            InventoryRender.swapCells(fromCell, toCell);
           }
         }
       }
@@ -282,12 +279,12 @@ class InventoryRender {
    * @param {HTMLTableCellElement} toCell 
    * @param {number} amount 
    */
-  transferAndUpdate(fromCell, toCell, amount) {
+  static transferAndUpdate(fromCell, toCell, amount) {
     if (amount) {
       var data1 = fromCell.firstChild.itemData;
       data1.size -= amount;
       fromCell.removeChild(fromCell.firstChild);
-      if (data1.size) {fromCell.appendChild(this.renderItem(data1));}
+      if (data1.size) {fromCell.appendChild(InventoryRender.renderItem(data1));}
       if (toCell.firstChild) {
         var data2 = toCell.firstChild.itemData;
         data2.size += amount;
@@ -297,13 +294,13 @@ class InventoryRender {
         var data2 = Object.assign({}, data1);
         data2.size = amount;
       }
-      toCell.appendChild(this.renderItem(data2));
+      toCell.appendChild(InventoryRender.renderItem(data2));
 
       var commandParameters = [
         fromCell.getAttribute('data-slotnumber'),
-        this.getSide(fromCell),
+        InventoryRender.getSide(fromCell),
         toCell.getAttribute('data-slotnumber'),
-        this.getSide(toCell),
+        InventoryRender.getSide(toCell),
         amount
       ];
       var commandName = 'transfer';
@@ -316,18 +313,18 @@ class InventoryRender {
    * @param {HTMLTableCellElement} cell1 
    * @param {HTMLTableCellElement} cell2 
    */
-  swapCells(cell1, cell2) {
+  static swapCells(cell1, cell2) {
     if (cell1.firstChild) {
-      this.itemSwapStorage = cell1.firstChild;
+      let itemSwapStorage = cell1.firstChild;
       cell1.removeChild(cell1.firstChild);
       if (cell2.firstChild) {cell1.appendChild(cell2.firstChild);}
-      if (this.itemSwapStorage) {cell2.appendChild(this.itemSwapStorage);}
+      if (itemSwapStorage) {cell2.appendChild(itemSwapStorage);}
 
       var commandParameters = [
         cell1.getAttribute('data-slotnumber'),
-        this.getSide(cell1),
+        InventoryRender.getSide(cell1),
         cell2.getAttribute('data-slotnumber'),
-        this.getSide(cell2),
+        InventoryRender.getSide(cell2),
       ];
       var commandName = 'transfer';
       this.GUI.sendCommand(commandName, commandParameters);
