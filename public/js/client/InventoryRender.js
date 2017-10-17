@@ -169,6 +169,8 @@ class InventoryRender {
    */
   itemDragStart(e) {
     let cell = e.target;
+    console.dir(cell)
+    console.log('!')
     this.dragStartElement = cell.parentElement;
     if (e.ctrlKey || e.altKey) {
       e.dataTransfer.setData('text/plain', 'split');
@@ -184,16 +186,17 @@ class InventoryRender {
    */
   itemDrop(e) {
     let cell = e.target;
+    let targetElement = cell.tagName == "TD" ? cell : cell.parentElement;
     if (this.dragStartElement != cell) {
-      var operation = e.dataTransfer.getData('text');
+      let operation = e.dataTransfer.getData('text');
       if (operation == 'move') {
-        this.validateTransfer(this.dragStartElement, cell);
+        this.validateTransfer(this.dragStartElement, targetElement);
       }
       else if (operation == 'split') {
         $('#itemTransferAmountModal').modal('show');
         this.inProgressTransfer = {};
         this.inProgressTransfer.start = this.dragStartElement;
-        this.inProgressTransfer.end = cell;
+        this.inProgressTransfer.end = targetElement;
         document.getElementById('transferAmountInput').focus();
       }
     }
@@ -238,8 +241,6 @@ class InventoryRender {
       var data1 = fromCell.firstChild.itemData;
       if (amount > data1.size || amount < 1) {;}
       else if (!toCell.firstChild) {
-        console.dir(data1.size)
-        console.dir(amount)
         this.transferAndUpdate(fromCell, toCell, amount || data1.size);
         success = true;
       }
