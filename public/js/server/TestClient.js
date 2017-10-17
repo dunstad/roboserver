@@ -16,13 +16,19 @@ class TestClient {
 	constructor(testData) {
 		
 		this.testData = testData;
+		
 		this.inventory = new InventoryData(this.testData.internalInventory.meta);
 		for (let slot of this.testData.internalInventory.slots) {
 			this.inventory.setSlot(slot);
 		}
 		this.inventories = {
 			[-1]: this.inventory,
+			[3]: new InventoryData(this.testData.externalInventory.meta),
 		};
+		for (let slot of this.testData.internalInventory.slots) {
+			this.inventories[3].setSlot(slot);
+		}
+
 		this.equipped;
 		this.map = new MapData();
 		this.map.setFromMapData(this.testData.map);
