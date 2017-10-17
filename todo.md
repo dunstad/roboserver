@@ -5,6 +5,7 @@
 * refactor interface code
   * un-hardcode ids and move them to GUI
   * decouple maprender and gui?
+* window resize before camera exists error?
 
 ## features
 * add validators to web client
