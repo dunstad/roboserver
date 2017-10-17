@@ -123,6 +123,8 @@ class TestClient {
 			},
 
 			transfer: (fromSlotIndex, fromSide, toSlotIndex, toSide, amount)=>{
+
+				amount = parseInt(amount);
 				
 				let fromInv = this.inventories[fromSide];
 				let toInv = this.inventories[toSide];

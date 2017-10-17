@@ -1,12 +1,12 @@
 # 1.1
 
 ## fixes
-
-## features
-* find out why i can't drag item stacks anymore
+* race condition in tcp message parsing code?
 * refactor interface code
   * un-hardcode ids and move them to GUI
   * decouple maprender and gui?
+
+## features
 * add validators to web client
 * add unit tests for web client
 * change oc lua code to use new command structure
