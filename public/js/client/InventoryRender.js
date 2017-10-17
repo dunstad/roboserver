@@ -16,8 +16,10 @@ class InventoryRender {
      * Runs the specific number of items transfer when the button in the modal is clicked.
      */
     document.getElementById('itemTransferAmountForm').addEventListener('submit', (e)=>{
-      var transferAmountInput = document.getElementById('transferAmountInput')
-      validateTransfer(
+      let transferAmountInput = document.getElementById('transferAmountInput');
+      console.dir(this.inProgressTransfer)
+      console.log('1')
+      this.validateTransfer(
         this.inProgressTransfer.start,
         this.inProgressTransfer.end,
         transferAmountInput.value
@@ -169,8 +171,6 @@ class InventoryRender {
    */
   itemDragStart(e) {
     let cell = e.target;
-    console.dir(cell)
-    console.log('!')
     this.dragStartElement = cell.parentElement;
     if (e.ctrlKey || e.altKey) {
       e.dataTransfer.setData('text/plain', 'split');
@@ -197,6 +197,7 @@ class InventoryRender {
         this.inProgressTransfer = {};
         this.inProgressTransfer.start = this.dragStartElement;
         this.inProgressTransfer.end = targetElement;
+        console.dir(this.inProgressTransfer)
         document.getElementById('transferAmountInput').focus();
       }
     }
@@ -230,9 +231,6 @@ class InventoryRender {
    * @param {number} amount 
    */
   validateTransfer(fromCell, toCell, amount) {
-    console.dir(fromCell)
-    console.dir(toCell)
-    console.dir(amount)
     var success = false;
     
     if (!fromCell.firstChild ||
@@ -289,7 +287,7 @@ class InventoryRender {
       var data1 = fromCell.firstChild.itemData;
       data1.size -= amount;
       fromCell.removeChild(fromCell.firstChild);
-      if (data1.size) {fromCell.appendChild(renderItem(data1));}
+      if (data1.size) {fromCell.appendChild(this.renderItem(data1));}
       if (toCell.firstChild) {
         var data2 = toCell.firstChild.itemData;
         data2.size += amount;
