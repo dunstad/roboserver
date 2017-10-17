@@ -55,6 +55,7 @@
   * allow limited functionality without geolyzer
 * customizable crafting recipes
 * all known inventories tracked per account, robots check those first when crafting or building
+* virtual items/blocks?
 * perform initial configuration from application?
 * hotkeys for different tools
 * find blocks feature (make non-matches mostly transparent)
