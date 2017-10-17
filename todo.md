@@ -3,7 +3,7 @@
 ## fixes
 
 ## features
-* fix inventory bug preventing external chest from working
+* find out why i can't drag item stacks anymore
 * refactor interface code
   * un-hardcode ids and move them to GUI
   * decouple maprender and gui?
