@@ -458,14 +458,16 @@ class TestClient {
 		};
 		const serializedData = JSON.stringify(data) + this.delimiter;
 
+		function writeError(error) {if (error) {console.dir(error);}}
+
 		if (this.socket) {
 			if (serializedData.length > this.writeBufferLength) {
 				const chunkRegExp = new RegExp('[\\s\\S]{1,' + this.writeBufferLength + '}', 'g');
 				const dataChunks = serializedData.match(chunkRegExp) || [];
-				dataChunks.map(this.socket.write, this.socket);
+				dataChunks.map((data)=>{this.socket.write(data, writeError);}, this.socket);
 			}
 			else {
-				this.socket.write(serializedData);
+				this.socket.write(serializedData, writeError);
 			}
 		}
 
