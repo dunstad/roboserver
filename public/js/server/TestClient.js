@@ -458,7 +458,7 @@ class TestClient {
 		};
 		const serializedData = JSON.stringify(data) + this.delimiter;
 
-		if (this.socket) { // set to false during testing
+		if (this.socket) {
 			if (serializedData.length > this.writeBufferLength) {
 				const chunkRegExp = new RegExp('[\\s\\S]{1,' + this.writeBufferLength + '}', 'g');
 				const dataChunks = serializedData.match(chunkRegExp) || [];
