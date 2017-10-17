@@ -175,7 +175,7 @@ class InventoryRender {
     if (GLOBALS.dragStartElement != cell) {
       let operation = e.dataTransfer.getData('text');
       if (operation == 'move') {
-        InventoryRender.validateTransfer(GLOBALS.dragStartElement, targetElement, 0, this);
+        InventoryRender.validateTransfer(GLOBALS.dragStartElement, targetElement, undefined, this);
       }
       else if (operation == 'split') {
         $('#itemTransferAmountModal').modal('show');
@@ -217,6 +217,9 @@ class InventoryRender {
    * @param {GUI} GUI
    */
   static validateTransfer(fromCell, toCell, amount, GUI) {
+    console.dir('?')
+    console.dir(fromCell)
+    console.dir(toCell)
     var success = false;
     
     if (!fromCell.firstChild ||
@@ -270,6 +273,7 @@ class InventoryRender {
    * @param {GUI} GUI
    */
   static transferAndUpdate(fromCell, toCell, amount, GUI) {
+    console.dir('!')
     if (amount) {
       var data1 = fromCell.firstChild.itemData;
       data1.size -= amount;
