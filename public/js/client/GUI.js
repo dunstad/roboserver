@@ -68,11 +68,58 @@ class GUI {
     this.initControlsModal();
     this.initInventoryModal();
     this.initButtons();
+    this.initMessage();
+    this.initMessage();
+    this.initTooltips();
 
   }
 
   /**
-   * 
+   * Used by fetchPromise to make sure we resolve or throw errors as appropriate.
+   * @param {Response} response 
+   * @returns {Promise<Response>}
+   */
+  status(response) {
+    if (response.status >= 200 && response.status < 300) {
+      return Promise.resolve(response)
+    } else {
+      return Promise.reject(new Error(response.statusText))
+    }
+  }
+
+  /**
+   * Used by fetchPromise to get JSON out of a request.
+   * @param {Response} response 
+   * @returns {Promise<string>}
+   */
+  extractData(response) {
+    var contentType = response.headers.get("Content-Type");
+    if (contentType && contentType.indexOf("application/json") !== -1) {
+      return response.json();
+    }
+    else {
+      return response.text();
+    }
+  }
+
+  /**
+   * Fetches data from 'url'.
+   * @param {string} url 
+   * @param {object} options 
+   * @returns {Promise<string>}
+   */
+  fetchPromise(url, options) {
+    return new Promise((resolve, reject)=>{
+      fetch(url, options)
+      .then(this.status)
+      .then(this.extractData)
+      .then(resolve)
+      .catch(reject);
+    });
+  }
+
+  /**
+   * Used to make the buttons in the GUI actually do things.
    */
   initButtons() {
     
@@ -444,8 +491,8 @@ class GUI {
       $('.selectpicker').selectpicker('refresh');
     }
     
-    fetchPromise("/js/recipes/minecraftRecipes.json").then(addRecipes).catch(console.dir);
-    fetchPromise("/js/recipes/OCRecipes.json").then(addRecipes).catch(console.dir);
+    this.fetchPromise("/js/recipes/minecraftRecipes.json").then(addRecipes).catch(console.dir);
+    this.fetchPromise("/js/recipes/OCRecipes.json").then(addRecipes).catch(console.dir);
 
     // prevent hotkeys from working here
     craftSelect.parentElement.addEventListener('keydown', (e)=>{e.stopPropagation();});
@@ -592,6 +639,63 @@ class GUI {
       $('#itemTransferAmountModal').modal('hide');
       transferAmountInput.value = '';
     });
+  }
+
+  /**
+   * Used to create the message banner on page load.
+   */
+  initMessage() {
+
+    let bannerMessage = document.getElementById('bannerMessage');
+    let messages = [
+      '<a href="https://www.patreon.com/dunstad">Your support</a> makes this project possible. Thanks!',
+    ];
+    let randomMessage = messages[Math.floor(Math.random() * messages.length)];
+    bannerMessage.innerHTML = randomMessage;
+  
+    let bannerMessageDiv = document.getElementById('bannerMessageDiv');
+    bannerMessageDiv.classList.remove('hidden');
+
+  }
+
+  /**
+   * Used to add tooltips to the UI.
+   */
+  initTooltips() {
+
+    let tipMap = {
+      'usernameDisplay': "Which user you're logged in as.",
+      'cursorPositionDisplay': "The current position of the cursor.",
+      'powerLevelDisplay': "The current power level of the selected robot.",
+      'robotSelectDiv': "Which robot your commands will be sent to.",
+      'moveButton': "Try to move to the clicked point.",
+      'interactButton': "Try to right-click on the clicked point.",
+      'inspectButton': "Try to see what block is at the selected point.",
+      'swingButton': "Try to swing the equipped tool at every point in the selected area.",
+      'placeButton': "Try to place blocks from the selected inventory slot at every point in the selected area.",
+      'selectStartDiv': "Coordinates of the first corner of the selected area.",
+      'selectEndDiv': "Coordinates of the second corner of the selected area.",
+      'craftButton': "Try to craft the selected item.",
+      // bootstrap-select uses the title attribute for placeholder text
+      // 'craftSelect': "Which item to craft. Currently only vanilla and OpenComputers items are available.",
+      'inventoryButton': "Show or hide inventories.",
+      'scanButton': "Get hardness data for an area around the selected robot. Affected by the scan size selector.",
+      'equipButton': "Equip the item in the currently selected inventory slot.",
+      'centerButton': "Move the camera above the selected robot and look down at it.",
+      'axisButton': "Which axis to hide blocks on. X, Y, or Z.",
+      'operationButton': "Whether blocks with a coordinate greater than or less than the input will be hidden.",
+      'cutawayValue': "The coordinate at which blocks become hidden.",
+      'scanSizeDiv': "The size of the area a robot should scan when moving. Also affects the Scan button.",
+      'commandInput': "Enter Lua code the robot will try to run.",
+      'runInTerminalDiv': "If checked, input will be run as a shell command. Useful for things like ls, cd, and cat.",
+      'messageContainer': "A log of commands sent to and responses received from the robot. Commands can be sent again by clicking on them.",
+    };
+  
+    for (let elemID in tipMap) {
+      let elem = document.getElementById(elemID);
+      elem.title = tipMap[elemID];
+    }
+
   }
 
 }

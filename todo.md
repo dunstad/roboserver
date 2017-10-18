@@ -2,8 +2,8 @@
 
 ## fixes
 * refactor interface code
-  * move message.js and fetchPromise.js into GUI
   * un-hardcode ids and move them to GUI
+* delete old files after all the refactoring is done
 
 ## features
 * add validators to web client
@@ -47,6 +47,7 @@
 * edit lua files on robot with an editor in browser
 
 ## small
+* add a go away forever button to the message banner
 * change gui based on what components the selected robot has
   * modularize lua code so more of the requires/components are optional
   * allow limited functionality without crafting component
