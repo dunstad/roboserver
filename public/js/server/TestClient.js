@@ -169,7 +169,7 @@ class TestClient {
 		};
 
 		this.socket.on('data', (rawMessages)=>{
-			let messages = String(rawMessages).split(delimiter).filter(s=>s).map(JSON.parse);
+			let messages = String(rawMessages).split(this.delimiter).filter(s=>s).map(JSON.parse);
 			for (let data of messages) {
 				if (data.command) {
 					console.log('Received:', data.command.name, data.command.parameters);
