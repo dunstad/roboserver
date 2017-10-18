@@ -7,6 +7,7 @@
     "start": "node ./bin/www",
     "server": "node ./bin/www",
     "server-dev": "nodemon ./bin/www",
+    "connect": "nodemon ./public/js/server/connect.js",
     "electron": "electron electronApp.js",
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=public/assets/placeholder_icon.icns --prune=true --out=release-builds",
     "package-win": "electron-packager . --overwrite --platform=win32 --arch=x64 --icon=public/assets/placeholder_icon.ico --prune=true --out=release-builds",
