@@ -2,7 +2,7 @@
 
 ## fixes
 * refactor interface code
-  * move buttons.js and message.js into GUI or separate classes
+  * move message.js and fetchPromise.js into GUI
   * un-hardcode ids and move them to GUI
 
 ## features
