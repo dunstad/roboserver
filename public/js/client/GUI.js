@@ -248,9 +248,9 @@ class GUI {
             let startPoint = this.selectStart.getPoint();
             let endPoint = this.selectEnd.getPoint();
 
-            let selection = this.game.mapRender.makeBoxAround(startPoint, endPoint, rollOverMaterial);
+            let selection = this.game.mapRender.makeBoxAround(startPoint, endPoint, this.game.mapRender.rollOverMaterial);
             this.game.mapRender.scene.add(selection);
-            let selectionIndex = this.addSelection(selections, selection);
+            let selectionIndex = this.addSelection(this.game.mapRender.selections, selection);
             
             let startPointLua = this.objectToLuaString(startPoint.world());
             let endPointLua = this.objectToLuaString(endPoint.world());

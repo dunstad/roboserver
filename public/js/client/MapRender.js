@@ -344,7 +344,7 @@ class MapRender {
       height + preventFlickeringOffset,
       width + preventFlickeringOffset
     );
-    let mesh = this.createMesh(geometry, material || cubeMat, this.simple);
+    let mesh = this.createMesh(geometry, material || this.cubeMat, this.simple);
     if (position) {mesh.position.copy(position.scene());}
     return mesh;
   }
@@ -374,9 +374,9 @@ class MapRender {
     let sceneStart = startPoint.scene();
     let sceneEnd = endPoint.scene();
     let box = this.makeBox(
-      Math.abs(sceneEnd.x-sceneStart.x) + voxelSideLength,
-      Math.abs(sceneEnd.y-sceneStart.y) + voxelSideLength,
-      Math.abs(sceneEnd.z-sceneStart.z) + voxelSideLength,
+      Math.abs(sceneEnd.x-sceneStart.x) + this.voxelSideLength,
+      Math.abs(sceneEnd.y-sceneStart.y) + this.voxelSideLength,
+      Math.abs(sceneEnd.z-sceneStart.z) + this.voxelSideLength,
       material,
       midpoint
     );
@@ -533,7 +533,7 @@ class MapRender {
    */
   removeSelectBox() {
     if (this.selectBox) {
-      this.scene.remove(selectBox);
+      this.scene.remove(this.selectBox);
       this.selectBox.geometry.dispose();
       this.selectBox = undefined;
     }
