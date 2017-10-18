@@ -1,7 +1,6 @@
 # 1.1
 
 ## fixes
-* item stack size string addition when going from external to internal
 * refactor interface code
   * un-hardcode ids and move them to GUI
   * decouple maprender and gui?

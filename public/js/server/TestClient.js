@@ -325,6 +325,7 @@ class TestClient {
 	 * @return {boolean}
 	 */
 	moveItems(fromInv, fromSlotIndex, toInv, toSlotIndex, amount) {
+		amount = parseInt(amount);
 		let fromSlotSer = fromInv.serializeSlot(fromSlotIndex);		
 		let toSlotSer = toInv.serializeSlot(toSlotIndex);
 		

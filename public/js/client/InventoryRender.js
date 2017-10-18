@@ -217,6 +217,7 @@ class InventoryRender {
    * @param {GUI} GUI
    */
   static validateTransfer(fromCell, toCell, amount, GUI) {
+    amount = parseInt(amount);
     var success = false;
     
     if (!fromCell.firstChild ||
@@ -270,6 +271,7 @@ class InventoryRender {
    * @param {GUI} GUI
    */
   static transferAndUpdate(fromCell, toCell, amount, GUI) {
+    amount = parseInt(amount);
     if (amount) {
       var data1 = fromCell.firstChild.itemData;
       data1.size -= amount;
