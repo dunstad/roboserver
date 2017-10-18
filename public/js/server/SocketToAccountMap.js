@@ -8,6 +8,7 @@ class SocketToAccountMap {
    */
   constructor() {
     this.accounts = {};
+    this.delimiter = '\n';
   }
 
   /**
@@ -139,7 +140,7 @@ class SocketToAccountMap {
     message[eventName] = data;
     var robotSocket = this.getRobot(accountName, robotName);
     if (robotSocket) {
-      robotSocket.write(JSON.stringify(message) + '\r\n');
+      robotSocket.write(JSON.stringify(message) + this.delimiter);
       result = true;
     }
     return result;

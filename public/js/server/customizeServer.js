@@ -1,6 +1,6 @@
 var accounts = new (require('./SocketToAccountMap'))();
 
-const delimiter = '\r\n';
+const delimiter = '\n';
 
 /**
  * Starts the TCP server and adds event listeners to the HTTP server.

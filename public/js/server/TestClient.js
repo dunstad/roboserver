@@ -38,7 +38,7 @@ class TestClient {
 		
 		this.power = 1;
 		this.writeBufferLength = 20;
-		this.delimiter = '\r\n';
+		this.delimiter = '\n';
 
 		this.socket = new net.Socket();
 		this.socket.on('close', function() {
@@ -169,7 +169,7 @@ class TestClient {
 		};
 
 		this.socket.on('data', (rawMessages)=>{
-			let messages = String(rawMessages).split('\r\n').filter(s=>s).map(JSON.parse);
+			let messages = String(rawMessages).split(delimiter).filter(s=>s).map(JSON.parse);
 			for (let data of messages) {
 				if (data.command) {
 					console.log('Received:', data.command.name, data.command.parameters);

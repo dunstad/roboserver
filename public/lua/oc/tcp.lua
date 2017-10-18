@@ -7,6 +7,8 @@ local handle = internet.open(conf.serverIP, tonumber(conf.tcpPort));
 handle:setvbuf('line');
 -- handle:setTimeout('10');
 
+local delimiter = '\n';
+
 local M = {};
 
 function M.read()
@@ -17,11 +19,11 @@ end
 function M.write(data)
   local status, result = pcall(function()
     -- without the newline the write will wait in the buffer
-    handle:write(JSON:encode(data)..'\r\n');
+    handle:write(JSON:encode(data)..delimiter);
   end);
   if not status then
     local errorMessage = {['message']='Failed to serialize result!'};
-    handle:write(JSON:encode(errorMessage)..'\r\n');
+    handle:write(JSON:encode(errorMessage)..delimiter);
   end
   return result;
 end
