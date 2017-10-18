@@ -74,8 +74,6 @@ function main(server, app) {
 
   	// relay command results from robot to web server
   	tcpSocket.on('data', (data)=>{
-      console.dir('DATA')
-      console.dir(data.toString())
       if (!tcpSocket.remainder) {tcpSocket.remainder = '';}
       const parsedTCP = parseTCPData(data.toString(), tcpSocket.remainder);
       tcpSocket.remainder = parsedTCP.remainder;

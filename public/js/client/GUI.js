@@ -65,22 +65,56 @@ class GUI {
     this.initCraftSelect();
     this.initRobotSelect();
     this.initCutawayForm();
-    this.initModal();
+    this.initControlsModal();
+    this.initInventoryModal();
+    this.initButtons();
 
-    /**
-     * Transfers the specified number of items when the button in the modal is clicked.
-     */
-    document.getElementById('itemTransferAmountForm').addEventListener('submit', (e)=>{
-      let transferAmountInput = document.getElementById('transferAmountInput');
-      InventoryRender.validateTransfer(
-        GLOBALS.inProgressTransfer.start,
-        GLOBALS.inProgressTransfer.end,
-        transferAmountInput.value,
-        this
-      );
-      $('#itemTransferAmountModal').modal('hide');
-      transferAmountInput.value = '';
-    });
+  }
+
+  /**
+   * 
+   */
+  initButtons() {
+    
+    let buttonCallbacks = {
+      
+      'scanButton': ()=>{this.sendCommand('scanArea', [document.getElementById('scanLevelSelect').value]);},
+    
+      'inventoryButton': ()=>{
+        let inventoryContainer = document.getElementById('inventoryContainer');
+        let currentRobot = this.game.webClient.allRobotInfo[document.getElementById('robotSelect').value];
+        currentRobot.toggleShowInventories();
+    
+        if (currentRobot.getShowInventories()) {
+          inventoryContainer.classList.remove('hidden');
+          this.sendCommand('viewInventory');
+        }
+        else {
+          inventoryContainer.classList.add('hidden');
+        }
+      },
+    
+      'equipButton': ()=>{
+        let inventoryContainer = document.getElementById('inventoryContainer');
+        let currentRobot = this.game.webClient.allRobotInfo[document.getElementById('robotSelect').value];
+        
+        // get the robot's inventory if we didn't have it yet
+        if (!currentRobot.getInventory(-1)) {
+          this.sendCommand('viewInventory');
+        }
+    
+        this.sendCommand('equip');
+        inventoryContainer.classList.remove('hidden');
+      },
+    
+      'centerButton': ()=>{this.viewSelectedRobot();}
+    
+    };
+
+    for (let buttonID in buttonCallbacks) {
+      let button = document.getElementById(buttonID);
+      button.addEventListener('click', buttonCallbacks[buttonID]);
+    }
 
   }
 
@@ -536,11 +570,28 @@ class GUI {
   /**
    * Display the controls if the user hasn't visited the page before.
    */
-  initModal() {
+  initControlsModal() {
     if (!localStorage.getItem('controlsHaveBeenShown')) {
       $('#controlsDisplay').modal('show');
       localStorage.setItem('controlsHaveBeenShown', 'true');
     }
+  }
+
+  /**
+   * Transfers the specified number of items when the button in the modal is clicked.
+   */
+  initInventoryModal() {
+    document.getElementById('itemTransferAmountForm').addEventListener('submit', (e)=>{
+      let transferAmountInput = document.getElementById('transferAmountInput');
+      InventoryRender.validateTransfer(
+        GLOBALS.inProgressTransfer.start,
+        GLOBALS.inProgressTransfer.end,
+        transferAmountInput.value,
+        this
+      );
+      $('#itemTransferAmountModal').modal('hide');
+      transferAmountInput.value = '';
+    });
   }
 
 }

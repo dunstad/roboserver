@@ -120,7 +120,7 @@ class MapRender {
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   
-    window.addEventListener('resize', this.onWindowResize, false);
+    window.addEventListener('resize', this.onWindowResize.bind(this), false);
   
     document.addEventListener('keydown', (e)=>{
       const escCode = 27;

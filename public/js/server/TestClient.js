@@ -465,10 +465,9 @@ class TestClient {
 			if (serializedData.length > this.writeBufferLength) {
 				const chunkRegExp = new RegExp('[\\s\\S]{1,' + this.writeBufferLength + '}', 'g');
 				const dataChunks = serializedData.match(chunkRegExp) || [];
-				dataChunks.map((data)=>{console.dir(data); this.socket.write(data, writeError);}, this.socket);
+				dataChunks.map((data)=>{this.socket.write(data, writeError);}, this.socket);
 			}
 			else {
-				console.dir(serializedData)
 				this.socket.write(serializedData, writeError);
 			}
 		}
