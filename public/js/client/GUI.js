@@ -73,7 +73,6 @@ class GUI {
       'swingButtonLabel': 'swingButton',
       'placeButtonLabel': 'placeButton',
       'runInTerminalDiv': 'runInTerminalDiv',
-      '': '',
     }
     
     for (let propertyName in propertyToIdMap) {
@@ -279,8 +278,8 @@ class GUI {
     this.game.mapRender.renderer.domElement.addEventListener('click', (e)=>{
       // left click
       if (e.button == 0) {
-        let digToolActive = this.digTool.checked;
-        let placeToolActive = this.placeTool.checked;
+        let digToolActive = this.digToolButton.checked;
+        let placeToolActive = this.placeToolButton.checked;
         if (this.game.mapRender.controls.enabled && (digToolActive || placeToolActive)) {
           let pos = new WorldAndScenePoint(this.game.mapRender.rollOverMesh.position, false);
           if (!this.selectStart.isComplete()) {
