@@ -162,7 +162,7 @@ class InventoryRender {
         GLOBALS.inProgressTransfer = {};
         GLOBALS.inProgressTransfer.start = GLOBALS.dragStartElement;
         GLOBALS.inProgressTransfer.end = targetElement;
-        document.getElementById('transferAmountInput').focus();
+        this.transferAmountInput.focus();
       }
     }
   }

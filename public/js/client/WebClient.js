@@ -56,7 +56,7 @@ class WebClient {
         console.dir(pos);
         this.game.mapRender.moveRobotVoxel(new WorldAndScenePoint(pos.data, true), pos.robot);
         this.game.webClient.allRobotInfo[pos.robot].removeAllExternalInventories();
-        if (pos.robot == document.getElementById('robotSelect').value) {
+        if (pos.robot == this.game.GUI.robotSelect.value) {
           let robotData = this.game.webClient.allRobotInfo[pos.robot];
           if (robotData) {
             this.game.mapRender.selectedRobotMesh.position.copy(robotData.getPosition().scene());
@@ -95,13 +95,13 @@ class WebClient {
         console.dir('inventory data');
         console.dir(inventoryData);
         
-        let inventoryContainer = document.getElementById('inventoryContainer');
+        let inventoryContainer = this.game.GUI.inventoryContainer;
         let inventorySide = inventoryData.data.side;
         if (!this.allRobotInfo[inventoryData.robot].getInventory(inventorySide)) {
           let inv = new InventoryRender(inventoryData.data, this.game.GUI);
           console.dir(inv)
           this.allRobotInfo[inventoryData.robot].addInventory(inv);
-          if (document.getElementById('robotSelect').value == inventoryData.robot) {
+          if (this.game.GUI.robotSelect.value == inventoryData.robot) {
             inv.addToDisplay(inventoryContainer);
           }
         }
@@ -137,7 +137,7 @@ class WebClient {
       'listen start': (data)=>{
         console.dir('listen start');
         console.dir(data);
-        let robotSelect = document.getElementById('robotSelect');
+        let robotSelect = this.game.GUI.robotSelect;
         if (!robotSelect.querySelector('[value=' + data.robot + ']')) {
           
           let option = document.createElement('option');
@@ -160,7 +160,7 @@ class WebClient {
       'listen end': (data)=>{
         console.dir('listen end');
         console.dir(data);
-        let robotSelect = document.getElementById('robotSelect');
+        let robotSelect = this.game.GUI.robotSelect;
         let option = robotSelect.querySelector('[value=' + data.robot + ']');
         this.allRobotInfo[data.robot] = undefined;
         // if the disconnecting robot is the currently selected robot
@@ -180,7 +180,7 @@ class WebClient {
         console.dir('power level');
         console.dir(power);
         this.allRobotInfo[power.robot].setPower(power.data);
-        let currentRobot = document.getElementById('robotSelect').value;
+        let currentRobot = this.game.GUI.robotSelect.value;
         if (power.robot == currentRobot) {
           this.game.GUI.setPower(power.data);
         }
@@ -194,7 +194,7 @@ class WebClient {
         console.dir('available components');
         console.dir(components);
         this.allRobotInfo[components.robot].setComponents(components.data);
-        if (components.robot == document.getElementById('robotSelect').value) {
+        if (components.robot == this.game.GUI.robotSelect.value) {
           this.game.GUI.hideComponentGUI();
           for (let componentName in this.allRobotInfo[components.robot].getComponents()) {
             let componentElementIDs = this.game.GUI.componentElementMap[componentName];

@@ -312,7 +312,7 @@ class MapRender {
     }
   
     let worldCoords = new WorldAndScenePoint(this.rollOverMesh.position, false).world();
-    let hoverCoordDiv = document.getElementById('hoverGuideCoordinates');
+    let hoverCoordDiv = this.game.GUI.hoverGuideCoordinates;
     hoverCoordDiv.innerHTML = String([worldCoords.x, worldCoords.y, worldCoords.z]);
     
   }

@@ -56,7 +56,7 @@ class GUI {
       'transferAmountInput': 'transferAmountInput',
       'bannerMessage': 'bannerMessage',
       'bannerMessageDiv': 'bannerMessageDiv',
-      '': '',
+      'hoverGuideCoordinates': 'hoverGuideCoordinates',
       '': '',
       '': '',
       '': '',
