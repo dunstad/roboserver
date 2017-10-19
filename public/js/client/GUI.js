@@ -5,7 +5,7 @@ class GUI {
     this.game = game;
 
     this.componentElementMap = {
-      'raw': ['commandInput', 'runInTerminalDiv']
+      'raw': ['commandInputField', 'runInTerminalDiv']
     };
 
     this.selections = {};
@@ -57,8 +57,22 @@ class GUI {
       'bannerMessage': 'bannerMessage',
       'bannerMessageDiv': 'bannerMessageDiv',
       'hoverGuideCoordinates': 'hoverGuideCoordinates',
-      '': '',
-      '': '',
+      'runInTerminalDiv': 'runInTerminalDiv',
+      'usernameDisplay': 'usernameDisplay',
+      'cursorPositionDisplay': 'cursorPositionDisplay',
+      'robotSelectDiv': 'robotSelectDiv',
+      'selectStartDiv': 'selectStartDiv',
+      'selectEndDiv': 'selectEndDiv',
+      'axisButton': 'axisButton',
+      'operationButton': 'operationButton',
+      'cutawayValue': 'cutawayValue',
+      'scanSizeDiv': 'scanSizeDiv',
+      'moveButtonLabel': 'moveButton',
+      'interactButtonLabel': 'interactButton',
+      'inspectButtonLabel': 'inspectButton',
+      'swingButtonLabel': 'swingButton',
+      'placeButtonLabel': 'placeButton',
+      'runInTerminalDiv': 'runInTerminalDiv',
       '': '',
     }
     
@@ -576,9 +590,9 @@ class GUI {
 
       this.hideComponentGUI();
       for (let componentName in robotData.getComponents()) {
-        let componentElementIDs = this.componentElementMap[componentName];
-        componentElementIDs.map((componentElementID)=>{
-          document.getElementById(componentElementID).classList.remove('hidden');
+        let componentElementNames = this.componentElementMap[componentName];
+        componentElementNames.map((componentElementName)=>{
+          this[componentElementName].classList.remove('hidden');
         });
       }
 
@@ -603,9 +617,9 @@ class GUI {
    * Hides certain GUI elements when a robot that can't make use of them is selected.
    */
   hideComponentGUI() {
-    for (let componentElementIDs of Object.values(this.componentElementMap)) {
-      componentElementIDs.map((componentElementID)=>{
-        let componentElement = document.getElementById(componentElementID);
+    for (let componentElementNames of Object.values(this.componentElementMap)) {
+      componentElementNames.map((componentElementName)=>{
+        let componentElement = this[componentElementName];
         if (!componentElement.classList.contains('hidden')) {
           componentElement.classList.add('hidden');
         }
@@ -699,11 +713,11 @@ class GUI {
       'cursorPositionDisplay': "The current position of the cursor.",
       'powerLevelDisplay': "The current power level of the selected robot.",
       'robotSelectDiv': "Which robot your commands will be sent to.",
-      'moveButton': "Try to move to the clicked point.",
-      'interactButton': "Try to right-click on the clicked point.",
-      'inspectButton': "Try to see what block is at the selected point.",
-      'swingButton': "Try to swing the equipped tool at every point in the selected area.",
-      'placeButton': "Try to place blocks from the selected inventory slot at every point in the selected area.",
+      'moveButtonLabel': "Try to move to the clicked point.",
+      'interactButtonLabel': "Try to right-click on the clicked point.",
+      'inspectButtonLabel': "Try to see what block is at the selected point.",
+      'swingButtonLabel': "Try to swing the equipped tool at every point in the selected area.",
+      'placeButtonLabel': "Try to place blocks from the selected inventory slot at every point in the selected area.",
       'selectStartDiv': "Coordinates of the first corner of the selected area.",
       'selectEndDiv': "Coordinates of the second corner of the selected area.",
       'craftButton': "Try to craft the selected item.",
@@ -717,14 +731,14 @@ class GUI {
       'operationButton': "Whether blocks with a coordinate greater than or less than the input will be hidden.",
       'cutawayValue': "The coordinate at which blocks become hidden.",
       'scanSizeDiv': "The size of the area a robot should scan when moving. Also affects the Scan button.",
-      'commandInput': "Enter Lua code the robot will try to run.",
+      'commandInputField': "Enter Lua code the robot will try to run.",
       'runInTerminalDiv': "If checked, input will be run as a shell command. Useful for things like ls, cd, and cat.",
       'messageContainer': "A log of commands sent to and responses received from the robot. Commands can be sent again by clicking on them.",
     };
   
-    for (let elemID in tipMap) {
-      let elem = document.getElementById(elemID);
-      elem.title = tipMap[elemID];
+    for (let elemName in tipMap) {
+      let elem = this[elemName];
+      elem.title = tipMap[elemName];
     }
 
   }

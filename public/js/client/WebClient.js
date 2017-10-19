@@ -197,9 +197,9 @@ class WebClient {
         if (components.robot == this.game.GUI.robotSelect.value) {
           this.game.GUI.hideComponentGUI();
           for (let componentName in this.allRobotInfo[components.robot].getComponents()) {
-            let componentElementIDs = this.game.GUI.componentElementMap[componentName];
-            componentElementIDs.map((componentElementID)=>{
-              document.getElementById(componentElementID).classList.remove('hidden');
+            let componentElementNames = this.game.GUI.componentElementMap[componentName];
+            componentElementNames.map((componentElementName)=>{
+              this.game.GUI[componentElementName].classList.remove('hidden');
             });
           }
         }

@@ -1,8 +1,6 @@
 # 1.1
 
 ## fixes
-* refactor interface code
-  * un-hardcode ids and move them to GUI
 * delete old files after all the refactoring is done
 
 ## features
