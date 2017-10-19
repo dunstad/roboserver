@@ -399,11 +399,20 @@ class GUI {
       console.dir('No robot selected!');
     }
     else {
-      let commandString = commandName + "(" + (commandParameters || "") + ")"
+      let commandString = commandName + "(" + (commandParameters || "") + ")";
       commandParameters = Array.isArray(commandParameters) ? commandParameters : [];
-      this.addMessage(commandString, true, runInTerminal, commandName, commandParameters);
-      this.game.webClient.socket.emit('command', {command: {name: commandName, parameters: commandParameters}, robot: robotSelect.value});
-      result = true;
+      
+      let commandObject = {command: {name: commandName, parameters: commandParameters}, robot: robotSelect.value};
+      
+      if (validators[commandName](commandObject)) {
+        this.addMessage(commandString, true, runInTerminal, commandName, commandParameters);
+        this.game.webClient.socket.emit('command', commandObject);
+        result = true;
+      }
+      else {
+        console.error(commandObject);
+        throw new Error('Command failed to validate.');
+      }
     }
     return result;
   }
