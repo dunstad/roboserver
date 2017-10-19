@@ -1,7 +1,6 @@
 # 1.1
 
 ## fixes
-* delete old files after all the refactoring is done
 
 ## features
 * add validators to web client
