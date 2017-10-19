@@ -72,7 +72,7 @@ class WebClient {
       'delete selection': (index)=>{
         console.dir('delete selection');
         console.dir(index);
-        this.game.GUI.deleteSelection(selections, index.data);
+        this.game.GUI.deleteSelection(index.data);
       },
 
       /**

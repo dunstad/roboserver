@@ -170,7 +170,7 @@ class GUI {
     
     let buttonCallbacks = {
       
-      'scanButton': ()=>{this.sendCommand('scanArea', [this.scanLevelSelect.value]);},
+      'scanButton': ()=>{this.sendCommand('scanArea', [parseInt(this.scanLevelSelect.value)]);},
     
       'inventoryButton': ()=>{
         let inventoryContainer = this.inventoryContainer;
@@ -210,28 +210,11 @@ class GUI {
   }
 
   /**
-   * Serializes objects to Lua tables. Makes sending commands to robots easier.
-   * @param {object} object 
-   * @returns {string}
-   */
-  objectToLuaString(object) {
-    let luaString = '{';
-    for (let prop in object) {
-      if (object.hasOwnProperty(prop)) {
-        luaString = luaString + prop + '=' + object[prop] + ',';
-      }
-    }
-    luaString = luaString + '}';
-    return luaString;
-  }
-
-  /**
    * Stores a selection so it can be shown until the task it's for is completed.
-   * @param {object} selections 
    * @param {THREE.Mesh} selection 
    * @returns {number}
    */
-  addSelection(selections, selection) {
+  addSelection(selection) {
     this.game.mapRender.removeSelectBox();
     let counter = 0;
     while (this.selections[counter]) {counter++;}
@@ -241,12 +224,11 @@ class GUI {
   
   /**
    * Used to get rid of a selection when the task it's for is completed.
-   * @param {object} selections 
    * @param {number} index 
    */
-  deleteSelection(selections, index) {
+  deleteSelection(index) {
     let selection = this.selections[index];
-    this.scene.remove(selection);
+    this.game.mapRender.scene.remove(selection);
     selection.geometry.dispose();
     delete this.selections[index];
     this.game.mapRender.requestRender();
@@ -294,11 +276,9 @@ class GUI {
 
             let selection = this.game.mapRender.makeBoxAround(startPoint, endPoint, this.game.mapRender.rollOverMaterial);
             this.game.mapRender.scene.add(selection);
-            let selectionIndex = this.addSelection(this.game.mapRender.selections, selection);
+            let selectionIndex = this.addSelection(selection);
             
-            let startPointLua = this.objectToLuaString(startPoint.world());
-            let endPointLua = this.objectToLuaString(endPoint.world());
-            let scanLevel = this.scanLevelSelect.value;
+            let scanLevel = parseInt(this.scanLevelSelect.value);
             
             let commandName;
             if (digToolActive) {
@@ -307,7 +287,10 @@ class GUI {
             else if (placeToolActive) {
               commandName = 'place';
             }
-            let commandParameters = [startPointLua, endPointLua, selectionIndex, scanLevel];
+
+            let startPointWorld = startPoint.world();
+            let endPointWorld = endPoint.world();
+            let commandParameters = [startPointWorld.x, startPointWorld.y, startPointWorld.z, endPointWorld.x, endPointWorld.y, endPointWorld.z, selectionIndex, scanLevel];
             this.sendCommand(commandName, commandParameters);
 
             this.selectStart.clear();
