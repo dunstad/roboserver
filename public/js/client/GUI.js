@@ -300,11 +300,12 @@ class GUI {
             let endPointLua = this.objectToLuaString(endPoint.world());
             let scanLevel = this.scanLevelSelect.value;
             
+            let commandName;
             if (digToolActive) {
-              let commandName = 'dig';
+              commandName = 'dig';
             }
             else if (placeToolActive) {
-              let commandName = 'place';
+              commandName = 'place';
             }
             let commandParameters = [startPointLua, endPointLua, selectionIndex, scanLevel];
             this.sendCommand(commandName, commandParameters);
@@ -365,7 +366,7 @@ class GUI {
       if (this.game.mapRender.controls.enabled && (moveToolActive || interactToolActive || inspectToolActive)) {
         let coord = new WorldAndScenePoint(this.game.mapRender.rollOverMesh.position, false).world();
         console.log(coord);
-        let scanLevel = this.scanLevelSelect.value;
+        let scanLevel = parseInt(this.scanLevelSelect.value);
         let commandName;
         let commandParameters;
         if (moveToolActive) {
