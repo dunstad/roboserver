@@ -111,26 +111,6 @@ class InventoryRender {
   }
 
   /**
-   * Removes inventories from the display.
-   * Used when the robot moves or when you select a new robot.
-   * @param {boolean} includeInternal
-   */
-  removeInventories(includeInternal) {
-    var inventoryContainer = document.getElementById("inventoryContainer");
-    if (includeInternal) {
-      for (elem of Array.from(inventoryContainer.childNodes)) {
-        elem.remove();
-      }
-    }
-    else {
-      var inventories = inventoryContainer.querySelectorAll('[data-side]:not([data-side="-1"])');
-      for (var inventory of inventories) {
-        inventoryContainer.removeChild(inventory);
-      }
-    }
-  }
-
-  /**
    * Creates a visual representation of an item.
    * @param {object} itemData 
    * @returns {HTMLDivElement}
