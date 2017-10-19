@@ -29,12 +29,37 @@ class GUI {
     );
 
     // Lots of UI elements gathered here so they can all be referenced from one place.
+    // This will make it easier to change the IDs if we need to.
     let propertyToIdMap = {
       'moveToolButton': 'moveTool',
       'interactToolButton': 'interactTool',
       'inspectToolButton': 'inspectTool',
       'digToolButton': 'digTool',
       'placeToolButton': 'placeTool',
+      'scanLevelSelect': 'scanLevelSelect',
+      'inventoryContainer': 'inventoryContainer',
+      'robotSelect': 'robotSelect',
+      'scanButton': 'scanButton',
+      'inventoryButton': 'inventoryButton',
+      'equipButton': 'equipButton',
+      'centerButton': 'centerButton',
+      'commandInputField': 'commandInput',
+      'runInTerminalCheckbox': 'runInTerminal',
+      'messageContainer': 'messageContainer',
+      'bottomLeftUI': 'bottomLeftUI',
+      'buttonContainer': 'buttonContainer',
+      'craftSelect': 'craftSelect',
+      'craftButton': 'craftButton',
+      'powerLevelDisplay': 'powerLevelDisplay',
+      'powerLevel': 'powerLevel',
+      'itemTransferAmountForm': 'itemTransferAmountForm',
+      'transferAmountInput': 'transferAmountInput',
+      'bannerMessage': 'bannerMessage',
+      'bannerMessageDiv': 'bannerMessageDiv',
+      '': '',
+      '': '',
+      '': '',
+      '': '',
     }
     
     for (let propertyName in propertyToIdMap) {
@@ -59,17 +84,12 @@ class GUI {
     this.selectStart.addEventListener('input', ()=>{this.game.mapRender.removeSelectBox(); this.game.mapRender.requestRender()});
     this.selectEnd.addEventListener('input', ()=>{this.game.mapRender.removeSelectBox(); this.game.mapRender.requestRender()});
 
-    let toolButtonListeners = {
-      [this.moveToolButton]: this.clearSelection.bind(this),
-      [this.interactToolButton]: this.clearSelection.bind(this),
-      [this.inspectToolButton]: this.clearSelection.bind(this),
-      [this.digToolButton]: ()=>{this.clearSelection(); this.slowRender(this);},
-      [this.placeToolButton]: ()=>{this.clearSelection(); this.slowRender(this);}
-    }
+    this.moveToolButton.addEventListener('click', this.clearSelection.bind(this));
+    this.interactToolButton.addEventListener('click', this.clearSelection.bind(this));
+    this.inspectToolButton.addEventListener('click', this.clearSelection.bind(this));
+    this.digToolButton.addEventListener('click', ()=>{this.clearSelection(); this.slowRender(this);});
+    this.placeToolButton.addEventListener('click', ()=>{this.clearSelection(); this.slowRender(this);});
   
-    for (let toolButton of toolButtonListeners) {
-      toolButton.addEventListener('click', toolButtonListeners[toolButton]);
-    }
   
     this.initPointerLock();
     this.initCommandInput();
@@ -81,7 +101,6 @@ class GUI {
     this.initControlsModal();
     this.initInventoryModal();
     this.initButtons();
-    this.initMessage();
     this.initMessage();
     this.initTooltips();
 
@@ -138,11 +157,11 @@ class GUI {
     
     let buttonCallbacks = {
       
-      'scanButton': ()=>{this.sendCommand('scanArea', [document.getElementById('scanLevelSelect').value]);},
+      'scanButton': ()=>{this.sendCommand('scanArea', [this.scanLevelSelect.value]);},
     
       'inventoryButton': ()=>{
-        let inventoryContainer = document.getElementById('inventoryContainer');
-        let currentRobot = this.game.webClient.allRobotInfo[document.getElementById('robotSelect').value];
+        let inventoryContainer = this.inventoryContainer;
+        let currentRobot = this.game.webClient.allRobotInfo[this.robotSelect.value];
         currentRobot.toggleShowInventories();
     
         if (currentRobot.getShowInventories()) {
@@ -155,8 +174,8 @@ class GUI {
       },
     
       'equipButton': ()=>{
-        let inventoryContainer = document.getElementById('inventoryContainer');
-        let currentRobot = this.game.webClient.allRobotInfo[document.getElementById('robotSelect').value];
+        let inventoryContainer = this.inventoryContainer;
+        let currentRobot = this.game.webClient.allRobotInfo[this.robotSelect.value];
         
         // get the robot's inventory if we didn't have it yet
         if (!currentRobot.getInventory(-1)) {
@@ -166,14 +185,13 @@ class GUI {
         this.sendCommand('equip');
         inventoryContainer.classList.remove('hidden');
       },
-    
+      
       'centerButton': ()=>{this.viewSelectedRobot();}
     
     };
 
-    for (let buttonID in buttonCallbacks) {
-      let button = document.getElementById(buttonID);
-      button.addEventListener('click', buttonCallbacks[buttonID]);
+    for (let buttonName in buttonCallbacks) {
+      this[buttonName].addEventListener('click', buttonCallbacks[buttonName]);
     }
 
   }
@@ -247,8 +265,8 @@ class GUI {
     this.game.mapRender.renderer.domElement.addEventListener('click', (e)=>{
       // left click
       if (e.button == 0) {
-        let digToolActive = document.getElementById('digTool').checked;
-        let placeToolActive = document.getElementById('placeTool').checked;
+        let digToolActive = this.digTool.checked;
+        let placeToolActive = this.placeTool.checked;
         if (this.game.mapRender.controls.enabled && (digToolActive || placeToolActive)) {
           let pos = new WorldAndScenePoint(this.game.mapRender.rollOverMesh.position, false);
           if (!this.selectStart.isComplete()) {
@@ -267,7 +285,7 @@ class GUI {
             
             let startPointLua = this.objectToLuaString(startPoint.world());
             let endPointLua = this.objectToLuaString(endPoint.world());
-            let scanLevel = document.getElementById('scanLevelSelect').value;
+            let scanLevel = this.scanLevelSelect.value;
             
             if (digToolActive) {
               let commandName = 'dig';
@@ -295,9 +313,9 @@ class GUI {
    */
   initCommandInput() {
 
-    let commandInput = document.getElementById('commandInput');
+    let commandInput = this.commandInputField;
     commandInput.addEventListener("keydown", (event)=>{
-      let runInTerminal = document.getElementById('runInTerminal');
+      let runInTerminal = this.runInTerminalCheckbox;
       if (event.keyCode == 13) { // enter
         event.preventDefault();
         let baseText = event.target.value;
@@ -328,13 +346,13 @@ class GUI {
    */
   initClickTools() {
     this.game.mapRender.renderer.domElement.addEventListener('click', ()=>{
-      let moveToolActive = document.getElementById('moveTool').checked;
-      let interactToolActive = document.getElementById('interactTool').checked;
-      let inspectToolActive = document.getElementById('inspectTool').checked;
+      let moveToolActive = this.moveToolButton.checked;
+      let interactToolActive = this.interactToolButton.checked;
+      let inspectToolActive = this.inspectToolButton.checked;
       if (this.game.mapRender.controls.enabled && (moveToolActive || interactToolActive || inspectToolActive)) {
         let coord = new WorldAndScenePoint(this.game.mapRender.rollOverMesh.position, false).world();
         console.log(coord);
-        let scanLevel = document.getElementById('scanLevelSelect').value;
+        let scanLevel = this.scanLevelSelect.value;
         let commandName;
         let commandParameters;
         if (moveToolActive) {
@@ -363,7 +381,7 @@ class GUI {
    */
   sendCommand(commandName, commandParameters, runInTerminal) {
     let result = false;
-    let robotSelect = document.getElementById('robotSelect');
+    let robotSelect = this.robotSelect;
     if (!robotSelect.value) {
       console.dir('No robot selected!');
     }
@@ -399,11 +417,11 @@ class GUI {
 
       element.addEventListener('click', (event)=>{
 
-        let commandInput = document.getElementById('commandInput');
+        let commandInput = this.commandInputField;
 
         let checkData = event.target.getAttribute("data-checked");
         let wasChecked = checkData == "true" ? true : false;
-        let runInTerminal = document.getElementById("runInTerminal");
+        let runInTerminal = this.runInTerminalCheckbox
         runInTerminal.checked = wasChecked;
 
         let commandName = event.target.getAttribute("data-command-name");
@@ -421,7 +439,7 @@ class GUI {
     }
 
     element.classList.add(subClass);
-    let messageContainer = document.getElementById('messageContainer');
+    let messageContainer = this.messageContainer;
     messageContainer.insertBefore(element, messageContainer.firstChild);
     messageContainer.insertBefore(document.createElement('br'), messageContainer.firstChild);
 
@@ -468,7 +486,7 @@ class GUI {
 
       let clickThroughElements = ['bottomLeftUI', 'messageContainer', 'inventoryContainer', 'buttonContainer'];
       for (let elemName of clickThroughElements) {
-        let clickThroughElem = document.getElementById(elemName);
+        let clickThroughElem = this[elemName];
         clickThroughElem.addEventListener('click', function(event) {
           if (event.target == clickThroughElem) {
             pointerLockElement.requestPointerLock();
@@ -484,7 +502,7 @@ class GUI {
    * Makes the crafting button tell the robot to craft whatever's selected.
    */
   initCraftSelect() {
-    let craftSelect = document.getElementById("craftSelect");
+    let craftSelect = this.craftSelect;
 
     function addRecipes(recipes) {
       let recipeNames = [];
@@ -510,10 +528,10 @@ class GUI {
     // prevent hotkeys from working here
     craftSelect.parentElement.addEventListener('keydown', (e)=>{e.stopPropagation();});
 
-    let craftButton = document.getElementById("craftButton");
+    let craftButton = this.craftButton;
     craftButton.addEventListener('click', (e)=>{
       
-      let craftSelect = document.getElementById("craftSelect");
+      let craftSelect = this.craftSelect;
       let commandName = 'craft';
       let commandParameters = [craftSelect.value];
       this.sendCommand(commandName, commandParameters);
@@ -535,7 +553,7 @@ class GUI {
         this.setPower(powerLevel);
       }
       
-      let inventoryContainer = document.getElementById("inventoryContainer");
+      let inventoryContainer = this.inventoryContainer;
       if (robotData.getShowInventories()) {
         inventoryContainer.classList.remove('hidden');
         this.sendCommand('viewInventory');
@@ -577,8 +595,8 @@ class GUI {
    * @param {number} powerLevel
    */
   setPower(powerLevel) {
-    document.getElementById('powerLevelDisplay').classList.remove('hidden');
-    document.getElementById('powerLevel').innerHTML = Math.round(powerLevel * 100) + "%";
+    this.powerLevelDisplay.classList.remove('hidden');
+    this.powerLevel.innerHTML = Math.round(powerLevel * 100) + "%";
   }
 
   /**
@@ -599,7 +617,7 @@ class GUI {
    * Makes sure the UI updates properly when we change the selected robot.
    */
   initRobotSelect() {
-    let robotSelect = document.getElementById('robotSelect');
+    let robotSelect = this.robotSelect;
     robotSelect.addEventListener('change', (e)=>{
       console.log(e.target.value);
       this.switchToRobot(e.target.value);
@@ -610,7 +628,7 @@ class GUI {
    * Moves the camera above the selected robot and faces it.
    */
   viewSelectedRobot() {
-    let robotData = this.game.webClient.allRobotInfo[document.getElementById('robotSelect').value];
+    let robotData = this.game.webClient.allRobotInfo[this.robotSelect.value];
     this.game.mapRender.goToAndLookAt(this.game.mapRender.controls, robotData.getPosition());
     this.game.mapRender.requestRender();
   }
@@ -641,8 +659,8 @@ class GUI {
    * Transfers the specified number of items when the button in the modal is clicked.
    */
   initInventoryModal() {
-    document.getElementById('itemTransferAmountForm').addEventListener('submit', (e)=>{
-      let transferAmountInput = document.getElementById('transferAmountInput');
+    this.itemTransferAmountForm.addEventListener('submit', (e)=>{
+      let transferAmountInput = this.transferAmountInput;
       InventoryRender.validateTransfer(
         GLOBALS.inProgressTransfer.start,
         GLOBALS.inProgressTransfer.end,
@@ -659,14 +677,14 @@ class GUI {
    */
   initMessage() {
 
-    let bannerMessage = document.getElementById('bannerMessage');
+    let bannerMessage = this.bannerMessage;
     let messages = [
       '<a href="https://www.patreon.com/dunstad">Your support</a> makes this project possible. Thanks!',
     ];
     let randomMessage = messages[Math.floor(Math.random() * messages.length)];
     bannerMessage.innerHTML = randomMessage;
   
-    let bannerMessageDiv = document.getElementById('bannerMessageDiv');
+    let bannerMessageDiv = this.bannerMessageDiv;
     bannerMessageDiv.classList.remove('hidden');
 
   }
