@@ -28,6 +28,20 @@ class GUI {
       document.getElementById('cutawayValue')
     );
 
+    // Lots of UI elements gathered here so they can all be referenced from one place.
+    let propertyToIdMap = {
+      'moveToolButton': 'moveTool',
+      'interactToolButton': 'interactTool',
+      'inspectToolButton': 'inspectTool',
+      'digToolButton': 'digTool',
+      'placeToolButton': 'placeTool',
+    }
+    
+    for (let propertyName in propertyToIdMap) {
+      this[propertyName] = document.getElementById(propertyToIdMap[propertyName]);
+    }
+    
+
     this.container = document.createElement('div');
     document.body.appendChild( this.container );
     this.container.appendChild(this.game.mapRender.renderer.domElement);
@@ -44,18 +58,17 @@ class GUI {
 
     this.selectStart.addEventListener('input', ()=>{this.game.mapRender.removeSelectBox(); this.game.mapRender.requestRender()});
     this.selectEnd.addEventListener('input', ()=>{this.game.mapRender.removeSelectBox(); this.game.mapRender.requestRender()});
+
+    let toolButtonListeners = {
+      [this.moveToolButton]: this.clearSelection.bind(this),
+      [this.interactToolButton]: this.clearSelection.bind(this),
+      [this.inspectToolButton]: this.clearSelection.bind(this),
+      [this.digToolButton]: ()=>{this.clearSelection(); this.slowRender(this);},
+      [this.placeToolButton]: ()=>{this.clearSelection(); this.slowRender(this);}
+    }
   
-    let toolButtonListeners = [
-      {buttonID: 'moveTool', eventListener: this.clearSelection.bind(this)},
-      {buttonID: 'interactTool', eventListener: this.clearSelection.bind(this)},
-      {buttonID: 'inspectTool', eventListener: this.clearSelection.bind(this)},
-      {buttonID: 'digTool', eventListener: ()=>{this.clearSelection(); this.slowRender(this);}},
-      {buttonID: 'placeTool', eventListener: ()=>{this.clearSelection(); this.slowRender(this);}}
-    ];
-  
-    for (let toolButtonInfo of toolButtonListeners) {
-      let button = document.getElementById(toolButtonInfo.buttonID).parentElement;
-      button.addEventListener('click', toolButtonInfo.eventListener);
+    for (let toolButton of toolButtonListeners) {
+      toolButton.addEventListener('click', toolButtonListeners[toolButton]);
     }
   
     this.initPointerLock();
