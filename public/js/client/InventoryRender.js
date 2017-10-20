@@ -310,10 +310,10 @@ class InventoryRender {
   }
 
   /**
-   * 
-   * @param {*} topColor 
-   * @param {*} leftColor 
-   * @param {*} rightColor 
+   * Used to create cube images to represent items.
+   * @param {string} topColor 
+   * @param {string} leftColor 
+   * @param {string} rightColor 
    */
   static makeCubeSVG(topColor, leftColor, rightColor) {
 
