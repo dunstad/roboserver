@@ -185,7 +185,7 @@ class InventoryRender {
     targetElement.parentElement.parentElement.querySelector('[data-selected=true]').removeAttribute('data-selected');
     targetElement.setAttribute('data-selected', true);
     var commandName = 'select';
-    var commandParameters = [targetElement.getAttribute('data-slotnumber')];
+    var commandParameters = [parseInt(targetElement.getAttribute('data-slotnumber'))];
     this.sendCommand(commandName, commandParameters);
   }
 
@@ -269,9 +269,9 @@ class InventoryRender {
       toCell.appendChild(InventoryRender.renderItem(data2));
 
       var commandParameters = [
-        fromCell.getAttribute('data-slotnumber'),
+        parseInt(fromCell.getAttribute('data-slotnumber')),
         InventoryRender.getSide(fromCell),
-        toCell.getAttribute('data-slotnumber'),
+        parseInt(toCell.getAttribute('data-slotnumber')),
         InventoryRender.getSide(toCell),
         amount
       ];
@@ -294,9 +294,9 @@ class InventoryRender {
       if (itemSwapStorage) {cell2.appendChild(itemSwapStorage);}
 
       var commandParameters = [
-        cell1.getAttribute('data-slotnumber'),
+        parseInt(cell1.getAttribute('data-slotnumber')),
         InventoryRender.getSide(cell1),
-        cell2.getAttribute('data-slotnumber'),
+        parseInt(cell2.getAttribute('data-slotnumber')),
         InventoryRender.getSide(cell2),
       ];
       var commandName = 'transfer';
