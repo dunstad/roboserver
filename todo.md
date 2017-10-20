@@ -5,6 +5,9 @@
 ## features
 * fancy tooltips
   * make them not get stuck when dragging items
+* item images
+  * add item color map
+  * do they work without an internet connection?
 * add unit tests for web client
 * change oc lua code to use new command structure
   * update inventory slot to have nil instead of empty tables
