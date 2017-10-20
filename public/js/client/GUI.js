@@ -57,6 +57,11 @@ class GUI {
       'inventoryButton': 'inventoryButton',
       'equipButton': 'equipButton',
       'centerButton': 'centerButton',
+
+      'scanButtonTooltip': 'scanButtonTooltip',
+      'inventoryButtonTooltip': 'inventoryButtonTooltip',
+      'equipButtonTooltip': 'equipButtonTooltip',
+      'centerButtonTooltip': 'centerButtonTooltip',
       
       'inventoryContainer': 'inventoryContainer',
       'bottomLeftUI': 'bottomLeftUI',
@@ -741,10 +746,10 @@ class GUI {
       // bootstrap-select uses the title attribute for placeholder text
       // 'craftSelect': "Which item to craft. Currently only vanilla and OpenComputers items are available.",
 
-      'inventoryButton': "Show or hide inventories.",
-      'scanButton': "Get hardness data for an area around the selected robot. Affected by the scan size selector.",
-      'equipButton': "Equip the item in the currently selected inventory slot.",
-      'centerButton': "Move the camera above the selected robot and look down at it.",
+      'inventoryButtonTooltip': "Show or hide inventories.",
+      'scanButtonTooltip': "Get hardness data for an area around the selected robot. Affected by the scan size selector.",
+      'equipButtonTooltip': "Equip the item in the currently selected inventory slot.",
+      'centerButtonTooltip': "Move the camera above the selected robot and look down at it.",
 
       'axisButton': "Which axis to hide blocks on. X, Y, or Z.",
       'operationButton': "Whether blocks with a coordinate greater than or less than the input will be hidden.",
@@ -761,7 +766,7 @@ class GUI {
     for (let elemName in tipMap) {
       let elem = this[elemName];
       elem.title = tipMap[elemName];
-      $(elem).tooltip({placement: 'bottom'});
+      $(elem).tooltip({placement: 'bottom', container: 'body'});
     }
 
   }
