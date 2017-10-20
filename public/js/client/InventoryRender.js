@@ -116,8 +116,10 @@ class InventoryRender {
    * @returns {HTMLDivElement}
    */
   static renderItem(itemData) {
-    var itemDiv = document.createElement('div');
-    itemDiv.setAttribute('title', itemData.label + ', ' + itemData.size);
+    let itemDiv = document.createElement('div');
+    let title = `${itemData.label}, ${itemData.size}`;
+    itemDiv.setAttribute('title', title);
+    GUI.addToolTip(itemDiv, title);
 
     itemDiv.addEventListener('dragstart', InventoryRender.itemDragStart);
     itemDiv.setAttribute('draggable', true);

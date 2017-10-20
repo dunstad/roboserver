@@ -724,7 +724,7 @@ class GUI {
    * @param {HTMLElement} element 
    * @param {string} tooltip 
    */
-  addToolTip(element, tooltip) {
+  static addToolTip(element, tooltip) {
     element.title = tooltip;
     $(element).tooltip({placement: 'bottom', container: 'body'});
   }
@@ -774,7 +774,7 @@ class GUI {
     };
   
     for (let elemName in tipMap) {
-      this.addToolTip(this[elemName], tipMap[elemName]);
+      GUI.addToolTip(this[elemName], tipMap[elemName]);
     }
 
   }
