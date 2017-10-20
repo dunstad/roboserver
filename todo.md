@@ -48,6 +48,7 @@
 * edit lua files on robot with an editor in browser
 
 ## small
+* rework to use https://github.com/PrismarineJS/minecraft-data
 * add a go away forever button to the message banner
 * change gui based on what components the selected robot has
   * modularize lua code so more of the requires/components are optional
