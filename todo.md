@@ -3,7 +3,6 @@
 ## fixes
 
 ## features
-* make web client code work now that it's being validated
 * add unit tests for web client
 * change oc lua code to use new command structure
   * update inventory slot to have nil instead of empty tables
