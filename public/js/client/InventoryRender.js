@@ -119,14 +119,17 @@ class InventoryRender {
     let itemDiv = document.createElement('div');
     let title = `${itemData.label}, ${itemData.size}`;
     itemDiv.setAttribute('title', title);
+    itemDiv.setAttribute('style', "text-align: center;");
     GUI.addToolTip(itemDiv, title);
 
     itemDiv.addEventListener('dragstart', InventoryRender.itemDragStart);
     itemDiv.setAttribute('draggable', true);
 
-    itemDiv.appendChild(document.createTextNode(itemData.label));
-    itemDiv.appendChild(document.createElement('br'));
-    itemDiv.appendChild(document.createTextNode(itemData.size));
+    // itemDiv.appendChild(document.createTextNode(itemData.label));
+    // itemDiv.appendChild(document.createElement('br'));
+    // itemDiv.appendChild(document.createTextNode(itemData.size));
+    itemDiv.appendChild(InventoryRender.makeCubeSVG('red', 'yellow', 'orange'));
+
     itemDiv.itemData = itemData;
 
     return itemDiv;
@@ -304,6 +307,39 @@ class InventoryRender {
       var commandName = 'transfer';
       GUI.sendCommand(commandName, commandParameters);
     }
+  }
+
+  /**
+   * 
+   * @param {*} topColor 
+   * @param {*} leftColor 
+   * @param {*} rightColor 
+   */
+  static makeCubeSVG(topColor, leftColor, rightColor) {
+
+    let svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns', 'http://www.w3.org/2000/svg');
+    svg.setAttribute('viewBox', '0 0 1732 2000');
+    svg.setAttribute('style', 'height: inherit;');
+
+    let top = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+    top.setAttribute('points', '0,500 866,0 1732,500 866,1000');
+    top.style.fill = topColor;
+
+    let left = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+    left.setAttribute('points', '0,500 867,1000 867,2000 0,1500');
+    left.style.fill = leftColor;
+
+    let right = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+    right.setAttribute('points', '1732,500 866,999 866,2000 1732,1500');
+    right.style.fill = rightColor;
+
+    svg.appendChild(top);
+    svg.appendChild(left);
+    svg.appendChild(right);
+
+    return svg;
+
   }
 
 }
