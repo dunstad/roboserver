@@ -31,48 +31,67 @@ class GUI {
     // Lots of UI elements gathered here so they can all be referenced from one place.
     // This will make it easier to change the IDs if we need to.
     let propertyToIdMap = {
+      
       'moveToolButton': 'moveTool',
       'interactToolButton': 'interactTool',
       'inspectToolButton': 'inspectTool',
       'digToolButton': 'digTool',
       'placeToolButton': 'placeTool',
-      'scanLevelSelect': 'scanLevelSelect',
-      'inventoryContainer': 'inventoryContainer',
-      'robotSelect': 'robotSelect',
-      'scanButton': 'scanButton',
-      'inventoryButton': 'inventoryButton',
-      'equipButton': 'equipButton',
-      'centerButton': 'centerButton',
-      'commandInputField': 'commandInput',
-      'runInTerminalCheckbox': 'runInTerminal',
-      'messageContainer': 'messageContainer',
-      'bottomLeftUI': 'bottomLeftUI',
-      'buttonContainer': 'buttonContainer',
-      'craftSelect': 'craftSelect',
-      'craftButton': 'craftButton',
-      'powerLevelDisplay': 'powerLevelDisplay',
-      'powerLevel': 'powerLevel',
-      'itemTransferAmountForm': 'itemTransferAmountForm',
-      'transferAmountInput': 'transferAmountInput',
-      'bannerMessage': 'bannerMessage',
-      'bannerMessageDiv': 'bannerMessageDiv',
-      'hoverGuideCoordinates': 'hoverGuideCoordinates',
-      'runInTerminalDiv': 'runInTerminalDiv',
-      'usernameDisplay': 'usernameDisplay',
-      'cursorPositionDisplay': 'cursorPositionDisplay',
-      'robotSelectDiv': 'robotSelectDiv',
-      'selectStartDiv': 'selectStartDiv',
-      'selectEndDiv': 'selectEndDiv',
-      'axisButton': 'axisButton',
-      'operationButton': 'operationButton',
-      'cutawayValue': 'cutawayValue',
-      'scanSizeDiv': 'scanSizeDiv',
+
+      'moveButtonTooltip': 'moveButtonTooltip',
+      'interactButtonTooltip': 'interactButtonTooltip',
+      'inspectButtonTooltip': 'inspectButtonTooltip',
+      'swingButtonTooltip': 'swingButtonTooltip',
+      'placeButtonTooltip': 'placeButtonTooltip',
+
       'moveButtonLabel': 'moveButton',
       'interactButtonLabel': 'interactButton',
       'inspectButtonLabel': 'inspectButton',
       'swingButtonLabel': 'swingButton',
       'placeButtonLabel': 'placeButton',
+      
+      'robotSelectDiv': 'robotSelectDiv',
+      'robotSelect': 'robotSelect',
+      
+      'scanButton': 'scanButton',
+      'inventoryButton': 'inventoryButton',
+      'equipButton': 'equipButton',
+      'centerButton': 'centerButton',
+      
+      'inventoryContainer': 'inventoryContainer',
+      'bottomLeftUI': 'bottomLeftUI',
+      'buttonContainer': 'buttonContainer',
+      
+      'craftSelect': 'craftSelect',
+      'craftButton': 'craftButton',
+      
+      'itemTransferAmountForm': 'itemTransferAmountForm',
+      'transferAmountInput': 'transferAmountInput',
+      
+      'bannerMessage': 'bannerMessage',
+      'bannerMessageDiv': 'bannerMessageDiv',
+      
+      'usernameDisplay': 'usernameDisplay',
+      'cursorPositionDisplay': 'cursorPositionDisplay',
+      'hoverGuideCoordinates': 'hoverGuideCoordinates',
+      'powerLevelDisplay': 'powerLevelDisplay',
+      'powerLevel': 'powerLevel',
+      
+      'selectStartDiv': 'selectStartDiv',
+      'selectEndDiv': 'selectEndDiv',
+      
+      'axisButton': 'axisButton',
+      'operationButton': 'operationButton',
+      'cutawayValue': 'cutawayValue',
+      
+      'scanSizeDiv': 'scanSizeDiv',
+      'scanLevelSelect': 'scanLevelSelect',
+      
       'runInTerminalDiv': 'runInTerminalDiv',
+      'commandInputField': 'commandInput',
+      'runInTerminalCheckbox': 'runInTerminal',
+      'messageContainer': 'messageContainer',
+
     }
     
     for (let propertyName in propertyToIdMap) {
@@ -701,36 +720,48 @@ class GUI {
   initTooltips() {
 
     let tipMap = {
+
       'usernameDisplay': "Which user you're logged in as.",
       'cursorPositionDisplay': "The current position of the cursor.",
       'powerLevelDisplay': "The current power level of the selected robot.",
+
       'robotSelectDiv': "Which robot your commands will be sent to.",
-      'moveButtonLabel': "Try to move to the clicked point.",
-      'interactButtonLabel': "Try to right-click on the clicked point.",
-      'inspectButtonLabel': "Try to see what block is at the selected point.",
-      'swingButtonLabel': "Try to swing the equipped tool at every point in the selected area.",
-      'placeButtonLabel': "Try to place blocks from the selected inventory slot at every point in the selected area.",
+
+      'moveButtonTooltip': "Try to move to the clicked point.",
+      'interactButtonTooltip': "Try to right-click on the clicked point.",
+      'inspectButtonTooltip': "Try to see what block is at the selected point.",
+
+      'swingButtonTooltip': "Try to swing the equipped tool at every point in the selected area.",
+      'placeButtonTooltip': "Try to place blocks from the selected inventory slot at every point in the selected area.",
+
       'selectStartDiv': "Coordinates of the first corner of the selected area.",
       'selectEndDiv': "Coordinates of the second corner of the selected area.",
+
       'craftButton': "Try to craft the selected item.",
       // bootstrap-select uses the title attribute for placeholder text
       // 'craftSelect': "Which item to craft. Currently only vanilla and OpenComputers items are available.",
+
       'inventoryButton': "Show or hide inventories.",
       'scanButton': "Get hardness data for an area around the selected robot. Affected by the scan size selector.",
       'equipButton': "Equip the item in the currently selected inventory slot.",
       'centerButton': "Move the camera above the selected robot and look down at it.",
+
       'axisButton': "Which axis to hide blocks on. X, Y, or Z.",
       'operationButton': "Whether blocks with a coordinate greater than or less than the input will be hidden.",
       'cutawayValue': "The coordinate at which blocks become hidden.",
+
       'scanSizeDiv': "The size of the area a robot should scan when moving. Also affects the Scan button.",
+
       'commandInputField': "Enter Lua code the robot will try to run.",
       'runInTerminalDiv': "If checked, input will be run as a shell command. Useful for things like ls, cd, and cat.",
       'messageContainer': "A log of commands sent to and responses received from the robot. Commands can be sent again by clicking on them.",
+
     };
   
     for (let elemName in tipMap) {
       let elem = this[elemName];
       elem.title = tipMap[elemName];
+      $(elem).tooltip({placement: 'bottom'});
     }
 
   }

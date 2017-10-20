@@ -116,28 +116,43 @@
           <div data-toggle='buttons'>
             <div class="btn-group btn-group-justified">
 
+              
               <label id='moveButton' class='btn btn-primary btn-xs active' data-toggle='collapse' data-target='.digToolOptions.in'>
-                <input type='radio' name='options' id='moveTool' autocomplete='off' checked> Move
+                <div id='moveButtonTooltip'>
+                  <input type='radio' name='options' id='moveTool' autocomplete='off' checked> Move
+                </div>
               </label>
             
+              
               <label id='interactButton' class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.digToolOptions.in'>
-                <input type='radio' name='options' id='interactTool' autocomplete='off' > Interact
+                <div id='interactButtonTooltip'>
+                  <input type='radio' name='options' id='interactTool' autocomplete='off' > Interact
+                </div>
               </label>
             
+              
               <label id='inspectButton' class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.digToolOptions.in'>
-                <input type='radio' name='options' id='inspectTool' autocomplete='off' > Inspect
+                <div id='inspectButtonTooltip'>
+                  <input type='radio' name='options' id='inspectTool' autocomplete='off' > Inspect
+                </div>
               </label>
 
             </div>
 
             <div class="btn-group btn-group-justified">
               
+              
               <label id='swingButton' class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.digToolOptions:not(.in)'>
-                <input type='radio' name='options' id='digTool' autocomplete='off' > Swing
+                <div id='swingButtonTooltip'>
+                  <input type='radio' name='options' id='digTool' autocomplete='off' > Swing
+                </div>
               </label>
             
+              
               <label id='placeButton' class='btn btn-primary btn-xs' data-toggle='collapse' data-target='.digToolOptions:not(.in)'>
-                <input type='radio' name='options' id='placeTool' autocomplete='off' > Place
+                <div id='placeButtonTooltip'>
+                  <input type='radio' name='options' id='placeTool' autocomplete='off' > Place
+                </div>
               </label>
 
             </div>

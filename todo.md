@@ -3,6 +3,7 @@
 ## fixes
 
 ## features
+* fancy tooltips
 * add unit tests for web client
 * change oc lua code to use new command structure
   * update inventory slot to have nil instead of empty tables
