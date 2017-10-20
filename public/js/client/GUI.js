@@ -720,6 +720,16 @@ class GUI {
   }
 
   /**
+   * Used to initialize all tooltips in the same way.
+   * @param {HTMLElement} element 
+   * @param {string} tooltip 
+   */
+  addToolTip(element, tooltip) {
+    element.title = tooltip;
+    $(element).tooltip({placement: 'bottom', container: 'body'});
+  }
+
+  /**
    * Used to add tooltips to the UI.
    */
   initTooltips() {
@@ -764,9 +774,7 @@ class GUI {
     };
   
     for (let elemName in tipMap) {
-      let elem = this[elemName];
-      elem.title = tipMap[elemName];
-      $(elem).tooltip({placement: 'bottom', container: 'body'});
+      this.addToolTip(this[elemName], tipMap[elemName]);
     }
 
   }
