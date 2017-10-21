@@ -156,6 +156,7 @@ class InventoryRender {
    * @param {Event} e 
    */
   itemDrop(e) {
+    e.preventDefault();
     let cell = e.target;
     let targetElement = cell.tagName == "TD" ? cell : cell.parentElement;
     if (GLOBALS.dragStartElement != cell) {
@@ -171,6 +172,7 @@ class InventoryRender {
         this.transferAmountInput.focus();
       }
     }
+    return false;
   }
 
   /**
@@ -179,6 +181,7 @@ class InventoryRender {
    */
   allowDrop(e) {
     e.preventDefault();
+     return false;
   }
 
   /**
