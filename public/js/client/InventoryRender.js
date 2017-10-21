@@ -276,6 +276,7 @@ class InventoryRender {
         data2.size = amount;
       }
       toCell.appendChild(InventoryRender.renderItem(data2));
+      $(toCell.firstChild).tooltip('destroy');
 
       var commandParameters = [
         parseInt(fromCell.getAttribute('data-slotnumber')),

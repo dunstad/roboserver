@@ -726,7 +726,6 @@ class GUI {
    */
   static addToolTip(element, tooltip) {
     element.title = tooltip;
-    console.dir(element);
     $(element).tooltip({placement: 'bottom', container: 'body'});
   }
 
