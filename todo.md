@@ -1,6 +1,7 @@
 # 1.1
 
 ## fixes
+* showing inventory with multiple browsers for the same robot open clones the robot's inventory on the web client side
 
 ## features
 * fancy tooltips
