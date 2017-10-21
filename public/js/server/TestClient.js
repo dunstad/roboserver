@@ -50,7 +50,6 @@ class TestClient {
 			setTimeout(this.connect.bind(this), 1000);
 		});
 		this.socket.on('connect', ()=>{
-			console.dir(arguments)
 			this.sendWithCost('id', this.getID());
 			this.send('message', 'hi');
 			console.log('Connected');

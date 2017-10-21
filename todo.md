@@ -5,11 +5,9 @@
 * tooltips sticking on tool buttons when clicked
 
 ## features
-* fancy tooltips
-  * make them not get stuck when dragging items
 * item images
-  * add item color map
-  * do they work without an internet connection?
+  * get item hardness from https://github.com/PrismarineJS/minecraft-data
+  * color item cubes based on hardness (not perfect, but easiest for now)
 * add unit tests for web client
 * change oc lua code to use new command structure
   * update inventory slot to have nil instead of empty tables
