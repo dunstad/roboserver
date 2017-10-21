@@ -726,7 +726,7 @@ class GUI {
    */
   static addToolTip(element, tooltip) {
     element.title = tooltip;
-    $(element).tooltip({placement: 'bottom', container: 'body'});
+    $(element).tooltip({placement: 'bottom', container: 'body', animation: false});
   }
 
   /**
