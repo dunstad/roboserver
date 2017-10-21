@@ -2,6 +2,7 @@
 
 ## fixes
 * showing inventory with multiple browsers for the same robot open clones the robot's inventory on the web client side
+* tooltips sticking on tool buttons when clicked
 
 ## features
 * fancy tooltips

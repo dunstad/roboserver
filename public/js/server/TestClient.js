@@ -25,7 +25,7 @@ class TestClient {
 			[-1]: this.inventory,
 			[3]: new InventoryData(this.testData.externalInventory.meta),
 		};
-		for (let slot of this.testData.internalInventory.slots) {
+		for (let slot of this.testData.externalInventory.slots) {
 			this.inventories[3].setSlot(slot);
 		}
 
@@ -123,7 +123,8 @@ class TestClient {
 				this.sendWithCost('block data', blockData);
 				if (blockData.name == 'minecraft:chest') {
 					this.sendWithCost('inventory data', this.testData.externalInventory.meta);
-					for (let slot of this.testData.externalInventory.slots) {
+					for (let slotNum in this.inventories[3].slots) {
+						let slot = this.inventories[3].serializeSlot(slotNum);
 						this.sendWithCost('slot data', slot);
 					}
 				}
