@@ -158,17 +158,17 @@ class InventoryRender {
   itemDrop(e) {
     e.preventDefault();
     let cell = e.target;
-    let targetElement = cell.tagName == "TD" ? cell : cell.parentElement;
+    while (cell.tagName != "TD") {cell = cell.parentElement;}
     if (GLOBALS.dragStartElement != cell) {
       let operation = e.dataTransfer.getData('text');
       if (operation == 'move') {
-        InventoryRender.validateTransfer(GLOBALS.dragStartElement, targetElement, undefined, this);
+        InventoryRender.validateTransfer(GLOBALS.dragStartElement, cell, undefined, this);
       }
       else if (operation == 'split') {
         $('#itemTransferAmountModal').modal('show');
         GLOBALS.inProgressTransfer = {};
         GLOBALS.inProgressTransfer.start = GLOBALS.dragStartElement;
-        GLOBALS.inProgressTransfer.end = targetElement;
+        GLOBALS.inProgressTransfer.end = cell;
         this.transferAmountInput.focus();
       }
     }
@@ -190,11 +190,11 @@ class InventoryRender {
    */
   changeSelectedSlot(e) {
     let cell = e.target;
-    let targetElement = cell.tagName == "TD" ? cell : cell.parentElement;
-    targetElement.parentElement.parentElement.querySelector('[data-selected=true]').removeAttribute('data-selected');
-    targetElement.setAttribute('data-selected', true);
+    while (cell.tagName != "TD") {cell = cell.parentElement;}
+    cell.parentElement.parentElement.querySelector('[data-selected=true]').removeAttribute('data-selected');
+    cell.setAttribute('data-selected', true);
     var commandName = 'select';
-    var commandParameters = [parseInt(targetElement.getAttribute('data-slotnumber'))];
+    var commandParameters = [parseInt(cell.getAttribute('data-slotnumber'))];
     this.sendCommand(commandName, commandParameters);
   }
 
@@ -275,15 +275,16 @@ class InventoryRender {
         var data2 = Object.assign({}, data1);
         data2.size = amount;
       }
-      toCell.appendChild(InventoryRender.renderItem(data2));
-      $(toCell.firstChild).tooltip('destroy');
+      let newItem = InventoryRender.renderItem(data2);
+      toCell.appendChild(newItem);
+      $(newItem).tooltip('destroy');
 
       var commandParameters = [
         parseInt(fromCell.getAttribute('data-slotnumber')),
         InventoryRender.getSide(fromCell),
         parseInt(toCell.getAttribute('data-slotnumber')),
         InventoryRender.getSide(toCell),
-        amount
+        amount,
       ];
       var commandName = 'transfer';
       GUI.sendCommand(commandName, commandParameters);
@@ -298,6 +299,7 @@ class InventoryRender {
    */
   static swapCells(cell1, cell2, GUI) {
     if (cell1.firstChild) {
+      let amount = cell1.firstChild.itemData.size;
       let itemSwapStorage = cell1.firstChild;
       cell1.removeChild(cell1.firstChild);
       if (cell2.firstChild) {cell1.appendChild(cell2.firstChild);}
@@ -308,6 +310,7 @@ class InventoryRender {
         InventoryRender.getSide(cell1),
         parseInt(cell2.getAttribute('data-slotnumber')),
         InventoryRender.getSide(cell2),
+        amount,
       ];
       var commandName = 'transfer';
       GUI.sendCommand(commandName, commandParameters);

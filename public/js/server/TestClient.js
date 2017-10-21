@@ -144,7 +144,7 @@ class TestClient {
 				let toSlotSer = toInv.serializeSlot(toSlotIndex);
 
 				let fromInvValid = fromInv.validateTransfer(fromSlotSer, toSlotSer, amount);
-				
+
 				let result = this.moveItems(fromInv, fromSlotIndex, toInv, toSlotIndex, fromInvValid);
 				
 				if (result) {
@@ -344,7 +344,7 @@ class TestClient {
 		let toInvValid = toInv.validateTransfer(fromSlotSer, toSlotSer, amount);
 
 		let result = false;
-		if (fromInvValid && toInvValid && fromInvValid == toInvValid) {
+		if (fromInvValid && toInvValid) {
 			result = true;
 			let fromItemStack = fromInv.slots[fromSlotIndex];
 			let toItemStack = toInv.slots[toSlotIndex];
