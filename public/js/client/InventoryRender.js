@@ -141,7 +141,7 @@ class InventoryRender {
    */
   static itemDragStart(e) {
     let cell = e.target;
-    $(cell).tooltip('destroy');
+    $(cell).tooltip('hide');
     GLOBALS.dragStartElement = cell.parentElement;
     if (e.ctrlKey || e.altKey) {
       e.dataTransfer.setData('text/plain', 'split');

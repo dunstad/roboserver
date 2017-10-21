@@ -44,6 +44,17 @@ class TestClient {
 		this.socket.on('close', function() {
 			console.log('Connection closed');
 		});
+		this.socket.on('error', (error)=>{
+			console.log(error.code);
+			console.log('trying again...');
+			setTimeout(this.connect.bind(this), 1000);
+		});
+		this.socket.on('connect', ()=>{
+			console.dir(arguments)
+			this.sendWithCost('id', this.getID());
+			this.send('message', 'hi');
+			console.log('Connected');
+		});
 
 		this.commandMap = {
 
@@ -497,11 +508,7 @@ class TestClient {
 	 * Used to identify the test client to the server and open the socket connection.
 	 */
 	connect() {
-		this.socket.connect(this.testData.port, this.testData.host, ()=>{
-			this.sendWithCost('id', this.getID());
-			this.send('message', 'hi');
-			console.log('Connected');
-		});
+		this.socket.connect(this.testData.port, this.testData.host);
 	}
 
 	/**
