@@ -730,6 +730,7 @@ class GUI {
       placement: 'auto bottom',
       container: 'body',
       animation: false,
+      trigger: 'hover',
     });
   }
 
