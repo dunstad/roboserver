@@ -70,6 +70,19 @@ module.exports = {
           'name': "minecraft:wooden_sword?",
           'size': 1
         }
+      },
+      {
+        side: -1,
+        slotNum: 9,
+        contents: {
+          'damage': 0,
+          'hasTag': false,
+          'label': "Netherrack",
+          'maxDamage': 0,
+          'maxSize': 64,
+          'name': "minecraft:netherrack",
+          'size': 23
+        }
       }
     ],
   },
