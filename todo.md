@@ -4,9 +4,6 @@
 * showing inventory with multiple browsers for the same robot open clones the robot's inventory on the web client side
 
 ## features
-* item images
-  * get item hardness from https://github.com/PrismarineJS/minecraft-data
-  * color item cubes based on hardness (not perfect, but easiest for now)
 * add unit tests for web client
 * change oc lua code to use new command structure
   * update inventory slot to have nil instead of empty tables
