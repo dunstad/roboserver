@@ -72,11 +72,6 @@ body {
   position: absolute;
   right: 0px;
   bottom: 0px;
-  /* text-shadow:
-    -1px -1px 1px #000,
-    1px -1px 1px #000,
-    -1px 1px 1px #000,
-    1px 1px 1px #000; */
   background: rgba(0, 0, 0, .5);
   border-radius: 50%;
   width: 18px;

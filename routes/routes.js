@@ -24,7 +24,7 @@ router.get('/login', function(req, res) {
 function makeLogInOrRedirect(req, res, next) {
   return (err, user, info)=>{
     if (err) { return next(err); }
-    if (!user) { return res.render('login.ejs', {error: "Login failed.", active: "login"}); }
+    if (!user) { return res.render('login.ejs', {error: 'Login failed.', active: 'login'}); }
     req.logIn(user, function(err) {
       if (err) { return next(err); }
       return res.redirect('/');
@@ -43,7 +43,7 @@ router.post('/register', (req, res, next)=>{
     db.findOne({username: req.body.username}).then((doc)=>{
       console.log(req.body.username, doc)
       if (doc) {
-        return res.render('login.ejs', {error: "Username unavailable.", active: "register"});
+        return res.render('login.ejs', {error: 'Username unavailable.', active: 'register'});
       }
       else {
         db.insert({username: req.body.username, passwordHash: hash}).then((newDoc)=>{
@@ -58,16 +58,26 @@ router.post('/register', (req, res, next)=>{
 });
 
 // allows robots to look up crafting recipes
-var minecraftRecipes = require("../public/js/recipes/minecraftRecipes.json");
-var OCRecipes = require("../public/js/recipes/OCRecipes.json");
+var minecraftRecipes = require('../public/js/recipes/minecraftRecipes.json');
+var OCRecipes = require('../public/js/recipes/OCRecipes.json');
 var allRecipes = minecraftRecipes.concat(OCRecipes);
-var recipeSearch = require("../public/js/server/recipeSearch.js");
+var recipeSearch = require('../public/js/server/recipeSearch.js');
 
 router.get('/recipe/:recipeName', function(req, res) {
   var recipeName = req.params.recipeName;
   var recipes = recipeSearch.findRecipeFor(recipeName, allRecipes);
   var productRecipes = recipes.map((recipe)=>{return recipeSearch.extractRecipeFor(recipeName, recipe);});
   res.send(productRecipes);
+});
+
+// allows robots to look up block hardness values
+// let recipeSearch = require('');
+let minecraftData = require('minecraft-data')('1.12.2');
+
+router.get('/blockData/:blockName', function(req, res) {
+  let blockName = req.params.blockName;
+  let blockData = {hardness: 1};
+  res.send(blockData);
 });
 
 module.exports = router;
