@@ -141,6 +141,11 @@ class GUI {
     this.initMessage();
     this.initTooltips();
 
+    // used when coloring block svgs when rendering inventories
+    this.fetchPromise('/namesToHardness').then((namesToHardness)=>{
+      this.namesToHardness = namesToHardness;
+    });
+
   }
 
   /**

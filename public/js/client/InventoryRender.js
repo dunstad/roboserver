@@ -11,7 +11,8 @@ class InventoryRender {
   constructor(inventoryData, GUI) {
     this.inventory = inventoryData;
     this.inventory.contents = {};
-    this.table = this.renderInventory(inventoryData, GUI);
+    this.GUI = GUI;
+    this.table = this.renderInventory(inventoryData);
   }
 
   /**
@@ -34,7 +35,7 @@ class InventoryRender {
     var slotCell = this.table.rows[Math.trunc((slotNum - 1) / 4) + 1].cells[(slotNum - 1) % 4];
     if (slotCell.firstChild) {slotCell.firstChild.remove();}
     if (slotData && slotData.label) {
-      slotCell.appendChild(InventoryRender.renderItem(slotData));
+      slotCell.appendChild(InventoryRender.renderItem(slotData, this.GUI));
     }
     return slotData;
   }
@@ -68,7 +69,7 @@ class InventoryRender {
    * @returns {HTMLTableElement}
    * @param {GUI} GUI
    */
-  renderInventory(inventoryData, GUI) {
+  renderInventory(inventoryData) {
     var table = document.createElement('table');
     table.classList.add('mc-table');
     table.setAttribute('data-side', inventoryData.side);
@@ -81,11 +82,11 @@ class InventoryRender {
           var cell = row.insertCell(-1);
           cell.classList.add('mc-td');
           if (inventoryData.side == -1) {
-            cell.addEventListener('click', this.changeSelectedSlot.bind(GUI));
+            cell.addEventListener('click', this.changeSelectedSlot.bind(this.GUI));
           }
           
           cell.addEventListener('dragover', this.allowDrop);
-          cell.addEventListener('drop', this.itemDrop.bind(GUI));
+          cell.addEventListener('drop', this.itemDrop.bind(this.GUI));
 
           var slotNumber = (i * numCols) + j + 1;
           cell.setAttribute('data-slotNumber', slotNumber);
@@ -115,7 +116,7 @@ class InventoryRender {
    * @param {object} itemData 
    * @returns {HTMLDivElement}
    */
-  static renderItem(itemData) {
+  static renderItem(itemData, guiInstance) {
     let itemDiv = document.createElement('div');
     let title = `${itemData.label}, ${itemData.size}`;
     itemDiv.setAttribute('title', title);
@@ -125,7 +126,34 @@ class InventoryRender {
     itemDiv.addEventListener('dragstart', InventoryRender.itemDragStart);
     itemDiv.setAttribute('draggable', true);
 
-    itemDiv.appendChild(InventoryRender.makeCubeSVG('red', 'yellow', 'orange'));
+    let svgCube;
+    let shortName = itemData.name.replace('minecraft:', '');
+    if (shortName in guiInstance.namesToHardness) {
+
+      let hardness = guiInstance.namesToHardness[shortName];
+      let colorNumber = guiInstance.game.mapRender.hardnessToColorData[hardness];
+
+      function darken(colorNumber) {
+        let percent = -.15;
+        let t=percent<0?0:255,p=percent<0?percent*-1:percent,R=colorNumber>>16,G=colorNumber>>8&0x00FF,B=colorNumber&0x0000FF;
+        return parseInt((0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1), 16);
+      }
+
+      function colorNumberToString(colorNumber) {
+        return `#${colorNumber.toString(16)}`;
+      }
+
+      svgCube = InventoryRender.makeCubeSVG(
+        colorNumberToString(colorNumber),
+        colorNumberToString(darken(colorNumber)),
+        colorNumberToString(darken(darken(colorNumber))),
+      );
+
+    }
+    else {
+      svgCube = InventoryRender.makeCubeSVG('white', 'gray', 'black')
+    }
+    itemDiv.appendChild(svgCube);
 
     let numberDiv = document.createElement('div');
     numberDiv.classList.add('itemStackNumber');
@@ -267,7 +295,7 @@ class InventoryRender {
       var data1 = fromCell.firstChild.itemData;
       data1.size -= amount;
       fromCell.removeChild(fromCell.firstChild);
-      if (data1.size) {fromCell.appendChild(InventoryRender.renderItem(data1));}
+      if (data1.size) {fromCell.appendChild(InventoryRender.renderItem(data1, GUI));}
       if (toCell.firstChild) {
         var data2 = toCell.firstChild.itemData;
         data2.size += amount;
@@ -277,7 +305,7 @@ class InventoryRender {
         var data2 = Object.assign({}, data1);
         data2.size = amount;
       }
-      let newItem = InventoryRender.renderItem(data2);
+      let newItem = InventoryRender.renderItem(data2, GUI);
       toCell.appendChild(newItem);
       $(newItem).tooltip('destroy');
 

@@ -73,10 +73,18 @@ router.get('/recipe/:recipeName', function(req, res) {
 // allows robots to look up block hardness values
 // let recipeSearch = require('');
 let minecraftData = require('minecraft-data')('1.12.2');
+let namesToHardness = {};
+for (let block of minecraftData.blocksArray) {
+  namesToHardness[block.name] = block.hardness;
+}
+
+router.get('/namesToHardness', function(req, res) {
+  res.send(namesToHardness);
+});
 
 router.get('/blockData/:blockName', function(req, res) {
   let blockName = req.params.blockName;
-  let blockData = {hardness: 1};
+  let blockData = minecraftData.findItemOrBlockByName(blockName);
   res.send(blockData);
 });
 
