@@ -125,10 +125,12 @@ class InventoryRender {
     itemDiv.addEventListener('dragstart', InventoryRender.itemDragStart);
     itemDiv.setAttribute('draggable', true);
 
-    // itemDiv.appendChild(document.createTextNode(itemData.label));
-    // itemDiv.appendChild(document.createElement('br'));
-    // itemDiv.appendChild(document.createTextNode(itemData.size));
     itemDiv.appendChild(InventoryRender.makeCubeSVG('red', 'yellow', 'orange'));
+
+    let numberDiv = document.createElement('div');
+    numberDiv.classList.add('itemStackNumber');
+    numberDiv.innerText = itemData.size;
+    itemDiv.appendChild(numberDiv);
 
     itemDiv.itemData = itemData;
 
