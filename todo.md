@@ -1,7 +1,7 @@
 # 1.1
 
 ## fixes
-* showing inventory with multiple browsers for the same robot open clones the robot's inventory on the web client side
+* a robot's inventories are not removed when it disconnects
 
 ## features
 * add unit tests for web client
