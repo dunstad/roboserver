@@ -1,7 +1,6 @@
 # 1.1
 
 ## fixes
-* a robot's inventories are not removed when it disconnects
 
 ## features
 * add unit tests for web client

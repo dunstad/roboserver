@@ -580,6 +580,14 @@ class GUI {
    * @param {string} robotName 
    */
   switchToRobot(robotName) {
+    
+    let inventoryContainer = this.inventoryContainer;
+    for (let elem of Array.from(inventoryContainer.childNodes)) {
+      elem.remove();
+    }
+
+    this.hideComponentGUI();
+
     let robotData = this.game.webClient.allRobotInfo[robotName];
     if (robotData) {
 
@@ -588,7 +596,6 @@ class GUI {
         this.setPower(powerLevel);
       }
       
-      let inventoryContainer = this.inventoryContainer;
       if (robotData.getShowInventories()) {
         inventoryContainer.classList.remove('hidden');
         this.sendCommand('viewInventory');
@@ -597,9 +604,6 @@ class GUI {
         inventoryContainer.classList.add('hidden');
       }
 
-      for (let elem of Array.from(inventoryContainer.childNodes)) {
-        elem.remove();
-      }
       this.game.webClient.allRobotInfo[robotName].getAllInventories().map(i=>i.addToDisplay(inventoryContainer));
 
       let robotPos = robotData.getPosition();
@@ -609,7 +613,6 @@ class GUI {
         this.game.mapRender.requestRender();
       }
 
-      this.hideComponentGUI();
       for (let componentName in robotData.getComponents()) {
         let componentElementNames = this.componentElementMap[componentName];
         componentElementNames.map((componentElementName)=>{

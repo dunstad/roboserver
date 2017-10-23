@@ -165,9 +165,9 @@ class WebClient {
         this.allRobotInfo[data.robot] = undefined;
         // if the disconnecting robot is the currently selected robot
         if (robotSelect.value == data.robot) {
-          robotSelect.value = '';
-          this.game.mapRender.selectedRobotMesh.visible = false;
-          this.game.mapRender.requestRender();
+          let noRobotName = ''
+          robotSelect.value = noRobotName;
+          this.game.GUI.switchToRobot(noRobotName);
         }
         robotSelect.removeChild(option);
       },
