@@ -512,19 +512,6 @@ class TestClient {
 	}
 
 	/**
-	 * Used to make the test map data a little more like real geolyzer scans.
-	 * @param {object} geolyzerScan 
-	 */
-	addNoise(geolyzerScan) {
-		let mapData = this.testData.geolyzerScan.data;
-		for (var key in mapData) {
-			if (mapData[key] == 1) {
-				mapData[key] = Math.random() * 6;
-			}
-		}
-	}
-
-	/**
 	 * 
 	 */
 	decreasePower() {
