@@ -1,4 +1,4 @@
-const testData = require('./testData');
+const testData = require('./robotTestData');
 const validators = require('../shared/fromRobotSchemas.js');
 const assert = require('assert');
 const InventoryData = require('../shared/InventoryData');

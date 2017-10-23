@@ -1,4 +1,4 @@
-const testData = require('./testData');
+const testData = require('./robotTestData');
 const validators = require('../shared/fromRobotSchemas.js');
 const assert = require('assert');
 const TestClient = require('./TestClient');
@@ -252,7 +252,16 @@ let tests = {
   testInspect: (testClient)=>{
 
     assert(!testClient.map.get(3, 3, 3));
-    assert(!testClient.inspect(3, 3, 3));
+    let airBlockData = {
+      name: 'minecraft:air',
+      hardness: 0,
+      point: {
+        x: 3,
+        y: 3,
+        z: 3,
+      },
+    }
+    assert.deepEqual(testClient.inspect(3, 3, 3), airBlockData);
     
     assert(testClient.map.get(2, 2, 2));
     let testBlockData = {
