@@ -3,7 +3,6 @@
 ## fixes
 
 ## features
-* make test data for web client
 * add unit tests for web client
   * need dom access: jsdom, mocha-puppeteer other?
 * change oc lua code to use new command structure
