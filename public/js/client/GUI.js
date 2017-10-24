@@ -184,7 +184,7 @@ class GUI {
    * Fetches data from 'url'.
    * @param {string} url 
    * @param {object} options 
-   * @returns {Promise<string>}
+   * @returns {Promise<string|object>}
    */
   fetchPromise(url, options) {
     return new Promise((resolve, reject)=>{

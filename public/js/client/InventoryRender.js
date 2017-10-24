@@ -114,6 +114,7 @@ class InventoryRender {
   /**
    * Creates a visual representation of an item.
    * @param {object} itemData 
+   * @param {GUI} guiInstance 
    * @returns {HTMLDivElement}
    */
   static renderItem(itemData, guiInstance) {
