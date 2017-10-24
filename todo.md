@@ -8,6 +8,7 @@
 * change oc lua code to use new command structure
   * update inventory slot to have nil instead of empty tables
   * update dig to use 6 parameters instead of two table strings
+* add json examples to protocol documentation
 * display current version number
   * is the version number stored in a single place right now?
 
