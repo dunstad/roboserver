@@ -1,5 +1,9 @@
 class WebClient {
 
+  /**
+   * Used to make a WebClient ready for communicating with robots.
+   * @param {Game} game 
+   */
   constructor(game) {
 
     this.game = game;

@@ -2,6 +2,7 @@ class MapRender {
 
   /**
    * Sets the initial scene.
+   * @param {Game} game
    */
   constructor(game) {
 

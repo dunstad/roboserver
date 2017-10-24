@@ -1,5 +1,9 @@
 class GUI {
 
+  /**
+   * Used to control how the various forms are displayed and changed.
+   * @param {Game} game 
+   */
   constructor(game) {
 
     this.game = game;

@@ -9,7 +9,8 @@
   ],
   "typeAcquisition": {
     "include": [
-      "three"
+      "three",
+      "socket.io-client"
     ]
   }
 }
