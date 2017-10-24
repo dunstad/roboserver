@@ -129,7 +129,7 @@ class InventoryRender {
 
     let svgCube;
     let shortName = itemData.name.replace('minecraft:', '');
-    if (shortName in guiInstance.namesToHardness) {
+    if (shortName in guiInstance.namesToHardness && !guiInstance.game.mapRender.simple) {
 
       let hardness = guiInstance.namesToHardness[shortName];
       let colorNumber = guiInstance.game.mapRender.hardnessToColorData[hardness];
