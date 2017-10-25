@@ -4,7 +4,9 @@
 
 ## features
 * add unit tests for web client
-  * need dom access: jsdom, mocha-puppeteer other?
+  * add command results to allRobotInfo, render from there
+  * refactor web client listeners into updateState, updateRender pattern
+  * updateState ought to be changes to allRobotInfo and/or voxelMap every time
 * change oc lua code to use new command structure
   * update inventory slot to have nil instead of empty tables
   * update dig to use 6 parameters instead of two table strings
