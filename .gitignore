@@ -2,6 +2,8 @@
 /public/js/config/config.js
 /recipes/*
 /node_modules/*
+/.cache/*
+/.mocha-puppeteer/*
 *.log
 *.db
 .DS_Store
