@@ -6,9 +6,9 @@
 * pull state upwards (into Game) to untangle classes
 * add unit tests for web client
   * should be able to initialize Game, MapRender, GUI, and WebClient without the DOM
-    * not totally sure what the best way is to achieve this yet
-  * add command results to allRobotInfo, render from there
-  * refactor web client listeners into updateState, updateRender pattern
+    * have a render flag in Game, only call methods that change the DOM when it's true
+    * refactor web client listeners into updateState, updateRender pattern
+    * add command results to allRobotInfo, render from there
   * updateState ought to be changes to allRobotInfo and/or voxelMap every time
 * change oc lua code to use new command structure
   * update inventory slot to have nil instead of empty tables
