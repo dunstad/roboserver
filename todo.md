@@ -4,6 +4,8 @@
 
 ## features
 * add unit tests for web client
+  * should be able to initialize Game, MapRender, GUI, and WebClient without the DOM
+    * not totally sure what the best way is to achieve this yet
   * add command results to allRobotInfo, render from there
   * refactor web client listeners into updateState, updateRender pattern
   * updateState ought to be changes to allRobotInfo and/or voxelMap every time
