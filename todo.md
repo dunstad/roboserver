@@ -3,6 +3,7 @@
 ## fixes
 
 ## features
+* pull state upwards (into Game) to untangle classes
 * add unit tests for web client
   * should be able to initialize Game, MapRender, GUI, and WebClient without the DOM
     * not totally sure what the best way is to achieve this yet
