@@ -119,7 +119,7 @@ class InventoryRender {
    */
   static renderItem(itemData, guiInstance) {
     let itemDiv = document.createElement('div');
-    let title = `${itemData.label}, ${itemData.size}`;
+    let title = `${itemData.label}`;
     itemDiv.setAttribute('title', title);
     itemDiv.setAttribute('style', "text-align: center;");
     GUI.addToolTip(itemDiv, title);
