@@ -222,7 +222,7 @@ class MapRender {
   }
 
   /**
-   * Only renders if there isn't too much activity to prevent excessive numbers of renders.
+   * Only renders if it hasn't been done in a bit, used to make sure performance stays good.
    */
   requestRender() {
     let now = new Date().getTime();
