@@ -3,12 +3,6 @@
 ## fixes
 
 ## features
-* add unit tests for web client
-  * should be able to initialize Game, MapRender, GUI, and WebClient without the DOM
-    * have a render flag in Game, only call methods that change the DOM when it's true
-    * refactor web client listeners into updateState, updateRender pattern
-    * add command results to allRobotInfo, render from there
-  * updateState ought to be changes to allRobotInfo and/or voxelMap every time
 * change oc lua code to use new command structure
   * update inventory slot to have nil instead of empty tables
   * update dig to use 6 parameters instead of two table strings
@@ -17,12 +11,18 @@
   * is the version number stored in a single place right now?
 
 # 1.2
+* add unit tests for web client
+  * should be able to initialize Game, MapRender, GUI, and WebClient without the DOM
+    * have a render flag in Game, only call methods that change the DOM when it's true
+    * refactor web client listeners into updateState, updateRender pattern
+    * add command results to allRobotInfo, render from there
+  * updateState ought to be changes to allRobotInfo and/or voxelMap every time
 * port oc lua to cc
-  * create new scanner compatible with both?
 
 # later
 
 ## big
+* mod in a new scanner compatible with both oc and cc?
 * blueprint storage and rendering
 * mapping:
   * Set up database
