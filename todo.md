@@ -46,7 +46,6 @@
 * visual tool for chaining robot commands together to automate tasks
   * first make an action recording feature
   * specify number of loops, duration of sleep between
-* edit lua files on robot with an editor in browser
 
 ## small
 * validate test data
