@@ -130,17 +130,14 @@ class SocketToAccountMap {
    * Send some data to a specific robot of a specific account.
    * @param {string} accountName 
    * @param {string} robotName 
-   * @param {string} eventName 
-   * @param {object} data 
+   * @param {object} commandInformation 
    * @returns {boolean}
    */
-  sendToRobot(accountName, robotName, eventName, data) {
-    var result = false;
-    var message = {};
-    message[eventName] = data;
+  sendToRobot(accountName, robotName, commandInformation) {
+    let result = false;
     var robotSocket = this.getRobot(accountName, robotName);
     if (robotSocket) {
-      robotSocket.write(JSON.stringify(message) + this.delimiter);
+      robotSocket.write(JSON.stringify(commandInformation) + this.delimiter);
       result = true;
     }
     return result;
@@ -152,9 +149,9 @@ class SocketToAccountMap {
    */
   sendRobotStateToClients(robotSocket) {
     this.sendToClients(robotSocket.id.account, "listen start", {robot: robotSocket.id.robot});
-    this.sendToRobot(robotSocket.id.account, robotSocket.id.robot, "command", {name: "sendPosition", parameters: []});
-    this.sendToRobot(robotSocket.id.account, robotSocket.id.robot, "command", {name: "scanArea", parameters: [1]});
-    this.sendToRobot(robotSocket.id.account, robotSocket.id.robot, "command", {name: "sendComponents", parameters: []});
+    this.sendToRobot(robotSocket.id.account, robotSocket.id.robot, {name: "sendPosition", parameters: []});
+    this.sendToRobot(robotSocket.id.account, robotSocket.id.robot, {name: "scanArea", parameters: [1]});
+    this.sendToRobot(robotSocket.id.account, robotSocket.id.robot, {name: "sendComponents", parameters: []});
   }
 
 }

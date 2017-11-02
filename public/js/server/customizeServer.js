@@ -50,8 +50,7 @@ function main(server, app) {
     // relay commands to the tcp server
     socket.on('command', (data)=>{
       console.dir(data);
-      var commandType = data.command.name == "raw" ? "raw command" : "command";
-      accounts.sendToRobot(socket.request.user.username, data.robot, commandType, data.command);
+      accounts.sendToRobot(socket.request.user.username, data.robot, data.command);
     });
 
   });
@@ -69,7 +68,7 @@ function main(server, app) {
 
     // test write
   	tcpSocket.write(
-      JSON.stringify({message: "hello, it's the tcp server!"}) + delimiter
+      JSON.stringify({name: 'message', parameters: ["hello, it's the tcp server!"]}) + delimiter
     );
 
   	// relay command results from robot to web server
@@ -146,7 +145,7 @@ function main(server, app) {
      */
     function disconnectRobot(robotSocket, errorString) {
       console.log(errorString);
-      robotSocket.write(JSON.stringify({message: errorString}) + delimiter);
+      robotSocket.write(JSON.stringify({name: 'message', parameters: [errorString]}) + delimiter);
       robotSocket.endedByServer = true;
       robotSocket.end();
     }
