@@ -17,8 +17,7 @@ local M = {};
 function M.sendSlotData(side, slotNum)
   local slot = {
     side = side,
-    slotNum = slotNum,
-    contents = {}
+    slotNum = slotNum
   };
   if side == -1 then
     if robot.count(slotNum) > 0 then
