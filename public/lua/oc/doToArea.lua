@@ -61,7 +61,9 @@ function M.makeApproachAndDoAction(action, scanType, times)
 end
 
 function M.makeDoActionToArea(action)
-  return function (p1, p2, index, scanType, times)
+  return function (x1, y1, z1, x2, y2, z2, index, scanType, times)
+    local p1 = {x: x1, y: y1, z: z1};
+    local p2 = {x: x2, y: y2, z: z2};
     local pointList = M.generateBoxPoints(p1, p2);
     adj.distanceSort(pos.get(), pointList);
     local approachAndDoAction = M.makeApproachAndDoAction(action, scanType, times);
