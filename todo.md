@@ -17,6 +17,7 @@
     * add command results to allRobotInfo, render from there
   * updateState ought to be changes to allRobotInfo and/or voxelMap every time
 * port oc lua to cc
+  * better, just add a compatibility layer to the oc code so it works for both
 
 # later
 
