@@ -4,7 +4,9 @@
 
 ## features
 * change oc lua code to use new command structure
-  * update inventory slot to have nil instead of empty tables
+  * update inventory slot to have nil instead of empty tables (still needs testing)
+  * rewrite the command loop to use the new command map
+  * can we change how package loading/unloading works now?
 * display current version number
   * is the version number stored in a single place right now?
 
