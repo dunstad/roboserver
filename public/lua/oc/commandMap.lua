@@ -4,6 +4,13 @@ local inv = component.inventory_controller;
 local robot = require('robot');
 local dta = require('doToArea');
 local mas = require('moveAndScan');
+local craft = require('craft');
+local pos = require('trackPosition');
+
+local tcp = require('tcp');
+local config = require('config');
+local raw = config.get(config.path).components.raw;
+local rawBool = (raw == "true" or raw == true) and true or false;
 
 local M = {};
 
@@ -44,36 +51,38 @@ M['move'] = function(x, y, z, selectionIndex, scanLevel)
   return mas.to(x, y, z, selectionIndex, scanLevel);
 end;
 
-M['interact'] = function()
-  
+M['interact'] = function(coord, scanLevel)
+  return int.interact(coord, scanLevel);
 end;
 
-M['inspect'] = function()
-  
+M['inspect'] = function(coord, scanLevel)
+  return int.inspect(coord, scanLevel);
 end;
 
-M['select'] = function()
-  
+M['select'] = function(slotNum)
+  return robot.select(slotNum);
 end;
 
-M['transfer'] = function()
-  
+M['transfer'] = function(fromSlot, fromSide, toSlot, toSide, amount)
+  return int.transfer(fromSlot, fromSide, toSlot, toSide, amount);
 end;
 
-M['craft'] = function()
-  
+M['craft'] = function(itemName)
+  return craft.craft(itemName);
 end;
 
-M['raw'] = function()
-  
+M['raw'] = function(commandString)
+  local command = load(commandString, nil, 't', _ENV);
+  local status, result = pcall(command);
+  return status, result;
 end;
 
 M['sendPosition'] = function()
-  
+  return pos.sendLocation();
 end;
 
 M['sendComponents'] = function()
-  
+  return tcp.write({['raw']=rawBool});
 end;
 
 return M;
