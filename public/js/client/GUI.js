@@ -85,6 +85,8 @@ class GUI {
       'hoverGuideCoordinates': 'hoverGuideCoordinates',
       'powerLevelDisplay': 'powerLevelDisplay',
       'powerLevel': 'powerLevel',
+      'versionNumberDisplay': 'versionNumberDisplay',
+      'versionNumber': 'versionNumber',
       
       'selectStartDiv': 'selectStartDiv',
       'selectEndDiv': 'selectEndDiv',
@@ -148,6 +150,10 @@ class GUI {
     // used when coloring block svgs when rendering inventories
     this.fetchPromise('/namesToHardness').then((namesToHardness)=>{
       this.namesToHardness = namesToHardness;
+    });
+
+    this.fetchPromise('/version').then((versionNumber)=>{
+      this.versionNumber.textContent = versionNumber;
     });
 
   }
