@@ -88,4 +88,10 @@ router.get('/blockData/:blockName', function(req, res) {
   res.send(blockData);
 });
 
+// let the web client see what version we're using
+let version = require('../package').version;
+router.get('/version', function(req, res) {
+  res.send(version);
+});
+
 module.exports = router;
