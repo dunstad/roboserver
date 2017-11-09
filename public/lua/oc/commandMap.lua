@@ -20,7 +20,7 @@ M['scanArea'] = function(scanLevel)
     for i=-2,5 do
       result = sendScan.volume(-3, -3, i, 8, 8, 1)
     end
-  elseif scanLevel == 1
+  elseif scanLevel == 1 then
     for i=-1,7 do
       result = sendScan.plane(i);
     end
@@ -83,6 +83,10 @@ end;
 
 M['sendComponents'] = function()
   return tcp.write({['raw']=rawBool});
+end;
+
+M['message'] = function(message)
+  return print(message);
 end;
 
 return M;
