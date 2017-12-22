@@ -1,5 +1,6 @@
 local sendScan = require('sendScan');
 local int = require('interact');
+local component = require('component');
 local inv = component.inventory_controller;
 local robot = require('robot');
 local dta = require('doToArea');
