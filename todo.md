@@ -1,6 +1,10 @@
 # 1.1
 
 ## features
+* allow robot install to default to offline instead of always using github
+  * ```internet.request(url)```
+  * The returned function is an iterator over chunks of the result, use it like so:
+  * ```for chunk in internet.request(...) do stuff() end```
 * change oc lua code to use new command structure
   * update inventory slot to have nil instead of empty tables (still needs testing)
   * rewrite the command loop to use the new command map
