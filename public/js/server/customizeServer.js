@@ -75,6 +75,7 @@ function main(server, app) {
   	tcpSocket.on('data', (data)=>{
       if (!tcpSocket.remainder) {tcpSocket.remainder = '';}
       const parsedTCP = parseTCPData(data.toString(), tcpSocket.remainder);
+      console.log(parsedTCP);
       tcpSocket.remainder = parsedTCP.remainder;
       const dataJSONList = parsedTCP.messages.map(JSON.parse);
 
@@ -113,8 +114,10 @@ function main(server, app) {
      * @param {string} tcpRemainder 
      */
     function parseTCPData(tcpString, tcpRemainder) {
+      console.log(tcpString);
+      console.log(tcpRemainder);
       let completeMessages = [];
-      const tcpMessageRegExp = new RegExp('.*?' + delimiter + '|.+?$', 'g');
+      const tcpMessageRegExp = new RegExp(`.+' + delimiter + '?`, 'g');
       const tcpMessages = tcpString.match(tcpMessageRegExp) || [];
       for (let tcpMessage of tcpMessages) {
 
