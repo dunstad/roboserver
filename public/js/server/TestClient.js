@@ -471,6 +471,8 @@ class TestClient {
 			[key]: value,
 		};
 		const serializedData = JSON.stringify(data) + this.delimiter;
+		console.log('serializedDate: ', JSON.stringify(data))
+		console.log('delim: ', this.delimiter)
 
 		function writeError(error) {if (error) {console.dir(error);}}
 
