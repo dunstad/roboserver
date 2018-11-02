@@ -114,8 +114,6 @@ function main(server, app) {
      * @param {string} tcpRemainder 
      */
     function parseTCPData(tcpString, tcpRemainder) {
-      console.log(tcpString);
-      console.log(tcpRemainder);
       let completeMessages = [];
       const tcpMessageRegExp = new RegExp(`.+${delimiter}?`, 'g');
       const tcpMessages = tcpString.match(tcpMessageRegExp) || [];
