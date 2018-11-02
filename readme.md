@@ -4,18 +4,18 @@ This project lets you control [OpenComputers](http://ocdoc.cil.li/) robots throu
 
 ![A robot being controlled by the Roboserver](public/assets/tree.gif)
 
-Here are a few things the Roboserver simplifies:
+Here are a few things the Roboserver can simplify right now:
 * Digging large areas
 * Crafting complex items
 * Repetitive construction
 * Locating ore underground
-* [And more!](https://www.youtube.com/watch?v=2lbb0-yfSdw)
+* [Other stuff!](https://www.youtube.com/watch?v=2lbb0-yfSdw)
 
 ## Getting Started
 
 (Tested on Minecraft version 1.10.2, OpenComputers version 1.6. If something's broken for your version, see [Reporting Bugs](#reporting-bugs).)
 
-If you're looking to get set up as fast as possible, you can become a [patron](https://www.patreon.com/dunstad) to gain access to the desktop version of the Roboserver. See how to start using it [here](documentation/standalone-install.md).
+If you're looking to get set up as fast as possible, you can get the desktop version of the Roboserver [here (TODO)](TODO). See how to start using it [here](documentation/standalone-install.md).
 
 Alternatively, if you've got a bit of technical know-how and more time on your hands, you can run the Roboserver from the source code by following the instructions [here](documentation/server-install.md).
 

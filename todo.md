@@ -10,16 +10,6 @@
   * rewrite the command loop to use the new command map
   * can we change how package loading/unloading works now?
 
-## release checklist
-* make sure unit tests pass
-* do all the tests in the test plan
-  * make sure to do ones involving the UI on other browsers as well, notably electron
-* change the version number in package.json
-* change the version number in the setup documentation
-* push to master branch
-* make a develop branch
-* add a tag to the release commit
-
 # 1.2
 * add unit tests for web client
   * should be able to initialize Game, MapRender, GUI, and WebClient without the DOM

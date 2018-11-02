@@ -1,3 +1,9 @@
+install
+* delete all the code, make sure the server install works
+* make sure all the unit tests pass
+* make new binaries, make sure they work
+* create a fresh world to test robots on
+
 run all tests on a robot built to the minimum requirements:
 * gold case
 * t2 cpu
@@ -15,6 +21,13 @@ lua installation on robot
 * make sure to test it with and without the server running locally
 * easy config should ask you for information
 * make sure it successfully connects to the specified server
+
+config
+* change position, orientation, booleans to string equivalents
+* change ip address to hostname
+* ensure things still work
+
+(make sure all the ui tests work in chrome, firefox, edge, and electron)
 
 login
 * confirm that account registration fails when it doesn't have a username and a password
@@ -166,12 +179,3 @@ inventory logic
 * move internal stack to external empty slot
 * move external stack to internal empty slot
 * fail to move external stack to external empty slot
-
-config
-* change position, orientation, booleans to string equivalents
-* change ip address to hostname
-* ensure things still work
-
-install
-* make sure the server install works
-* make sure the binaries work
