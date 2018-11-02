@@ -17,13 +17,10 @@
     * refactor web client listeners into updateState, updateRender pattern
     * add command results to allRobotInfo, render from there
   * updateState ought to be changes to allRobotInfo and/or voxelMap every time
-* port oc lua to cc
-  * better, just add a compatibility layer to the oc code so it works for both
 
 # later
 
 ## big
-* mod in a new scanner compatible with both oc and cc?
 * blueprint storage and rendering
 * mapping:
   * Set up database
@@ -35,9 +32,7 @@
   * merge and split voxel meshes based on distance from robot
     * sort of like how minecraft loads chunks, hopefully this approach would improve rendering speed
     * impossible to retain individual coloring?
-* alternate reality glasses roboserver client
-  * fork openglasses
-  * make it work with computercraft
+* ocglasses roboserver client
   * highlight the block we're looking at
   * implement move command on punch first
   * create a way to select a tool in the overlay
