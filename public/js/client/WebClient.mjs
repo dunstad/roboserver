@@ -1,4 +1,5 @@
 import {WorldAndScenePoint} from '/js/client/WorldAndScenePoint.mjs';
+import {Robot} from '/js/client/Robot.mjs';
 
 export class WebClient {
 
