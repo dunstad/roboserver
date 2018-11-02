@@ -1,3 +1,5 @@
+import {WorldAndScenePoint} from '/js/client/WorldAndScenePoint.mjs';
+
 /**
  * An organized way to access coordinates stored in number inputs.
  */

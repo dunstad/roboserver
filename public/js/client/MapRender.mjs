@@ -1,4 +1,6 @@
-class MapRender {
+import {WorldAndScenePoint} from '/js/client/WorldAndScenePoint.mjs';
+
+export class MapRender {
 
   /**
    * Sets the initial scene.
