@@ -117,7 +117,7 @@ function main(server, app) {
       console.log(tcpString);
       console.log(tcpRemainder);
       let completeMessages = [];
-      const tcpMessageRegExp = new RegExp(`.+' + delimiter + '?`, 'g');
+      const tcpMessageRegExp = new RegExp(`.+${delimiter}?`, 'g');
       const tcpMessages = tcpString.match(tcpMessageRegExp) || [];
       for (let tcpMessage of tcpMessages) {
 
