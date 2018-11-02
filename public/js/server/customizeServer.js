@@ -39,7 +39,7 @@ function main(server, app) {
     console.log(socket.request.user.username + " account connected");
 
     socket.on('message', (data)=>{
-      console.log(data);
+      console.dir(data);
       socket.send('pong');
     });
     socket.on('disconnect', function () {
@@ -75,14 +75,12 @@ function main(server, app) {
   	tcpSocket.on('data', (data)=>{
       if (!tcpSocket.remainder) {tcpSocket.remainder = '';}
       const parsedTCP = parseTCPData(data.toString(), tcpSocket.remainder);
-      console.log('parsedTCP', parsedTCP);
       tcpSocket.remainder = parsedTCP.remainder;
       const dataJSONList = parsedTCP.messages.map(JSON.parse);
 
   		// separate tcp data into various messages
       for (var dataJSON of dataJSONList) {
         for (var key in dataJSON) {
-          console.log(key, dataJSON[key]);
           if (key == 'id') {
             tcpSocket.id = dataJSON[key];
             if (accounts.getRobot(tcpSocket.id.account, tcpSocket.id.robot)) {
@@ -114,10 +112,9 @@ function main(server, app) {
      * @param {string} tcpRemainder 
      */
     function parseTCPData(tcpString, tcpRemainder) {
-      console.log('tcpstring', tcpString)
       let completeMessages = [];
-      // .+ should not match a lone newline!
-      const tcpMessageRegExp = new RegExp(`.+${delimiter}?`, 'g');
+      // this might get weird if the delimiter isn't 
+      const tcpMessageRegExp = new RegExp(`(.*${delimiter}?|${delimiter})`, 'g');
       const tcpMessages = tcpString.match(tcpMessageRegExp) || [];
       for (let tcpMessage of tcpMessages) {
 
@@ -147,7 +144,7 @@ function main(server, app) {
      * @param {string} errorString 
      */
     function disconnectRobot(robotSocket, errorString) {
-      console.log(errorString);
+      console.error(errorString);
       robotSocket.write(JSON.stringify({name: 'message', parameters: [errorString]}) + delimiter);
       robotSocket.endedByServer = true;
       robotSocket.end();
@@ -166,8 +163,7 @@ function main(server, app) {
     }
 
   	tcpSocket.on('error', (error)=>{
-      console.error('something broke!');
-      console.dir(error);
+      console.error(error);
       notifyOfDisconnect(tcpSocket);
     });
 

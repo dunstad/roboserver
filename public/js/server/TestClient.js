@@ -182,8 +182,6 @@ class TestClient {
 		this.socket.on('data', (rawMessages)=>{
 			let messages = String(rawMessages).split(this.delimiter).filter(s=>s).map(JSON.parse);
 			for (let commandInfo of messages) {
-				console.dir(messages)
-				console.dir(commandInfo)
 				if (commandInfo.name != 'message') {
 					console.log('Received:', commandInfo.name, commandInfo.parameters);
 					this.commandMap[commandInfo.name](...commandInfo.parameters);
