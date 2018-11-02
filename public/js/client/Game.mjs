@@ -1,4 +1,6 @@
-import {GUI} from './GUI.mjs';
+import {GUI} from '/js/client/GUI.mjs';
+import {MapRender} from '/js/client/MapRender.mjs';
+import {WebClient} from '/js/client/WebClient.mjs';
 
 export class Game {
 

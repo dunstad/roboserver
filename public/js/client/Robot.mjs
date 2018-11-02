@@ -1,7 +1,9 @@
+import {WorldAndScenePoint} from '/js/client/WorldAndScenePoint.mjs';
+
 /**
  * An organized collection of all important data about a connected robot.
  */
-class Robot {
+export class Robot {
 
   /**
    * An organized collection of all important data about a connected robot.

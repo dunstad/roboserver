@@ -1,7 +1,9 @@
+import {WorldAndScenePoint} from '/js/client/WorldAndScenePoint.mjs';
+
 /**
  * An organized way to store the voxels of a terrain map.
  */
-class VoxelMap {
+export class VoxelMap {
 
   /**
    * An organized way to store the voxels of a terrain map.

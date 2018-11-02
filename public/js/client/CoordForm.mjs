@@ -1,7 +1,9 @@
+import {WorldAndScenePoint} from '/js/client/WorldAndScenePoint.mjs';
+
 /**
  * An organized way to access coordinates stored in number inputs.
  */
-class CoordForm {
+export class CoordForm {
 
   /**
    * An organized way to access coordinates stored in number inputs.

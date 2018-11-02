@@ -1,7 +1,9 @@
+import {WorldAndScenePoint} from '/js/client/WorldAndScenePoint.mjs';
+
 /**
  * An organized way to access how we want to cut away the map.
  */
-class CutawayForm {
+export class CutawayForm {
 
   /**
    * An organized way to access how we want to cut away the map.

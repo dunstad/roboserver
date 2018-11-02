@@ -1,4 +1,8 @@
-class WebClient {
+import {WorldAndScenePoint} from '/js/client/WorldAndScenePoint.mjs';
+import {Robot} from '/js/client/Robot.mjs';
+import {InventoryRender} from '/js/client/InventoryRender.mjs';
+
+export class WebClient {
 
   /**
    * Used to make a WebClient ready for communicating with robots.

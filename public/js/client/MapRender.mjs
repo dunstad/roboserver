@@ -1,4 +1,7 @@
-class MapRender {
+import {WorldAndScenePoint} from '/js/client/WorldAndScenePoint.mjs';
+import {VoxelMap} from '/js/client/VoxelMap.mjs';
+
+export class MapRender {
 
   /**
    * Sets the initial scene.

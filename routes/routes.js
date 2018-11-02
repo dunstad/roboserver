@@ -61,7 +61,7 @@ router.post('/register', (req, res, next)=>{
 var minecraftRecipes = require('../public/js/recipes/minecraftRecipes.json');
 var OCRecipes = require('../public/js/recipes/OCRecipes.json');
 var allRecipes = minecraftRecipes.concat(OCRecipes);
-var recipeSearch = require('../public/js/server/recipeSearch.js');
+var recipeSearch = require('../public/js/shared/recipeSearch.js');
 
 router.get('/recipe/:recipeName', function(req, res) {
   var recipeName = req.params.recipeName;
@@ -71,7 +71,6 @@ router.get('/recipe/:recipeName', function(req, res) {
 });
 
 // allows robots to look up block hardness values
-// let recipeSearch = require('');
 let minecraftData = require('minecraft-data')('1.12.2');
 let namesToHardness = {};
 for (let block of minecraftData.blocksArray) {

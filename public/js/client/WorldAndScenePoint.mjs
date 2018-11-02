@@ -1,7 +1,7 @@
 /**
  * This class allows for easy conversion between Three.js scene coordinates and Minecraft world coordinates.
  */
-class WorldAndScenePoint {
+export class WorldAndScenePoint {
 
   /**
    * This class allows for easy conversion between Three.js scene coordinates and Minecraft world coordinates.

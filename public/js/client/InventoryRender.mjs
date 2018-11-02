@@ -1,7 +1,9 @@
+import {GUI} from '/js/client/GUI.mjs';
+
 /**
  * Used to display and track inventories.
  */
-class InventoryRender {
+export class InventoryRender {
 
   /**
    * Used to display and track inventories.
