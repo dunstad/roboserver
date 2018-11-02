@@ -1,4 +1,6 @@
-class GUI {
+import {bannerMessages} from '/js/client/bannerMessages.mjs';
+
+export class GUI {
 
   /**
    * Used to control how the various forms are displayed and changed.
@@ -726,9 +728,6 @@ class GUI {
   initMessage() {
 
     let bannerMessage = this.bannerMessage;
-    let bannerMessages = [
-      'Have fun!',
-    ];
     let randomMessage = bannerMessages[Math.floor(Math.random() * bannerMessages.length)];
     bannerMessage.innerHTML = randomMessage;
   
@@ -802,4 +801,4 @@ class GUI {
 
   }
 
-}
+};

@@ -1,4 +1,6 @@
-class Game {
+import {GUI} from './GUI.mjs';
+
+export class Game {
 
   /**
    * Used to connect the MapRender, GUI, and other things to each other.
@@ -11,4 +13,4 @@ class Game {
 
   }
 
-}
+};

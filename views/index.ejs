@@ -281,20 +281,22 @@
 		<script src='/js/lib/bootstrap.min.js'></script>
 		<script src='/js/lib/bootstrap-select.min.js'></script>
 
-    <script type='text/javascript' src='/js/client/GUI.js'></script>
+    <script type='module' src='/js/client/bannerMessages.mjs'></script>
+    <script type='module' src='/js/client/GUI.mjs'></script>
     <script type='text/javascript' src='/js/client/WebClient.js'></script>
     
     <script src='/js/lib/ajv.min.js'></script>
     <script type='text/javascript' src='/js/shared/fromClientSchemas.js'></script>
     
-    <script src='/js/client/Game.js'></script>
+    <script type='module' src='/js/client/Game.mjs'></script>
     
     <script src='/js/lib/react.production.min.js'></script>
     <script src='/js/lib/react-dom.production.min.js'></script>
     <script src='/js/lib/react-bootstrap.min.js'></script>
 
     
-    <script>
+    <script type='module'>
+      import {Game} from '/js/client/Game.mjs';
       GLOBALS = {};
       GLOBALS.game = new Game();
       GLOBALS.game.mapRender.render();

@@ -14,7 +14,16 @@ var LocalStrategy = require('passport-local').Strategy;
 var Datastore = require('nedb-promise');
 var db = new Datastore({ filename: path.join(__dirname, 'users.db'), autoload: true });
 
-var config = require('./public/js//config/config');
+try {
+  var config = require('./public/js/config/config');
+}
+catch (err) {
+  console.error('***');
+  console.error('no config file found, please rename public/js/config/config.example.js to config.js or create your own!');
+  console.error('***');
+  console.error();
+  process.exit(1);
+}
 
 var bcrypt = require('bcryptjs');
 

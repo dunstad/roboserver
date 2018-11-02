@@ -21,10 +21,10 @@
     "debug": "~2.2.0",
     "ejs": "^2.5.2",
     "electron": "^1.6.6",
-    "express": "~4.13.4",
+    "express": "^4.16.4",
     "express-session": "^1.15.2",
     "minecraft-data": "^2.21.0",
-    "morgan": "~1.7.0",
+    "morgan": "^1.9.1",
     "nedb": "^1.8.0",
     "nedb-promise": "^2.0.1",
     "nedb-session-store": "^1.1.1",
@@ -34,7 +34,7 @@
     "react": "^16.0.0",
     "react-bootstrap": "^0.31.5",
     "react-dom": "^16.0.0",
-    "serve-favicon": "~2.3.0",
+    "serve-favicon": "^2.5.0",
     "socket.io": "^1.7.3"
   },
   "devDependencies": {
