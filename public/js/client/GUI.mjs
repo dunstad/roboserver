@@ -1,6 +1,7 @@
 import {bannerMessages} from '/js/client/bannerMessages.mjs';
 import {WorldAndScenePoint} from '/js/client/WorldAndScenePoint.mjs';
 import {CoordForm} from '/js/client/CoordForm.mjs';
+import {CutawayForm} from '/js/client/CutawayForm.mjs';
 
 export class GUI {
 
