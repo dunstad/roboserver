@@ -726,10 +726,10 @@ class GUI {
   initMessage() {
 
     let bannerMessage = this.bannerMessage;
-    let messages = [
-      '<a href="https://www.patreon.com/dunstad">Your support</a> makes this project possible. Thanks!',
+    let bannerMessages = [
+      'Have fun!',
     ];
-    let randomMessage = messages[Math.floor(Math.random() * messages.length)];
+    let randomMessage = bannerMessages[Math.floor(Math.random() * bannerMessages.length)];
     bannerMessage.innerHTML = randomMessage;
   
     let bannerMessageDiv = this.bannerMessageDiv;
