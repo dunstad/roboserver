@@ -1,3 +1,5 @@
+import {GUI} from '/js/client/GUI.mjs';
+
 /**
  * Used to display and track inventories.
  */
