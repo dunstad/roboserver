@@ -1,7 +1,7 @@
 /**
  * Used to display and track inventories.
  */
-class InventoryRender {
+export class InventoryRender {
 
   /**
    * Used to display and track inventories.
