@@ -9,6 +9,21 @@
   * tells the server where items or blocks are
   * server should know the difference between items and blocks
   * server should know how many of an item are at a location
+  
+## experimental diegetic ui
+* update three.js version
+* add a crosshair
+* make a 2d shape appear in front of the camera on button press
+* make it disappear when pressing esc, moving a bit away, or clicking outside the menu plane
+* make the 'shape' different triangles that make up an octagon
+  * an octagon has plenty of space for menu options and is easy to use with a dpad
+* each triangle should change in appearance when the crosshair is in its segment of the menu plane
+  * if it's significantly easier to make it only inside the triangle instead of on that bit of the plane, that's also fine
+* get some icons in the center of each triangle
+* make the console log which triangle we click
+* make clicking the stuff in the first level menu bring up other menus
+
+# 1.1
 
 * locate command
   * locate name \[amount\]
