@@ -6,6 +6,7 @@ local promptMap = {
     robotName = "Enter a name for your robot.",
     accountName = "Enter your Roboserver account name.",
     serverIP = "Enter the IP address of your Roboserver.",
+    serverPort = "Enter the port of your Roboserver.",
     tcpPort = "Enter the TCP port for your Roboserver.",
     posX = "Enter your robot's X coordinate.",
     posY = "Enter your robot's Y coordinate.",
@@ -72,7 +73,7 @@ function readConfigOptions(options, path)
 end
 
 function easyConfig(path)
-  local promptOrder = {"serverIP", "accountName", "robotName", "posX", "posY", "posZ", "orient"};
+  local promptOrder = {"serverIP", "serverPort", "accountName", "robotName", "posX", "posY", "posZ", "orient"};
   local result = readConfigOptions(promptOrder, path);
   setAvailableComponents(path);
   return result;
