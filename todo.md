@@ -1,5 +1,8 @@
 # 1.1
 
+* add webserver port to config, and use it in craft.lua
+  * just include port in current ip setting?
+
 ## features
 * allow robot install to default to offline instead of always using github
   * ```internet.request(url)```
