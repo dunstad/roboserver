@@ -57,7 +57,9 @@ end
 
 continueLoop = true;
 while continueLoop do
-  if not pcall(executeCommand) then
+  local success, message = pcall(executeCommand);
+  if not success then
+    print(message);
     -- unloading 'computer' breaks stuff, it can't be required again for some reason
     -- really we don't need to reload every one of these, but this is easiest
     local loadedPackages = {'tcp', 'trackOrientation', 'trackPosition', 'sendScan', 'scanDirection', 'moveAndScan', 'robot', 'downloadCode', 'adjacent', 'doToArea', 'interact', 'craft', 'config'};
