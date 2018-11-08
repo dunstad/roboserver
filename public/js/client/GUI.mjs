@@ -503,7 +503,7 @@ export class GUI {
    */
   renderCommandResponse(data) {
     let outputMessageDiv = document.createElement('div');
-    let text = data[0] + '\n' + data[1];
+    let text = data[0] + '\n' + JSON.stringify(data[1]);
     for (let line of text.split('\n')) {
       line = line.replace(/\s/g, '\u00A0')
       outputMessageDiv.appendChild(document.createTextNode(line));

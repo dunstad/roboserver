@@ -25,7 +25,7 @@ function M.write(data)
     local errorMessage = {['message']='Failed to serialize result!'};
     handle:write(JSON:encode(errorMessage)..delimiter);
   end
-  return result;
+  return status;
 end
 
 function M.close()
