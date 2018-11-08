@@ -25,7 +25,8 @@ Now that your robot is running and OpenOS is installed, just paste this into it:
 
 ```
 mkdir /home/lib;
-wget https://raw.githubusercontent.com/dunstad/roboserver/1.0.0/public/lua/oc/setup.lua /home/lib/setup.lua;
+set ROBOSERVER_CODE=https://raw.githubusercontent.com/dunstad/roboserver/1.0.0/public/lua/oc;
+wget $ROBOSERVER_CODE/setup.lua /home/lib/setup.lua;
 lua /home/lib/setup.lua;
 ```
 
