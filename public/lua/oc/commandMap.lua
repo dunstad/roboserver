@@ -51,11 +51,11 @@ M['move'] = function(x, y, z, selectionIndex, scanLevel)
   return mas.to(x, y, z, selectionIndex, scanLevel);
 end;
 
-M['interact'] = function(coord, scanLevel)
+M['interact'] = function(x, y, z, scanLevel)
   return int.interact(coord, scanLevel);
 end;
 
-M['inspect'] = function(coord, scanLevel)
+M['inspect'] = function(x, y, z, scanLevel)
   return int.inspect(coord, scanLevel);
 end;
 
