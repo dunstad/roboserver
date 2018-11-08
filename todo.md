@@ -1,7 +1,6 @@
 # 1.1
 
 * the web client doesn't see crashed robots when they reconnect, even after refreshing
-* make command history show the command name and just true or false
 
 ## features
 * allow robot install to default to offline instead of always using github
