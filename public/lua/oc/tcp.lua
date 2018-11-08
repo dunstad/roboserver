@@ -28,6 +28,10 @@ function M.write(data)
   return result;
 end
 
+function M.close()
+  return handle:close();
+end
+
 M.write({id={account=conf.accountName, robot=conf.robotName}});
 
 return M;

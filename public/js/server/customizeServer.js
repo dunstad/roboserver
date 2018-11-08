@@ -162,19 +162,28 @@ function main(server, app) {
       }
     }
 
+    // Remove the client from the list when it leaves
+
+    // Emitted when an error occurs. The 'close' event will be called directly following this event.
   	tcpSocket.on('error', (error)=>{
       console.error(error);
-      notifyOfDisconnect(tcpSocket);
     });
 
-  	// Remove the client from the list when it leaves
+    // Emitted when the other end of the socket sends a FIN packet, thus ending the readable side of the socket.
   	tcpSocket.on('end', ()=>{
+      console.log('end');
       if (!tcpSocket.endedByServer) {
-        notifyOfDisconnect(tcpSocket);
+        // notifyOfDisconnect(tcpSocket);
       }
   	});
 
-  	 tcpSocket.on('close', ()=>{console.log('closed');});
+    // Emitted once the socket is fully closed
+    tcpSocket.on('close', ()=>{
+      console.log('closed');
+      if (!tcpSocket.endedByServer) {
+        notifyOfDisconnect(tcpSocket);
+      }
+    });
 
   }).listen(3001);
 

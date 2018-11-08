@@ -1,6 +1,6 @@
 # 1.1
 
-* for some reason the server is remembering robots who crash, preventing them from reconnecting
+* the web client doesn't see crashed robots when they reconnect, even after refreshing
 * inspect seems broken
 
 ## features
