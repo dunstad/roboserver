@@ -1,7 +1,6 @@
 # 1.1
 
 * the web client doesn't see crashed robots when they reconnect, even after refreshing
-* inspect seems broken
 * make command history show the command name and just true or false
 
 ## features
