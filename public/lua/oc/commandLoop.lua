@@ -38,7 +38,7 @@ end
 function executeCommand()
   local data = tcp.read();
   local result = commandMap[data['name']](unpack(data['parameters']));
-  tcp.write({['command result']={result, result}});
+  tcp.write({['command result']={true, result}});
   tcp.write({['power level']=computer.energy()/computer.maxEnergy()});
 end
 

@@ -21,7 +21,7 @@ M['scanArea'] = function(scanLevel)
     for i=-2,5 do
       result = sendScan.volume(-3, -3, i, 8, 8, 1)
     end
-  elseif scanLevel == 1 then
+  elseif scanLevel == 2 then
     for i=-1,7 do
       result = sendScan.plane(i);
     end
@@ -36,8 +36,7 @@ end;
 M['equip'] = function()
   inv.equip();
   int.sendInventoryMetadata(-1);
-  int.sendSlotData(-1, robot.select());
-  return e;
+  return int.sendSlotData(-1, robot.select());
 end;
 
 M['dig'] = function(x1, y1, z1, x2, y2, z2, selectionIndex, scanLevel)

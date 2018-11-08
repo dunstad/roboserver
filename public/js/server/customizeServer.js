@@ -94,6 +94,8 @@ function main(server, app) {
             }
           }
           else if (tcpSocket.id && tcpSocket.id.account && tcpSocket.id.robot) {
+            console.log('key', key)
+            console.log('data', dataJSON[key])
             accounts.sendToClients(tcpSocket.id.account, key, {data: dataJSON[key], robot: tcpSocket.id.robot});
           }
           else {

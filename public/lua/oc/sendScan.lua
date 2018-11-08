@@ -53,6 +53,7 @@ function M.volume(x, z, y, w, d, h, times)
   end
 
   tcp.write({['map data']=result});
+  return result;
 end
 
 function M.plane(y, times)
@@ -63,6 +64,7 @@ function M.plane(y, times)
   -- that's 65, so we have one row we miss in the previous loop to scan
   -- still missing one cube after this final row, but oh well
   M.volume(-32, 32, y, 64, 1, 1, times);
+  return true;
 end
 
 return M;

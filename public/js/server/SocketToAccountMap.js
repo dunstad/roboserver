@@ -106,7 +106,6 @@ class SocketToAccountMap {
       result = account.robots[robotName];
     }
 
-    console.log('robot: ', accountName, robotName, Boolean(result))
     return result;
   }
 
