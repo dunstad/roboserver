@@ -52,11 +52,11 @@ M['move'] = function(x, y, z, selectionIndex, scanLevel)
 end;
 
 M['interact'] = function(x, y, z, scanLevel)
-  return int.interact(coord, scanLevel);
+  return int.interact(x, y, z, scanLevel);
 end;
 
 M['inspect'] = function(x, y, z, scanLevel)
-  return int.inspect(coord, scanLevel);
+  return int.inspect(x, y, z, scanLevel);
 end;
 
 M['select'] = function(slotNum)
