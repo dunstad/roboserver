@@ -6,7 +6,6 @@ function loadPackages()
   scanDirection = require('scanDirection');
   mas = require('moveAndScan');
   robot = require('robot');
-  dl = require('downloadCode');
   adj = require('adjacent');
   dta = require('doToArea');
   int = require('interact');
@@ -50,7 +49,7 @@ while continueLoop do
     tcp.close();
     -- unloading 'computer' breaks stuff, it can't be required again for some reason
     -- really we don't need to reload every one of these, but this is easiest
-    local loadedPackages = {'tcp', 'trackOrientation', 'trackPosition', 'sendScan', 'scanDirection', 'moveAndScan', 'robot', 'downloadCode', 'adjacent', 'doToArea', 'interact', 'craft', 'config'};
+    local loadedPackages = {'tcp', 'trackOrientation', 'trackPosition', 'sendScan', 'scanDirection', 'moveAndScan', 'robot', 'adjacent', 'doToArea', 'interact', 'craft', 'config'};
     for index, p in pairs(loadedPackages) do
       package.loaded[p] = nil;
     end
