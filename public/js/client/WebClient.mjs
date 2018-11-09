@@ -37,7 +37,7 @@ export class WebClient {
       'map data': (mapData)=>{
         console.dir('map data');
         console.dir(mapData);
-        this.game.mapRender.addShapeVoxels(mapData.data, mapData.robot);
+        this.game.mapRender.addShapeVoxels(mapData.data);
       },
 
       /**

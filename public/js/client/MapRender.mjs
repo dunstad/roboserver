@@ -451,9 +451,8 @@ export class MapRender {
   /**
    * Used to draw terrain data received from a robot.
    * @param {object} shape
-   * @param {string} robot
    */
-  addShapeVoxels(shape, robot) {
+  addShapeVoxels(shape) {
     for (let x = 0; x < shape.w; x++) {
       for (let z = 0; z < shape.d; z++) {
         for (let y = 0; y < (shape.data.n / (shape.w * shape.d)); y++) {
