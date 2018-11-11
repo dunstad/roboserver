@@ -49,8 +49,6 @@ while continueLoop do
     print(message);
     tcp.close();
     -- unloading 'computer' breaks stuff, it can't be required again for some reason
-    -- really we don't need to reload every one of these, but this is easiest
-    -- local loadedPackages = {'tcp', 'trackOrientation', 'trackPosition', 'sendScan', 'scanDirection', 'moveAndScan', 'robot', 'adjacent', 'doToArea', 'interact', 'craft', 'config'};
     local loadedPackages = {'tcp', 'trackPosition', 'sendScan', 'doToArea', 'commandMap'};
     for index, p in pairs(loadedPackages) do
       package.loaded[p] = nil;
