@@ -1,9 +1,5 @@
 # 1.1
 
-* the web client doesn't see crashed robots when they reconnect, even after refreshing
-  * this is actually caused by something in the robot breaking i think
-  * since it gets fixed if you restart the robot
-
 ## features
 * allow robot install to default to offline instead of always using github
   * ```internet.request(url)```

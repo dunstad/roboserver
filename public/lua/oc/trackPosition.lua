@@ -1,5 +1,5 @@
 local robot = require('robot');
-local tcp = require('tcp');
+tcp = require('tcp'); -- if this is local, reloading modules fails in commandLoop
 local orient = require('trackOrientation');
 local config = require('config');
 local confOptions = config.get(config.path);

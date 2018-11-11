@@ -1,23 +1,24 @@
 function loadPackages()
   tcp = require('tcp');
-  orient = require('trackOrientation');
-  pos = require('trackPosition');
-  sendScan = require('sendScan');
-  scanDirection = require('scanDirection');
-  mas = require('moveAndScan');
-  robot = require('robot');
-  adj = require('adjacent');
+  commandMap = require('commandMap');
   dta = require('doToArea');
   int = require('interact');
-  craft = require('craft');
-  computer = require('computer');
-  config = require('config');
-  raw = config.get(config.path).components.raw;
-  rawBool = (raw == "true" or raw == true) and true or false;
+  sendScan = require('sendScan');
+  pos = require('trackPosition');
+  
 end
 loadPackages();
 
-local commandMap = require('commandMap');
+local scanDirection = require('scanDirection');
+local orient = require('trackOrientation');
+local mas = require('moveAndScan');
+local robot = require('robot');
+local adj = require('adjacent');
+local craft = require('craft');
+local computer = require('computer');
+local config = require('config');
+local raw = config.get(config.path).components.raw;
+local rawBool = (raw == "true" or raw == true) and true or false;
 
 function runInTerminal(commandText)
   local file = assert(io.popen(commandText, 'r'));
@@ -49,7 +50,8 @@ while continueLoop do
     tcp.close();
     -- unloading 'computer' breaks stuff, it can't be required again for some reason
     -- really we don't need to reload every one of these, but this is easiest
-    local loadedPackages = {'tcp', 'trackOrientation', 'trackPosition', 'sendScan', 'scanDirection', 'moveAndScan', 'robot', 'adjacent', 'doToArea', 'interact', 'craft', 'config'};
+    -- local loadedPackages = {'tcp', 'trackOrientation', 'trackPosition', 'sendScan', 'scanDirection', 'moveAndScan', 'robot', 'adjacent', 'doToArea', 'interact', 'craft', 'config'};
+    local loadedPackages = {'tcp', 'trackPosition', 'sendScan', 'doToArea', 'commandMap'};
     for index, p in pairs(loadedPackages) do
       package.loaded[p] = nil;
     end

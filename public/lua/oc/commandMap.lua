@@ -8,7 +8,7 @@ local mas = require('moveAndScan');
 local craft = require('craft');
 local pos = require('trackPosition');
 
-local tcp = require('tcp');
+tcp = require('tcp'); -- if this is local, reloading modules fails in commandLoop
 local config = require('config');
 local raw = config.get(config.path).components.raw;
 local rawBool = (raw == "true" or raw == true) and true or false;
