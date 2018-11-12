@@ -11,7 +11,6 @@
   * server should know how many of an item are at a location
   
 ## experimental diegetic ui
-* add a crosshair
 * make a 2d shape appear in front of the camera on button press
 * make it disappear when pressing esc, moving a bit away, or clicking outside the menu plane
 * make the 'shape' different triangles that make up an octagon

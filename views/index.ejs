@@ -6,8 +6,14 @@
     <link rel='stylesheet' href='/css/bootstrap.min.css'>
     <link rel='stylesheet' href='/css/bootstrap-select.min.css'>
     <link rel='stylesheet' href='/css/style.css'>
+    <link rel='stylesheet' href='/css/crosshair.css'>
   </head>
   <body>
+
+    <div id="crosshair">
+      <div id="crosshairY" class="crosshairPetal"></div>
+      <div id="crosshairX" class="crosshairPetal"></div>
+    </div>
 
     <div id='controlsDisplay' class="modal">
       <div class="modal-dialog modal-lg">
@@ -32,29 +38,29 @@
     </div>
 
     <div id='itemTransferAmountModal' class="modal">
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Amount to Transfer</h5>
-        </div>
-        <div class='modal-body'>
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Amount to Transfer</h5>
+          </div>
+          <div class='modal-body'>
 
-          <form id='itemTransferAmountForm' onsubmit='return false;'>
-            <div class='input-group input-group-sm'>
-              
-              <input id='transferAmountInput' class='form-control' type='number' min='0' max='64'></input>
+            <form id='itemTransferAmountForm' onsubmit='return false;'>
+              <div class='input-group input-group-sm'>
+                
+                <input id='transferAmountInput' class='form-control' type='number' min='0' max='64'></input>
 
-              <span class='input-group-btn'>
-                <button class='btn btn-primary' id='transferButton'>Transfer</button>
-              </span>
+                <span class='input-group-btn'>
+                  <button class='btn btn-primary' id='transferButton'>Transfer</button>
+                </span>
 
-            </div>
-          </form>
+              </div>
+            </form>
 
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
     <div id='topLeftUI'>
       
