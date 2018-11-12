@@ -56,7 +56,6 @@
 * perform initial configuration from application?
 * hotkeys for different tools
 * find blocks feature (make non-matches mostly transparent)
-* allow robot install to default to offline instead of always using github 
 * current order of acting on an area of blocks not the most efficient
   * maybe do a column at a time but sort those by distance
   * alternatively sort all the points by distance after each action
