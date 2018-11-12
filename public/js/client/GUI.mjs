@@ -121,8 +121,14 @@ export class GUI {
     this.container.appendChild(this.game.mapRender.renderer.domElement);
 
     document.addEventListener('keydown', (e)=>{
+      
       const questionMarkCode = 191;      
-      if (e.keyCode == questionMarkCode && e.shiftKey) {e.preventDefault(); $('#controlsDisplay').modal('toggle');}
+      if ((e.keyCode == questionMarkCode) && e.shiftKey) {
+        e.preventDefault(); $('#controlsDisplay').modal('toggle');
+      }
+
+      // add menu key here
+
     });
 
     // stop key events triggering inside text fields
