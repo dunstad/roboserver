@@ -21,6 +21,7 @@ Unless you really know what you're doing, you probably need these too:
 
 Place all these parts in an [Electronics Assembler](http://crafting-guide.com/browse/opencomputers/electronics_assembler/). Power and start the assembler, and when your robot is finished, place it in the world and power it on.
 
-Now that your robot is running and OpenOS is installed, just paste [this](install.txt) into it.
+Now that your robot is running and OpenOS is installed, just paste [this](web_install.txt) into it.
+(If your Roboserver is running but you don't have internet access, you can use the [local install](local_install.txt) instead.)
 
 After answering a few questions about your robot, it will connect to the server you started in the previous step. Congratulations, you're done! Next check out [these tips](tips.md) on how to use the Roboserver.

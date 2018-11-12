@@ -1,0 +1,5 @@
+mkdir /home/lib;
+-- if you're not on localhost or you changed the port, modify those here
+set ROBOSERVER_CODE=http://localhost:8080/lua/oc;
+wget $ROBOSERVER_CODE/setup.lua /home/lib/setup.lua;
+lua /home/lib/setup.lua;
