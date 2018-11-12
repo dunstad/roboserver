@@ -5,8 +5,6 @@
   * ```internet.request(url)```
   * The returned function is an iterator over chunks of the result, use it like so:
   * ```for chunk in internet.request(...) do stuff() end```
-* change oc lua code to use new command structure
-  * lots of undefined messages in the command history
 
 # 1.2
 * add unit tests for web client
