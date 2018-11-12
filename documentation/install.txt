@@ -1,0 +1,4 @@
+mkdir /home/lib;
+set ROBOSERVER_CODE=https://raw.githubusercontent.com/dunstad/roboserver/master/public/lua/oc;
+wget $ROBOSERVER_CODE/setup.lua /home/lib/setup.lua;
+lua /home/lib/setup.lua;
