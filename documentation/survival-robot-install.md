@@ -14,7 +14,7 @@ You need to craft at minimum the following parts for your robot:
 * [Inventory Controller Upgrade](http://crafting-guide.com/browse/opencomputers/inventory_controller_upgrade/)
 * [Crafting Upgrade](http://crafting-guide.com/browse/opencomputers/crafting_upgrade/)
 
-There are a few other parts you will probably want that make your robot easier to use:
+Unless you really know what you're doing, you probably need these too:
 * [Keyboard](http://crafting-guide.com/browse/opencomputers/keyboard/)
 * [Screen](http://crafting-guide.com/browse/opencomputers/screen_tier_1/)
 * [Graphics Card (Tier 1)](http://crafting-guide.com/browse/opencomputers/graphics_card_tier_1/)
