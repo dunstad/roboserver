@@ -2,11 +2,10 @@
 
 ## features
 * allow robot install to default to offline instead of always using github
-  * ```internet.request(url)```
-  * The returned function is an iterator over chunks of the result, use it like so:
-  * ```for chunk in internet.request(...) do stuff() end```
-* change oc lua code to use new command structure
-  * lots of undefined messages in the command history
+  * can probably just have a separate install.txt with a different environment variable
+  * ~~```internet.request(url)```~~
+  * ~~The returned function is an iterator over chunks of the result, use it like so:~~
+  * ~~```for chunk in internet.request(...) do stuff() end```~~
 
 # 1.2
 * add unit tests for web client
@@ -57,7 +56,6 @@
 * perform initial configuration from application?
 * hotkeys for different tools
 * find blocks feature (make non-matches mostly transparent)
-* allow robot install to default to offline instead of always using github 
 * current order of acting on an area of blocks not the most efficient
   * maybe do a column at a time but sort those by distance
   * alternatively sort all the points by distance after each action

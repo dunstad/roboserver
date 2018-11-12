@@ -155,6 +155,7 @@ export class WebClient {
           robotSelect.add(option);
           if (robotSelect.options.length <= 2) {
             option.selected = true;
+            this.game.GUI.switchToRobot(data.robot);
           }
     
         }
