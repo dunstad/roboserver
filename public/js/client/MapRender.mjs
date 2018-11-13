@@ -65,11 +65,12 @@ export class MapRender {
     // things that don't change with render mode (mostly geometries)
     this.voxelSideLength = 50;
     this.cubeGeo = new THREE.BoxGeometry(this.voxelSideLength, this.voxelSideLength, this.voxelSideLength);
-    // add menu geometry here
+    this.tileGeo = new THREE.BoxGeometry(this.voxelSideLength, this.voxelSideLength, this.voxelSideLength / 5);
 
     if (this.simple) {
       // cubes
-      this.wireGeo = new THREE.EdgesGeometry(this.cubeGeo);
+      this.voxelWireGeo = new THREE.EdgesGeometry(this.cubeGeo);
+      this.tileWireGeo = new THREE.EdgesGeometry(this.tileGeo);
       this.wireMat = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 1 } );
     }
     else {
@@ -93,12 +94,12 @@ export class MapRender {
       },
       
       rollOverMesh: {
-        simple: ()=>{return new THREE.Mesh(this.cubeGeo, this.cubeMat).add(new THREE.LineSegments(this.wireGeo, this.wireMat));},
+        simple: ()=>{return new THREE.Mesh(this.cubeGeo, this.cubeMat).add(new THREE.LineSegments(this.voxelWireGeo, this.wireMat));},
         full: ()=>{return new THREE.Mesh(this.cubeGeo, this.rollOverMaterial);},
       },
       
       selectedRobotMesh: {
-        simple: ()=>{return new THREE.Mesh(this.cubeGeo, this.cubeMat).add(new THREE.LineSegments(this.wireGeo, this.wireMat));},
+        simple: ()=>{return new THREE.Mesh(this.cubeGeo, this.cubeMat).add(new THREE.LineSegments(this.voxelWireGeo, this.wireMat));},
         full: ()=>{return new THREE.Mesh(this.cubeGeo, this.selectedRobotMaterial);},
       },
       
@@ -107,7 +108,7 @@ export class MapRender {
         full: ()=>{return new THREE.MeshLambertMaterial({color:0xffcccc});},
       },
 
-      menuMaterial: {
+      tileMaterial: {
         simple: ()=>{return this.cubeMat},
         full: ()=>{return new THREE.MeshLambertMaterial({color:0x003366});},
       },
@@ -144,6 +145,9 @@ export class MapRender {
     this.selectedRobotMesh = renderingModeMap.selectedRobotMesh[renderMode]();
     this.robotMaterial = renderingModeMap.robotMaterial[renderMode]();
     this.hardnessToColorMap = renderingModeMap.hardnessToColorMap[renderMode]();
+    
+    // tile
+    this.tileMaterial = renderingModeMap.tileMaterial[renderMode]();
 
     // light
     this.ambientLight = renderingModeMap.ambientLight[renderMode]();
@@ -187,7 +191,7 @@ export class MapRender {
     let mesh;
     if (simple) {
       mesh = new THREE.Mesh(geometry, material);
-      mesh.add(new THREE.LineSegments(this.wireGeo, this.wireMat));
+      mesh.add(new THREE.LineSegments(this.voxelWireGeo, this.wireMat));
     }
     else {
       mesh = new THREE.Mesh(geometry, material);
@@ -576,6 +580,21 @@ export class MapRender {
       this.selectBox.geometry.dispose();
       this.selectBox = undefined;
     }
+  }
+  
+  /**
+   * Removes any existing voxel at the coordinates and adds a new one.
+   * @param {THREE.Vector3} pos
+   * @returns {THREE.Mesh}
+   */
+  addTile(pos) {
+    let tile = new THREE.Mesh(this.tileGeo, this.tileMaterial).add(new THREE.LineSegments(this.tileWireGeo, this.wireMat));
+    
+    tile.position.copy(pos);
+  
+    this.scene.add(tile);
+
+    return tile;
   }
 
 }
