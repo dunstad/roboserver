@@ -122,12 +122,17 @@ export class GUI {
 
     document.addEventListener('keydown', (e)=>{
       
-      const questionMarkCode = 191;      
+      const questionMarkCode = 191;
+      const xCode = 88;
       if ((e.keyCode == questionMarkCode) && e.shiftKey) {
         e.preventDefault(); $('#controlsDisplay').modal('toggle');
       }
 
-      // add menu key here
+      // menu key
+      else if (e.keyCode == xCode && document.pointerLockElement) {
+        // make tiles appear in front of the camera rather than on top of it
+        this.game.mapRender.addTile(this.game.mapRender.controls.getObject().position);
+      }
 
     });
 
