@@ -1,5 +1,6 @@
 import {WorldAndScenePoint} from '/js/client/WorldAndScenePoint.mjs';
 import {VoxelMap} from '/js/client/VoxelMap.mjs';
+import { Menu } from 'electron';
 
 export class MapRender {
 
@@ -151,6 +152,8 @@ export class MapRender {
 
     // light
     this.ambientLight = renderingModeMap.ambientLight[renderMode]();
+
+    this.menu = new Menu(this.tileGeo, this.tileMaterial, this.scene);
 
     this.scene.add(this.ambientLight);
   
@@ -580,21 +583,6 @@ export class MapRender {
       this.selectBox.geometry.dispose();
       this.selectBox = undefined;
     }
-  }
-  
-  /**
-   * Removes any existing voxel at the coordinates and adds a new one.
-   * @param {THREE.Vector3} pos
-   * @returns {THREE.Mesh}
-   */
-  addTile(pos) {
-    let tile = new THREE.Mesh(this.tileGeo, this.tileMaterial).add(new THREE.LineSegments(this.tileWireGeo, this.wireMat));
-    
-    tile.position.copy(pos);
-      
-    this.scene.add(tile);
-
-    return tile;
   }
 
 }
