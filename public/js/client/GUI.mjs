@@ -135,8 +135,9 @@ export class GUI {
         let pos = new THREE.Vector3().copy(controls.position);
         let lookDirection = new THREE.Vector3();
         this.game.mapRender.camera.getWorldDirection(lookDirection);
-        pos.add(lookDirection.multiplyScalar(this.mapRender.voxelSideLength * 4));
-        this.game.mapRender.addTile(pos);
+        pos.add(lookDirection.multiplyScalar(this.game.mapRender.voxelSideLength * 4));
+        let tile = this.game.mapRender.addTile(pos);
+        tile.lookAt(controls.position);
       }
 
     });
