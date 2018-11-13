@@ -591,7 +591,7 @@ export class MapRender {
     let tile = new THREE.Mesh(this.tileGeo, this.tileMaterial).add(new THREE.LineSegments(this.tileWireGeo, this.wireMat));
     
     tile.position.copy(pos);
-  
+      
     this.scene.add(tile);
 
     return tile;

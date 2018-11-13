@@ -131,7 +131,12 @@ export class GUI {
       // menu key
       else if (e.keyCode == xCode && document.pointerLockElement) {
         // make tiles appear in front of the camera rather than on top of it
-        this.game.mapRender.addTile(this.game.mapRender.controls.getObject().position);
+        let controls = this.game.mapRender.controls.getObject();
+        let pos = new THREE.Vector3().copy(controls.position);
+        let lookDirection = new THREE.Vector3();
+        this.game.mapRender.camera.getWorldDirection(lookDirection);
+        pos.add(lookDirection.multiplyScalar(this.mapRender.voxelSideLength * 4));
+        this.game.mapRender.addTile(pos);
       }
 
     });
