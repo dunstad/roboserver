@@ -62,9 +62,10 @@ export class MapRender {
       100: 0x9900cc
     };
 
-    // cubes
+    // things that don't change with render mode (mostly geometries)
     this.voxelSideLength = 50;
     this.cubeGeo = new THREE.BoxGeometry(this.voxelSideLength, this.voxelSideLength, this.voxelSideLength);
+    // add menu geometry here
 
     if (this.simple) {
       // cubes
@@ -104,6 +105,11 @@ export class MapRender {
       robotMaterial: {
         simple: ()=>{return this.cubeMat;},
         full: ()=>{return new THREE.MeshLambertMaterial({color:0xffcccc});},
+      },
+
+      menuMaterial: {
+        simple: ()=>{return this.cubeMat},
+        full: ()=>{return new THREE.MeshLambertMaterial({color:0x003366});},
       },
       
       hardnessToColorMap: {
