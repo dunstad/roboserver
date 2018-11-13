@@ -62,55 +62,85 @@ export class MapRender {
       100: 0x9900cc
     };
 
+    // cubes
     this.voxelSideLength = 50;
+    this.cubeGeo = new THREE.BoxGeometry(this.voxelSideLength, this.voxelSideLength, this.voxelSideLength);
+
     if (this.simple) {
       // cubes
-      this.cubeGeo = new THREE.BoxGeometry(this.voxelSideLength, this.voxelSideLength, this.voxelSideLength);
-      this.cubeMat = new THREE.MeshLambertMaterial({color: 0xffffff, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1});
-
-      this.wireGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(this.voxelSideLength, this.voxelSideLength, this.voxelSideLength));
+      this.wireGeo = new THREE.EdgesGeometry(this.cubeGeo);
       this.wireMat = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 1 } );
-
-      this.rollOverMesh = new THREE.Mesh(this.cubeGeo, this.cubeMat);
-      this.rollOverMesh.add(new THREE.LineSegments(this.wireGeo, this.wireMat));
-
-      this.selectedRobotMesh = new THREE.Mesh(this.cubeGeo, this.cubeMat);
-      this.selectedRobotMesh.add(new THREE.LineSegments(this.wireGeo, this.wireMat));
-
-      this.robotMaterial = this.cubeMat;
-
-      this.hardnessToColorMap = {};
-      for (let hardness in this.hardnessToColorData) {
-        this.hardnessToColorMap[hardness] = this.cubeMat
-      }
-
-      this.ambientLight = new THREE.AmbientLight( 0xf0f0f0 );
     }
     else {
       // cubes
-      this.cubeGeo = new THREE.BoxGeometry(this.voxelSideLength, this.voxelSideLength, this.voxelSideLength);
-      this.cubeMat = new THREE.MeshLambertMaterial({color: 0xfeb74c});
-
       this.rollOverMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff, opacity: 0.5, transparent: true });
-      this.rollOverMesh = new THREE.Mesh(this.cubeGeo, this.rollOverMaterial);
-
       this.selectedRobotMaterial = new THREE.MeshLambertMaterial({ color: 0xff9999, opacity: 0.9, transparent: true });
-      this.selectedRobotMesh = new THREE.Mesh(this.cubeGeo, this.selectedRobotMaterial);
-
       this.robotMaterial = new THREE.MeshLambertMaterial({color:0xffcccc});
-
-      this.hardnessToColorMap = {};
-      for (let hardness in this.hardnessToColorData) {
-        this.hardnessToColorMap[hardness] = new THREE.MeshLambertMaterial({color: this.hardnessToColorData[hardness]});
-      }
-
+      
       // Lights
       this.directionalLight = new THREE.DirectionalLight( 0xffffff );
       this.directionalLight.position.set( 1, 0.75, 0.5 ).normalize();
       this.scene.add(this.directionalLight);
-      
-      this.ambientLight = new THREE.AmbientLight( 0x606060 );
     }
+
+    // things that look different in the simple and full render modes
+    let renderingModeMap = {
+      
+      cubeMat: {
+        simple: ()=>{return new THREE.MeshLambertMaterial({color: 0xffffff, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1});},
+        full: ()=>{return new THREE.MeshLambertMaterial({color: 0xfeb74c});},
+      },
+      
+      rollOverMesh: {
+        simple: ()=>{return new THREE.Mesh(this.cubeGeo, this.cubeMat).add(new THREE.LineSegments(this.wireGeo, this.wireMat));},
+        full: ()=>{return new THREE.Mesh(this.cubeGeo, this.rollOverMaterial);},
+      },
+      
+      selectedRobotMesh: {
+        simple: ()=>{return new THREE.Mesh(this.cubeGeo, this.cubeMat).add(new THREE.LineSegments(this.wireGeo, this.wireMat));},
+        full: ()=>{return new THREE.Mesh(this.cubeGeo, this.selectedRobotMaterial);},
+      },
+      
+      robotMaterial: {
+        simple: ()=>{return this.cubeMat;},
+        full: ()=>{return new THREE.MeshLambertMaterial({color:0xffcccc});},
+      },
+      
+      hardnessToColorMap: {
+        simple: ()=>{
+          let hardnessToColorMap = {};
+          for (let hardness in this.hardnessToColorData) {
+            hardnessToColorMap[hardness] = this.cubeMat;
+          }
+          return hardnessToColorMap;
+        },
+        full: ()=>{
+          let hardnessToColorMap = {};
+          for (let hardness in this.hardnessToColorData) {
+            hardnessToColorMap[hardness] = new THREE.MeshLambertMaterial({color: this.hardnessToColorData[hardness]});
+          }
+          return hardnessToColorMap;
+        },
+      },
+      
+      ambientLight: {
+        simple: ()=>{return new THREE.AmbientLight( 0xf0f0f0 );},
+        full: ()=>{return new THREE.AmbientLight( 0x606060 );},
+      },
+
+    };
+
+    let renderMode = this.simple ? 'simple' : 'full';
+
+    // cubes
+    this.cubeMat = renderingModeMap.cubeMat[renderMode]();
+    this.rollOverMesh = renderingModeMap.rollOverMesh[renderMode]();
+    this.selectedRobotMesh = renderingModeMap.selectedRobotMesh[renderMode]();
+    this.robotMaterial = renderingModeMap.robotMaterial[renderMode]();
+    this.hardnessToColorMap = renderingModeMap.hardnessToColorMap[renderMode]();
+
+    // light
+    this.ambientLight = renderingModeMap.ambientLight[renderMode]();
 
     this.scene.add(this.ambientLight);
   
