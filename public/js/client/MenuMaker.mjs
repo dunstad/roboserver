@@ -18,6 +18,8 @@ export class MenuMaker {
     this.scene = scene;
     this.simple = simple;
 
+    let tilePadding = .5;
+
     this.arrangements = {
       
       1: [
@@ -25,8 +27,8 @@ export class MenuMaker {
       ],
       
       2: [
-        new THREE.Vector2(-.5, 0),
-        new THREE.Vector2(.5, 0),
+        new THREE.Vector2(-.5 - tilePadding / 2, 0),
+        new THREE.Vector2(.5 + tilePadding / 2, 0),
       ],
     }
 
@@ -43,28 +45,26 @@ export class MenuMaker {
     
     let group = new THREE.Group();
 
+    group.position.copy(menuPos);
+    group.lookAt(lookPos);
+
     for (let tileOffset of this.arrangements[numTiles]) {
 
       let tile = new THREE.Mesh(this.tileGeo, this.tileMat);
   
+      group.add(tile);
+      
       if (this.simple) {
         tile.add(new THREE.LineSegments(this.tileWireGeo, this.wireMat));
       }
-
-      tile.position.copy(menuPos);
-  
-      tile.lookAt(lookPos);
-
+      
       // convert offset to tile space
-      let offset3D = new THREE.Vector3(tileOffset.x, tileOffset.y, 0);
+      let offset3D = new THREE.Vector3(tileOffset.x, 0, tileOffset.y);
       offset3D.multiplyScalar(this.tileGeo.parameters.height); // same as voxelSideLength
-      offset3D = tile.localToWorld(offset3D);
       
       // apply offset
-      tile.position.add(offset3D);
-
-      group.add(tile);
-
+      tile.position.copy(offset3D);
+      
     }
 
     this.scene.add(group);
