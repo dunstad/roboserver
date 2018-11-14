@@ -1,6 +1,6 @@
 import {WorldAndScenePoint} from '/js/client/WorldAndScenePoint.mjs';
 import {VoxelMap} from '/js/client/VoxelMap.mjs';
-import { Menu } from 'electron';
+import { MenuMaker } from '/js/client/MenuMaker.mjs';
 
 export class MapRender {
 
@@ -153,7 +153,7 @@ export class MapRender {
     // light
     this.ambientLight = renderingModeMap.ambientLight[renderMode]();
 
-    this.menu = new Menu(this.tileGeo, this.tileMaterial, this.scene);
+    this.menuMaker = new MenuMaker(this.tileGeo, this.tileWireGeo, this.tileMaterial, this.wireMat, this.scene, this.simple);
 
     this.scene.add(this.ambientLight);
   
