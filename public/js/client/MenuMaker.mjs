@@ -43,6 +43,56 @@ export class MenuMaker {
         new THREE.Vector2(1 + tilePadding, 0),
         new THREE.Vector2(0, -1 - tilePadding),
       ],
+      
+      5: [
+        new THREE.Vector2(0, 1 + tilePadding),
+        new THREE.Vector2(-1 - tilePadding, 0),
+        new THREE.Vector2(0, 0),
+        new THREE.Vector2(1 + tilePadding, 0),
+        new THREE.Vector2(0, -1 - tilePadding),
+      ],
+      
+      6: [
+        new THREE.Vector2(-1 - tilePadding, -1 - tilePadding),
+        new THREE.Vector2(-1 - tilePadding, 1 + tilePadding),
+        new THREE.Vector2(0, -1 - tilePadding),
+        new THREE.Vector2(0, 1 + tilePadding),
+        new THREE.Vector2(1 + tilePadding, -1 - tilePadding),
+        new THREE.Vector2(1 + tilePadding, 1 + tilePadding),
+      ],
+      
+      7: [
+        new THREE.Vector2(-1 - tilePadding, -1 - tilePadding),
+        new THREE.Vector2(-1 - tilePadding, 1 + tilePadding),
+        new THREE.Vector2(0, -1 - tilePadding),
+        new THREE.Vector2(0, 0),
+        new THREE.Vector2(0, 1 + tilePadding),
+        new THREE.Vector2(1 + tilePadding, -1 - tilePadding),
+        new THREE.Vector2(1 + tilePadding, 1 + tilePadding),
+      ],
+
+      8: [
+        new THREE.Vector2(-1 - tilePadding, -1 - tilePadding),
+        new THREE.Vector2(-1 - tilePadding, 1 + tilePadding),
+        new THREE.Vector2(0, -1 - tilePadding),
+        new THREE.Vector2(-1 - tilePadding, 0),
+        new THREE.Vector2(1 + tilePadding, 0),
+        new THREE.Vector2(0, 1 + tilePadding),
+        new THREE.Vector2(1 + tilePadding, -1 - tilePadding),
+        new THREE.Vector2(1 + tilePadding, 1 + tilePadding),
+      ],
+
+      9: [
+        new THREE.Vector2(-1 - tilePadding, -1 - tilePadding),
+        new THREE.Vector2(-1 - tilePadding, 1 + tilePadding),
+        new THREE.Vector2(0, -1 - tilePadding),
+        new THREE.Vector2(-1 - tilePadding, 0),
+        new THREE.Vector2(0, 0),
+        new THREE.Vector2(1 + tilePadding, 0),
+        new THREE.Vector2(0, 1 + tilePadding),
+        new THREE.Vector2(1 + tilePadding, -1 - tilePadding),
+        new THREE.Vector2(1 + tilePadding, 1 + tilePadding),
+      ],
 
     }
 
