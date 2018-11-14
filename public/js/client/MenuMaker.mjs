@@ -43,17 +43,29 @@ export class MenuMaker {
     
     let group = new THREE.Group();
 
-    let tile = new THREE.Mesh(this.tileGeo, this.tileMat);
+    for (let tileOffset of this.arrangements[numTiles]) {
 
-    if (this.simple) {
-      tile.add(new THREE.LineSegments(this.tileWireGeo, this.wireMat));
+      let tile = new THREE.Mesh(this.tileGeo, this.tileMat);
+  
+      if (this.simple) {
+        tile.add(new THREE.LineSegments(this.tileWireGeo, this.wireMat));
+      }
+
+      tile.position.copy(menuPos);
+  
+      tile.lookAt(lookPos);
+
+      // convert offset to tile space
+      let offset3D = new THREE.Vector3(tileOffset.x, tileOffset.y, 0);
+      offset3D.multiplyScalar(this.tileGeo.parameters.height); // same as voxelSideLength
+      offset3D = tile.localToWorld(offset3D);
+      
+      // apply offset
+      tile.position.add(offset3D);
+
+      group.add(tile);
+
     }
-    
-    tile.position.copy(menuPos);
-
-    tile.lookAt(lookPos);
-
-    group.add(tile);
 
     this.scene.add(group);
 
