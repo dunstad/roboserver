@@ -136,7 +136,7 @@ export class GUI {
         let lookDirection = new THREE.Vector3();
         this.game.mapRender.camera.getWorldDirection(lookDirection);
         menuPos.add(lookDirection.multiplyScalar(this.game.mapRender.voxelSideLength * 4));
-        let menu = this.game.mapRender.menuMaker.create(menuPos, controls.position);
+        let menu = this.game.mapRender.menuMaker.create(menuPos, controls.position, 2);
       }
 
     });
