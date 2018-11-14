@@ -18,6 +18,18 @@ export class MenuMaker {
     this.scene = scene;
     this.simple = simple;
 
+    this.arrangements = {
+      
+      1: [
+        new THREE.Vector2(0, 0),
+      ],
+      
+      2: [
+        new THREE.Vector2(-.5, 0),
+        new THREE.Vector2(.5, 0),
+      ],
+    }
+
   }
 
   /**
