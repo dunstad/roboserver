@@ -30,6 +30,20 @@ export class MenuMaker {
         new THREE.Vector2(-.5 - tilePadding / 2, 0),
         new THREE.Vector2(.5 + tilePadding / 2, 0),
       ],
+      
+      3: [
+        new THREE.Vector2(0, 0),
+        new THREE.Vector2(-1 - tilePadding, 0),
+        new THREE.Vector2(1 + tilePadding, 0),
+      ],
+      
+      4: [
+        new THREE.Vector2(0, 1 + tilePadding),
+        new THREE.Vector2(-1 - tilePadding, 0),
+        new THREE.Vector2(1 + tilePadding, 0),
+        new THREE.Vector2(0, -1 - tilePadding),
+      ],
+
     }
 
   }
@@ -59,7 +73,7 @@ export class MenuMaker {
       }
       
       // convert offset to tile space
-      let offset3D = new THREE.Vector3(tileOffset.x, 0, tileOffset.y);
+      let offset3D = new THREE.Vector3(tileOffset.x, tileOffset.y, 0);
       offset3D.multiplyScalar(this.tileGeo.parameters.height); // same as voxelSideLength
       
       // apply offset
