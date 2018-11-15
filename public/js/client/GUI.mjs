@@ -417,6 +417,10 @@ export class GUI {
         }
 
         else {
+
+          if (this.game.mapRender.menuTiles) {
+            // remove menu
+          }
           
           let moveToolActive = this.moveToolButton.checked;
           let interactToolActive = this.interactToolButton.checked;

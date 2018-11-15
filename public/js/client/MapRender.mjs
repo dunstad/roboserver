@@ -18,6 +18,7 @@ export class MapRender {
     this.voxelSideLength = 50;
     this.voxels = [];
     this.menuTiles = [];
+    this.mixers = {};
     this.voxelMap = new VoxelMap();
 
     this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 10000);
@@ -298,8 +299,8 @@ export class MapRender {
    */
   render() {
     this.placeSelector();
-    for (let tile of this.menuTiles) {
-      tile.mixer.update(1 / this.framerate);
+    for (let [key, mixer] of Object.entries(this.mixers)) {
+      mixer.update(1 / this.framerate);
     }
     this.renderer.render(this.scene, this.camera);
   }

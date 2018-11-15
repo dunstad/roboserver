@@ -119,24 +119,42 @@ export class MenuMaker {
 
       this.mapRender.menuTiles.push(tile);
 
-      tile.mixer = new THREE.AnimationMixer(tile);
-      tile.mixer.addEventListener('finished', (event)=>{
-        console.log(group);
-      });
-
-      tile.animateClick = function() {
+      tile.animateClick = ()=>{
         let positionKeyFrame = new THREE.VectorKeyframeTrack('.position', [0, .25, .5], [
           tile.position.x, tile.position.y, tile.position.z,
           tile.position.x, tile.position.y, -10,
           tile.position.x, tile.position.y, tile.position.z,
         ]);
-        tile.material = tile.material.clone();
+        let clickClip = new THREE.AnimationClip('Clicked', .5, [positionKeyFrame]);
+        let clickMixer = new THREE.AnimationMixer(tile);
+        this.mapRender.mixers.tileClick = clickMixer;
+        let clickClipAction = clickMixer.clipAction( clickClip );
+        clickClipAction.setLoop( THREE.LoopOnce );
+        clickClipAction.clampWhenFinished = true;
+        clickClipAction.play();
+
+        clickMixer.addEventListener('finished', (event)=>{
+          delete this.mapRender.mixers.tileClick;
+        });
+
+        let fadeOutMaterial = tile.material.clone();
+        for (let menuTile of group.children) {
+          menuTile.material = fadeOutMaterial;
+        }
         let opacityKeyFrame = new THREE.NumberKeyframeTrack('.material.opacity', [0, .5], [1, 0]);
-        let clip = new THREE.AnimationClip('Clicked', .5, [positionKeyFrame, opacityKeyFrame]);
-        let clipAction = tile.mixer.clipAction( clip );
-        clipAction.setLoop( THREE.LoopOnce );
-        clipAction.clampWhenFinished = true;
-        clipAction.play();
+        let fadeClip = new THREE.AnimationClip('FadeMenu', .5, [opacityKeyFrame]);
+        let fadeMixer = new THREE.AnimationMixer(tile);
+        this.mapRender.mixers.menuFade = fadeMixer;
+        let fadeClipAction = fadeMixer.clipAction( fadeClip );
+        fadeClipAction.setLoop( THREE.LoopOnce );
+        fadeClipAction.clampWhenFinished = true;
+        fadeClipAction.play();
+
+        fadeMixer.addEventListener('finished', (event)=>{
+          this.scene.remove(group);
+          delete this.mapRender.mixers.menuFade;
+        });
+
       }
   
       group.add(tile);
