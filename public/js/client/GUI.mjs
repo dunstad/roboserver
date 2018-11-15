@@ -136,7 +136,7 @@ export class GUI {
         let lookDirection = new THREE.Vector3();
         this.game.mapRender.camera.getWorldDirection(lookDirection);
         menuPos.add(lookDirection.multiplyScalar(this.game.mapRender.voxelSideLength * 4));
-        let menu = this.game.mapRender.menuMaker.create(menuPos, controls.position, prompt('number of tiles?'));
+        let menu = this.game.mapRender.menuMaker.create(menuPos, controls.position, 2);
       }
 
     });
@@ -401,6 +401,7 @@ export class GUI {
   /**
    * Sends a command to robots telling them to move to the coordinate clicked on,
    * and then do something depending on the selected tool.
+   * Or clicks on a menu tile.
    */
   initClickTools() {
     this.game.mapRender.renderer.domElement.addEventListener('click', ()=>{
@@ -409,7 +410,18 @@ export class GUI {
         let intersects = this.game.mapRender.castFromCamera(this.game.mapRender.menuTiles);
         if (intersects.length > 0) {
 
-          console.log('tile clicked');
+          let tile = intersects[0].object;
+
+          let positionKeyFrame = new THREE.VectorKeyframeTrack('.position', [0, .25, .5], [
+            tile.position.x, tile.position.y, tile.position.z,
+            tile.position.x, tile.position.y, -10,
+            tile.position.x, tile.position.y, tile.position.z,
+          ]);
+          let clip = new THREE.AnimationClip('Clicked', .5, [positionKeyFrame]);
+          let clipAction = tile.mixer.clipAction( clip );
+          clipAction.setLoop( THREE.LoopOnce );
+          clipAction.clampWhenFinished = true;
+          clipAction.play();
 
         }
 

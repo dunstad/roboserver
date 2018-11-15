@@ -118,6 +118,8 @@ export class MenuMaker {
       let tile = new THREE.Mesh(this.tileGeo, this.tileMat);
 
       this.mapRender.menuTiles.push(tile);
+
+      tile.mixer = new THREE.AnimationMixer(tile);
   
       group.add(tile);
       

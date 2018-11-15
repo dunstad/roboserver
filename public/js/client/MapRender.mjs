@@ -297,6 +297,9 @@ export class MapRender {
    */
   render() {
     this.placeSelector();
+    for (let tile of this.menuTiles) {
+      tile.mixer.update(1 / this.framerate);
+    }
     this.renderer.render(this.scene, this.camera);
   }
 
