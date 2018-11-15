@@ -13,7 +13,7 @@ export class MenuMaker {
 
     this.tileGeo = mapRender.tileGeo;
     this.tileWireGeo = mapRender.tileWireGeo;
-    this.tileMat = mapRender.tileMat;
+    this.tileMat = mapRender.tileMaterial;
     this.wireMat = mapRender.wireMat;
     this.scene = mapRender.scene;
     this.simple = mapRender.simple;
