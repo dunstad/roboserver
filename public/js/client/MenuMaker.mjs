@@ -199,7 +199,7 @@ export class MenuMaker {
       delete this.mapRender.mixers.menuFadeIn;
     });
 
-    this.scene.fog = new THREE.Fog(0xffffff, 1);
+    this.scene.fog = new THREE.Fog(this.mapRender.renderer.getClearColor().getHex(), 1);
 
     return group;
 
