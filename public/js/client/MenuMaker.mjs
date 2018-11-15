@@ -5,15 +5,13 @@ export class MenuMaker {
 
   /**
    * Used to give the class the information it needs to make menus.
-   * @param {THREE.Geometry} tileGeo 
-   * @param {THREE.Material} tileMat 
-   * @param {THREE.Scene} scene 
+   * @param {MapRender} mapRender 
    */
   constructor(mapRender) {
 
     this.tileGeo = mapRender.tileGeo;
     this.tileWireGeo = mapRender.tileWireGeo;
-    this.tileMat = mapRender.tileMaterial;
+    this.tileMaterial = mapRender.tileMaterial;
     this.wireMat = mapRender.wireMat;
     this.scene = mapRender.scene;
     this.simple = mapRender.simple;
@@ -110,6 +108,8 @@ export class MenuMaker {
     
     let group = new THREE.Group();
 
+    let groupMaterial = this.tileMaterial.clone();
+
     // make all the menu's tiles fade out
     group.fadeOut = ()=>{
 
@@ -117,10 +117,6 @@ export class MenuMaker {
         // also allows a new menu to be created immediately 
         this.mapRender.menuTiles = [];
 
-        let fadeOutMaterial = group.children[0].material.clone();
-        for (let menuTile of group.children) {
-          menuTile.material = fadeOutMaterial;
-        }
         let opacityKeyFrame = new THREE.NumberKeyframeTrack('.material.opacity', [0, .5], [1, 0]);
         let fadeClip = new THREE.AnimationClip('FadeMenu', .5, [opacityKeyFrame]);
         let fadeMixer = new THREE.AnimationMixer(group.children[0]);
@@ -142,7 +138,7 @@ export class MenuMaker {
 
     for (let tileOffset of this.arrangements[numTiles]) {
 
-      let tile = new THREE.Mesh(this.tileGeo, this.tileMat);
+      let tile = new THREE.Mesh(this.tileGeo, groupMaterial);
 
       this.mapRender.menuTiles.push(tile);
 
