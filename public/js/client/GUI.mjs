@@ -404,28 +404,43 @@ export class GUI {
    */
   initClickTools() {
     this.game.mapRender.renderer.domElement.addEventListener('click', ()=>{
-      let moveToolActive = this.moveToolButton.checked;
-      let interactToolActive = this.interactToolButton.checked;
-      let inspectToolActive = this.inspectToolButton.checked;
-      if (this.game.mapRender.controls.enabled && (moveToolActive || interactToolActive || inspectToolActive)) {
-        let coord = new WorldAndScenePoint(this.game.mapRender.rollOverMesh.position, false).world();
-        console.log(coord);
-        let scanLevel = parseInt(this.scanLevelSelect.value);
-        let commandName;
-        let commandParameters;
-        if (moveToolActive) {
-          commandName = 'move';
-          commandParameters = [coord.x, coord.y, coord.z, scanLevel];
+      if (this.game.mapRender.controls.enabled) {
+
+        let intersects = this.game.mapRender.castFromCamera(this.game.mapRender.menuTiles);
+        if (intersects.length > 0) {
+
+          console.log('tile clicked');
+
         }
-        else if (interactToolActive) {
-          commandName = 'interact';
-          commandParameters = [coord.x, coord.y, coord.z, scanLevel];
+
+        else {
+          
+          let moveToolActive = this.moveToolButton.checked;
+          let interactToolActive = this.interactToolButton.checked;
+          let inspectToolActive = this.inspectToolButton.checked;
+          if (moveToolActive || interactToolActive || inspectToolActive) {
+            let coord = new WorldAndScenePoint(this.game.mapRender.rollOverMesh.position, false).world();
+            console.log(coord);
+            let scanLevel = parseInt(this.scanLevelSelect.value);
+            let commandName;
+            let commandParameters;
+            if (moveToolActive) {
+              commandName = 'move';
+              commandParameters = [coord.x, coord.y, coord.z, scanLevel];
+            }
+            else if (interactToolActive) {
+              commandName = 'interact';
+              commandParameters = [coord.x, coord.y, coord.z, scanLevel];
+            }
+            else if (inspectToolActive) {
+              commandName = 'inspect';
+              commandParameters = [coord.x, coord.y, coord.z, scanLevel];
+            }
+            this.sendCommand(commandName, commandParameters);
+          }
+
         }
-        else if (inspectToolActive) {
-          commandName = 'inspect';
-          commandParameters = [coord.x, coord.y, coord.z, scanLevel];
-        }
-        this.sendCommand(commandName, commandParameters);
+
       }
     });
   }

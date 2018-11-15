@@ -17,6 +17,7 @@ export class MapRender {
     this.framerate = 1000/30;
     this.voxelSideLength = 50;
     this.voxels = [];
+    this.menuTiles = [];
     this.voxelMap = new VoxelMap();
 
     this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 10000);
@@ -153,7 +154,7 @@ export class MapRender {
     // light
     this.ambientLight = renderingModeMap.ambientLight[renderMode]();
 
-    this.menuMaker = new MenuMaker(this.tileGeo, this.tileWireGeo, this.tileMaterial, this.wireMat, this.scene, this.simple);
+    this.menuMaker = new MenuMaker(this);
 
     this.scene.add(this.ambientLight);
   
@@ -300,6 +301,25 @@ export class MapRender {
   }
 
   /**
+   * Get intersections from a raycast out from the camera.
+   * @param {THREE.Mesh[]} intersectObjects 
+   */
+  castFromCamera(intersectObjects) {
+    let domElement = this.renderer.domElement;
+  
+    let fromScreenCenter = new THREE.Vector2(
+      ((domElement.clientWidth / 2) / domElement.clientWidth) * 2 - 1,
+      -(((domElement.clientHeight / 2) / domElement.clientHeight) * 2 - 1)
+    );
+  
+    this.raycaster.setFromCamera(fromScreenCenter, this.camera);
+  
+    let intersects = this.raycaster.intersectObjects(intersectObjects);
+
+    return intersects;
+  }
+
+  /**
    * Determines where to place the hover guide.
    */
   placeSelector() {
@@ -309,15 +329,8 @@ export class MapRender {
     }
   
     this.prevRollOverMeshPos = this.rollOverMesh.position.clone();
-  
-    let fromScreenCenter = new THREE.Vector2(
-      ((this.renderer.domElement.clientWidth / 2) / this.renderer.domElement.clientWidth) * 2 - 1,
-      -(((this.renderer.domElement.clientHeight / 2) / this.renderer.domElement.clientHeight) * 2 - 1)
-    );
-  
-    this.raycaster.setFromCamera(fromScreenCenter, this.camera);
-  
-    let intersects = this.raycaster.intersectObjects(this.voxels);
+
+    let intersects = this.castFromCamera(this.voxels);
     if (intersects.length > 0) {
   
       let intersect = intersects[0];

@@ -9,14 +9,15 @@ export class MenuMaker {
    * @param {THREE.Material} tileMat 
    * @param {THREE.Scene} scene 
    */
-  constructor(tileGeo, tileWireGeo, tileMat, wireMat, scene, simple) {
+  constructor(mapRender) {
 
-    this.tileGeo = tileGeo;
-    this.tileWireGeo = tileWireGeo;
-    this.tileMat = tileMat;
-    this.wireMat = wireMat;
-    this.scene = scene;
-    this.simple = simple;
+    this.tileGeo = mapRender.tileGeo;
+    this.tileWireGeo = mapRender.tileWireGeo;
+    this.tileMat = mapRender.tileMat;
+    this.wireMat = mapRender.wireMat;
+    this.scene = mapRender.scene;
+    this.simple = mapRender.simple;
+    this.mapRender = mapRender;
 
     let tilePadding = .5;
 
@@ -115,6 +116,8 @@ export class MenuMaker {
     for (let tileOffset of this.arrangements[numTiles]) {
 
       let tile = new THREE.Mesh(this.tileGeo, this.tileMat);
+
+      this.mapRender.menuTiles.push(tile);
   
       group.add(tile);
       
