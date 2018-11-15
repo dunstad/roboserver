@@ -11,7 +11,7 @@
   * server should know how many of an item are at a location
   
 ## experimental diegetic ui
-* make it disappear when pressing esc, moving a bit away, or clicking outside the menu plane
+* make it disappear when pressing esc, moving a bit away
 * each tile should change in appearance when the crosshair is inside the tile
 * get some icons in the center of each tile
   * numbers below the icons

@@ -110,6 +110,33 @@ export class MenuMaker {
     
     let group = new THREE.Group();
 
+    // make all the menu's tiles fade out
+    group.fadeOut = ()=>{
+
+        // prevent tiles from being clicked as they fade out
+        // also allows a new menu to be created immediately 
+        this.mapRender.menuTiles = [];
+
+        let fadeOutMaterial = group.children[0].material.clone();
+        for (let menuTile of group.children) {
+          menuTile.material = fadeOutMaterial;
+        }
+        let opacityKeyFrame = new THREE.NumberKeyframeTrack('.material.opacity', [0, .5], [1, 0]);
+        let fadeClip = new THREE.AnimationClip('FadeMenu', .5, [opacityKeyFrame]);
+        let fadeMixer = new THREE.AnimationMixer(group.children[0]);
+        this.mapRender.mixers.menuFade = fadeMixer;
+        let fadeClipAction = fadeMixer.clipAction( fadeClip );
+        fadeClipAction.setLoop( THREE.LoopOnce );
+        fadeClipAction.clampWhenFinished = true;
+        fadeClipAction.play();
+
+        fadeMixer.addEventListener('finished', (event)=>{
+          this.scene.remove(group);
+          delete this.mapRender.mixers.menuFade;
+        });
+
+    };
+
     group.position.copy(menuPos);
     group.lookAt(lookPos);
 
@@ -139,24 +166,7 @@ export class MenuMaker {
           delete this.mapRender.mixers.tileClick;
         });
 
-        // make all the menu's tiles fade out
-        let fadeOutMaterial = tile.material.clone();
-        for (let menuTile of group.children) {
-          menuTile.material = fadeOutMaterial;
-        }
-        let opacityKeyFrame = new THREE.NumberKeyframeTrack('.material.opacity', [0, .5], [1, 0]);
-        let fadeClip = new THREE.AnimationClip('FadeMenu', .5, [opacityKeyFrame]);
-        let fadeMixer = new THREE.AnimationMixer(tile);
-        this.mapRender.mixers.menuFade = fadeMixer;
-        let fadeClipAction = fadeMixer.clipAction( fadeClip );
-        fadeClipAction.setLoop( THREE.LoopOnce );
-        fadeClipAction.clampWhenFinished = true;
-        fadeClipAction.play();
-
-        fadeMixer.addEventListener('finished', (event)=>{
-          this.scene.remove(group);
-          delete this.mapRender.mixers.menuFade;
-        });
+        group.fadeOut();
 
       }
   
