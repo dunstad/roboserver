@@ -130,13 +130,20 @@ export class GUI {
 
       // menu key
       else if (e.keyCode == xCode && document.pointerLockElement) {
-        // make tiles appear in front of the camera rather than on top of it
-        let controls = this.game.mapRender.controls.getObject();
-        let menuPos = new THREE.Vector3().copy(controls.position);
-        let lookDirection = new THREE.Vector3();
-        this.game.mapRender.camera.getWorldDirection(lookDirection);
-        menuPos.add(lookDirection.multiplyScalar(this.game.mapRender.voxelSideLength * 4));
-        let menu = this.game.mapRender.menuMaker.create(menuPos, controls.position, 2);
+
+        if (!this.game.mapRender.menuTiles.length) {
+          // make tiles appear in front of the camera rather than on top of it
+          let controls = this.game.mapRender.controls.getObject();
+          let menuPos = new THREE.Vector3().copy(controls.position);
+          let lookDirection = new THREE.Vector3();
+          this.game.mapRender.camera.getWorldDirection(lookDirection);
+          menuPos.add(lookDirection.multiplyScalar(this.game.mapRender.voxelSideLength * 4));
+          let menu = this.game.mapRender.menuMaker.create(menuPos, controls.position, 2);
+        }
+        else {
+          this.game.mapRender.menuTiles[0].parent.fadeOut();
+        }
+
       }
 
     });
@@ -407,6 +414,7 @@ export class GUI {
     this.game.mapRender.renderer.domElement.addEventListener('click', ()=>{
       if (this.game.mapRender.controls.enabled) {
 
+        // if you clicked a menu tile
         let intersects = this.game.mapRender.castFromCamera(this.game.mapRender.menuTiles);
         if (intersects.length > 0) {
 
@@ -418,32 +426,38 @@ export class GUI {
 
         else {
 
-          if (this.game.mapRender.menuTiles) {
-            // remove menu
+          // remove menu if it exists
+          if (this.game.mapRender.menuTiles.length) {
+            this.game.mapRender.menuTiles[0].parent.fadeOut();
           }
-          
-          let moveToolActive = this.moveToolButton.checked;
-          let interactToolActive = this.interactToolButton.checked;
-          let inspectToolActive = this.inspectToolButton.checked;
-          if (moveToolActive || interactToolActive || inspectToolActive) {
-            let coord = new WorldAndScenePoint(this.game.mapRender.rollOverMesh.position, false).world();
-            console.log(coord);
-            let scanLevel = parseInt(this.scanLevelSelect.value);
-            let commandName;
-            let commandParameters;
-            if (moveToolActive) {
-              commandName = 'move';
-              commandParameters = [coord.x, coord.y, coord.z, scanLevel];
+
+          // if there's no menu, do robot stuff
+          else {
+
+            let moveToolActive = this.moveToolButton.checked;
+            let interactToolActive = this.interactToolButton.checked;
+            let inspectToolActive = this.inspectToolButton.checked;
+            if (moveToolActive || interactToolActive || inspectToolActive) {
+              let coord = new WorldAndScenePoint(this.game.mapRender.rollOverMesh.position, false).world();
+              console.log(coord);
+              let scanLevel = parseInt(this.scanLevelSelect.value);
+              let commandName;
+              let commandParameters;
+              if (moveToolActive) {
+                commandName = 'move';
+                commandParameters = [coord.x, coord.y, coord.z, scanLevel];
+              }
+              else if (interactToolActive) {
+                commandName = 'interact';
+                commandParameters = [coord.x, coord.y, coord.z, scanLevel];
+              }
+              else if (inspectToolActive) {
+                commandName = 'inspect';
+                commandParameters = [coord.x, coord.y, coord.z, scanLevel];
+              }
+              this.sendCommand(commandName, commandParameters);
             }
-            else if (interactToolActive) {
-              commandName = 'interact';
-              commandParameters = [coord.x, coord.y, coord.z, scanLevel];
-            }
-            else if (inspectToolActive) {
-              commandName = 'inspect';
-              commandParameters = [coord.x, coord.y, coord.z, scanLevel];
-            }
-            this.sendCommand(commandName, commandParameters);
+
           }
 
         }
