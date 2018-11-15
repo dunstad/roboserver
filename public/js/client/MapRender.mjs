@@ -74,6 +74,7 @@ export class MapRender {
       this.voxelWireGeo = new THREE.EdgesGeometry(this.cubeGeo);
       this.tileWireGeo = new THREE.EdgesGeometry(this.tileGeo);
       this.wireMat = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 1 } );
+      this.rollOverMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, opacity: 0.5, transparent: true });
     }
     else {
       // cubes
@@ -96,7 +97,7 @@ export class MapRender {
       },
       
       rollOverMesh: {
-        simple: ()=>{return new THREE.Mesh(this.cubeGeo, this.cubeMat).add(new THREE.LineSegments(this.voxelWireGeo, this.wireMat));},
+        simple: ()=>{return new THREE.Mesh(this.cubeGeo, this.rollOverMaterial).add(new THREE.LineSegments(this.voxelWireGeo, this.wireMat));},
         full: ()=>{return new THREE.Mesh(this.cubeGeo, this.rollOverMaterial);},
       },
       
@@ -111,8 +112,8 @@ export class MapRender {
       },
 
       tileMaterial: {
-        simple: ()=>{return this.cubeMat},
-        full: ()=>{return new THREE.MeshLambertMaterial({color:0x003366});},
+        simple: ()=>{return new THREE.MeshLambertMaterial({color: 0xffffff, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1, transparent: true})},
+        full: ()=>{return new THREE.MeshLambertMaterial({color:0x003366, transparent: true});},
       },
       
       hardnessToColorMap: {
