@@ -120,6 +120,8 @@ export class MenuMaker {
       this.mapRender.menuTiles.push(tile);
 
       tile.animateClick = ()=>{
+
+        // make the clicked tile move back and forth
         let positionKeyFrame = new THREE.VectorKeyframeTrack('.position', [0, .25, .5], [
           tile.position.x, tile.position.y, tile.position.z,
           tile.position.x, tile.position.y, -10,
@@ -137,6 +139,7 @@ export class MenuMaker {
           delete this.mapRender.mixers.tileClick;
         });
 
+        // make all the menu's tiles fade out
         let fadeOutMaterial = tile.material.clone();
         for (let menuTile of group.children) {
           menuTile.material = fadeOutMaterial;
