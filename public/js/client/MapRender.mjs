@@ -350,6 +350,10 @@ export class MapRender {
       }
   
     }
+
+    else {
+      this.scene.remove(this.rollOverMesh);
+    }
   
     if (this.game.GUI.selectStart.isComplete() && this.game.GUI.selectEnd.isComplete()) {
       if (!this.selectBox) {
