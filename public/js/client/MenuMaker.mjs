@@ -131,6 +131,8 @@ export class MenuMaker {
           delete this.mapRender.mixers.menuFade;
         });
 
+        this.scene.fog = undefined;
+
     };
 
     group.position.copy(menuPos);
@@ -196,6 +198,8 @@ export class MenuMaker {
     fadeInMixer.addEventListener('finished', (event)=>{
       delete this.mapRender.mixers.menuFadeIn;
     });
+
+    this.scene.fog = new THREE.Fog(0xffffff, 1);
 
     return group;
 
