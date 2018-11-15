@@ -120,6 +120,9 @@ export class MenuMaker {
       this.mapRender.menuTiles.push(tile);
 
       tile.mixer = new THREE.AnimationMixer(tile);
+      tile.mixer.addEventListener('finished', (event)=>{
+        console.log(group);
+      });
 
       tile.animateClick = function() {
         let positionKeyFrame = new THREE.VectorKeyframeTrack('.position', [0, .25, .5], [
