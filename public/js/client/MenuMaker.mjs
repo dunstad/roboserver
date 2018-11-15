@@ -120,6 +120,21 @@ export class MenuMaker {
       this.mapRender.menuTiles.push(tile);
 
       tile.mixer = new THREE.AnimationMixer(tile);
+
+      tile.animateClick = function() {
+        let positionKeyFrame = new THREE.VectorKeyframeTrack('.position', [0, .25, .5], [
+          tile.position.x, tile.position.y, tile.position.z,
+          tile.position.x, tile.position.y, -10,
+          tile.position.x, tile.position.y, tile.position.z,
+        ]);
+        tile.material = tile.material.clone();
+        let opacityKeyFrame = new THREE.NumberKeyframeTrack('.material.opacity', [0, .5], [1, 0]);
+        let clip = new THREE.AnimationClip('Clicked', .5, [positionKeyFrame, opacityKeyFrame]);
+        let clipAction = tile.mixer.clipAction( clip );
+        clipAction.setLoop( THREE.LoopOnce );
+        clipAction.clampWhenFinished = true;
+        clipAction.play();
+      }
   
       group.add(tile);
       
