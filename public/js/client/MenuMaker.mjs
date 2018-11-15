@@ -183,6 +183,20 @@ export class MenuMaker {
 
     this.scene.add(group);
 
+    // fade menu in
+    let fadeInKeyFrame = new THREE.NumberKeyframeTrack('.material.opacity', [0, .5], [0, 1]);
+    let fadeInClip = new THREE.AnimationClip('FadeInMenu', .5, [fadeInKeyFrame]);
+    let fadeInMixer = new THREE.AnimationMixer(group.children[0]);
+    this.mapRender.mixers.menuFadeIn = fadeInMixer;
+    let fadeInClipAction = fadeInMixer.clipAction( fadeInClip );
+    fadeInClipAction.setLoop( THREE.LoopOnce );
+    fadeInClipAction.clampWhenFinished = true;
+    fadeInClipAction.play();
+
+    fadeInMixer.addEventListener('finished', (event)=>{
+      delete this.mapRender.mixers.menuFadeIn;
+    });
+
     return group;
 
   }
