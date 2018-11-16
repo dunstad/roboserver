@@ -115,8 +115,24 @@ export class MapRender {
       tileMaterial: {
         simple: ()=>{return new THREE.MeshLambertMaterial({color: 0xffffff, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1, opacity: 0, transparent: true})},
         full: ()=>{
+          
           let redMat = new THREE.MeshLambertMaterial({color:0xff0000, opacity: 0, transparent: true});
+          let drawingCanvas = document.createElement('canvas');
+          
+          // not sure if these are necessary
+          drawingCanvas.style.display='none';
+          document.body.appendChild(drawingCanvas);
+
+          const canvasSize = 100;
+          drawingCanvas.width = canvasSize;
+          drawingCanvas.height = canvasSize;
+          let ctx = drawingCanvas.getContext('2d');
+          ctx.fillStyle = "yellow";
+          ctx.fillRect(0, 0, canvasSize, canvasSize);
+          redMat.map = new THREE.CanvasTexture(drawingCanvas);
+          
           let blueMat = new THREE.MeshLambertMaterial({color:0x003366, opacity: 0, transparent: true});
+
           return [
             blueMat,
             blueMat,
@@ -125,6 +141,7 @@ export class MapRender {
             redMat,
             blueMat,
           ];
+
         },
       },
       
