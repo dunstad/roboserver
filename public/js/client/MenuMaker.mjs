@@ -108,7 +108,17 @@ export class MenuMaker {
     
     let group = new THREE.Group();
 
-    let groupMaterial = this.tileMaterial.clone();
+    let mat1 = this.tileMaterial[4].clone();
+    let mat2 = this.tileMaterial[0].clone();
+
+    let groupMaterial = [
+      mat2,
+      mat2,
+      mat2,
+      mat2,
+      mat1,
+      mat2,
+    ];
 
     // make all the menu's tiles fade out
     group.fadeOut = ()=>{
@@ -117,8 +127,9 @@ export class MenuMaker {
         // also allows a new menu to be created immediately 
         this.mapRender.menuTiles = [];
 
-        let opacityKeyFrame = new THREE.NumberKeyframeTrack('.material.opacity', [0, .5], [1, 0]);
-        let fadeClip = new THREE.AnimationClip('FadeMenu', .5, [opacityKeyFrame]);
+        let opacityKeyFrame = new THREE.NumberKeyframeTrack('.material[4].opacity', [0, .5], [1, 0]);
+        let opacityKeyFrame2 = new THREE.NumberKeyframeTrack('.material[0].opacity', [0, .5], [1, 0]);
+        let fadeClip = new THREE.AnimationClip('FadeMenu', .5, [opacityKeyFrame, opacityKeyFrame2]);
         let fadeMixer = new THREE.AnimationMixer(group.children[0]);
         this.mapRender.mixers.menuFade = fadeMixer;
         let fadeClipAction = fadeMixer.clipAction( fadeClip );
@@ -186,8 +197,9 @@ export class MenuMaker {
     this.scene.add(group);
 
     // fade menu in
-    let fadeInKeyFrame = new THREE.NumberKeyframeTrack('.material.opacity', [0, .5], [0, 1]);
-    let fadeInClip = new THREE.AnimationClip('FadeInMenu', .5, [fadeInKeyFrame]);
+    let fadeInKeyFrame = new THREE.NumberKeyframeTrack('.material[4].opacity', [0, .5], [0, 1]);
+    let fadeInKeyFrame2 = new THREE.NumberKeyframeTrack('.material[0].opacity', [0, .5], [0, 1]);
+    let fadeInClip = new THREE.AnimationClip('FadeInMenu', .5, [fadeInKeyFrame, fadeInKeyFrame2]);
     let fadeInMixer = new THREE.AnimationMixer(group.children[0]);
     this.mapRender.mixers.menuFadeIn = fadeInMixer;
     let fadeInClipAction = fadeInMixer.clipAction( fadeInClip );
