@@ -63,9 +63,9 @@ export class WebClient {
         console.dir('robot position');
         console.dir(pos);
         this.game.mapRender.moveRobotVoxel(new WorldAndScenePoint(pos.data, true), pos.robot);
-        this.game.webClient.allRobotInfo[pos.robot].removeAllExternalInventories();
+        this.allRobotInfo[pos.robot].removeAllExternalInventories();
         if (pos.robot == this.game.GUI.robotSelect.value) {
-          let robotData = this.game.webClient.allRobotInfo[pos.robot];
+          let robotData = this.allRobotInfo[pos.robot];
           if (robotData) {
             this.game.mapRender.selectedRobotMesh.position.copy(robotData.getPosition().scene());
             this.game.mapRender.requestRender();
