@@ -114,7 +114,18 @@ export class MapRender {
 
       tileMaterial: {
         simple: ()=>{return new THREE.MeshLambertMaterial({color: 0xffffff, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1, opacity: 0, transparent: true})},
-        full: ()=>{return new THREE.MeshLambertMaterial({color:0x003366, opacity: 0, transparent: true});},
+        full: ()=>{
+          let redMat = new THREE.MeshLambertMaterial({color:0xff0000, opacity: 0, transparent: true});
+          let blueMat = new THREE.MeshLambertMaterial({color:0x003366, opacity: 0, transparent: true});
+          return [
+            blueMat,
+            blueMat,
+            blueMat,
+            blueMat,
+            redMat,
+            blueMat,
+          ];
+        },
       },
       
       hardnessToColorMap: {
