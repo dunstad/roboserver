@@ -115,8 +115,13 @@ export class MenuMaker {
     drawingCanvas.width = canvasSize;
     drawingCanvas.height = canvasSize;
     let ctx = drawingCanvas.getContext('2d');
-    ctx.fillStyle = "yellow";
+    ctx.fillStyle = "#003366";
     ctx.fillRect(0, 0, canvasSize, canvasSize);
+    ctx.fillStyle = "white";
+    ctx.font = "30px Arial";
+    let text = '1';
+    let textMeasure = ctx.measureText(text);
+    ctx.fillText("1", 32 - textMeasure.width / 2, 32 - textMeasure.height / 2);
     mat1.map = new THREE.CanvasTexture(drawingCanvas);
     
     let mat2 = this.tileMaterial.clone();
