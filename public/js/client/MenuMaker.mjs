@@ -108,8 +108,9 @@ export class MenuMaker {
     
     let group = new THREE.Group();
 
-    let mat1 = this.tileMaterial[4].clone();
-    let mat2 = this.tileMaterial[0].clone();
+    let mat1 = this.mapRender.tileFaceMaterial.clone();
+    mat1.map = this.mapRender.tileFaceMaterial.map;
+    let mat2 = this.tileMaterial.clone();
 
     let groupMaterial = [
       mat2,
@@ -152,6 +153,8 @@ export class MenuMaker {
     for (let tileOffset of this.arrangements[numTiles]) {
 
       let tile = new THREE.Mesh(this.tileGeo, groupMaterial);
+      console.log('tile')
+      console.log(tile)
 
       this.mapRender.menuTiles.push(tile);
 
