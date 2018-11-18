@@ -117,11 +117,19 @@ export class MenuMaker {
     let ctx = drawingCanvas.getContext('2d');
     ctx.fillStyle = "#003366";
     ctx.fillRect(0, 0, canvasSize, canvasSize);
+    
     ctx.fillStyle = "white";
     ctx.font = "16px Arial";
     let text = '1';
     let textMeasure = ctx.measureText(text);
     ctx.fillText(text, (canvasSize / 2) - textMeasure.width / 2, canvasSize * 3 / 4);
+    
+    let img = new Image();
+    img.onload = ()=>{
+      ctx.drawImage(img, 0, 0);
+    }
+    img.src = '/assets/icons/ios-add.svg';
+
     mat1.map = new THREE.CanvasTexture(drawingCanvas);
     
     let mat2 = this.tileMaterial.clone();
