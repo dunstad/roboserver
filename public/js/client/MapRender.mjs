@@ -118,21 +118,8 @@ export class MapRender {
       },
 
       tileFaceMaterial: {
-        simple: ()=>{return new THREE.MeshLambertMaterial({color:0xff0000, opacity: 0, transparent: true});},
-        full: ()=>{
-          let drawingCanvas = document.createElement('canvas');
-          
-          const canvasSize = 100;
-          drawingCanvas.width = canvasSize;
-          drawingCanvas.height = canvasSize;
-          let ctx = drawingCanvas.getContext('2d');
-          ctx.fillStyle = "yellow";
-          ctx.fillRect(0, 0, canvasSize, canvasSize);
-          let redMat = new THREE.MeshLambertMaterial({ /* color:0xff0000, */ opacity: 0, transparent: true});
-          redMat.map = new THREE.CanvasTexture(drawingCanvas);
-
-          return redMat;
-        },
+        simple: ()=>{return new THREE.MeshLambertMaterial({color:0x003366, opacity: 0, transparent: true});},
+        full: ()=>{return new THREE.MeshLambertMaterial({opacity: 0, transparent: true});},
       },
       
       hardnessToColorMap: {

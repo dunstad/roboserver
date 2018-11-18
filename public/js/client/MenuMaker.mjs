@@ -109,7 +109,16 @@ export class MenuMaker {
     let group = new THREE.Group();
 
     let mat1 = this.mapRender.tileFaceMaterial.clone();
-    mat1.map = this.mapRender.tileFaceMaterial.map;
+    
+    let drawingCanvas = document.createElement('canvas');
+    const canvasSize = 64;
+    drawingCanvas.width = canvasSize;
+    drawingCanvas.height = canvasSize;
+    let ctx = drawingCanvas.getContext('2d');
+    ctx.fillStyle = "yellow";
+    ctx.fillRect(0, 0, canvasSize, canvasSize);
+    mat1.map = new THREE.CanvasTexture(drawingCanvas);
+    
     let mat2 = this.tileMaterial.clone();
 
     let groupMaterial = [
@@ -153,8 +162,6 @@ export class MenuMaker {
     for (let tileOffset of this.arrangements[numTiles]) {
 
       let tile = new THREE.Mesh(this.tileGeo, groupMaterial);
-      console.log('tile')
-      console.log(tile)
 
       this.mapRender.menuTiles.push(tile);
 
