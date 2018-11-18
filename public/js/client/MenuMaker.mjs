@@ -111,17 +111,17 @@ export class MenuMaker {
     let mat1 = this.mapRender.tileFaceMaterial.clone();
     
     let drawingCanvas = document.createElement('canvas');
-    const canvasSize = 64;
+    const canvasSize = 128;
     drawingCanvas.width = canvasSize;
     drawingCanvas.height = canvasSize;
     let ctx = drawingCanvas.getContext('2d');
     ctx.fillStyle = "#003366";
     ctx.fillRect(0, 0, canvasSize, canvasSize);
     ctx.fillStyle = "white";
-    ctx.font = "30px Arial";
+    ctx.font = "16px Arial";
     let text = '1';
     let textMeasure = ctx.measureText(text);
-    ctx.fillText("1", 32 - textMeasure.width / 2, 32 - textMeasure.height / 2);
+    ctx.fillText(text, (canvasSize / 2) - textMeasure.width / 2, canvasSize * 3 / 4);
     mat1.map = new THREE.CanvasTexture(drawingCanvas);
     
     let mat2 = this.tileMaterial.clone();
