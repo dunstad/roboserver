@@ -6,6 +6,7 @@
 /.mocha-puppeteer/*
 *.log
 *.db
+*.db~
 .DS_Store
 /lua/serialization.lua
 /lua/robot.lua
