@@ -1,6 +1,6 @@
 import { Menu } from '/js/client/Menu.mjs';
 
-exprot class Tile {
+export class Tile {
 
   /**
    * Used to differentiate the appearance and function of menu tiles.
@@ -11,7 +11,7 @@ exprot class Tile {
    * @param {Menu} menu 
    */
   constructor(pos, imageString, index, onClick, menu) {
-    let faceMaterial = menu.mapRender.tileFaceMaterial.clone();
+    this.faceMaterial = menu.mapRender.tileFaceMaterial.clone();
 
     let image = new Image();
     image.src = `/assets/icons/ios-${imageString}.svg`;
@@ -27,7 +27,7 @@ exprot class Tile {
       ctx.fillRect(0, 0, canvasSize, canvasSize);
       
       let imageSize = canvasSize * 3 / 4
-      ctx.drawImage(img, (canvasSize / 2) - (imageSize / 2), 0, imageSize, imageSize);
+      ctx.drawImage(image, (canvasSize / 2) - (imageSize / 2), 0, imageSize, imageSize);
       
       ctx.fillStyle = "white";
       ctx.font = "16px Arial";
@@ -35,7 +35,7 @@ exprot class Tile {
       let textMeasure = ctx.measureText(text);
       ctx.fillText(text, (canvasSize / 2) - textMeasure.width / 2, canvasSize * 4 / 5);
 
-      faceMaterial.map = new THREE.CanvasTexture(drawingCanvas);
+      this.faceMaterial.map = new THREE.CanvasTexture(drawingCanvas);
 
     }
 
@@ -48,11 +48,11 @@ exprot class Tile {
       menu.groupMaterial,
       menu.groupMaterial,
       menu.groupMaterial,
-      faceMaterial,
+      this.faceMaterial,
       menu.groupMaterial,
     ];
     this.mesh = new THREE.Mesh(this.menu.mapRender.tileGeo, materialList);
-    this.menu.mapRender.menuTiles.push(this.mesh);
+    this.menu.mapRender.menuTiles.push(this);
     this.menu.group.add(this.mesh);
     if (this.menu.mapRender.simple) {
       this.mesh.add(new THREE.LineSegments(this.menu.mapRender.tileWireGeo, this.menu.mapRender.wireMat));

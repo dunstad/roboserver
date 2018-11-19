@@ -1,6 +1,6 @@
 import {WorldAndScenePoint} from '/js/client/WorldAndScenePoint.mjs';
 import {VoxelMap} from '/js/client/VoxelMap.mjs';
-import { MenuMaker } from '/js/client/MenuMaker.mjs';
+import { Menu } from '/js/client/Menu.mjs';
 
 export class MapRender {
 
@@ -162,7 +162,7 @@ export class MapRender {
     // light
     this.ambientLight = renderingModeMap.ambientLight[renderMode]();
 
-    this.menuMaker = new MenuMaker(this);
+    this.menu = Menu;
 
     this.scene.add(this.ambientLight);
   
