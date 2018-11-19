@@ -19,10 +19,11 @@ class Menu {
    */
   fadeIn() {
 
-    let fadeInKeyFrame = new THREE.NumberKeyframeTrack('.material[4].opacity', [0, .5], [0, 1]);
-    let fadeInKeyFrame2 = new THREE.NumberKeyframeTrack('.material[0].opacity', [0, .5], [0, 1]);
-    let fadeInClip = new THREE.AnimationClip('FadeInMenu', .5, [fadeInKeyFrame, fadeInKeyFrame2]);
-    let fadeInMixer = new THREE.AnimationMixer(group.children[0]);
+    let fadeInKeyFrame = new THREE.NumberKeyframeTrack('.opacity', [0, .5], [0, 1]);
+    let fadeInClip = new THREE.AnimationClip('FadeInMenu', .5, [fadeInKeyFrame]);
+    
+    // loop this for tile face materials
+    let fadeInMixer = new THREE.AnimationMixer(this.groupMaterial);
     this.mapRender.mixers.menuFadeIn = fadeInMixer;
     let fadeInClipAction = fadeInMixer.clipAction( fadeInClip );
     fadeInClipAction.setLoop( THREE.LoopOnce );
@@ -33,7 +34,7 @@ class Menu {
       delete this.mapRender.mixers.menuFadeIn;
     });
 
-    this.scene.fog = new THREE.Fog(this.mapRender.renderer.getClearColor().getHex(), 1);
+    this.mapRender.scene.fog = new THREE.Fog(this.mapRender.renderer.getClearColor().getHex(), 1);
     
   }
 
@@ -46,10 +47,11 @@ class Menu {
     // also allows a new menu to be created immediately 
     this.mapRender.menuTiles = [];
 
-    let opacityKeyFrame = new THREE.NumberKeyframeTrack('.material[4].opacity', [0, .5], [1, 0]);
-    let opacityKeyFrame2 = new THREE.NumberKeyframeTrack('.material[0].opacity', [0, .5], [1, 0]);
-    let fadeClip = new THREE.AnimationClip('FadeMenu', .5, [opacityKeyFrame, opacityKeyFrame2]);
-    let fadeMixer = new THREE.AnimationMixer(group.children[0]);
+    let opacityKeyFrame = new THREE.NumberKeyframeTrack('.opacity', [0, .5], [1, 0]);
+    let fadeClip = new THREE.AnimationClip('FadeMenu', .5, [opacityKeyFrame]);
+    
+    // loop this for tile face materials
+    let fadeMixer = new THREE.AnimationMixer(this.groupMaterial);
     this.mapRender.mixers.menuFade = fadeMixer;
     let fadeClipAction = fadeMixer.clipAction( fadeClip );
     fadeClipAction.setLoop( THREE.LoopOnce );
@@ -61,7 +63,7 @@ class Menu {
       delete this.mapRender.mixers.menuFade;
     });
 
-    this.scene.fog = undefined;
+    this.mapRender.scene.fog = undefined;
 
   }
 
