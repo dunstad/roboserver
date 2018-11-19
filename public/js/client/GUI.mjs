@@ -138,10 +138,10 @@ export class GUI {
           let lookDirection = new THREE.Vector3();
           this.game.mapRender.camera.getWorldDirection(lookDirection);
           menuPos.add(lookDirection.multiplyScalar(this.game.mapRender.voxelSideLength * 4));
-          let menu = this.game.mapRender.menuMaker.create(menuPos, controls.position, 2);
+          let menu = new this.game.mapRender.menu(menuPos, controls.position, 2, this.game.mapRender);
         }
         else {
-          this.game.mapRender.menuTiles[0].parent.fadeOut();
+          this.game.mapRender.menuTiles[0].menu.fadeOut();
         }
 
       }
@@ -415,7 +415,7 @@ export class GUI {
       if (this.game.mapRender.controls.enabled) {
 
         // if you clicked a menu tile
-        let intersects = this.game.mapRender.castFromCamera(this.game.mapRender.menuTiles);
+        let intersects = this.game.mapRender.castFromCamera(this.game.mapRender.menuTiles.map(e=>e.mesh));
         if (intersects.length > 0) {
 
           let tile = intersects[0].object;
@@ -428,7 +428,7 @@ export class GUI {
 
           // remove menu if it exists
           if (this.game.mapRender.menuTiles.length) {
-            this.game.mapRender.menuTiles[0].parent.fadeOut();
+            this.game.mapRender.menuTiles[0].menu.fadeOut();
           }
 
           // if there's no menu, do robot stuff
