@@ -110,27 +110,34 @@ export class MenuMaker {
 
     let mat1 = this.mapRender.tileFaceMaterial.clone();
     
-    let drawingCanvas = document.createElement('canvas');
-    const canvasSize = 128;
-    drawingCanvas.width = canvasSize;
-    drawingCanvas.height = canvasSize;
-    let ctx = drawingCanvas.getContext('2d');
-    ctx.fillStyle = "#003366";
-    ctx.fillRect(0, 0, canvasSize, canvasSize);
-    
-    ctx.fillStyle = "white";
-    ctx.font = "16px Arial";
-    let text = '1';
-    let textMeasure = ctx.measureText(text);
-    ctx.fillText(text, (canvasSize / 2) - textMeasure.width / 2, canvasSize * 3 / 4);
     
     let img = new Image();
     img.onload = ()=>{
-      ctx.drawImage(img, 0, 0);
+      
+      let drawingCanvas = document.createElement('canvas');
+      const canvasSize = 128;
+      drawingCanvas.width = canvasSize;
+      drawingCanvas.height = canvasSize;
+      let ctx = drawingCanvas.getContext('2d');
+      
+      ctx.fillStyle = "#003366";
+      ctx.fillRect(0, 0, canvasSize, canvasSize);
+      
+      console.dir(img);
+      let imageSize = canvasSize * 3 / 4
+      ctx.drawImage(img, (canvasSize / 2) - (imageSize / 2), 0, imageSize, imageSize);
+      
+      ctx.fillStyle = "white";
+      ctx.font = "16px Arial";
+      let text = '1';
+      let textMeasure = ctx.measureText(text);
+      ctx.fillText(text, (canvasSize / 2) - textMeasure.width / 2, canvasSize * 4 / 5);
+
+      mat1.map = new THREE.CanvasTexture(drawingCanvas);
+
     }
     img.src = '/assets/icons/ios-add.svg';
 
-    mat1.map = new THREE.CanvasTexture(drawingCanvas);
     
     let mat2 = this.tileMaterial.clone();
 
