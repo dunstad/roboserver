@@ -13,10 +13,8 @@
 ## experimental diegetic ui
 * make it disappear when pressing esc, moving a bit away
 * each tile should change in appearance when the crosshair is inside the tile
-* get some icons in the center of each tile
-  * numbers below the icons
-* make the console log which tile we click
 * make clicking the stuff in the first level menu bring up other menus
+* animate fog
 
 # 1.1
 
