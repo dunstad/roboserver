@@ -1,4 +1,4 @@
-class Menu {
+export class Menu {
 
   /**
    * Used to organize Tiles and animate them in unison.
@@ -11,8 +11,6 @@ class Menu {
     this.group.position.copy(menuPos);
     this.group.lookAt(lookPos);
     this.scene.add(group);
-
-    this.tiles = [];
 
     let tilePadding = .5;
 

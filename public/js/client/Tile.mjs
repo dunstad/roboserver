@@ -1,15 +1,16 @@
 import { Menu } from '/js/client/Menu.mjs';
 
-class Tile {
+exprot class Tile {
 
   /**
    * Used to differentiate the appearance and function of menu tiles.
+   * @param {THREE.Vector3} pos 
    * @param {String} imageString 
    * @param {number} index 
    * @param {Function} onClick 
    * @param {Menu} menu 
    */
-  constructor(imageString, index, onClick, menu) {
+  constructor(pos, imageString, index, onClick, menu) {
     let faceMaterial = menu.mapRender.tileFaceMaterial.clone();
 
     let image = new Image();
@@ -51,6 +52,12 @@ class Tile {
       menu.groupMaterial,
     ];
     this.mesh = new THREE.Mesh(this.menu.mapRender.tileGeo, materialList);
+    this.menu.mapRender.menuTiles.push(this.mesh);
+    this.menu.group.add(this.mesh);
+    if (this.menu.mapRender.simple) {
+      this.mesh.add(new THREE.LineSegments(this.menu.mapRender.tileWireGeo, this.menu.mapRender.wireMat));
+    }
+    this.mesh.position.copy(pos);
   }
 
   /**
