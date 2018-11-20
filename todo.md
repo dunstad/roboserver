@@ -11,7 +11,6 @@
   * server should know how many of an item are at a location
   
 ## experimental diegetic ui
-* make it disappear when pressing esc, moving a bit away
 * each tile should change in appearance when the crosshair is inside the tile
 * animate fog
 

@@ -124,28 +124,34 @@ export class GUI {
     document.addEventListener('keydown', (e)=>{
       
       const questionMarkCode = 191;
-      const xCode = 88;
       if ((e.keyCode == questionMarkCode) && e.shiftKey) {
         e.preventDefault(); $('#controlsDisplay').modal('toggle');
       }
+      
+      if (document.pointerLockElement) {
+        
+        const xCode = 88;
 
-      // menu key
-      else if (e.keyCode == xCode && document.pointerLockElement) {
-
-        if (!this.game.mapRender.menuTiles.length) {
-          // make tiles appear in front of the camera rather than on top of it
-          let controls = this.game.mapRender.controls.getObject();
-          let menuPos = new THREE.Vector3().copy(controls.position);
-          let lookDirection = new THREE.Vector3();
-          this.game.mapRender.camera.getWorldDirection(lookDirection);
-          menuPos.add(lookDirection.multiplyScalar(this.game.mapRender.voxelSideLength * 4));
-          let menu = new this.game.mapRender.menu(menuPos, controls.position, menuData.main, this.game.mapRender);
-        }
-        else {
-          this.game.mapRender.menuTiles[0].menu.fadeOut();
+        // menu key
+        if (e.keyCode == xCode) {
+  
+          if (!this.game.mapRender.menuTiles.length) {
+            // make tiles appear in front of the camera rather than on top of it
+            let controls = this.game.mapRender.controls.getObject();
+            let menuPos = new THREE.Vector3().copy(controls.position);
+            let lookDirection = new THREE.Vector3();
+            this.game.mapRender.camera.getWorldDirection(lookDirection);
+            menuPos.add(lookDirection.multiplyScalar(this.game.mapRender.voxelSideLength * 4));
+            let menu = new this.game.mapRender.menu(menuPos, controls.position, menuData.main, this.game.mapRender);
+          }
+          else {
+            this.game.mapRender.menuTiles[0].menu.fadeOut();
+          }
+  
         }
 
       }
+
 
     });
 
