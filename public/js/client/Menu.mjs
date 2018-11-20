@@ -105,6 +105,8 @@ export class Menu {
       this.tiles.push(new Tile(offset3D, 'add', index, undefined, this));
     }
 
+    this.fadeIn();
+
   }
 
   /**
@@ -162,7 +164,6 @@ export class Menu {
       fadeClipAction.play();
 
       fadeMixer.addEventListener('finished', (event)=>{
-        this.mapRender.scene.remove(this.group);
         delete this.mapRender.mixers[material.uuid];
       });
       
