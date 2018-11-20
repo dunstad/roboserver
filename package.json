@@ -23,7 +23,7 @@
     "electron": "^1.6.6",
     "express": "^4.16.4",
     "express-session": "^1.15.2",
-    "minecraft-data": "^2.21.0",
+    "minecraft-data": "^2.34.0",
     "morgan": "^1.9.1",
     "nedb": "^1.8.0",
     "nedb-promise": "^2.0.1",
@@ -31,15 +31,15 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "passport.socketio": "^3.7.0",
-    "react": "^16.0.0",
+    "react": "^16.6.3",
     "react-bootstrap": "^0.31.5",
-    "react-dom": "^16.0.0",
+    "react-dom": "^16.6.3",
     "serve-favicon": "^2.5.0",
     "socket.io": "^1.7.3"
   },
   "devDependencies": {
-    "electron-packager": "^8.7.0",
-    "nodemon": "^1.11.0"
+    "electron-packager": "^12.2.0",
+    "nodemon": "^1.18.6"
   },
   "main": "electronApp.js",
   "description": "This is a HTTP and TCP server which OpenComputers robots can read and execute commands from.",
