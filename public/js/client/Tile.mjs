@@ -84,17 +84,9 @@ export class Tile {
     ]);
 
     let clickClip = new THREE.AnimationClip('Clicked', .5, [positionKeyFrame]);
-    let clickMixer = new THREE.AnimationMixer(this.mesh);
-    let mixerKey = `tileClick-${this.mesh.uuid}`;
-    this.mixers[mixerKey] = clickMixer;
-    let clickClipAction = clickMixer.clipAction( clickClip );
-    clickClipAction.setLoop( THREE.LoopOnce );
-    clickClipAction.clampWhenFinished = true;
-    clickClipAction.play();
 
-    clickMixer.addEventListener('finished', (event)=>{
-      delete this.mixers[mixerKey];
-    });
+    let mixerKey = `tileClick-${this.mesh.uuid}`;
+    this.menu.mapRender.animate(clickClip, this.mesh, mixerKey);
 
   }
 

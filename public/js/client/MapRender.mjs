@@ -613,4 +613,19 @@ export class MapRender {
     }
   }
 
+  animate(animationClip, object3D, mixerKey, callback) {
+    let fadeMixer = new THREE.AnimationMixer(object3D);
+    this.mixers[mixerKey] = fadeMixer;
+    let fadeClipAction = fadeMixer.clipAction( animationClip );
+    fadeClipAction.setLoop( THREE.LoopOnce );
+    fadeClipAction.clampWhenFinished = true;
+    fadeClipAction.play();
+    if (callback) {
+      fadeMixer.addEventListener('finished', callback);
+    }
+    fadeMixer.addEventListener('finished', (event)=>{
+      delete this.mixers[mixerKey];
+    });
+  }
+
 }
