@@ -1,6 +1,6 @@
 # 1.1
 
-## features
+* .mjs not working with electron
 
 # 1.2
 * add unit tests for web client

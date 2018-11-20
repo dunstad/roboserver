@@ -4,8 +4,16 @@
     <meta charset='UTF-8'>
     <link rel='stylesheet' href='/css/bootstrap.min.css'>
     <link rel='stylesheet' href='/css/accounts.css'>
+
+    <!-- Insert this line above script imports to fix electron import path for jquery -->
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    
     <script src='/js/lib/jquery-3.1.1.min.js'></script>
     <script src='/js/lib/bootstrap.min.js'></script>
+
+    <!-- Insert this line after script imports to fix electron import path for jquery -->
+    <script>if (window.module) module = window.module;</script>
+
   </head>
   <body>
 
