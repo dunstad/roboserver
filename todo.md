@@ -1,11 +1,6 @@
 # 1.1
 
 ## features
-* allow robot install to default to offline instead of always using github
-  * can probably just have a separate install.txt with a different environment variable
-  * ~~```internet.request(url)```~~
-  * ~~The returned function is an iterator over chunks of the result, use it like so:~~
-  * ~~```for chunk in internet.request(...) do stuff() end```~~
 
 # 1.2
 * add unit tests for web client
