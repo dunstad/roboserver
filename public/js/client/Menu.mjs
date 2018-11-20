@@ -123,7 +123,6 @@ export class Menu {
     let fadeInKeyFrame = new THREE.NumberKeyframeTrack('.opacity', [0, .5], [0, 1]);
     let fadeInClip = new THREE.AnimationClip('FadeInMenu', .5, [fadeInKeyFrame]);
     
-    // loop this for tile face materials
     let materials = this.tiles.map(e=>e.faceMaterial);
     materials.push(this.groupMaterial);
     for (let material of materials) {
@@ -145,11 +144,18 @@ export class Menu {
     // prevent tiles from being clicked as they fade out
     // also allows a new menu to be created immediately 
     this.mapRender.menuTiles = [];
-
+    
+    let retreatKeyFrame = new THREE.VectorKeyframeTrack('.position', [0, .5], [
+      this.group.position.x, this.group.position.y, 0,
+      this.group.position.x, this.group.position.y, -20,
+    ]);
+    let retreatClip = new THREE.AnimationClip('RetreatMenu', .5, [retreatKeyFrame]);
+    let retreatMixerKey = `retreat-${this.group.uuid}`;
+    this.mapRender.animate(retreatClip, this.group, retreatMixerKey);
+    
     let opacityKeyFrame = new THREE.NumberKeyframeTrack('.opacity', [0, .5], [1, 0]);
     let fadeClip = new THREE.AnimationClip('FadeMenu', .5, [opacityKeyFrame]);
     
-    // loop this for tile face materials
     let materials = this.tiles.map(e=>e.faceMaterial);
     materials.push(this.groupMaterial);
     for (let material of materials) {

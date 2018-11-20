@@ -613,6 +613,13 @@ export class MapRender {
     }
   }
 
+  /**
+   * Used to animate things without writing the same code over and over.
+   * @param {THREE.animationClip} animationClip 
+   * @param {THREE.object3D} object3D 
+   * @param {String} mixerKey 
+   * @param {Function} callback 
+   */
   animate(animationClip, object3D, mixerKey, callback) {
     let fadeMixer = new THREE.AnimationMixer(object3D);
     this.mixers[mixerKey] = fadeMixer;
