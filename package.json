@@ -20,7 +20,6 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
     "ejs": "^2.5.2",
-    "electron": "^1.6.6",
     "express": "^4.16.4",
     "express-session": "^1.15.2",
     "minecraft-data": "^2.34.0",
@@ -31,13 +30,11 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "passport.socketio": "^3.7.0",
-    "react": "^16.6.3",
-    "react-bootstrap": "^0.31.5",
-    "react-dom": "^16.6.3",
     "serve-favicon": "^2.5.0",
     "socket.io": "^1.7.3"
   },
   "devDependencies": {
+    "electron": "^1.6.6",
     "electron-packager": "^12.2.0",
     "nodemon": "^1.18.6"
   },
