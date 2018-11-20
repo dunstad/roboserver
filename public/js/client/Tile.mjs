@@ -13,30 +13,36 @@ export class Tile {
   constructor(pos, imageString, index, onClick, menu) {
     this.faceMaterial = menu.mapRender.tileFaceMaterial.clone();
 
-    let image = new Image();
-    image.src = `/assets/icons/ios-${imageString}.svg`;
-    image.onload = ()=>{
-      
-      let drawingCanvas = document.createElement('canvas');
-      const canvasSize = 128;
-      drawingCanvas.width = canvasSize;
-      drawingCanvas.height = canvasSize;
-      let ctx = drawingCanvas.getContext('2d');
-      
-      ctx.fillStyle = "#003366";
-      ctx.fillRect(0, 0, canvasSize, canvasSize);
-      
-      let imageSize = canvasSize * 3 / 4
-      ctx.drawImage(image, (canvasSize / 2) - (imageSize / 2), 0, imageSize, imageSize);
-      
-      ctx.fillStyle = "white";
-      ctx.font = "16px Arial";
-      let text = index;
-      let textMeasure = ctx.measureText(text);
-      ctx.fillText(text, (canvasSize / 2) - textMeasure.width / 2, canvasSize * 4 / 5);
+    if (imageString) {
+      let image = new Image();
+      image.src = `/assets/icons/ios-${imageString}.svg`;
+      image.onload = ()=>{
+        
+        let drawingCanvas = document.createElement('canvas');
+        const canvasSize = 128;
+        drawingCanvas.width = canvasSize;
+        drawingCanvas.height = canvasSize;
+        let ctx = drawingCanvas.getContext('2d');
+        
+        ctx.fillStyle = "#003366";
+        ctx.fillRect(0, 0, canvasSize, canvasSize);
+        
+        let imageSize = canvasSize * 3 / 4
+        ctx.drawImage(image, (canvasSize / 2) - (imageSize / 2), 0, imageSize, imageSize);
+        
+        ctx.fillStyle = "white";
+        ctx.font = "16px Arial";
+        let text = index;
+        let textMeasure = ctx.measureText(text);
+        ctx.fillText(text, (canvasSize / 2) - textMeasure.width / 2, canvasSize * 4 / 5);
+  
+        this.faceMaterial.map = new THREE.CanvasTexture(drawingCanvas);
+  
+      }
+    }
 
-      this.faceMaterial.map = new THREE.CanvasTexture(drawingCanvas);
-
+    else {
+      this.faceMaterial = menu.groupMaterial.clone();
     }
 
     this.clickFunc = onClick.bind(this);

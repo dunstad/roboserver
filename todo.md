@@ -1,7 +1,6 @@
 ## experimental diegetic ui
 * make it disappear when pressing esc, moving a bit away
 * each tile should change in appearance when the crosshair is inside the tile
-* make clicking the stuff in the first level menu bring up other menus
 * animate fog
 
 # 1.1
