@@ -158,7 +158,9 @@ export class GUI {
           let pressedNumber = oneToNine.indexOf(e.keyCode);
 
           if (pressedNumber != -1) {
-            this.game.mapRender.menuTiles[pressedNumber].onClick();
+            if (this.game.mapRender.menuTiles[pressedNumber]) {
+              this.game.mapRender.menuTiles[pressedNumber].onClick();
+            }
           }
 
         }
