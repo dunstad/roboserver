@@ -121,14 +121,14 @@ export class Menu {
     for (let material of materials) {
       
       let fadeInMixer = new THREE.AnimationMixer(material);
-      this.mapRender.mixers.menuFadeIn = fadeInMixer;
+      this.mapRender.mixers[material.uuid] = fadeInMixer;
       let fadeInClipAction = fadeInMixer.clipAction( fadeInClip );
       fadeInClipAction.setLoop( THREE.LoopOnce );
       fadeInClipAction.clampWhenFinished = true;
       fadeInClipAction.play();
       
       fadeInMixer.addEventListener('finished', (event)=>{
-        delete this.mapRender.mixers.menuFadeIn;
+        delete this.mapRender.mixers[material.uuid];
       });
       
     }
@@ -154,8 +154,8 @@ export class Menu {
     materials.push(this.groupMaterial);
     for (let material of materials) {
      
-      let fadeMixer = new THREE.AnimationMixer(this.groupMaterial);
-      this.mapRender.mixers.menuFade = fadeMixer;
+      let fadeMixer = new THREE.AnimationMixer(material);
+      this.mapRender.mixers[material.uuid] = fadeMixer;
       let fadeClipAction = fadeMixer.clipAction( fadeClip );
       fadeClipAction.setLoop( THREE.LoopOnce );
       fadeClipAction.clampWhenFinished = true;
@@ -163,10 +163,14 @@ export class Menu {
 
       fadeMixer.addEventListener('finished', (event)=>{
         this.mapRender.scene.remove(this.group);
-        delete this.mapRender.mixers.menuFade;
+        delete this.mapRender.mixers[material.uuid];
       });
-
+      
     }
+    
+    this.mapRender.mixers[this.groupMaterial.uuid].addEventListener('finished', (event)=>{
+      this.mapRender.scene.remove(this.group);
+    });
 
     this.mapRender.scene.fog = undefined;
 
