@@ -80,7 +80,7 @@ export class Tile {
     let positionKeyFrame = new THREE.VectorKeyframeTrack('.position', [0, .25, .5], [
       this.mesh.position.x, this.mesh.position.y, this.mesh.position.z,
       this.mesh.position.x, this.mesh.position.y, -10,
-      this.mesh.position.x, this.mesh.position.y, this.mesh.position.z,
+      this.mesh.position.x, this.mesh.position.y, 0,
     ]);
 
     let clickClip = new THREE.AnimationClip('Clicked', .5, [positionKeyFrame]);
