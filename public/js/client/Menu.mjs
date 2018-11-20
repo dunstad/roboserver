@@ -5,7 +5,7 @@ export class Menu {
   /**
    * Used to organize Tiles and animate them in unison.
    * @param {THREE.Vector3} menuPos 
-   * @param {THREE.Vector3} lookPos 
+ w  * @param {THREE.Vector3} lookPos 
    * @param {Object[]} tileCodeAndImages 
    * @param {MapRender} mapRender 
    */
