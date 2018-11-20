@@ -1,7 +1,5 @@
 # 1.1
 
-* .mjs not working with electron
-
 # 1.2
 * add unit tests for web client
   * should be able to initialize Game, MapRender, GUI, and WebClient without the DOM
