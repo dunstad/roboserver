@@ -39,7 +39,7 @@ export class Tile {
 
     }
 
-    this.onClick = onClick;
+    this.clickFunc = onClick.bind(this);
     this.menu = menu;
     this.mixers = menu.mapRender.mixers;
   
@@ -52,6 +52,7 @@ export class Tile {
       menu.groupMaterial,
     ];
     this.mesh = new THREE.Mesh(this.menu.mapRender.tileGeo, materialList);
+    this.mesh.tile = this;
     this.menu.mapRender.menuTiles.push(this);
     this.menu.group.add(this.mesh);
     if (this.menu.mapRender.simple) {
@@ -60,19 +61,24 @@ export class Tile {
     this.mesh.position.copy(pos);
   }
 
+  onClick () {
+    this.clickFunc();
+    this.animateClick();
+  }
+
   /**
    * Used to make the clicked tile move back and forth.
    */
   animateClick() {
 
     let positionKeyFrame = new THREE.VectorKeyframeTrack('.position', [0, .25, .5], [
-      this.position.x, this.position.y, this.position.z,
-      this.position.x, this.position.y, -10,
-      this.position.x, this.position.y, this.position.z,
+      this.mesh.position.x, this.mesh.position.y, this.mesh.position.z,
+      this.mesh.position.x, this.mesh.position.y, -10,
+      this.mesh.position.x, this.mesh.position.y, this.mesh.position.z,
     ]);
 
     let clickClip = new THREE.AnimationClip('Clicked', .5, [positionKeyFrame]);
-    let clickMixer = new THREE.AnimationMixer(this);
+    let clickMixer = new THREE.AnimationMixer(this.mesh);
     this.mixers.tileClick = clickMixer;
     let clickClipAction = clickMixer.clipAction( clickClip );
     clickClipAction.setLoop( THREE.LoopOnce );
@@ -82,8 +88,6 @@ export class Tile {
     clickMixer.addEventListener('finished', (event)=>{
       delete this.mixers.tileClick;
     });
-
-    this.menu.fadeOut();
 
   }
 
