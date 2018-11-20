@@ -150,6 +150,19 @@ export class GUI {
   
         }
 
+        // menu controls
+        if (this.game.mapRender.menuTiles.length) {
+
+          let oneToNine = [49, 50, 51, 52, 53, 54, 55, 56, 57];
+
+          let pressedNumber = oneToNine.indexOf(e.keyCode);
+
+          if (pressedNumber != -1) {
+            this.game.mapRender.menuTiles[pressedNumber].onClick();
+          }
+
+        }
+
       }
 
 

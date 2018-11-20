@@ -11,6 +11,7 @@
   * server should know how many of an item are at a location
   
 ## experimental diegetic ui
+* make tile animation not based on current position
 * each tile should change in appearance when the crosshair is inside the tile
 * animate fog
 

@@ -103,7 +103,7 @@ export class Menu {
       let offset3D = new THREE.Vector3(tileOffset.x, tileOffset.y, 0);
       // same as voxelSideLength
       offset3D.multiplyScalar(this.mapRender.tileGeo.parameters.height);
-      this.tiles.push(new Tile(offset3D, tileCodeAndImage.imageString, index + 1, tileCodeAndImage.onClick, this));
+      this.tiles.push(new Tile(offset3D, tileCodeAndImage.imageString, Number(index) + 1, tileCodeAndImage.onClick, this));
     }
 
     this.fadeIn();
