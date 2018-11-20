@@ -17,6 +17,7 @@ export class Menu {
     this.group = new THREE.Group();
     this.group.position.copy(menuPos);
     this.group.lookAt(lookPos);
+    this.lookPos = lookPos;
     this.mapRender.scene.add(this.group);
 
     let tilePadding = .5;
