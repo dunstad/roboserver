@@ -5,7 +5,7 @@ export class Menu {
   /**
    * Used to organize Tiles and animate them in unison.
    */
-  constructor(menuPos, lookPos, numTiles, mapRender) {
+  constructor(menuPos, lookPos, tileCodeAndImages, mapRender) {
 
     this.mapRender = mapRender;
     this.groupMaterial = mapRender.tileMaterial.clone();
@@ -93,16 +93,17 @@ export class Menu {
 
     }
 
-    let arrangement = arrangements[numTiles];
+    let arrangement = arrangements[tileCodeAndImages.length];
 
     this.tiles = [];
 
     // convert offset to tile space
-    for (let [index, tileOffset] of Object.entries(arrangement)) {
+    for (let [index, tileCodeAndImage] of Object.entries(tileCodeAndImages)) {
+      let tileOffset = arrangement[index];
       let offset3D = new THREE.Vector3(tileOffset.x, tileOffset.y, 0);
       // same as voxelSideLength
       offset3D.multiplyScalar(this.mapRender.tileGeo.parameters.height);
-      this.tiles.push(new Tile(offset3D, 'add', index, undefined, this));
+      this.tiles.push(new Tile(offset3D, tileCodeAndImage.imageString, index + 1, tileCodeAndImage.onClick, this));
     }
 
     this.fadeIn();

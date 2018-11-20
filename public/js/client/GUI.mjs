@@ -3,6 +3,7 @@ import {WorldAndScenePoint} from '/js/client/WorldAndScenePoint.mjs';
 import {CoordForm} from '/js/client/CoordForm.mjs';
 import {CutawayForm} from '/js/client/CutawayForm.mjs';
 import {InventoryRender} from '/js/client/InventoryRender.mjs';
+import { menuData } from '/js/client/menuData.mjs';
 
 export class GUI {
 
@@ -138,7 +139,7 @@ export class GUI {
           let lookDirection = new THREE.Vector3();
           this.game.mapRender.camera.getWorldDirection(lookDirection);
           menuPos.add(lookDirection.multiplyScalar(this.game.mapRender.voxelSideLength * 4));
-          let menu = new this.game.mapRender.menu(menuPos, controls.position, 2, this.game.mapRender);
+          let menu = new this.game.mapRender.menu(menuPos, controls.position, menuData.main, this.game.mapRender);
         }
         else {
           this.game.mapRender.menuTiles[0].menu.fadeOut();
@@ -418,9 +419,10 @@ export class GUI {
         let intersects = this.game.mapRender.castFromCamera(this.game.mapRender.menuTiles.map(e=>e.mesh));
         if (intersects.length > 0) {
 
-          let tile = intersects[0].object;
+          let mesh = intersects[0].object;
+          let tile = mesh.tile;
 
-          tile.animateClick();
+          tile.onClick();
 
         }
 
