@@ -133,6 +133,21 @@ export class Menu {
     let fadeInClip;
 
     if (wait) {
+      // move the menu back a bit to prevent z-fighting
+      let backDir = new THREE.Vector3();
+      backDir.subVectors(this.lookPos, this.menuPos).normalize().multiplyScalar(30);
+      let backPos = this.menuPos.clone()
+      backPos.sub(backDir);
+
+      let retreatKeyFrame = new THREE.VectorKeyframeTrack('.position', [0, .24, .25], [
+        backPos.x, backPos.y, backPos.z,
+        backPos.x, backPos.y, backPos.z,
+        this.menuPos.x, this.menuPos.y, this.menuPos.z,
+      ]);
+      let retreatClip = new THREE.AnimationClip('RetreatMenu', .25, [retreatKeyFrame]);
+      let retreatMixerKey = `retreat-${this.group.uuid}`;
+      this.mapRender.animate(retreatClip, this.group, retreatMixerKey);
+
       fadeInKeyFrame = new THREE.NumberKeyframeTrack('.opacity', [0, .25, .5], [0, 0, 1]);
       fadeInClip = new THREE.AnimationClip('FadeInMenu', .5, [fadeInKeyFrame]);
     }
@@ -162,7 +177,7 @@ export class Menu {
     // prevent tiles from being clicked as they fade out
     // also allows a new menu to be created immediately 
     this.mapRender.menuTiles = [];
-    
+
     let opacityKeyFrame = new THREE.NumberKeyframeTrack('.opacity', [0, .25], [1, 0]);
     let fadeClip = new THREE.AnimationClip('FadeMenu', .25, [opacityKeyFrame]);
     

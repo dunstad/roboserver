@@ -11,7 +11,6 @@
   * server should know how many of an item are at a location
   
 ## experimental diegetic ui
-* menu transitions can get a bit weird when going too fast, do we need to stop running animations?
 * each tile should change in appearance when the crosshair is inside the tile
 * animate fog
 
