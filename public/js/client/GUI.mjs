@@ -142,7 +142,7 @@ export class GUI {
             let lookDirection = new THREE.Vector3();
             this.game.mapRender.camera.getWorldDirection(lookDirection);
             menuPos.add(lookDirection.multiplyScalar(this.game.mapRender.voxelSideLength * 4));
-            let menu = new this.game.mapRender.menu(menuPos, controls.position.clone(), menuData.main, this.game.mapRender);
+            let menu = new this.game.mapRender.menu(menuPos, controls.position, menuData.main, this.game.mapRender);
           }
           else {
             this.game.mapRender.menuTiles[0].menu.fadeOut();
