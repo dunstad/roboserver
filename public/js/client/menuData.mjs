@@ -29,10 +29,11 @@ function makeTransitionTile(imageString, target) {
 let menuData = {
   main: [
     makeTransitionTile('add', 'three'),
-    {
-      imageString: 'remove',
-      onClick: function () {this.menu.fadeOut();},
-    },
+    makeTransitionTile('remove', '?'), // just for fun
+    // {
+    //   imageString: 'remove',
+    //   onClick: function () {this.menu.fadeOut();},
+    // },
   ],
   three: [
     makeTransitionTile('add', 'four'),
@@ -93,6 +94,19 @@ let menuData = {
     blankTile,
     makeTransitionTile('remove', 'eight'),
   ],
+
+  // just for fun
+
+  '?': Array(1).fill(makeTransitionTile('help', '??')),
+  '??': Array(2).fill(makeTransitionTile('help', '???')),
+  '???': Array(3).fill(makeTransitionTile('help', '????')),
+  '????': Array(4).fill(makeTransitionTile('help', '?????')),
+  '?????': Array(5).fill(makeTransitionTile('help', '??????')),
+  '??????': Array(6).fill(makeTransitionTile('help', '???????')),
+  '???????': Array(7).fill(makeTransitionTile('help', '????????')),
+  '????????': Array(8).fill(makeTransitionTile('help', '?????????')),
+  '?????????': Array(9).fill(makeTransitionTile('help', '?')),
+
 };
 
 export {menuData};

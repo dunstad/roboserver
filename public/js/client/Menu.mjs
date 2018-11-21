@@ -125,6 +125,7 @@ export class Menu {
 
   /**
    * Fades the menu into visibility.
+   * @param {Boolean} wait 
    */
   fadeIn(wait) {
 
