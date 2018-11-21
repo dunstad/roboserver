@@ -32,9 +32,10 @@ let menuData = {
 function makeMenuOpener(menuString) {
   return function () {
     this.menu.fadeOut();
-    let menuPos = this.menu.group.position;
+    let menuPos = this.menu.menuPos;
     let lookPos = this.menu.lookPos;
-    new Menu(menuPos, lookPos, menuData[menuString], this.menu.mapRender);
+    let wait = true;
+    new Menu(menuPos, lookPos, menuData[menuString], this.menu.mapRender, wait);
   };
 }
 

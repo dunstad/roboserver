@@ -5,19 +5,21 @@ export class Menu {
   /**
    * Used to organize Tiles and animate them in unison.
    * @param {THREE.Vector3} menuPos 
- w  * @param {THREE.Vector3} lookPos 
+   * @param {THREE.Vector3} lookPos 
    * @param {Object[]} tileCodeAndImages 
    * @param {MapRender} mapRender 
+   * @param {Boolean} wait 
    */
-  constructor(menuPos, lookPos, tileCodeAndImages, mapRender) {
+  constructor(menuPos, lookPos, tileCodeAndImages, mapRender, wait) {
 
     this.mapRender = mapRender;
     this.groupMaterial = mapRender.tileMaterial.clone();
 
     this.group = new THREE.Group();
     this.group.position.copy(menuPos);
-    this.group.lookAt(lookPos);
-    this.lookPos = lookPos;
+    this.lookPos = lookPos.clone();
+    this.group.lookAt(this.lookPos);
+    this.menuPos = menuPos.clone();
     this.mapRender.scene.add(this.group);
 
     let tilePadding = .5;
@@ -111,17 +113,26 @@ export class Menu {
       this.tiles.push(new Tile(offset3D, tileCodeAndImage.imageString, Number(index) + 1, tileCodeAndImage.onClick, this));
     }
 
-    this.fadeIn();
+    this.fadeIn(wait);
 
   }
 
   /**
    * Fades the menu into visibility.
    */
-  fadeIn() {
+  fadeIn(wait) {
 
-    let fadeInKeyFrame = new THREE.NumberKeyframeTrack('.opacity', [0, .5], [0, 1]);
-    let fadeInClip = new THREE.AnimationClip('FadeInMenu', .5, [fadeInKeyFrame]);
+    let fadeInKeyFrame;
+    let fadeInClip;
+
+    if (wait) {
+      fadeInKeyFrame = new THREE.NumberKeyframeTrack('.opacity', [0, .25, .5], [0, 0, 1]);
+      fadeInClip = new THREE.AnimationClip('FadeInMenu', .5, [fadeInKeyFrame]);
+    }
+    else {
+      fadeInKeyFrame = new THREE.NumberKeyframeTrack('.opacity', [0, .25], [0, 1]);
+      fadeInClip = new THREE.AnimationClip('FadeInMenu', .25, [fadeInKeyFrame]);
+    }
     
     let materials = this.tiles.map(e=>e.faceMaterial);
     materials.push(this.groupMaterial);
@@ -145,16 +156,8 @@ export class Menu {
     // also allows a new menu to be created immediately 
     this.mapRender.menuTiles = [];
     
-    let retreatKeyFrame = new THREE.VectorKeyframeTrack('.position', [0, .5], [
-      this.group.position.x, this.group.position.y, 0,
-      this.group.position.x, this.group.position.y, -20,
-    ]);
-    let retreatClip = new THREE.AnimationClip('RetreatMenu', .5, [retreatKeyFrame]);
-    let retreatMixerKey = `retreat-${this.group.uuid}`;
-    this.mapRender.animate(retreatClip, this.group, retreatMixerKey);
-    
-    let opacityKeyFrame = new THREE.NumberKeyframeTrack('.opacity', [0, .5], [1, 0]);
-    let fadeClip = new THREE.AnimationClip('FadeMenu', .5, [opacityKeyFrame]);
+    let opacityKeyFrame = new THREE.NumberKeyframeTrack('.opacity', [0, .25], [1, 0]);
+    let fadeClip = new THREE.AnimationClip('FadeMenu', .25, [opacityKeyFrame]);
     
     let materials = this.tiles.map(e=>e.faceMaterial);
     materials.push(this.groupMaterial);
