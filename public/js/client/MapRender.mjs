@@ -113,13 +113,13 @@ export class MapRender {
       },
 
       tileMaterial: {
-        simple: ()=>{return new THREE.MeshLambertMaterial({color: 0xffffff, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1, opacity: 0, transparent: true})},
-        full: ()=>{return new THREE.MeshLambertMaterial({color:0x003366, opacity: 0, transparent: true});},
+        simple: ()=>{return new THREE.MeshBasicMaterial({color: 0xffffff, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1, opacity: 0, transparent: true})},
+        full: ()=>{return new THREE.MeshBasicMaterial({color:0x003366, opacity: 0, transparent: true});},
       },
 
       tileFaceMaterial: {
-        simple: ()=>{return new THREE.MeshLambertMaterial({color:0x003366, opacity: 0, transparent: true});},
-        full: ()=>{return new THREE.MeshLambertMaterial({opacity: 0, transparent: true});},
+        simple: ()=>{return new THREE.MeshBasicMaterial({color:0x003366, opacity: 0, transparent: true});},
+        full: ()=>{return new THREE.MeshBasicMaterial({opacity: 0, transparent: true});},
       },
       
       hardnessToColorMap: {
