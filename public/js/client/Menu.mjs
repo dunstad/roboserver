@@ -24,6 +24,12 @@ export class Menu {
 
     let tilePadding = .5;
 
+    let upOne = 1 + tilePadding;
+    let downOne = -upOne;
+
+    let upOneHalf = upOne / 2;
+    let downOneHalf = -upOneHalf;
+
     let arrangements = {
       
       1: [
@@ -31,71 +37,71 @@ export class Menu {
       ],
       
       2: [
-        new THREE.Vector2(-.5 - tilePadding / 2, 0),
-        new THREE.Vector2(.5 + tilePadding / 2, 0),
+        new THREE.Vector2(downOneHalf, 0),
+        new THREE.Vector2(upOneHalf, 0),
       ],
       
       3: [
-        new THREE.Vector2(-1 - tilePadding, 0),
+        new THREE.Vector2(downOne, 0),
         new THREE.Vector2(0, 0),
-        new THREE.Vector2(1 + tilePadding, 0),
+        new THREE.Vector2(upOne, 0),
       ],
       
       4: [
-        new THREE.Vector2(0, 1 + tilePadding),
-        new THREE.Vector2(-1 - tilePadding, 0),
-        new THREE.Vector2(1 + tilePadding, 0),
-        new THREE.Vector2(0, -1 - tilePadding),
+        new THREE.Vector2(0, upOneHalf),
+        new THREE.Vector2(downOne, 0),
+        new THREE.Vector2(upOne, 0),
+        new THREE.Vector2(0, downOneHalf),
       ],
       
       5: [
-        new THREE.Vector2(0, 1 + tilePadding),
-        new THREE.Vector2(-1 - tilePadding, 0),
-        new THREE.Vector2(0, 0),
-        new THREE.Vector2(1 + tilePadding, 0),
-        new THREE.Vector2(0, -1 - tilePadding),
+        new THREE.Vector2(downOneHalf, upOneHalf),
+        new THREE.Vector2(upOneHalf, upOneHalf),
+        new THREE.Vector2(downOne, downOneHalf),
+        new THREE.Vector2(0, downOneHalf),
+        new THREE.Vector2(upOne, downOneHalf),
       ],
       
       6: [
-        new THREE.Vector2(-1 - tilePadding, 1 + tilePadding),
-        new THREE.Vector2(0, 1 + tilePadding),
-        new THREE.Vector2(1 + tilePadding, 1 + tilePadding),
-        new THREE.Vector2(-1 - tilePadding, -1 - tilePadding),
-        new THREE.Vector2(0, -1 - tilePadding),
-        new THREE.Vector2(1 + tilePadding, -1 - tilePadding),
+        new THREE.Vector2(downOne, upOneHalf),
+        new THREE.Vector2(0, upOneHalf),
+        new THREE.Vector2(upOne, upOneHalf),
+        new THREE.Vector2(downOne, downOneHalf),
+        new THREE.Vector2(0, downOneHalf),
+        new THREE.Vector2(upOne, downOneHalf),
       ],
       
       7: [
-        new THREE.Vector2(-1 - tilePadding, 1 + tilePadding),
-        new THREE.Vector2(0, 1 + tilePadding),
-        new THREE.Vector2(1 + tilePadding, 1 + tilePadding),
+        new THREE.Vector2(downOneHalf, upOne),
+        new THREE.Vector2(upOneHalf, upOne),
+        new THREE.Vector2(upOne, 0),
         new THREE.Vector2(0, 0),
-        new THREE.Vector2(-1 - tilePadding, -1 - tilePadding),
-        new THREE.Vector2(0, -1 - tilePadding),
-        new THREE.Vector2(1 + tilePadding, -1 - tilePadding),
+        new THREE.Vector2(downOne, 0),
+        new THREE.Vector2(downOneHalf, downOne),
+        new THREE.Vector2(upOneHalf, downOne),
       ],
 
       8: [
-        new THREE.Vector2(-1 - tilePadding, 1 + tilePadding),
-        new THREE.Vector2(0, 1 + tilePadding),
-        new THREE.Vector2(1 + tilePadding, 1 + tilePadding),
-        new THREE.Vector2(-1 - tilePadding, 0),
-        new THREE.Vector2(1 + tilePadding, 0),
-        new THREE.Vector2(-1 - tilePadding, -1 - tilePadding),
-        new THREE.Vector2(0, -1 - tilePadding),
-        new THREE.Vector2(1 + tilePadding, -1 - tilePadding),
+        new THREE.Vector2(downOne, upOne),
+        new THREE.Vector2(0, upOne),
+        new THREE.Vector2(upOne, upOne),
+        new THREE.Vector2(downOneHalf, 0),
+        new THREE.Vector2(upOneHalf, 0),
+        new THREE.Vector2(downOne, downOne),
+        new THREE.Vector2(0, downOne),
+        new THREE.Vector2(upOne, downOne),
       ],
 
       9: [
-        new THREE.Vector2(-1 - tilePadding, 1 + tilePadding),
-        new THREE.Vector2(0, 1 + tilePadding),
-        new THREE.Vector2(1 + tilePadding, 1 + tilePadding),
-        new THREE.Vector2(-1 - tilePadding, 0),
+        new THREE.Vector2(downOne, upOne),
+        new THREE.Vector2(0, upOne),
+        new THREE.Vector2(upOne, upOne),
+        new THREE.Vector2(downOne, 0),
         new THREE.Vector2(0, 0),
-        new THREE.Vector2(1 + tilePadding, 0),
-        new THREE.Vector2(-1 - tilePadding, -1 - tilePadding),
-        new THREE.Vector2(0, -1 - tilePadding),
-        new THREE.Vector2(1 + tilePadding, -1 - tilePadding),
+        new THREE.Vector2(upOne, 0),
+        new THREE.Vector2(downOne, downOne),
+        new THREE.Vector2(0, downOne),
+        new THREE.Vector2(upOne, downOne),
       ],
 
     }
