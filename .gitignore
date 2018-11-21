@@ -11,3 +11,4 @@
 /lua/serialization.lua
 /lua/robot.lua
 /lua/internet.lua
+/release-builds/*
