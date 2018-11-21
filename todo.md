@@ -11,7 +11,6 @@
   * server should know how many of an item are at a location
   
 ## experimental diegetic ui
-* reorder vectors in arrangements so they actually make sense
 * each tile should change in appearance when the crosshair is inside the tile
 * animate fog
 
