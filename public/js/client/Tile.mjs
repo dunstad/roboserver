@@ -62,7 +62,7 @@ export class Tile {
     this.menu.mapRender.menuTiles.push(this);
     this.menu.group.add(this.mesh);
     if (this.menu.mapRender.simple) {
-      this.mesh.add(new THREE.LineSegments(this.menu.mapRender.tileWireGeo, this.menu.mapRender.wireMat));
+      this.mesh.add(new THREE.LineSegments(this.menu.mapRender.tileWireGeo, this.menu.mapRender.simpleWireMat));
     }
     this.mesh.position.copy(pos);
   }
