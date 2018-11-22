@@ -69,11 +69,11 @@ export class MapRender {
     this.voxelSideLength = 50;
     this.cubeGeo = new THREE.BoxGeometry(this.voxelSideLength, this.voxelSideLength, this.voxelSideLength);
     this.tileGeo = new THREE.BoxGeometry(this.voxelSideLength, this.voxelSideLength, this.voxelSideLength / 5);
+    this.tileWireGeo = new THREE.EdgesGeometry(this.tileGeo);
 
     if (this.simple) {
       // cubes and tiles
       this.voxelWireGeo = new THREE.EdgesGeometry(this.cubeGeo);
-      this.tileWireGeo = new THREE.EdgesGeometry(this.tileGeo);
       this.simpleWireMat = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 1 } );
     }
     else {
@@ -93,6 +93,11 @@ export class MapRender {
       cubeMat: {
         simple: ()=>{return new THREE.MeshLambertMaterial({color: 0xffffff, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1});},
         full: ()=>{return new THREE.MeshLambertMaterial({color: 0xfeb74c});},
+      },
+
+      menuHoverWireMesh: {
+        simple: ()=>{return new THREE.LineSegments(this.tileWireGeo, this.simpleWireMat);},
+        full: ()=>{return new THREE.LineSegments(this.tileWireGeo, new THREE.LineBasicMaterial({color: 0x00ffff, linewidth: 1}));},
       },
       
       rollOverMaterial: {
@@ -154,6 +159,7 @@ export class MapRender {
     // set the materials and meshes that change based on rendering mode
     // these reference each other, so the order in which they are called matters
     this.cubeMat = renderingModeMap.cubeMat[renderMode]();
+    this.menuHoverWireMesh = renderingModeMap.menuHoverWireMesh[renderMode]();
     this.rollOverMaterial = renderingModeMap.rollOverMaterial[renderMode]();
     this.rollOverMesh = renderingModeMap.rollOverMesh[renderMode]();
     this.selectedRobotMesh = renderingModeMap.selectedRobotMesh[renderMode]();
@@ -401,7 +407,15 @@ export class MapRender {
 
     else {
 
+      if (this.menuHoverWireMesh.parent) {
+        this.menuHoverWireMesh.parent.remove(this.menuHoverWireMesh);
+      }
 
+      let intersects = this.castFromCamera(this.menuTiles.map(t=>t.mesh));
+      if (intersects.length > 0) {
+        let tile = intersects[0].object;
+        tile.add(this.menuHoverWireMesh);
+      }
 
     }
     
