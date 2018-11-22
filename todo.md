@@ -1,5 +1,5 @@
 ## experimental diegetic ui
-* each tile should change in appearance when the crosshair is inside the tile
+* make menu tiles that actually replace the HTML UI
 
 # 1.1
 
