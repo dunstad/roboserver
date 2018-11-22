@@ -71,15 +71,13 @@ export class MapRender {
     this.tileGeo = new THREE.BoxGeometry(this.voxelSideLength, this.voxelSideLength, this.voxelSideLength / 5);
 
     if (this.simple) {
-      // cubes
+      // cubes and tiles
       this.voxelWireGeo = new THREE.EdgesGeometry(this.cubeGeo);
       this.tileWireGeo = new THREE.EdgesGeometry(this.tileGeo);
       this.simpleWireMat = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 1 } );
-      this.rollOverMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, opacity: 0.5, transparent: true });
     }
     else {
-      // cubes
-      this.rollOverMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff, opacity: 0.5, transparent: true });
+      // cubes and tiles
       this.selectedRobotMaterial = new THREE.MeshLambertMaterial({ color: 0xff9999, opacity: 0.9, transparent: true });
       this.robotMaterial = new THREE.MeshLambertMaterial({color:0xffcccc});
       
@@ -97,6 +95,11 @@ export class MapRender {
         full: ()=>{return new THREE.MeshLambertMaterial({color: 0xfeb74c});},
       },
       
+      rollOverMaterial: {
+        simple: ()=>{return new THREE.MeshBasicMaterial({ color: 0xffffff, opacity: 0.5, transparent: true });},
+        full: ()=>{return new THREE.MeshBasicMaterial({ color: 0x0000ff, opacity: 0.5, transparent: true });},
+      },
+
       rollOverMesh: {
         simple: ()=>{return new THREE.Mesh(this.cubeGeo, this.rollOverMaterial).add(new THREE.LineSegments(this.voxelWireGeo, this.simpleWireMat));},
         full: ()=>{return new THREE.Mesh(this.cubeGeo, this.rollOverMaterial);},
@@ -150,6 +153,7 @@ export class MapRender {
 
     // cubes
     this.cubeMat = renderingModeMap.cubeMat[renderMode]();
+    this.rollOverMaterial = renderingModeMap.rollOverMaterial[renderMode]();
     this.rollOverMesh = renderingModeMap.rollOverMesh[renderMode]();
     this.selectedRobotMesh = renderingModeMap.selectedRobotMesh[renderMode]();
     this.robotMaterial = renderingModeMap.robotMaterial[renderMode]();
