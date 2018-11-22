@@ -304,7 +304,7 @@ export class MapRender {
    * Places the hover guide, listens for the camera controls, and draws the scene.
    */
   render() {
-    this.placeSelector();
+    this.raycastRendering();
     for (let [key, mixer] of Object.entries(this.mixers)) {
       mixer.update(1 / this.framerate);
     }
@@ -331,64 +331,74 @@ export class MapRender {
   }
 
   /**
-   * Determines where to place the hover guide.
+   * Determines where to place the hover guide, or which menu tile should be highlighted.
    */
-  placeSelector() {
+  raycastRendering() {
   
-    if (this.selectBox && !(this.prevRollOverMeshPos.equals(this.rollOverMesh.position))) {
-      this.removeSelectBox();
-    }
-  
-    this.prevRollOverMeshPos = this.rollOverMesh.position.clone();
+    if (!this.menuTiles.length) {
+      
+      if (this.selectBox && !(this.prevRollOverMeshPos.equals(this.rollOverMesh.position))) {
+        this.removeSelectBox();
+      }
 
-    let intersects = this.castFromCamera(this.voxels);
-    if (intersects.length > 0) {
-  
-      let intersect = intersects[0];
-      let normal = intersect.face.normal.clone();
-      normal.multiplyScalar(this.voxelSideLength);
-  
-      this.rollOverMesh.position.copy(intersect.object.position);
-      if (!this.altOrCtrlKeyPressed) {
-        this.rollOverMesh.position.add(normal);
-      }
-  
-      let rollOverPoint = new WorldAndScenePoint(this.rollOverMesh.position, false);
-  
-      if (this.game.GUI.selectStart.isComplete() && !this.game.GUI.selectEnd.isComplete()) {
-        this.scene.remove(this.rollOverMesh);
-        if (!this.selectBox) {
-          this.selectBox = this.makeBoxAround(this.game.GUI.selectStart.getPoint(), rollOverPoint, this.rollOverMaterial);
-          this.scene.add(this.selectBox);
+      this.prevRollOverMeshPos = this.rollOverMesh.position.clone();
+
+      let intersects = this.castFromCamera(this.voxels);
+      if (intersects.length > 0) {
+    
+        let intersect = intersects[0];
+        let normal = intersect.face.normal.clone();
+        normal.multiplyScalar(this.voxelSideLength);
+    
+        this.rollOverMesh.position.copy(intersect.object.position);
+        if (!this.altOrCtrlKeyPressed) {
+          this.rollOverMesh.position.add(normal);
         }
-      }
-      else if (!this.game.GUI.selectStart.isComplete() && this.game.GUI.selectEnd.isComplete()) {
-        this.scene.remove(this.rollOverMesh);
-        if (!this.selectBox) {
-          this.selectBox = this.makeBoxAround(rollOverPoint, this.game.GUI.selectEnd.getPoint(), this.rollOverMaterial);
-          this.scene.add(this.selectBox);
+    
+        let rollOverPoint = new WorldAndScenePoint(this.rollOverMesh.position, false);
+    
+        if (this.game.GUI.selectStart.isComplete() && !this.game.GUI.selectEnd.isComplete()) {
+          this.scene.remove(this.rollOverMesh);
+          if (!this.selectBox) {
+            this.selectBox = this.makeBoxAround(this.game.GUI.selectStart.getPoint(), rollOverPoint, this.rollOverMaterial);
+            this.scene.add(this.selectBox);
+          }
         }
+        else if (!this.game.GUI.selectStart.isComplete() && this.game.GUI.selectEnd.isComplete()) {
+          this.scene.remove(this.rollOverMesh);
+          if (!this.selectBox) {
+            this.selectBox = this.makeBoxAround(rollOverPoint, this.game.GUI.selectEnd.getPoint(), this.rollOverMaterial);
+            this.scene.add(this.selectBox);
+          }
+        }
+        else {
+          this.scene.add(this.rollOverMesh);
+        }
+    
       }
+
       else {
-        this.scene.add(this.rollOverMesh);
+        this.scene.remove(this.rollOverMesh);
       }
-  
+    
+      if (this.game.GUI.selectStart.isComplete() && this.game.GUI.selectEnd.isComplete()) {
+        if (!this.selectBox) {
+          this.selectBox = this.makeBoxAround(this.game.GUI.selectStart.getPoint(), this.game.GUI.selectEnd.getPoint(), this.rollOverMaterial);
+          this.scene.add(this.selectBox);
+        }
+      }
+    
+      let worldCoords = new WorldAndScenePoint(this.rollOverMesh.position, false).world();
+      let hoverCoordDiv = this.game.GUI.hoverGuideCoordinates;
+      hoverCoordDiv.innerHTML = String([worldCoords.x, worldCoords.y, worldCoords.z]);
+
     }
 
     else {
-      this.scene.remove(this.rollOverMesh);
+
+
+
     }
-  
-    if (this.game.GUI.selectStart.isComplete() && this.game.GUI.selectEnd.isComplete()) {
-      if (!this.selectBox) {
-        this.selectBox = this.makeBoxAround(this.game.GUI.selectStart.getPoint(), this.game.GUI.selectEnd.getPoint(), this.rollOverMaterial);
-        this.scene.add(this.selectBox);
-      }
-    }
-  
-    let worldCoords = new WorldAndScenePoint(this.rollOverMesh.position, false).world();
-    let hoverCoordDiv = this.game.GUI.hoverGuideCoordinates;
-    hoverCoordDiv.innerHTML = String([worldCoords.x, worldCoords.y, worldCoords.z]);
     
   }
 
