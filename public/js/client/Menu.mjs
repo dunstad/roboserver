@@ -165,7 +165,15 @@ export class Menu {
       
     }
 
-    this.mapRender.scene.fog = new THREE.Fog(this.mapRender.renderer.getClearColor().getHex(), 1);
+    if (!this.mapRender.scene.fog) {
+      let fog = new THREE.Fog(this.mapRender.renderer.getClearColor().getHex(), 1000);
+      this.mapRender.scene.fog = fog;
+
+      let nearKeyFrame = new THREE.NumberKeyframeTrack('.near', [0, .25], [1000, 1]);
+      let nearClip = new THREE.AnimationClip('FogIn', .25, [nearKeyFrame]);
+      let mixerKey = 'fogIn';
+      this.mapRender.animate(nearClip, fog, mixerKey);
+    }
     
   }
 

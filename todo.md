@@ -12,7 +12,6 @@
   
 ## experimental diegetic ui
 * each tile should change in appearance when the crosshair is inside the tile
-* animate fog
 
 # 1.1
 
