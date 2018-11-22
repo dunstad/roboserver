@@ -151,7 +151,8 @@ export class MapRender {
 
     let renderMode = this.simple ? 'simple' : 'full';
 
-    // cubes
+    // set the materials and meshes that change based on rendering mode
+    // these reference each other, so the order in which they are called matters
     this.cubeMat = renderingModeMap.cubeMat[renderMode]();
     this.rollOverMaterial = renderingModeMap.rollOverMaterial[renderMode]();
     this.rollOverMesh = renderingModeMap.rollOverMesh[renderMode]();
