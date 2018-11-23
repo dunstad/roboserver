@@ -11,6 +11,7 @@
   * server should know how many of an item are at a location
   
 ## experimental diegetic ui
+* the menu tile outline is barely visible
 * make menu tiles that actually replace the HTML UI
 
 # 1.1
@@ -68,6 +69,9 @@
 * visual tool for chaining robot commands together to automate tasks
   * first make an action recording feature
   * specify number of loops, duration of sleep between
+* for vr, inventories should be shelves
+  * each stack should have a model, sized by stack size
+  * pick them up and move/throw them to different inventories
 
 ## small
 * validate test data
