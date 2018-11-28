@@ -1,38 +1,55 @@
-## experimental diegetic ui
-* the menu tile outline is barely visible
-* make menu tiles that actually replace the HTML UI
-
 # 1.1
 
-## features
-* allow robot install to default to offline instead of always using github
-  * can probably just have a separate install.txt with a different environment variable
-  * ~~```internet.request(url)```~~
-  * ~~The returned function is an iterator over chunks of the result, use it like so:~~
-  * ~~```for chunk in internet.request(...) do stuff() end```~~
-
-# 1.2
-* add unit tests for web client
-  * should be able to initialize Game, MapRender, GUI, and WebClient without the DOM
-    * have a render flag in Game, only call methods that change the DOM when it's true
-    * refactor web client listeners into updateState, updateRender pattern
-    * add command results to allRobotInfo, render from there
-  * updateState ought to be changes to allRobotInfo and/or voxelMap every time
+## ui
+* the menu tile outline is barely visible
+* make menu tiles that actually replace the HTML UI
+* split command history by robot
+* delete the message banner
 
 # later
 
-## big
-* blueprint storage and rendering
+## item/building production
+* rework to use https://github.com/PrismarineJS/minecraft-data
+* all known inventories tracked per account, robots check those first when crafting or building
+* current order of acting on an area of blocks not the most efficient
+  * maybe do a column at a time but sort those by distance
+  * alternatively sort all the points by distance after each action
+* robots need to be able to find resources in the world
+* use furnaces automatically during crafting
+* management mode
+  * each block of area-based tasks like digging and placing is a separate task
+  * each item to be crafted is a separate task
+  * tasks are sent one at a time to available robots
+  * robots probably need to be able to lock resources like furnaces, possibly inventories
+
+## item production
+* customizable crafting recipes
+
+## building production
+* all known inventories tracked per account, robots check those first when crafting or building
 * mapping:
   * Set up database
   * persistent server side maps that robots can read
   * dimension selector to handle robots in different dimensions or worlds
-    * while we're changing the ui, put scan size selector next to scan button
   * detect maximum scan batch size based on available memory
   * don't add to the scene any voxels which are surrounded?
   * merge and split voxel meshes based on distance from robot
     * sort of like how minecraft loads chunks, hopefully this approach would improve rendering speed
     * impossible to retain individual coloring?
+* blueprints:
+  * get them from some online source? or just have a bunch of base files on the server
+  * create blueprint from selection
+  * blueprint creator/editor
+
+
+
+## usage from phone
+* add phone controls
+
+
+## other
+* validate test data
+* validate incoming data (outgoing is already validated)
 * ocglasses roboserver client
   * highlight the block we're looking at
   * implement move command on punch first
@@ -46,27 +63,9 @@
 * for vr, inventories should be shelves
   * each stack should have a model, sized by stack size
   * pick them up and move/throw them to different inventories
-
-## small
-* validate test data
-* validate incoming data (outgoing is already validated)
-* rework to use https://github.com/PrismarineJS/minecraft-data
-* add a go away forever button to the message banner
-* change gui based on what components the selected robot has
-  * modularize lua code so more of the requires/components are optional
-  * allow limited functionality without crafting component
-  * allow limited functionality without inventory controller
-  * allow limited functionality without geolyzer
-* customizable crafting recipes
-* all known inventories tracked per account, robots check those first when crafting or building
 * virtual items/blocks?
 * perform initial configuration from application?
-* hotkeys for different tools
 * find blocks feature (make non-matches mostly transparent)
-* current order of acting on an area of blocks not the most efficient
-  * maybe do a column at a time but sort those by distance
-  * alternatively sort all the points by distance after each action
-* split command history by robot
 * display most recently equipped item
 * turn hardness values into hardness classes based on data accuracy
   * i.e., say a block could be either hardness 2 or 1.5
@@ -81,10 +80,6 @@
 * add external->external transfer support (use a robot slot)
 * drop items function in interface
 * make water/lava transparent
-* use furnaces automatically during crafting
 * improve rendering color schemes
 * make account registration create a new robot if server is on no-player mode
 * set waypoints to account for complicated pathing
-* how to split up a selection among multiple robots?
-  * vertically should work fine most of the time
-
