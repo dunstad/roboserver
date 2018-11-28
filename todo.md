@@ -1,12 +1,6 @@
-# 1.1
-
-# 1.2
-* add unit tests for web client
-  * should be able to initialize Game, MapRender, GUI, and WebClient without the DOM
-    * have a render flag in Game, only call methods that change the DOM when it's true
-    * refactor web client listeners into updateState, updateRender pattern
-    * add command results to allRobotInfo, render from there
-  * updateState ought to be changes to allRobotInfo and/or voxelMap every time
+* make electron skip login page
+* make electron server disconnect users from normal browsers
+* once we're confident electron works, change install scripts to download from release tag
 
 # later
 
