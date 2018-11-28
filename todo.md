@@ -13,6 +13,8 @@
 ## experimental diegetic ui
 * the menu tile outline is barely visible
 * make menu tiles that actually replace the HTML UI
+* split command history by robot
+* delete the message banner
 
 # 1.1
 
@@ -47,18 +49,31 @@
 * make electron server disconnect users from normal browsers
 * once we're confident electron works, change install scripts to download from release tag
 
-## big
-* blueprint storage and rendering
+## building production
+* all known inventories tracked per account, robots check those first when crafting or building
 * mapping:
   * Set up database
   * persistent server side maps that robots can read
   * dimension selector to handle robots in different dimensions or worlds
-    * while we're changing the ui, put scan size selector next to scan button
   * detect maximum scan batch size based on available memory
   * don't add to the scene any voxels which are surrounded?
   * merge and split voxel meshes based on distance from robot
     * sort of like how minecraft loads chunks, hopefully this approach would improve rendering speed
     * impossible to retain individual coloring?
+* blueprints:
+  * get them from some online source? or just have a bunch of base files on the server
+  * create blueprint from selection
+  * blueprint creator/editor
+
+
+
+## usage from phone
+* add phone controls
+
+
+## other
+* validate test data
+* validate incoming data (outgoing is already validated)
 * ocglasses roboserver client
   * highlight the block we're looking at
   * implement move command on punch first
@@ -86,12 +101,7 @@
 * all known inventories tracked per account, robots check those first when crafting or building
 * virtual items/blocks?
 * perform initial configuration from application?
-* hotkeys for different tools
 * find blocks feature (make non-matches mostly transparent)
-* current order of acting on an area of blocks not the most efficient
-  * maybe do a column at a time but sort those by distance
-  * alternatively sort all the points by distance after each action
-* split command history by robot
 * display most recently equipped item
 * turn hardness values into hardness classes based on data accuracy
   * i.e., say a block could be either hardness 2 or 1.5
@@ -106,10 +116,6 @@
 * add external->external transfer support (use a robot slot)
 * drop items function in interface
 * make water/lava transparent
-* use furnaces automatically during crafting
 * improve rendering color schemes
 * make account registration create a new robot if server is on no-player mode
 * set waypoints to account for complicated pathing
-* how to split up a selection among multiple robots?
-  * vertically should work fine most of the time
-
