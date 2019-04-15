@@ -69,6 +69,7 @@
 
 ## usage from phone
 * add phone controls
+  * https://github.com/jeromeetienne/virtualjoystick.js
 
 
 ## other
