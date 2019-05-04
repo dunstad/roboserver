@@ -191,6 +191,8 @@ function main(server, app) {
 
   // end tcp server code
 
+  console.log(`Server running! Open localhost:${config.webServerPort} in your browser to see it.\n`)
+
 }
 
 module.exports = main;
