@@ -3,6 +3,7 @@ local os = require('os');
 local url = os.getenv('ROBOSERVER_CODE') .. '/';
 local filenames = {
   'commandLoop.lua',
+  'commandMap.lua',
   'json.lua',
   'scanDirection.lua',
   'sendScan.lua',
