@@ -7,7 +7,7 @@ class PointerLockControls {
 	 * 
 	 * @param {THREE.PerspectiveCamera} camera 
 	 */
-	constructor ( camera ) {
+	constructor (camera, container) {
 
 		var scope = this;
 
@@ -30,6 +30,12 @@ class PointerLockControls {
 		var velocity = new THREE.Vector3();
 
 		var PI_2 = Math.PI / 2;
+
+		// virtual joystick stuff
+		var joystick	= new VirtualJoystick({
+			container: container,
+			mouseSupport: true,
+		});
 
 		var onMouseMove = function ( event ) {
 

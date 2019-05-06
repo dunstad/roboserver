@@ -23,14 +23,7 @@ export class MapRender {
 
     this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 10000);
     this.scene = new THREE.Scene();
-    this.controls = new PointerLockControls(this.camera);
-    this.scene.add(this.controls.getObject());
     this.raycaster = new THREE.Raycaster();
-  
-    // change the starting position of the camera/controls
-    this.goToAndLookAt(this.controls, new WorldAndScenePoint(0, 0, 0, false));
-  
-    this.scene.add(this.controls.getObject());
   
     this.hardnessToColorData = {
       // bedrock
@@ -187,6 +180,15 @@ export class MapRender {
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   
+    // controls
+    this.controls = new PointerLockControls(this.camera, this.renderer.domElement.parentElement);
+    this.scene.add(this.controls.getObject());
+  
+    // change the starting position of the camera/controls
+    this.goToAndLookAt(this.controls, new WorldAndScenePoint(0, 0, 0, false));
+  
+    this.scene.add(this.controls.getObject());
+
     window.addEventListener('resize', this.onWindowResize.bind(this), false);
   
     document.addEventListener('keydown', (e)=>{
