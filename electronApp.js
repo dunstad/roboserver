@@ -4,6 +4,9 @@ const electronApp = electron.app
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
 
+// for making the refresh key work
+const globalShortcut = electron.globalShortcut
+
 const path = require('path')
 const url = require('url')
 
@@ -31,6 +34,16 @@ function createWindow () {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools()
+
+  // make the refresh key work
+  globalShortcut.register('f5', function() {
+		console.log('f5 is pressed')
+		mainWindow.reload()
+	})
+	globalShortcut.register('CommandOrControl+R', function() {
+		console.log('CommandOrControl+R is pressed')
+		mainWindow.reload()
+	})
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
