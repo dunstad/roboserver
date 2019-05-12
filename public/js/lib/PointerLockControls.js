@@ -36,6 +36,12 @@ class PointerLockControls {
 			container: container,
 			mouseSupport: true,
 		});
+		joystick.addEventListener('touchStart', function(){
+			console.log('down')
+		})
+		joystick.addEventListener('touchEnd', function(){
+			console.log('up')
+		})
 
 		var onMouseMove = function ( event ) {
 
