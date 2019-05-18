@@ -1,4 +1,5 @@
 # 1.1
+* packages.json needs updating on this branch, master is better
 
 ## ui
 * the menu tile outline is barely visible
