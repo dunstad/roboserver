@@ -18,7 +18,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.15.2",
     "cookie-parser": "~1.4.3",
-    "debug": "~2.2.0",
+    "debug": "^4.1.1",
     "ejs": "^2.5.2",
     "express": "^4.16.4",
     "express-session": "^1.15.2",
@@ -31,7 +31,7 @@
     "passport-local": "^1.0.0",
     "passport.socketio": "^3.7.0",
     "serve-favicon": "^2.5.0",
-    "socket.io": "^1.7.3"
+    "socket.io": "^2.2.0"
   },
   "devDependencies": {
     "electron": "^3.0.10",
