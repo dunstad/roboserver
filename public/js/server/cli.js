@@ -4,90 +4,90 @@ const config = require('../config/config');
 const validators = require('../shared/fromClientSchemas.js');
 
 let commandToResponseMap = {
-    sendPosition: {
+    sendPosition: [{
         name: 'robot position',
         callback: (robotResponse)=>{
             return `${robotResponse.robot}: ${JSON.stringify(robotResponse.data)}`;
         },
-    },
-    scanArea: {
+    }],
+    scanArea: [{
         name: '',
         callback: ()=>{
 
         },
-    },
-    viewInventory: {
+    }],
+    viewInventory: [{
         name: '',
         callback: ()=>{
 
         },
-    },
-    equip: {
+    }],
+    equip: [{
         name: '',
         callback: ()=>{
 
         },
-    },
-    dig: {
+    }],
+    dig: [{
         name: '',
         callback: ()=>{
 
         },
-    },
-    place: {
+    }],
+    place: [{
         name: '',
         callback: ()=>{
 
         },
-    },
-    move: {
+    }],
+    move: [{
         name: '',
         callback: ()=>{
 
         },
-    },
-    interact: {
+    }],
+    interact: [{
         name: '',
         callback: ()=>{
 
         },
-    },
-    inspect: {
+    }],
+    inspect: [{
         name: '',
         callback: ()=>{
 
         },
-    },
-    select: {
+    }],
+    select: [{
         name: '',
         callback: ()=>{
 
         },
-    },
-    transfer: {
+    }],
+    transfer: [{
         name: '',
         callback: ()=>{
 
         },
-    },
-    craft: {
+    }],
+    craft: [{
         name: '',
         callback: ()=>{
 
         },
-    },
-    raw: {
-        name: '',
-        callback: ()=>{
-
+    }],
+    raw: [{
+        name: 'command result',
+        callback: (robotResponse)=>{
+            return `${robotResponse.robot}: ${robotResponse.data}`;
         },
-    },
-    sendComponents: {
-        name: '',
-        callback: ()=>{
-
+    }],
+    sendComponents: [{
+        name: 'available components',
+        callback: (robotResponse)=>{
+            return `${robotResponse.robot}: ${robotResponse.data}`;
         },
-    },
+    }],
 }
 
 /**
@@ -124,10 +124,17 @@ function sendCommand(commandName, commandParameters, robot) {
             
                     socket.on('message', console.log);
 
-                    socket.on(commandToResponseMap[commandName].name, (robotResponse)=>{
+                    for (let handlerObject of commandToResponseMap[commandName]) {
+                        socket.on(handlerObject.name, (robotResponse)=>{
+                            let result = handlerObject.callback(robotResponse);
+                            console.log(result);
+                        });
+                    }
+                    
+                    socket.on('power level', (robotResponse)=>{
                         socket.disconnect();
-                        let result = commandToResponseMap[commandName].callback(robotResponse);
-                        resolve(result);
+                        let result = `power: ${Math.round(robotResponse.data * 100)}%`;
+                        resolve(result); // this needs to be in the map above
                     });
 
                     socket.emit('command', commandObject);
