@@ -17,14 +17,139 @@ let commandToResponseMap = {
     },
     scanArea: {
         callbacks: [{
-            name: '',
+            name: 'map data',
             callback: (robotResponse, socket)=>{
 
+                this.hardnessToLetterMap = {
+                    // bedrock
+                    '-1': {
+                        letter: 'b',
+                        color: '',
+                    },
+                    // air
+                    0: {
+                        letter: '.',
+                        color: '',
+                    },
+                    // leaves
+                    0.2: {
+                        letter: 'l',
+                        color: '',
+                    },
+                    // glowstone
+                    0.3: {
+                        letter: 'G',
+                        color: '',
+                    },
+                    // netherrack
+                    0.4: {
+                        letter: 'n',
+                        color: '',
+                    },
+                    // dirt or sand
+                    0.5: {
+                        letter: 'd',
+                        color: '',
+                    },
+                    // grass block
+                    0.6: {
+                        letter: 'g',
+                        color: '',
+                    },
+                    // sandstone
+                    0.8: {
+                        letter: 's',
+                        color: '',
+                    },
+                    // pumpkins or melons
+                    1.0: {
+                        letter: 'p',
+                        color: '',
+                    },
+                    // smooth stone
+                    1.5: {
+                        letter: 'C',
+                        color: '',
+                    },
+                    // cobblestone
+                    2.0: {
+                        letter: 'c',
+                        color: '',
+                    },
+                    // ores
+                    3.0: {
+                        letter: '!',
+                        color: '',
+                    },
+                    // cobwebs
+                    4.0: {
+                        letter: 'w',
+                        color: '',
+                    },
+                    // ore blocks
+                    5.0: {
+                        letter: 'O',
+                        color: '',
+                    },
+                    // obsidian
+                    50: {
+                        letter: 'o',
+                        color: '',
+                    },
+                    // water or lava
+                    100: {
+                        letter: 'W',
+                        color: '',
+                    },
+                };
+
+                let letterFromHardness = (hardness)=>{
+                    let closestMatch = 999; // arbitrarily high number
+                    let oldDifference = Math.abs(closestMatch - hardness);
+                    for (let key in this.hardnessToLetterMap) {
+                        let newDifference = Math.abs(key - hardness);
+                        if (newDifference < oldDifference) {
+                            closestMatch = key;
+                            oldDifference = newDifference;
+                        }
+                    }
+                    return this.hardnessToLetterMap[closestMatch].letter;
+                };
+
+                let terrainMap = [];
+                for (let y = 0; y < (robotResponse.data.data.n / (robotResponse.data.w * robotResponse.data.d)); y++) {
+                    terrainMap.push([]);
+                    for (let z = 0; z < robotResponse.data.d; z++) {
+                        terrainMap[y].push([]);
+                        for (let x = 0; x < robotResponse.data.w; x++) {
+    
+                            let xWithOffset = x + robotResponse.data.x;
+                            let yWithOffset = y + robotResponse.data.y;
+                            let zWithOffset = z + robotResponse.data.z;
+            
+                            // this is how the geolyzer reports 3d data in a 1d array
+                            // also lua is indexed from 1
+                            let index = (x + 1) + z*robotResponse.data.w + y*robotResponse.data.w*robotResponse.data.d;
+
+                            terrainMap[y][z].push(letterFromHardness(robotResponse.data.data[index]));
+
+                        }
+                    }
+                }
+
+                console.log(`${robotResponse.robot}:`);
+                for (let i = terrainMap.length - 1; i >= 0; i--) {
+                    console.log()
+                    for (let row of terrainMap[i]) {
+                        console.log(row.reduce((a, b)=>a+b));
+                    }
+                }
+                socket.done = true;
             },
         }],
         errorStrings: {
-            usage: '',
-            example: '',
+            usage: 'scanLevel',
+            example: '1',
         }
     },
     viewInventory: {
@@ -182,7 +307,16 @@ function sendCommand(commandName, commandParameters, robot) {
     return new Promise((resolve, reject)=>{
 
         commandParameters = Array.isArray(commandParameters) ? commandParameters : [];  
-        let commandObject = {command: {name: commandName, parameters: commandParameters}, robot: robot};
+        let commandObject = {
+            command: {
+                name: commandName,
+                parameters: commandParameters.map((parameter)=>{
+                    let converted = parseInt(parameter);
+                    return isNaN(converted) ? parameter : converted;
+                }),
+            },
+            robot: robot,
+        };
         if (validators[commandName](commandObject)) {
 
             request.post(
@@ -233,6 +367,10 @@ function sendCommand(commandName, commandParameters, robot) {
     });
 }
 
+/**
+ * Prints all the commands and their arguments.
+ * @param {Object} commandToResponseMap 
+ */
 function printCommands(commandToResponseMap) {
     console.log('Commands: ');
     for (let commandName of Object.keys(commandToResponseMap)) {
@@ -240,7 +378,7 @@ function printCommands(commandToResponseMap) {
         if (commandToResponseMap[commandName].errorStrings) {
             parameterString = commandToResponseMap[commandName].errorStrings.usage;
         }
-        console.log(`${commandName} ${parameterString}`);
+        console.log(`  ${commandName} ${parameterString}`);
     }
 }
 
