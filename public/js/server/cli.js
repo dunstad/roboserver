@@ -123,10 +123,6 @@ let commandToResponseMap = {
                         terrainMap[y].push([]);
                         for (let x = 0; x < robotResponse.data.w; x++) {
     
-                            let xWithOffset = x + robotResponse.data.x;
-                            let yWithOffset = y + robotResponse.data.y;
-                            let zWithOffset = z + robotResponse.data.z;
-            
                             // this is how the geolyzer reports 3d data in a 1d array
                             // also lua is indexed from 1
                             let index = (x + 1) + z*robotResponse.data.w + y*robotResponse.data.w*robotResponse.data.d;
@@ -137,12 +133,58 @@ let commandToResponseMap = {
                     }
                 }
 
-                console.log(`${robotResponse.robot}:`);
-                for (let i = terrainMap.length - 1; i >= 0; i--) {
-                    console.log()
-                    for (let row of terrainMap[i]) {
-                        console.log(row.reduce((a, b)=>a+b));
+                let topDown = [];
+                let y = 2;
+                for (let z = 0; z < robotResponse.data.d; z++) {
+                    topDown.unshift([]);
+                    for (let x = 0; x < robotResponse.data.w; x++) {
+
+                        // this is how the geolyzer reports 3d data in a 1d array
+                        // also lua is indexed from 1
+                        let index = (x + 1) + z*robotResponse.data.w + y*robotResponse.data.w*robotResponse.data.d;
+
+                        topDown[0].push(letterFromHardness(robotResponse.data.data[index]));
+
                     }
+                }
+
+                let leftRight = [];
+                let z = 3;
+                for (let y = 0; y < (robotResponse.data.data.n / (robotResponse.data.w * robotResponse.data.d)); y++) {
+                    leftRight.push([]);
+                    for (let x = 0; x < robotResponse.data.w; x++) {
+
+                        // this is how the geolyzer reports 3d data in a 1d array
+                        // also lua is indexed from 1
+                        let index = (x + 1) + z*robotResponse.data.w + y*robotResponse.data.w*robotResponse.data.d;
+
+                        leftRight[y].push(letterFromHardness(robotResponse.data.data[index]));
+
+                    }
+                }
+
+                let frontBack = [];
+                let x = 3;
+                for (let y = 0; y < (robotResponse.data.data.n / (robotResponse.data.w * robotResponse.data.d)); y++) {
+                    frontBack.push([]);
+                    for (let z = 0; z < robotResponse.data.d; z++) {
+
+                        // this is how the geolyzer reports 3d data in a 1d array
+                        // also lua is indexed from 1
+                        let index = (x + 1) + z*robotResponse.data.w + y*robotResponse.data.w*robotResponse.data.d;
+
+                        frontBack[y].push(letterFromHardness(robotResponse.data.data[index]));
+
+                    }
+                }
+
+                console.log(`${robotResponse.robot}:`);
+                console.log()
+                for (let rowIndex = topDown.length - 1; rowIndex >= 0; rowIndex--) {
+                    let firstRow = topDown[rowIndex].reduce((a, b)=>a+b);
+                    let secondRow = leftRight[rowIndex].reduce((a, b)=>a+b);
+                    let thirdRow = frontBack[rowIndex].reduce((a, b)=>a+b);
+                    console.log(`${firstRow} ${secondRow} ${thirdRow}`);
                 }
                 socket.done = true;
             },
