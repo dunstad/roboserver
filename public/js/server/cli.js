@@ -3,92 +3,172 @@ const io = require('socket.io-client');
 const config = require('../config/config');
 const validators = require('../shared/fromClientSchemas.js');
 
+let validationErrorString = 'Command failed to validate.';
+
 let commandToResponseMap = {
-    sendPosition: [{
-        name: 'robot position',
-        callback: (robotResponse, socket)=>{
-            console.log(`${robotResponse.robot}: ${JSON.stringify(robotResponse.data)}`);
-            socket.done = true;
-        },
-    }],
-    scanArea: [{
-        name: '',
-        callback: (robotResponse, socket)=>{
+    sendPosition: {
+        callbacks: [{
+            name: 'robot position',
+            callback: (robotResponse, socket)=>{
+                console.log(`${robotResponse.robot}: ${JSON.stringify(robotResponse.data)}`);
+                socket.done = true;
+            },
+        }],
+    },
+    scanArea: {
+        callbacks: [{
+            name: '',
+            callback: (robotResponse, socket)=>{
 
-        },
-    }],
-    viewInventory: [{
-        name: '',
-        callback: (robotResponse, socket)=>{
+            },
+        }],
+        errorStrings: {
+            usage: '',
+            example: '',
+        }
+    },
+    viewInventory: {
+        callbacks: [{
+            name: '',
+            callback: (robotResponse, socket)=>{
 
-        },
-    }],
-    equip: [{
-        name: '',
-        callback: (robotResponse, socket)=>{
+            },
+        }],
+        errorStrings: {
+            usage: '',
+            example: '',
+        }
+    },
+    equip: {
+        callbacks: [{
+            name: '',
+            callback: (robotResponse, socket)=>{
 
-        },
-    }],
-    dig: [{
-        name: '',
-        callback: (robotResponse, socket)=>{
+            },
+        }],
+        errorStrings: {
+            usage: '',
+            example: '',
+        }
+    },
+    dig: {
+        callbacks: [{
+            name: '',
+            callback: (robotResponse, socket)=>{
 
-        },
-    }],
-    place: [{
-        name: '',
-        callback: (robotResponse, socket)=>{
+            },
+        }],
+        errorStrings: {
+            usage: '',
+            example: '',
+        }
+    },
+    place: {
+        callbacks: [{
+            name: '',
+            callback: (robotResponse, socket)=>{
 
-        },
-    }],
-    move: [{
-        name: '',
-        callback: (robotResponse, socket)=>{
+            },
+        }],
+        errorStrings: {
+            usage: '',
+            example: '',
+        }
+    },
+    move: {
+        callbacks: [{
+            name: '',
+            callback: (robotResponse, socket)=>{
 
-        },
-    }],
-    interact: [{
-        name: '',
-        callback: (robotResponse, socket)=>{
+            },
+        }],
+        errorStrings: {
+            usage: '',
+            example: '',
+        }
+    },
+    interact: {
+        callbacks: [{
+            name: '',
+            callback: (robotResponse, socket)=>{
 
-        },
-    }],
-    inspect: [{
-        name: '',
-        callback: (robotResponse, socket)=>{
+            },
+        }],
+        errorStrings: {
+            usage: '',
+            example: '',
+        }
+    },
+    inspect: {
+        callbacks: [{
+            name: '',
+            callback: (robotResponse, socket)=>{
 
-        },
-    }],
-    select: [{
-        name: '',
-        callback: (robotResponse, socket)=>{
+            },
+        }],
+        errorStrings: {
+            usage: '',
+            example: '',
+        }
+    },
+    select: {
+        callbacks: [{
+            name: '',
+            callback: (robotResponse, socket)=>{
 
-        },
-    }],
-    transfer: [{
-        name: '',
-        callback: (robotResponse, socket)=>{
+            },
+        }],
+        errorStrings: {
+            usage: '',
+            example: '',
+        }
+    },
+    transfer: {
+        callbacks: [{
+            name: '',
+            callback: (robotResponse, socket)=>{
 
-        },
-    }],
-    craft: [{
-        name: '',
-        callback: (robotResponse, socket)=>{
+            },
+        }],
+        errorStrings: {
+            usage: '',
+            example: '',
+        }
+    },
+    craft: {
+        callbacks: [{
+            name: '',
+            callback: (robotResponse, socket)=>{
 
-        },
-    }],
-    raw: [{
-        name: 'command result',
-        callback: (robotResponse, socket)=>{
-            return `${robotResponse.robot}: ${robotResponse.data}`;
-        },
-    }],
-    sendComponents: [{
-        name: 'available components',
-        callback: (robotResponse, socket)=>{
-            return `${robotResponse.robot}: ${robotResponse.data}`;
-        },
-    }],
+            },
+        }],
+        errorStrings: {
+            usage: '',
+            example: '',
+        }
+    },
+    raw: {
+        callbacks: [{
+            name: 'command result',
+            callback: (robotResponse, socket)=>{
+                console.log(`${robotResponse.robot}: ${robotResponse.data[1] || robotResponse.data[0]}`);
+                socket.done = true;
+            },
+        }],
+        errorStrings: {
+            usage: 'someLuaCode',
+            example: '"cat /bin/sh.lua"',
+        }
+    },
+    sendComponents: {
+        callbacks: [{
+            name: 'available components',
+            callback: (robotResponse, socket)=>{
+                console.log(`${robotResponse.robot}: ${JSON.stringify(robotResponse.data)}`);
+                socket.done = true;
+            },
+        }],
+    },
 }
 
 /**
@@ -127,7 +207,7 @@ function sendCommand(commandName, commandParameters, robot) {
                     socket.on('message', console.log);
 
                     socket.done = false;
-                    for (let handlerObject of commandToResponseMap[commandName]) {
+                    for (let handlerObject of commandToResponseMap[commandName].callbacks) {
                         socket.on(handlerObject.name, (robotResponse)=>{
                             handlerObject.callback(robotResponse, socket);
                         });
@@ -147,10 +227,47 @@ function sendCommand(commandName, commandParameters, robot) {
 
         }
         else {
-            reject(new Error('Command failed to validate.'));
+            reject(new Error(validationErrorString));
         }
         
     });
 }
 
-sendCommand('sendPosition', [], 'rob').then().catch(console.error);
+function printCommands(commandToResponseMap) {
+    console.log('Commands: ');
+    for (let commandName of Object.keys(commandToResponseMap)) {
+        let parameterString = '';
+        if (commandToResponseMap[commandName].errorStrings) {
+            parameterString = commandToResponseMap[commandName].errorStrings.usage;
+        }
+        console.log(`${commandName} ${parameterString}`);
+    }
+}
+
+let commandName = process.argv[2];
+let args = process.argv.slice(3);
+if (['help', '--help', '-h', '-help'].indexOf(commandName) != -1) {
+    printCommands(commandToResponseMap);
+}
+else {
+    sendCommand(commandName, args, 'rob').then().catch((error)=>{
+        if (error.message == validationErrorString) {
+            console.error(validationErrorString);
+            let baseErrorString = `node cli.js ${commandName}`;
+            let errorStrings = commandToResponseMap[commandName].errorStrings;
+            if (errorStrings) {
+                console.log(`Usage: ${baseErrorString} ${errorStrings.usage}`);
+                console.log(`Example: ${baseErrorString} ${errorStrings.example}`);
+            }
+            else {
+                console.log(`Usage: ${baseErrorString}`);
+            }
+        }
+        else if (!commandToResponseMap[commandName]) {
+            printCommands(commandToResponseMap);
+        }
+        else {
+            console.dir(error);
+        }
+    });
+}
