@@ -35,6 +35,8 @@ function main(server, app) {
 
   io.on('connection', function (socket) {
 
+    // cli clients don't need robot state on every connection
+    socket.cli = socket.request._query.cli;
     accounts.addClient(socket.request.user.username, socket);
     console.log(socket.request.user.username + " account connected");
 

@@ -6,85 +6,86 @@ const validators = require('../shared/fromClientSchemas.js');
 let commandToResponseMap = {
     sendPosition: [{
         name: 'robot position',
-        callback: (robotResponse)=>{
-            return `${robotResponse.robot}: ${JSON.stringify(robotResponse.data)}`;
+        callback: (robotResponse, socket)=>{
+            console.log(`${robotResponse.robot}: ${JSON.stringify(robotResponse.data)}`);
+            socket.done = true;
         },
     }],
     scanArea: [{
         name: '',
-        callback: ()=>{
+        callback: (robotResponse, socket)=>{
 
         },
     }],
     viewInventory: [{
         name: '',
-        callback: ()=>{
+        callback: (robotResponse, socket)=>{
 
         },
     }],
     equip: [{
         name: '',
-        callback: ()=>{
+        callback: (robotResponse, socket)=>{
 
         },
     }],
     dig: [{
         name: '',
-        callback: ()=>{
+        callback: (robotResponse, socket)=>{
 
         },
     }],
     place: [{
         name: '',
-        callback: ()=>{
+        callback: (robotResponse, socket)=>{
 
         },
     }],
     move: [{
         name: '',
-        callback: ()=>{
+        callback: (robotResponse, socket)=>{
 
         },
     }],
     interact: [{
         name: '',
-        callback: ()=>{
+        callback: (robotResponse, socket)=>{
 
         },
     }],
     inspect: [{
         name: '',
-        callback: ()=>{
+        callback: (robotResponse, socket)=>{
 
         },
     }],
     select: [{
         name: '',
-        callback: ()=>{
+        callback: (robotResponse, socket)=>{
 
         },
     }],
     transfer: [{
         name: '',
-        callback: ()=>{
+        callback: (robotResponse, socket)=>{
 
         },
     }],
     craft: [{
         name: '',
-        callback: ()=>{
+        callback: (robotResponse, socket)=>{
 
         },
     }],
     raw: [{
         name: 'command result',
-        callback: (robotResponse)=>{
+        callback: (robotResponse, socket)=>{
             return `${robotResponse.robot}: ${robotResponse.data}`;
         },
     }],
     sendComponents: [{
         name: 'available components',
-        callback: (robotResponse)=>{
+        callback: (robotResponse, socket)=>{
             return `${robotResponse.robot}: ${robotResponse.data}`;
         },
     }],
@@ -117,6 +118,7 @@ function sendCommand(commandName, commandParameters, robot) {
                         extraHeaders: {
                             'Cookie': cookie,
                         },
+                        query: 'cli=true',
                     });
                     socket.on('connect', function () {
                         // console.log('Connected!');
@@ -124,17 +126,19 @@ function sendCommand(commandName, commandParameters, robot) {
             
                     socket.on('message', console.log);
 
+                    socket.done = false;
                     for (let handlerObject of commandToResponseMap[commandName]) {
                         socket.on(handlerObject.name, (robotResponse)=>{
-                            let result = handlerObject.callback(robotResponse);
-                            console.log(result);
+                            handlerObject.callback(robotResponse, socket);
                         });
                     }
                     
                     socket.on('power level', (robotResponse)=>{
-                        socket.disconnect();
-                        let result = `power: ${Math.round(robotResponse.data * 100)}%`;
-                        resolve(result); // this needs to be in the map above
+                        if (socket.done) {
+                            socket.disconnect();
+                            console.log(`power: ${Math.round(robotResponse.data * 100)}%`);
+                            resolve(true);
+                        }
                     });
 
                     socket.emit('command', commandObject);
@@ -149,4 +153,4 @@ function sendCommand(commandName, commandParameters, robot) {
     });
 }
 
-sendCommand('sendPosition', [], 'rob').then(console.log).catch(console.error);
+sendCommand('sendPosition', [], 'rob').then().catch(console.error);
