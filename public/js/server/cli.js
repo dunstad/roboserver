@@ -117,10 +117,18 @@ let commandToResponseMap = {
                 };
 
                 let terrainMap = [];
+                let topDown = [];
+                let leftRight = [];
+                let frontBack = [];
                 for (let y = 0; y < (robotResponse.data.data.n / (robotResponse.data.w * robotResponse.data.d)); y++) {
                     terrainMap.push([]);
+                    leftRight.push([]);
+                    frontBack.push([]);
                     for (let z = 0; z < robotResponse.data.d; z++) {
                         terrainMap[y].push([]);
+                        if (y == 2) {
+                            topDown.unshift([]);
+                        }
                         for (let x = 0; x < robotResponse.data.w; x++) {
     
                             // this is how the geolyzer reports 3d data in a 1d array
@@ -129,63 +137,42 @@ let commandToResponseMap = {
 
                             terrainMap[y][z].push(letterFromHardness(robotResponse.data.data[index]));
 
+                            if (x == 3) {
+                                frontBack[y].push(letterFromHardness(robotResponse.data.data[index]));
+                            }
+                            if (y == 2) {
+                                topDown[0].push(letterFromHardness(robotResponse.data.data[index]));
+                            }
+                            if (z == 3) {
+                                leftRight[y].push(letterFromHardness(robotResponse.data.data[index]));
+                            }
+
                         }
                     }
                 }
 
-                let topDown = [];
-                let y = 2;
-                for (let z = 0; z < robotResponse.data.d; z++) {
-                    topDown.unshift([]);
-                    for (let x = 0; x < robotResponse.data.w; x++) {
-
-                        // this is how the geolyzer reports 3d data in a 1d array
-                        // also lua is indexed from 1
-                        let index = (x + 1) + z*robotResponse.data.w + y*robotResponse.data.w*robotResponse.data.d;
-
-                        topDown[0].push(letterFromHardness(robotResponse.data.data[index]));
-
-                    }
-                }
-
-                let leftRight = [];
-                let z = 3;
-                for (let y = 0; y < (robotResponse.data.data.n / (robotResponse.data.w * robotResponse.data.d)); y++) {
-                    leftRight.push([]);
-                    for (let x = 0; x < robotResponse.data.w; x++) {
-
-                        // this is how the geolyzer reports 3d data in a 1d array
-                        // also lua is indexed from 1
-                        let index = (x + 1) + z*robotResponse.data.w + y*robotResponse.data.w*robotResponse.data.d;
-
-                        leftRight[y].push(letterFromHardness(robotResponse.data.data[index]));
-
-                    }
-                }
-
-                let frontBack = [];
-                let x = 3;
-                for (let y = 0; y < (robotResponse.data.data.n / (robotResponse.data.w * robotResponse.data.d)); y++) {
-                    frontBack.push([]);
-                    for (let z = 0; z < robotResponse.data.d; z++) {
-
-                        // this is how the geolyzer reports 3d data in a 1d array
-                        // also lua is indexed from 1
-                        let index = (x + 1) + z*robotResponse.data.w + y*robotResponse.data.w*robotResponse.data.d;
-
-                        frontBack[y].push(letterFromHardness(robotResponse.data.data[index]));
-
-                    }
+                function makeSpaces(num) {
+                    return Array(num).fill(' ').reduce((a, b)=>a+b);
                 }
 
                 console.log(`${robotResponse.robot}:`);
-                console.log()
+                console.log(` ${'Z'.padEnd((topDown.length + 1) * 2)}    ${'Y'.padEnd((topDown.length + 1) * 2)}    Y`);
                 for (let rowIndex = topDown.length - 1; rowIndex >= 0; rowIndex--) {
-                    let firstRow = topDown[rowIndex].reduce((a, b)=>a+b);
-                    let secondRow = leftRight[rowIndex].reduce((a, b)=>a+b);
-                    let thirdRow = frontBack[rowIndex].reduce((a, b)=>a+b);
-                    console.log(`${firstRow} ${secondRow} ${thirdRow}`);
+
+                    let firstRow = topDown[rowIndex].reduce((a, b)=>a+' '+b);
+                    let secondRow = leftRight[rowIndex].reduce((a, b)=>a+' '+b);
+                    let thirdRow = frontBack[rowIndex].reduce((a, b)=>a+' '+b);
+
+                    let firstString = `${String(rowIndex - 4).padStart(2)} ${firstRow}    `;
+                    let secondString = `${String(rowIndex - 2).padStart(2)} ${secondRow}    `;
+                    let thirdString = `${String(rowIndex - 2).padStart(2)} ${thirdRow}`;
+                    console.log(`${firstString}${secondString}${thirdString}`);
                 }
+                let colString = '  ';
+                for (let colIndex = 0; colIndex < topDown.length; colIndex++) {
+                    colString += `${String(colIndex - 3).padStart(2)}`;
+                }
+                console.log(`${colString} X  ${colString} X  ${colString} Z`)
                 socket.done = true;
             },
         }],
