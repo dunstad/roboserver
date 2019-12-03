@@ -119,18 +119,21 @@ class TestClient {
 				}
 			},
 			
-			interact: (x, y, z, scanLevel)=>{},
+			interact: (x, y, z, scanLevel)=>{
+				let blockData = this.inspect(x, y, z);
+				if (blockData.name == 'minecraft:chest') {
+					this.send('inventory data', this.testData.externalInventory.meta);
+					for (let slotNum in this.inventories[3].slots) {
+						let slot = this.inventories[3].serializeSlot(slotNum);
+						this.send('slot data', slot);
+					}
+				}
+				this.sendWithCost('command result', [true, 'interact complete']);
+			},
 			
 			inspect: (x, y, z, scanLevel)=>{
 				let blockData = this.inspect(x, y, z);
 				this.sendWithCost('block data', blockData);
-				if (blockData.name == 'minecraft:chest') {
-					this.sendWithCost('inventory data', this.testData.externalInventory.meta);
-					for (let slotNum in this.inventories[3].slots) {
-						let slot = this.inventories[3].serializeSlot(slotNum);
-						this.sendWithCost('slot data', slot);
-					}
-				}
 			},
 			
 			select: (slotNum)=>{
