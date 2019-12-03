@@ -94,18 +94,20 @@ class TestClient {
 				let points = this.getBoxPoints(x1, y1, z1, x2, y2, z2);
 				for (let point of points) {
 					this.dig(point.x, point.y, point.z);
-					this.sendWithCost('dig success', point);
+					this.send('dig success', point);
 				}
-				this.sendWithCost('delete selection', selectionIndex);
+				this.send('delete selection', selectionIndex);
+				this.sendWithCost('command result', [true, 'digging done']);
 			},
 			
 			place: (x1, y1, z1, x2, y2, z2, selectionIndex, scanLevel)=>{
 				let points = this.getBoxPoints(x1, y1, z1, x2, y2, z2);
 				for (let point of points) {
 					let blockData = this.place(point.x, point.y, point.z);
-					this.sendWithCost('block data', blockData);
+					this.send('block data', blockData);
 				}
-				this.sendWithCost('delete selection', selectionIndex);
+				this.send('delete selection', selectionIndex);
+				this.sendWithCost('command result', [true, 'placing done']);
 			},
 			
 			move: (x, y, z, scanLevel)=>{
@@ -168,7 +170,9 @@ class TestClient {
 			
 			},
 			
-			craft: (itemName)=>{},
+			craft: (itemName)=>{
+				this.sendWithCost('command result', [false, 'crafting not implemented']);
+			},
 			
 			raw: (commandString)=>{
 				let resultData = [true, 'received command: ' + commandString];

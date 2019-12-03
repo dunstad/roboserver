@@ -10,7 +10,10 @@ let commandToResponseMap = {
         callbacks: [{
             name: 'robot position',
             callback: (robotResponse, socket)=>{
-                console.log(`${robotResponse.robot}: ${JSON.stringify(robotResponse.data)}`);
+                console.log(`${robotResponse.robot}:`);
+                console.log(`  x: ${robotResponse.data.x}`);
+                console.log(`  y: ${robotResponse.data.y}`);
+                console.log(`  z: ${robotResponse.data.z}`);
                 socket.done = true;
             },
         }],
@@ -218,26 +221,28 @@ let commandToResponseMap = {
     },
     dig: {
         callbacks: [{
-            name: '',
+            name: 'command result',
             callback: (robotResponse, socket)=>{
-
+                console.log(`${robotResponse.robot}: ${robotResponse.data[1]}`);
+                socket.done = true;
             },
         }],
         errorStrings: {
-            usage: '',
-            example: '',
+            usage: 'x1 y1 z1 x2 y2 z2 selectionIndex scanLevel',
+            example: '2 2 2 0 2 0 0 0',
         }
     },
     place: {
         callbacks: [{
-            name: '',
+            name: 'command result',
             callback: (robotResponse, socket)=>{
-
+                console.log(`${robotResponse.robot}: ${robotResponse.data[1]}`);
+                socket.done = true;
             },
         }],
         errorStrings: {
-            usage: '',
-            example: '',
+            usage: 'x1 y1 z1 x2 y2 z2 selectionIndex scanLevel',
+            example: '2 3 2 0 3 0 0 0',
         }
     },
     move: {
@@ -340,14 +345,15 @@ let commandToResponseMap = {
     },
     craft: {
         callbacks: [{
-            name: '',
+            name: 'command result',
             callback: (robotResponse, socket)=>{
-
+                console.log(`${robotResponse.robot}: ${robotResponse.data[1]}`);
+                socket.done = true;
             },
         }],
         errorStrings: {
-            usage: '',
-            example: '',
+            usage: 'itemName',
+            example: '"Wooden Pickaxe"',
         }
     },
     raw: {
