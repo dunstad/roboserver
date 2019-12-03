@@ -65,12 +65,14 @@ class TestClient {
 			viewInventory: ()=>{
 
 				let inventoryMeta = this.serializeMeta();
-				this.sendWithCost('inventory data', inventoryMeta);
+				this.send('inventory data', inventoryMeta);
 
 				for (let slotNum in this.inventory.slots) {
 					let slotData = this.inventory.serializeSlot(slotNum);
-					this.sendWithCost('slot data', slotData);
+					this.send('slot data', slotData);
 				}
+
+				this.sendWithCost('command result', [true, 'all slot data sent']);
 
 			},
 
@@ -79,10 +81,12 @@ class TestClient {
 				this.equip();
 
 				let inventoryMeta = this.serializeMeta();
-				this.sendWithCost('inventory data', inventoryMeta);
+				this.send('inventory data', inventoryMeta);
 
 				let slotData = this.inventory.serializeSlot(this.inventory.selected);
-				this.sendWithCost('slot data', slotData);
+				this.send('slot data', slotData);
+
+				this.sendWithCost('command result', [true, 'equip complete']);
 
 			},
 			
@@ -131,6 +135,7 @@ class TestClient {
 			
 			select: (slotNum)=>{
 				this.select(slotNum);
+				this.sendWithCost('command result', [true, 'select complete']);
 			},
 
 			transfer: (fromSlotIndex, fromSide, toSlotIndex, toSide, amount)=>{

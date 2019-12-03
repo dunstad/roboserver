@@ -179,27 +179,42 @@ let commandToResponseMap = {
     },
     viewInventory: {
         callbacks: [{
-            name: '',
+            name: 'inventory data',
             callback: (robotResponse, socket)=>{
-
+                socket.selected = robotResponse.data.selected;
+                socket.slotCount = robotResponse.data.size;
+                socket.side = robotResponse.data.side;
+                socket.slots = {};
+            },
+        }, {
+            name: 'slot data',
+            callback: (robotResponse, socket)=>{
+                if (robotResponse.data.contents) {
+                    socket.slots[robotResponse.data.slotNum] = robotResponse.data.contents;
+                }
+            },
+        }, {
+            name: 'command result',
+            callback: (robotResponse, socket)=>{
+                console.log(`${robotResponse.robot}:`);
+                console.log(`side: ${socket.side}`);
+                for (let slotNum in socket.slots) {
+                    let selected = slotNum == socket.selected ? ' *' : '';
+                    let contents = socket.slots[slotNum];
+                    console.log(`${String(slotNum).padStart(2)}. ${contents.label} (${contents.size})${selected}`);
+                }
+                socket.done = true;
             },
         }],
-        errorStrings: {
-            usage: '',
-            example: '',
-        }
     },
     equip: {
         callbacks: [{
-            name: '',
+            name: 'command result',
             callback: (robotResponse, socket)=>{
-
+                console.log(`${robotResponse.robot}: ${robotResponse.data[1]}`);
+                socket.done = true;
             },
         }],
-        errorStrings: {
-            usage: '',
-            example: '',
-        }
     },
     dig: {
         callbacks: [{
@@ -270,14 +285,15 @@ let commandToResponseMap = {
     },
     select: {
         callbacks: [{
-            name: '',
+            name: 'command result',
             callback: (robotResponse, socket)=>{
-
+                console.log(`${robotResponse.robot}: ${robotResponse.data[1]}`);
+                socket.done = true;
             },
         }],
         errorStrings: {
-            usage: '',
-            example: '',
+            usage: 'slotNum',
+            example: '2',
         }
     },
     transfer: {
