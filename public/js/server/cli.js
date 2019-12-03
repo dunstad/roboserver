@@ -333,14 +333,15 @@ let commandToResponseMap = {
     },
     transfer: {
         callbacks: [{
-            name: '',
+            name: 'command result',
             callback: (robotResponse, socket)=>{
-
+                console.log(`${robotResponse.robot}: ${robotResponse.data[1]}`);
+                socket.done = true;
             },
         }],
         errorStrings: {
-            usage: '',
-            example: '',
+            usage: 'fromSlot fromSide toSlot toSide amount',
+            example: '2 -1 10 -1 7',
         }
     },
     craft: {

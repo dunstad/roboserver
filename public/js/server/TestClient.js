@@ -159,10 +159,12 @@ class TestClient {
 				
 				if (result) {
 					let fromSlotData = fromInv.serializeSlot(fromSlotIndex);
-					this.sendWithCost('slot data', fromSlotData);
+					this.send('slot data', fromSlotData);
 					
 					let toSlotData = toInv.serializeSlot(toSlotIndex);
-					this.sendWithCost('slot data', toSlotData);
+					this.send('slot data', toSlotData);
+					
+					this.sendWithCost('command result', [true, "transfer successful"]);
 				}
 				else {
 					this.sendWithCost('command result', [false, "transfer failed"]);
