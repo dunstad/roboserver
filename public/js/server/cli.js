@@ -151,10 +151,6 @@ let commandToResponseMap = {
                     }
                 }
 
-                function makeSpaces(num) {
-                    return Array(num).fill(' ').reduce((a, b)=>a+b);
-                }
-
                 console.log(`${robotResponse.robot}:`);
                 console.log(` ${'Z'.padEnd((topDown.length + 1) * 2)}    ${'Y'.padEnd((topDown.length + 1) * 2)}    Y`);
                 for (let rowIndex = topDown.length - 1; rowIndex >= 0; rowIndex--) {
@@ -231,14 +227,21 @@ let commandToResponseMap = {
     },
     move: {
         callbacks: [{
-            name: '',
+            name: 'robot position',
             callback: (robotResponse, socket)=>{
-
+                console.log(`${robotResponse.robot}: ${JSON.stringify(robotResponse.data)}`);
+                socket.done = true;
+            },
+        }, {
+            name: 'command result',
+            callback: (robotResponse, socket)=>{
+                console.log(`${robotResponse.robot}: ${robotResponse.data[1] || robotResponse.data[0]}`);
+                socket.done = true;
             },
         }],
         errorStrings: {
-            usage: '',
-            example: '',
+            usage: 'x y z scanLevel',
+            example: 'x y z 0',
         }
     },
     interact: {
