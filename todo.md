@@ -1,8 +1,15 @@
+fix test client scanArea, others
+  they shouldn't always be sending command results
+
+relative move command
+
+# later
+* firefox
+  * fix can't click inventory button
+  * fix search catches wasd
 * make electron skip login page
 * make electron server disconnect users from normal browsers
 * once we're confident electron works, change install scripts to download from release tag
-
-# later
 
 ## big
 * blueprint storage and rendering

@@ -39,8 +39,10 @@ class SocketToAccountMap {
     account.clients = account.clients || [];
     account.clients.push(clientSocket);
 
-    for (var robotSocket of this.getRobots(accountName)) {
-      this.sendRobotStateToClients(robotSocket);
+    if (!clientSocket.cli) {
+      for (var robotSocket of this.getRobots(accountName)) {
+        this.sendRobotStateToClients(robotSocket);
+      }
     }
   }
   

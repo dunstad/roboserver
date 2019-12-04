@@ -58,19 +58,24 @@ class TestClient {
 		this.commandMap = {
 
 			scanArea: (scanLevel)=>{
-				let scan = this.geolyzerScan(-3, -3, -2, 8, 8, 8);
-				this.sendWithCost('map data', scan);
+				for (let i = -2; i <= 5; i++) {
+					let scan = this.geolyzerScan(-3, -3, i, 8, 8, 1);
+					this.send('map data', scan);
+				}
+				this.sendWithCost('command result', [true, 'area scanned']);
 			},
 
 			viewInventory: ()=>{
 
 				let inventoryMeta = this.serializeMeta();
-				this.sendWithCost('inventory data', inventoryMeta);
+				this.send('inventory data', inventoryMeta);
 
 				for (let slotNum in this.inventory.slots) {
 					let slotData = this.inventory.serializeSlot(slotNum);
-					this.sendWithCost('slot data', slotData);
+					this.send('slot data', slotData);
 				}
+
+				this.sendWithCost('command result', [true, 'all slot data sent']);
 
 			},
 
@@ -79,10 +84,12 @@ class TestClient {
 				this.equip();
 
 				let inventoryMeta = this.serializeMeta();
-				this.sendWithCost('inventory data', inventoryMeta);
+				this.send('inventory data', inventoryMeta);
 
 				let slotData = this.inventory.serializeSlot(this.inventory.selected);
-				this.sendWithCost('slot data', slotData);
+				this.send('slot data', slotData);
+
+				this.sendWithCost('command result', [true, {label: 'test object', size: 4}]);
 
 			},
 			
@@ -90,47 +97,55 @@ class TestClient {
 				let points = this.getBoxPoints(x1, y1, z1, x2, y2, z2);
 				for (let point of points) {
 					this.dig(point.x, point.y, point.z);
-					this.sendWithCost('dig success', point);
+					this.send('dig success', point);
 				}
-				this.sendWithCost('delete selection', selectionIndex);
+				this.send('delete selection', selectionIndex);
+				this.sendWithCost('command result', [true, 'digging done']);
 			},
 			
 			place: (x1, y1, z1, x2, y2, z2, selectionIndex, scanLevel)=>{
 				let points = this.getBoxPoints(x1, y1, z1, x2, y2, z2);
 				for (let point of points) {
 					let blockData = this.place(point.x, point.y, point.z);
-					this.sendWithCost('block data', blockData);
+					this.send('block data', blockData);
 				}
-				this.sendWithCost('delete selection', selectionIndex);
+				this.send('delete selection', selectionIndex);
+				this.sendWithCost('command result', [true, 'placing done']);
 			},
 			
 			move: (x, y, z, scanLevel)=>{
 				let result = this.move(x, y, z);
 				if (result) {
-					this.commandMap.sendPosition();
 					this.commandMap.scanArea();
+					this.commandMap.sendPosition();
+					this.sendWithCost('command result', ['move', true]);
 				}
 				else {
-					this.sendWithCost('command result', [false, "position already occupied"]);
+					this.commandMap.sendPosition();
+					this.sendWithCost('command result', ['move', false]);
 				}
 			},
 			
-			interact: (x, y, z, scanLevel)=>{},
+			interact: (x, y, z, scanLevel)=>{
+				let blockData = this.inspect(x, y, z);
+				if (blockData.name == 'minecraft:chest') {
+					this.send('inventory data', this.testData.externalInventory.meta);
+					for (let slotNum in this.inventories[3].slots) {
+						let slot = this.inventories[3].serializeSlot(slotNum);
+						this.send('slot data', slot);
+					}
+				}
+				this.sendWithCost('command result', [true, 'interact complete']);
+			},
 			
 			inspect: (x, y, z, scanLevel)=>{
 				let blockData = this.inspect(x, y, z);
 				this.sendWithCost('block data', blockData);
-				if (blockData.name == 'minecraft:chest') {
-					this.sendWithCost('inventory data', this.testData.externalInventory.meta);
-					for (let slotNum in this.inventories[3].slots) {
-						let slot = this.inventories[3].serializeSlot(slotNum);
-						this.sendWithCost('slot data', slot);
-					}
-				}
 			},
 			
 			select: (slotNum)=>{
 				this.select(slotNum);
+				this.sendWithCost('command result', [true, 'select complete']);
 			},
 
 			transfer: (fromSlotIndex, fromSide, toSlotIndex, toSide, amount)=>{
@@ -149,10 +164,12 @@ class TestClient {
 				
 				if (result) {
 					let fromSlotData = fromInv.serializeSlot(fromSlotIndex);
-					this.sendWithCost('slot data', fromSlotData);
+					this.send('slot data', fromSlotData);
 					
 					let toSlotData = toInv.serializeSlot(toSlotIndex);
-					this.sendWithCost('slot data', toSlotData);
+					this.send('slot data', toSlotData);
+					
+					this.sendWithCost('command result', [true, "transfer successful"]);
 				}
 				else {
 					this.sendWithCost('command result', [false, "transfer failed"]);
@@ -160,7 +177,9 @@ class TestClient {
 			
 			},
 			
-			craft: (itemName)=>{},
+			craft: (itemName)=>{
+				this.sendWithCost('command result', [false, 'crafting not implemented']);
+			},
 			
 			raw: (commandString)=>{
 				let resultData = [true, 'received command: ' + commandString];
