@@ -274,7 +274,6 @@ let commandToResponseMap = {
             name: 'robot position',
             callback: (robotResponse, socket)=>{
                 socket.finalPosition = robotResponse.data;
-                console.log('position logged!')
             },
         }, {
             name: 'command result',
