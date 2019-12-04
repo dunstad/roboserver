@@ -1,3 +1,6 @@
+fix test client scanArea, others
+  they shouldn't always be sending command results
+
 relative move command
 
 # later

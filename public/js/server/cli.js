@@ -234,7 +234,11 @@ let commandToResponseMap = {
         callbacks: [{
             name: 'command result',
             callback: (robotResponse, socket)=>{
-                console.log(`${robotResponse.robot}: ${robotResponse.data[1]}`);
+                let receivedString = 'nothing';
+                if (robotResponse.data[1]) {
+                    receivedString = `${robotResponse.data[1].label} (${robotResponse.data[1].size})`;
+                }
+                console.log(`${robotResponse.robot}: equip successful, received ${receivedString}`);
                 socket.done = true;
             },
         }],
@@ -269,13 +273,16 @@ let commandToResponseMap = {
         callbacks: [{
             name: 'robot position',
             callback: (robotResponse, socket)=>{
-                console.log(`${robotResponse.robot}: ${JSON.stringify(robotResponse.data)}`);
-                socket.done = true;
+                socket.finalPosition = robotResponse.data;
+                console.log('position logged!')
             },
         }, {
             name: 'command result',
             callback: (robotResponse, socket)=>{
-                console.log(`${robotResponse.robot}: ${robotResponse.data[1] || robotResponse.data[0]}`);
+                console.log(`${robotResponse.robot}: move ${robotResponse.data[1] ? 'success' : 'failure'}`);
+                if (socket.finalPosition) {
+                    console.log(`final position: (${socket.finalPosition.x}, ${socket.finalPosition.y}, ${socket.finalPosition.z})`);
+                }
                 socket.done = true;
             },
         }],

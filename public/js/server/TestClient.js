@@ -89,7 +89,7 @@ class TestClient {
 				let slotData = this.inventory.serializeSlot(this.inventory.selected);
 				this.send('slot data', slotData);
 
-				this.sendWithCost('command result', [true, 'equip complete']);
+				this.sendWithCost('command result', [true, {label: 'test object', size: 4}]);
 
 			},
 			
@@ -116,11 +116,13 @@ class TestClient {
 			move: (x, y, z, scanLevel)=>{
 				let result = this.move(x, y, z);
 				if (result) {
-					this.commandMap.sendPosition();
 					this.commandMap.scanArea();
+					this.commandMap.sendPosition();
+					this.sendWithCost('command result', ['move', true]);
 				}
 				else {
-					this.sendWithCost('command result', [false, "position already occupied"]);
+					this.commandMap.sendPosition();
+					this.sendWithCost('command result', ['move', false]);
 				}
 			},
 			
