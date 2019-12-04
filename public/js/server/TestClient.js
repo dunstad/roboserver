@@ -58,8 +58,11 @@ class TestClient {
 		this.commandMap = {
 
 			scanArea: (scanLevel)=>{
-				let scan = this.geolyzerScan(-3, -3, -2, 8, 8, 8);
-				this.sendWithCost('map data', scan);
+				for (let i = -2; i <= 5; i++) {
+					let scan = this.geolyzerScan(-3, -3, i, 8, 8, 1);
+					this.send('map data', scan);
+				}
+				this.sendWithCost('command result', [true, 'area scanned']);
 			},
 
 			viewInventory: ()=>{

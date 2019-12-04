@@ -22,8 +22,28 @@ let commandToResponseMap = {
         callbacks: [{
             name: 'map data',
             callback: (robotResponse, socket)=>{
+                if (!socket.mapData) {
+                    socket.mapData = {
+                        w: robotResponse.data.w,
+                        d: robotResponse.data.d,
+                        data: [],
+                    };
+                }
+                for (let i = 1; i <= robotResponse.data.data.n; i++) {
+                    socket.mapData.data.push(robotResponse.data.data[i]);
+                }
+            },
+        }, {
+            name: 'command result',
+            callback: (robotResponse, socket)=>{
 
-                this.hardnessToLetterMap = {
+                mapDataObject = {n: socket.mapData.data.length};
+                for (let i = 0; i < socket.mapData.data.length; i++) {
+                    mapDataObject[i + 1] = socket.mapData.data[i];
+                }
+                socket.mapData.data = mapDataObject;
+
+                hardnessToLetterMap = {
                     // bedrock
                     '-1': {
                         letter: 'b',
@@ -109,45 +129,45 @@ let commandToResponseMap = {
                 let letterFromHardness = (hardness)=>{
                     let closestMatch = 999; // arbitrarily high number
                     let oldDifference = Math.abs(closestMatch - hardness);
-                    for (let key in this.hardnessToLetterMap) {
+                    for (let key in hardnessToLetterMap) {
                         let newDifference = Math.abs(key - hardness);
                         if (newDifference < oldDifference) {
                             closestMatch = key;
                             oldDifference = newDifference;
                         }
                     }
-                    return this.hardnessToLetterMap[closestMatch].letter;
+                    return hardnessToLetterMap[closestMatch].letter;
                 };
 
                 let terrainMap = [];
                 let topDown = [];
                 let leftRight = [];
                 let frontBack = [];
-                for (let y = 0; y < (robotResponse.data.data.n / (robotResponse.data.w * robotResponse.data.d)); y++) {
+                for (let y = 0; y < (socket.mapData.data.n / (socket.mapData.w * socket.mapData.d)); y++) {
                     terrainMap.push([]);
                     leftRight.push([]);
                     frontBack.push([]);
-                    for (let z = 0; z < robotResponse.data.d; z++) {
+                    for (let z = 0; z < socket.mapData.d; z++) {
                         terrainMap[y].push([]);
                         if (y == 2) {
                             topDown.unshift([]);
                         }
-                        for (let x = 0; x < robotResponse.data.w; x++) {
+                        for (let x = 0; x < socket.mapData.w; x++) {
     
                             // this is how the geolyzer reports 3d data in a 1d array
                             // also lua is indexed from 1
-                            let index = (x + 1) + z*robotResponse.data.w + y*robotResponse.data.w*robotResponse.data.d;
+                            let index = (x + 1) + z*socket.mapData.w + y*socket.mapData.w*socket.mapData.d;
 
-                            terrainMap[y][z].push(letterFromHardness(robotResponse.data.data[index]));
+                            terrainMap[y][z].push(letterFromHardness(socket.mapData.data[index]));
 
                             if (x == 3) {
-                                frontBack[y].push(letterFromHardness(robotResponse.data.data[index]));
+                                frontBack[y].push(letterFromHardness(socket.mapData.data[index]));
                             }
                             if (y == 2) {
-                                topDown[0].push(letterFromHardness(robotResponse.data.data[index]));
+                                topDown[0].push(letterFromHardness(socket.mapData.data[index]));
                             }
                             if (z == 3) {
-                                leftRight[y].push(letterFromHardness(robotResponse.data.data[index]));
+                                leftRight[y].push(letterFromHardness(socket.mapData.data[index]));
                             }
 
                         }
@@ -361,7 +381,7 @@ let commandToResponseMap = {
         callbacks: [{
             name: 'command result',
             callback: (robotResponse, socket)=>{
-                console.log(`${robotResponse.robot}: ${robotResponse.data[1] || robotResponse.data[0]}`);
+                console.log(`${robotResponse.robot}: ${robotResponse.data[0]} ${robotResponse.data[1]}`);
                 socket.done = true;
             },
         }],
