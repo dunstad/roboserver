@@ -57,12 +57,12 @@ class TestClient {
 
 		this.commandMap = {
 
-			scanArea: (scanLevel)=>{
+			scanArea: (scanLevel, times)=>{
 				for (let i = -2; i <= 5; i++) {
 					let scan = this.geolyzerScan(-3, -3, i, 8, 8, 1);
 					this.send('map data', scan);
 				}
-				this.sendWithCost('command result', [true, 'area scanned']);
+				this.sendWithCost('command result', ['map data', true]);
 			},
 
 			viewInventory: ()=>{
@@ -75,7 +75,7 @@ class TestClient {
 					this.send('slot data', slotData);
 				}
 
-				this.sendWithCost('command result', [true, 'all slot data sent']);
+				this.sendWithCost('command result', ['inventory data', true]);
 
 			},
 
@@ -89,7 +89,7 @@ class TestClient {
 				let slotData = this.inventory.serializeSlot(this.inventory.selected);
 				this.send('slot data', slotData);
 
-				this.sendWithCost('command result', [true, {label: 'test object', size: 4}]);
+				this.sendWithCost('command result', ['equip', {label: 'test object', size: 4}]);
 
 			},
 			
@@ -102,7 +102,7 @@ class TestClient {
 				if (selectionIndex !== undefined) {
 					this.send('delete selection', selectionIndex);
 				}
-				this.sendWithCost('command result', [true, 'digging done']);
+				this.sendWithCost('command result', ['dig', true]);
 			},
 			
 			place: (x1, y1, z1, x2, y2, z2, scanLevel, selectionIndex,)=>{
@@ -114,7 +114,7 @@ class TestClient {
 				if (selectionIndex !== undefined) {
 					this.send('delete selection', selectionIndex);
 				}
-				this.sendWithCost('command result', [true, 'placing done']);
+				this.sendWithCost('command result', ['place', true]);
 			},
 			
 			move: (x, y, z, scanLevel)=>{
@@ -139,7 +139,7 @@ class TestClient {
 						this.send('slot data', slot);
 					}
 				}
-				this.sendWithCost('command result', [true, 'interact complete']);
+				this.sendWithCost('command result', ['interact', true]);
 			},
 			
 			inspect: (x, y, z, scanLevel)=>{
@@ -149,7 +149,7 @@ class TestClient {
 			
 			select: (slotNum)=>{
 				this.select(slotNum);
-				this.sendWithCost('command result', [true, 'select complete']);
+				this.sendWithCost('command result', ['select', true]);
 			},
 
 			transfer: (fromSlotIndex, fromSide, toSlotIndex, toSide, amount)=>{
@@ -173,20 +173,20 @@ class TestClient {
 					let toSlotData = toInv.serializeSlot(toSlotIndex);
 					this.send('slot data', toSlotData);
 					
-					this.sendWithCost('command result', [true, "transfer successful"]);
+					this.sendWithCost('command result', ['transfer', true]);
 				}
 				else {
-					this.sendWithCost('command result', [false, "transfer failed"]);
+					this.sendWithCost('command result', ['transfer', false]);
 				}
 			
 			},
 			
 			craft: (itemName)=>{
-				this.sendWithCost('command result', [false, 'crafting not implemented']);
+				this.sendWithCost('command result', ['craft', 'crafting not implemented']);
 			},
 			
 			raw: (commandString)=>{
-				let resultData = [true, 'received command: ' + commandString];
+				let resultData = ['raw', 'received command: ' + commandString];
 				this.sendWithCost('command result', resultData);
 			},
 			
