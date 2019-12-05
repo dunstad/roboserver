@@ -75,9 +75,9 @@ function M.transfer(slot1, side1, slot2, side2, amount)
   return success;
 end
 
-function M.interact(x, y, z, scanType, times)
+function M.interact(x, y, z, relative, scanType, times)
   local point = {x=x, y=y, z=z};
-  local moveSuccess = adj.toAdjacent(point, scanType, times);
+  local moveSuccess = adj.toAdjacent(point, relative, scanType, times);
   local interactSuccess = false;
   if moveSuccess then
     local pointSide = 3; -- front
@@ -95,9 +95,9 @@ function M.interact(x, y, z, scanType, times)
   return moveSuccess and interactSuccess;
 end
 
-function M.inspect(x, y, z, scanType, times)
+function M.inspect(x, y, z, relative, scanType, times)
   local point = {x=x, y=y, z=z};
-  local moveSuccess = adj.toAdjacent(point, scanType, times);
+  local moveSuccess = adj.toAdjacent(point, relative, scanType, times);
   local inspectSuccess = false;
   if moveSuccess then
     local pointSide = 3; -- front

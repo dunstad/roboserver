@@ -95,8 +95,15 @@ function M.approachY(target, scanType, times)
   return true;
 end
 
+function toAbsolute(x, y, z)
+  return x + position.x, y + position.y, z + position.z;
+end
+
 -- attempt to go to coordinate until we get stuck
-function M.to(x, y, z, scanType, times)
+function M.to(x, y, z, relative, scanType, times)
+  if relative then
+    x, y, z = toAbsolute(x, y, z);
+  end
   local start = {
     x = position.x,
     y = position.y,

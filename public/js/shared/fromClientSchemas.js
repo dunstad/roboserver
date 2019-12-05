@@ -75,15 +75,18 @@ function makeCommandSchema(name, parameters) {
   return schema;
 }
 
+let doToAreaParams = Array(6).fill('integer').concat(['boolean']).concat(Array(2).fill(['integer', 'null']));
+let moveParams = Array(3).fill('integer').concat(['boolean', ['integer', 'null']]);
+
 const commandSchemas = {
   scanArea: ['integer', ['integer', 'null']],
   viewInventory: [],
   equip: [],
-  dig: Array(6).fill('integer').concat(Array(2).fill(['integer', 'null'])),
-  place: Array(6).fill('integer').concat(Array(2).fill(['integer', 'null'])),
-  move: Array(3).fill('integer').concat(Array(1).fill(['integer', 'null'])),
-  interact: Array(3).fill('integer').concat(Array(1).fill(['integer', 'null'])),
-  inspect: Array(3).fill('integer').concat(Array(1).fill(['integer', 'null'])),
+  dig: doToAreaParams,
+  place: doToAreaParams,
+  move: moveParams,
+  interact: moveParams,
+  inspect: moveParams,
   select: ['integer'],
   transfer: Array(5).fill('integer'),
   craft: ['string'],

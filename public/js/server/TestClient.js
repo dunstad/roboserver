@@ -93,7 +93,7 @@ class TestClient {
 
 			},
 			
-			dig: (x1, y1, z1, x2, y2, z2, scanLevel, selectionIndex,)=>{
+			dig: (x1, y1, z1, x2, y2, z2, relative, scanLevel, selectionIndex,)=>{
 				let points = this.getBoxPoints(x1, y1, z1, x2, y2, z2);
 				for (let point of points) {
 					this.dig(point.x, point.y, point.z);
@@ -105,7 +105,7 @@ class TestClient {
 				this.sendWithCost('command result', ['dig', true]);
 			},
 			
-			place: (x1, y1, z1, x2, y2, z2, scanLevel, selectionIndex,)=>{
+			place: (x1, y1, z1, x2, y2, z2, relative, scanLevel, selectionIndex,)=>{
 				let points = this.getBoxPoints(x1, y1, z1, x2, y2, z2);
 				for (let point of points) {
 					let blockData = this.place(point.x, point.y, point.z);
@@ -117,7 +117,12 @@ class TestClient {
 				this.sendWithCost('command result', ['place', true]);
 			},
 			
-			move: (x, y, z, scanLevel)=>{
+			move: (x, y, z, relative, scanLevel)=>{
+				if (relative) {
+					x += this.position.x;
+					y += this.position.y;
+					z += this.position.z;
+				}
 				let result = this.move(x, y, z);
 				if (result) {
 					this.commandMap.scanArea();
@@ -130,7 +135,7 @@ class TestClient {
 				}
 			},
 			
-			interact: (x, y, z, scanLevel)=>{
+			interact: (x, y, z, relative, scanLevel)=>{
 				let blockData = this.inspect(x, y, z);
 				if (blockData.name == 'minecraft:chest') {
 					this.send('inventory data', this.testData.externalInventory.meta);
@@ -142,7 +147,7 @@ class TestClient {
 				this.sendWithCost('command result', ['interact', true]);
 			},
 			
-			inspect: (x, y, z, scanLevel)=>{
+			inspect: (x, y, z, relative, scanLevel)=>{
 				let blockData = this.inspect(x, y, z);
 				this.sendWithCost('block data', blockData);
 			},

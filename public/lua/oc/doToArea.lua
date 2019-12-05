@@ -49,9 +49,9 @@ function M.doToAllPoints(pointList, action)
   return success;
 end
 
-function M.makeApproachAndDoAction(action, scanType, times)
+function M.makeApproachAndDoAction(action, relative, scanType, times)
   return function (point)
-    local moveSuccess = adj.toAdjacent(point, scanType, times);
+    local moveSuccess = adj.toAdjacent(point, relative, scanType, times);
     local actionSuccess = false;
     if moveSuccess then
       actionSuccess = action(point);
@@ -61,12 +61,12 @@ function M.makeApproachAndDoAction(action, scanType, times)
 end
 
 function M.makeDoActionToArea(action)
-  return function (x1, y1, z1, x2, y2, z2, scanType, index, times)
+  return function (x1, y1, z1, x2, y2, z2, relative, scanType, index, times)
     local p1 = {x=x1, y=y1, z=z1};
     local p2 = {x=x2, y=y2, z=z2};
     local pointList = M.generateBoxPoints(p1, p2);
     adj.distanceSort(pos.get(), pointList);
-    local approachAndDoAction = M.makeApproachAndDoAction(action, scanType, times);
+    local approachAndDoAction = M.makeApproachAndDoAction(action, relative, scanType, times);
     local actionSuccess = M.doToAllPoints(pointList, approachAndDoAction);
     if index then -- 0 is true
       tcp.write({['delete selection']=index});

@@ -252,8 +252,8 @@ let commandToResponseMap = {
             },
         }],
         errorStrings: {
-            usage: 'x1 y1 z1 x2 y2 z2 [selectionIndex] [scanLevel]',
-            example: '2 2 2 0 2 0 0 0',
+            usage: 'x1 y1 z1 x2 y2 z2 relative [selectionIndex] [scanLevel]',
+            example: '2 2 2 0 2 0 false 0 0',
         }
     },
     place: {
@@ -265,8 +265,8 @@ let commandToResponseMap = {
             },
         }],
         errorStrings: {
-            usage: 'x1 y1 z1 x2 y2 z2 [selectionIndex] [scanLevel]',
-            example: '2 3 2 0 3 0 0 0',
+            usage: 'x1 y1 z1 x2 y2 z2 relative [selectionIndex] [scanLevel]',
+            example: '2 3 2 0 3 0 false 0 0',
         }
     },
     move: {
@@ -286,8 +286,8 @@ let commandToResponseMap = {
             },
         }],
         errorStrings: {
-            usage: 'x y z [scanLevel]',
-            example: 'x y z 0',
+            usage: 'x y z relative [scanLevel]',
+            example: 'x y z false 0',
         }
     },
     interact: {
@@ -325,8 +325,8 @@ let commandToResponseMap = {
             },
         }],
         errorStrings: {
-            usage: 'x y z [scanLevel]',
-            example: '2 2 2 0',
+            usage: 'x y z relative [scanLevel]',
+            example: '2 2 2 false 0',
         }
     },
     inspect: {
@@ -340,8 +340,8 @@ let commandToResponseMap = {
             },
         }],
         errorStrings: {
-            usage: 'x y z [scanLevel]',
-            example: '2 2 2 0',
+            usage: 'x y z relative [scanLevel]',
+            example: '2 2 2 false 0',
         }
     },
     select: {
@@ -422,8 +422,18 @@ function sendCommand(commandName, commandParameters, robot) {
             command: {
                 name: commandName,
                 parameters: commandParameters.map((parameter)=>{
+                    let result = parameter;
                     let converted = parseInt(parameter);
-                    return isNaN(converted) ? parameter : converted;
+                    if (!isNaN(converted)) {
+                        result = converted;
+                    }
+                    else if (parameter.toLowerCase() ==  'true') {
+                        result = true;
+                    }
+                    else if (parameter.toLowerCase() ==  'false') {
+                        result = false;
+                    }
+                    return result;
                 }),
             },
             robot: robot,
