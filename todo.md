@@ -2,8 +2,7 @@ fix test client scanArea, others
   they shouldn't always be sending command results
 
 robot lua:
-  relative coordinates in commands
-    test it and document it
+  test relative coordinates in commands
 
 
 # later
