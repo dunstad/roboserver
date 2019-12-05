@@ -56,6 +56,7 @@ function M.moveAndScan(direction, scanType, times)
     result = directionToMoveFunctionMap[direction]();
     pos.save();
     orient.save();
+    scanType = scanType or 0;
     scanTypeMap[scanType][direction](times);
   end
   return result;

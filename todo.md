@@ -2,7 +2,6 @@ fix test client scanArea, others
   they shouldn't always be sending command results
 
 robot lua:
-  make scanLevel optional for commandMap.scanArea, moveAndScan.moveAndScan
   allow optionally passing times to commandMap.scanArea
 
   relative coordinates in commands
