@@ -196,8 +196,8 @@ let commandToResponseMap = {
             },
         }],
         errorStrings: {
-            usage: 'scanLevel',
-            example: '1',
+            usage: 'scanLevel [times]',
+            example: '1 1',
         }
     },
     viewInventory: {
@@ -252,7 +252,7 @@ let commandToResponseMap = {
             },
         }],
         errorStrings: {
-            usage: 'x1 y1 z1 x2 y2 z2 selectionIndex scanLevel',
+            usage: 'x1 y1 z1 x2 y2 z2 [selectionIndex] [scanLevel]',
             example: '2 2 2 0 2 0 0 0',
         }
     },
@@ -265,7 +265,7 @@ let commandToResponseMap = {
             },
         }],
         errorStrings: {
-            usage: 'x1 y1 z1 x2 y2 z2 selectionIndex scanLevel',
+            usage: 'x1 y1 z1 x2 y2 z2 [selectionIndex] [scanLevel]',
             example: '2 3 2 0 3 0 0 0',
         }
     },
@@ -286,7 +286,7 @@ let commandToResponseMap = {
             },
         }],
         errorStrings: {
-            usage: 'x y z scanLevel',
+            usage: 'x y z [scanLevel]',
             example: 'x y z 0',
         }
     },
@@ -325,7 +325,7 @@ let commandToResponseMap = {
             },
         }],
         errorStrings: {
-            usage: 'x y z scanLevel',
+            usage: 'x y z [scanLevel]',
             example: '2 2 2 0',
         }
     },
@@ -340,7 +340,7 @@ let commandToResponseMap = {
             },
         }],
         errorStrings: {
-            usage: 'x y z scanLevel',
+            usage: 'x y z [scanLevel]',
             example: '2 2 2 0',
         }
     },

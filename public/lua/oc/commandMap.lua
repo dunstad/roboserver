@@ -15,15 +15,15 @@ local rawBool = (raw == "true" or raw == true) and true or false;
 
 local M = {};
 
-M['scanArea'] = function(scanLevel)
+M['scanArea'] = function(scanLevel, times)
   local result;
   if scanLevel == 1 then
     for i=-2,5 do
-      result = sendScan.volume(-3, -3, i, 8, 8, 1)
+      result = sendScan.volume(-3, -3, i, 8, 8, 1, times)
     end
   elseif scanLevel == 2 then
     for i=-1,7 do
-      result = sendScan.plane(i);
+      result = sendScan.plane(i, times);
     end
   end
   return result;

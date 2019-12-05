@@ -2,8 +2,6 @@ fix test client scanArea, others
   they shouldn't always be sending command results
 
 robot lua:
-  allow optionally passing times to commandMap.scanArea
-
   relative coordinates in commands
     how?
 

@@ -76,7 +76,7 @@ function makeCommandSchema(name, parameters) {
 }
 
 const commandSchemas = {
-  scanArea: ['integer'],
+  scanArea: ['integer', ['integer', 'null']],
   viewInventory: [],
   equip: [],
   dig: Array(6).fill('integer').concat(Array(2).fill(['integer', 'null'])),
