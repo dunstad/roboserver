@@ -93,23 +93,27 @@ class TestClient {
 
 			},
 			
-			dig: (x1, y1, z1, x2, y2, z2, selectionIndex, scanLevel)=>{
+			dig: (x1, y1, z1, x2, y2, z2, scanLevel, selectionIndex,)=>{
 				let points = this.getBoxPoints(x1, y1, z1, x2, y2, z2);
 				for (let point of points) {
 					this.dig(point.x, point.y, point.z);
 					this.send('dig success', point);
 				}
-				this.send('delete selection', selectionIndex);
+				if (selectionIndex !== undefined) {
+					this.send('delete selection', selectionIndex);
+				}
 				this.sendWithCost('command result', [true, 'digging done']);
 			},
 			
-			place: (x1, y1, z1, x2, y2, z2, selectionIndex, scanLevel)=>{
+			place: (x1, y1, z1, x2, y2, z2, scanLevel, selectionIndex,)=>{
 				let points = this.getBoxPoints(x1, y1, z1, x2, y2, z2);
 				for (let point of points) {
 					let blockData = this.place(point.x, point.y, point.z);
 					this.send('block data', blockData);
 				}
-				this.send('delete selection', selectionIndex);
+				if (selectionIndex !== undefined) {
+					this.send('delete selection', selectionIndex);
+				}
 				this.sendWithCost('command result', [true, 'placing done']);
 			},
 			

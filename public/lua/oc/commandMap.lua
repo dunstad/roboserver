@@ -39,16 +39,16 @@ M['equip'] = function()
   return int.sendSlotData(-1, robot.select());
 end;
 
-M['dig'] = function(x1, y1, z1, x2, y2, z2, selectionIndex, scanLevel)
-  return dta.digArea(x1, y1, z1, x2, y2, z2, selectionIndex, scanLevel);
+M['dig'] = function(x1, y1, z1, x2, y2, z2, scanLevel, selectionIndex)
+  return dta.digArea(x1, y1, z1, x2, y2, z2, scanLevel, selectionIndex);
 end;
 
-M['place'] = function(x1, y1, z1, x2, y2, z2, selectionIndex, scanLevel)
-  return dta.placeArea(x1, y1, z1, x2, y2, z2, selectionIndex, scanLevel);
+M['place'] = function(x1, y1, z1, x2, y2, z2, scanLevel, selectionIndex)
+  return dta.placeArea(x1, y1, z1, x2, y2, z2, scanLevel, selectionIndex);
 end;
 
-M['move'] = function(x, y, z, selectionIndex, scanLevel)
-  return mas.to(x, y, z, selectionIndex, scanLevel);
+M['move'] = function(x, y, z, scanLevel)
+  return mas.to(x, y, z, scanLevel);
 end;
 
 M['interact'] = function(x, y, z, scanLevel)
