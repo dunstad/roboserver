@@ -53,6 +53,7 @@ class SocketToAccountMap {
    * @returns {boolean}
    */
   removeClient(accountName, clientSocket) {
+    clientSocket.removeAllListeners();
     var result = false;
     var account = this.accounts[accountName];
     if (account && account.clients) {

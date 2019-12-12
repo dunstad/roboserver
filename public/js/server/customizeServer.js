@@ -12,6 +12,7 @@ function main(server, app) {
 
   var io = require('socket.io')(server);
   var config = require('../config/config');
+  var request = require('request');
 
   var passportSocketIo = require('passport.socketio');
   io.use(passportSocketIo.authorize({
@@ -47,6 +48,8 @@ function main(server, app) {
     socket.on('disconnect', function () {
       accounts.removeClient(socket.request.user.username, socket);
       console.log(socket.request.user.username + " account disconnected");
+      request.get(`http://${socket.request.headers.host}/logout`);
+      console.log(socket.request.user.username + " account logged out");
     });
 
     // relay commands to the tcp server

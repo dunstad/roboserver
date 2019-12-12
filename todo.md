@@ -1,9 +1,10 @@
-fix test client scanArea, others
-  they shouldn't always be sending command results
+make the raw command send useful data again
 
 robot lua:
   test relative coordinates in commands
 
+fix test client scanArea, others
+  they shouldn't always be sending command results
 
 # later
 * firefox

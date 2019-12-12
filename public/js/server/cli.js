@@ -470,7 +470,7 @@ function sendCommand(commandName, commandParameters, robot) {
                     
                     socket.on('power level', (robotResponse)=>{
                         if (socket.done) {
-                            socket.disconnect();
+                            socket.disconnect(true);
                             console.log(`power: ${Math.round(robotResponse.data * 100)}%`);
                             resolve(true);
                         }
