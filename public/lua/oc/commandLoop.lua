@@ -20,13 +20,6 @@ local config = require('config');
 local raw = config.get(config.path).components.raw;
 local rawBool = (raw == "true" or raw == true) and true or false;
 
-function runInTerminal(commandText)
-  local file = assert(io.popen(commandText, 'r'));
-  local output = file:read('*all');
-  file:close();
-  return output;
-end
-
 function unpack (t, i)
   i = i or 1;
   if t[i] ~= nil then

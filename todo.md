@@ -1,4 +1,5 @@
-make the raw command send useful data again
+make it easier to update the robot's code with the cli
+  setting env variables seems not to work
 
 robot lua:
   test relative coordinates in commands

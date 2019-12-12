@@ -71,10 +71,17 @@ M['craft'] = function(itemName)
   return craft.craft(itemName);
 end;
 
+function runInTerminal(commandText)
+  local file = assert(io.popen(commandText, 'r'));
+  local output = file:read('*all');
+  file:close();
+  return output;
+end
+
 M['raw'] = function(commandString)
   local command = load(commandString, nil, 't', _ENV);
   local status, result = pcall(command);
-  return status, result;
+  return result;
 end;
 
 M['sendPosition'] = function()

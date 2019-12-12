@@ -390,6 +390,11 @@ let commandToResponseMap = {
                 console.log(`${robotResponse.robot}: ${robotResponse.data[0]} ${robotResponse.data[1]}`);
                 socket.done = true;
             },
+            name: 'message', // hacky but stops the cli from hanging at least
+            callback: (robotResponse, socket)=>{
+                console.log(`${robotResponse.robot} failed to serialize the command result`);
+                socket.done = true;
+            },
         }],
         errorStrings: {
             usage: 'someLuaCode',
