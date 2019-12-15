@@ -1,6 +1,13 @@
 robot lua:
   test relative coordinates in commands
 
+server not sending command result when empty?
+
+robot moving when it doesn't have to for inspect
+  inspect gets the wrong block often with relative movement
+
+add wander to movement for when pathing fails
+
 build by specifying block name rather than using current slot
   new parameters or a new command?
 
@@ -13,6 +20,9 @@ setting to allow destroying while moving, towering
 
 getComponents should send more upgrade information
 
+round block hardness
+
+cli: make inspect (and others?) handle failure
 
 # later
 * fix test client scanArea, others
