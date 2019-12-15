@@ -334,8 +334,13 @@ let commandToResponseMap = {
             name: 'block data',
             callback: (robotResponse, socket)=>{
                 console.log(`${robotResponse.robot}:`);
-                console.log(`  hardness: ${robotResponse.data.hardness}`);
+                console.log(`  hardness: ${Math.round(robotResponse.data.hardness * 100) / 100}`);
                 console.log(`  name: ${robotResponse.data.name}`);
+                socket.done = true;
+            },
+            name: 'command result',
+            callback: (robotResponse, socket)=>{
+                console.log(`${robotResponse.robot}: ${robotResponse.data[1]}`);
                 socket.done = true;
             },
         }],

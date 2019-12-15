@@ -1,12 +1,9 @@
-robot lua:
-  test relative coordinates in commands
-
-server not sending command result when empty?
-
-robot moving when it doesn't have to for inspect
+robot moving when it doesn't have to for inspect (check toAdjacent)
   inspect gets the wrong block often with relative movement
 
-add wander to movement for when pathing fails
+getComponents should send more upgrade information
+
+server not sending command result when empty?
 
 build by specifying block name rather than using current slot
   new parameters or a new command?
@@ -15,14 +12,10 @@ command to list and change settings
 
 gather command, dig blocks matching gather list
 
+add wander to movement for when pathing fails
+
 setting to allow destroying while moving, towering
   list of blocks it's okay to destroy and tower with
-
-getComponents should send more upgrade information
-
-round block hardness
-
-cli: make inspect (and others?) handle failure
 
 # later
 * fix test client scanArea, others
