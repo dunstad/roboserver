@@ -1,6 +1,17 @@
 robot lua:
   test relative coordinates in commands
 
+build by specifying block name rather than using current slot
+  new parameters or a new command?
+
+command to list and change settings
+
+gather command, dig blocks matching gather list
+
+setting to allow destroying while moving, towering
+  list of blocks it's okay to destroy and tower with
+
+getComponents should send more upgrade information
 
 
 # later
