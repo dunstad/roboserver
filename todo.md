@@ -1,13 +1,11 @@
-make it easier to update the robot's code with the cli
-  setting env variables seems not to work
-
 robot lua:
   test relative coordinates in commands
 
-fix test client scanArea, others
-  they shouldn't always be sending command results
+
 
 # later
+* fix test client scanArea, others
+  * they shouldn't always be sending command results
 * firefox
   * fix can't click inventory button
   * fix search catches wasd

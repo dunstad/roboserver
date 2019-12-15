@@ -120,7 +120,7 @@ function M.to(x, y, z, relative, scanType, times)
     start.z == position.z then
     return false;
   else
-    return M.to(x, y, z, relative, scanType, times);
+    return M.to(x, y, z, false, scanType, times);
   end
 end
 
