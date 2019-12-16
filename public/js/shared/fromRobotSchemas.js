@@ -112,6 +112,22 @@ const validators = {
     },
     "additionalProperties": false,
   }),
+
+  config: ajv.compile({
+    "properties": {
+      "robotName": {"type": "string"},
+      "accountName": {"type": "string"},
+      "serverIP": {"type": "string"},
+      "serverPort": {"type": "string"},
+      "tcpPort": {"type": "string"},
+      "posX": {"type": "integer"},
+      "posY": {"type": "integer"},
+      "posZ": {"type": "integer"},
+      "orient": {"type": "integer"},
+      "raw": {"type": "boolean",},
+    },
+    "additionalProperties": false,
+  }),
   
   commandResult: ajv.compile({
     "type": "array",

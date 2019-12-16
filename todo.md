@@ -8,6 +8,9 @@ build by specifying block name rather than using current slot
   new parameters or a new command?
 
 command to list and change settings
+  cli code
+  test client code
+  robot code
 
 gather command, dig blocks matching gather list
 

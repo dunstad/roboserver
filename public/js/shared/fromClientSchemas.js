@@ -93,6 +93,7 @@ const commandSchemas = {
   raw: ['string'],
   sendPosition: [],
   sendComponents: [],
+  config: [['string', 'null'], ['string', 'integer', 'boolean', 'null']],
 }
 
 const validators = {};
