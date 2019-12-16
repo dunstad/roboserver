@@ -2,6 +2,8 @@ test relative coordinates for interact, inspect, dig/place
 
 getComponents should send more upgrade information
 
+command loop shouldn't break when raw config is missing
+
 server not sending command result when empty?
 
 build by specifying block name rather than using current slot
