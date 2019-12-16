@@ -43,13 +43,13 @@ function M.facePoint(point)
   return orient.get();
 end
 
-function M.toAdjacent(point, relative, scanType, times)
+function M.toAdjacent(point, scanType, times)
   local adjacentPoints = M.getAdjacentPoints(point);
   M.distanceSort(pos.get(), adjacentPoints);
   local success = false;
   for index, adjPoint in pairs(adjacentPoints) do
     if not success then
-      success = mas.to(adjPoint.x, adjPoint.y, adjPoint.z, relative, scanType, times);
+      success = mas.to(adjPoint.x, adjPoint.y, adjPoint.z, false, scanType, times);
     end
   end
   M.facePoint(point);

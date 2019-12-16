@@ -1,5 +1,4 @@
-robot moving when it doesn't have to for inspect (check toAdjacent)
-  inspect gets the wrong block often with relative movement
+test relative coordinates for interact, inspect, dig/place
 
 getComponents should send more upgrade information
 

@@ -76,8 +76,11 @@ function M.transfer(slot1, side1, slot2, side2, amount)
 end
 
 function M.interact(x, y, z, relative, scanType, times)
+  if relative then
+    x, y, z = pos.toAbsolute(x, y, z);
+  end
   local point = {x=x, y=y, z=z};
-  local moveSuccess = adj.toAdjacent(point, relative, scanType, times);
+  local moveSuccess = adj.toAdjacent(point, scanType, times);
   local interactSuccess = false;
   if moveSuccess then
     local pointSide = 3; -- front
@@ -96,8 +99,11 @@ function M.interact(x, y, z, relative, scanType, times)
 end
 
 function M.inspect(x, y, z, relative, scanType, times)
+  if relative then
+    x, y, z = pos.toAbsolute(x, y, z);
+  end
   local point = {x=x, y=y, z=z};
-  local moveSuccess = adj.toAdjacent(point, relative, scanType, times);
+  local moveSuccess = adj.toAdjacent(point, scanType, times);
   local inspectSuccess = false;
   if moveSuccess then
     local pointSide = 3; -- front
