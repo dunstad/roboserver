@@ -252,7 +252,7 @@ let commandToResponseMap = {
             },
         }],
         errorStrings: {
-            usage: 'x1 y1 z1 x2 y2 z2 relative [selectionIndex] [scanLevel]',
+            usage: 'x1 y1 z1 x2 y2 z2 [relative] [selectionIndex] [scanLevel]',
             example: '2 2 2 0 2 0 false 0 0',
         }
     },
@@ -265,7 +265,7 @@ let commandToResponseMap = {
             },
         }],
         errorStrings: {
-            usage: 'x1 y1 z1 x2 y2 z2 relative [selectionIndex] [scanLevel]',
+            usage: 'x1 y1 z1 x2 y2 z2 [relative] [selectionIndex] [scanLevel]',
             example: '2 3 2 0 3 0 false 0 0',
         }
     },
@@ -286,7 +286,7 @@ let commandToResponseMap = {
             },
         }],
         errorStrings: {
-            usage: 'x y z relative [scanLevel]',
+            usage: 'x y z [relative] [scanLevel]',
             example: 'x y z false 0',
         }
     },
@@ -325,7 +325,7 @@ let commandToResponseMap = {
             },
         }],
         errorStrings: {
-            usage: 'x y z relative [scanLevel]',
+            usage: 'x y z [relative] [scanLevel]',
             example: '2 2 2 false 0',
         }
     },
@@ -345,7 +345,7 @@ let commandToResponseMap = {
             },
         }],
         errorStrings: {
-            usage: 'x y z relative [scanLevel]',
+            usage: 'x y z [relative] [scanLevel]',
             example: '2 2 2 false 0',
         }
     },
