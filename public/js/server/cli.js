@@ -475,10 +475,8 @@ function sendCommand(commandName, commandParameters, robot) {
 
                     socket.done = false;
                     for (let handlerObject of commandToResponseMap[commandName].callbacks) {
-                        console.log(handlerObject.name)
                         socket.on(handlerObject.name, (robotResponse)=>{
                             handlerObject.callback(robotResponse, socket);
-                            console.log(socket.done)
                         });
                     }
                     
