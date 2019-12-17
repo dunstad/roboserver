@@ -2,8 +2,6 @@ test relative coordinates for interact, inspect, dig/place
 
 test if command loop breaks when raw config is missing
 
-inventory commands should report total size
-
 getComponents should send more upgrade information
 
   component = require('component'); return component.list();

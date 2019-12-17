@@ -220,7 +220,8 @@ let commandToResponseMap = {
             name: 'command result',
             callback: (robotResponse, socket)=>{
                 console.log(`${robotResponse.robot}:`);
-                console.log(`side: ${socket.side}`);
+                console.log(`  slots: ${socket.slotCount}`);
+                console.log(`  side: ${socket.side}`);
                 for (let slotNum in socket.slots) {
                     let selected = slotNum == socket.selected ? ' *' : '';
                     let contents = socket.slots[slotNum];
@@ -311,7 +312,8 @@ let commandToResponseMap = {
             callback: (robotResponse, socket)=>{
                 if (socket.slots) {
                     console.log(`${robotResponse.robot}:`);
-                    console.log(`side: ${socket.side}`);
+                    console.log(`  slots: ${socket.slotCount}`);
+                    console.log(`  side: ${socket.side}`);
                     for (let slotNum in socket.slots) {
                         let selected = slotNum == socket.selected ? ' *' : '';
                         let contents = socket.slots[slotNum];
