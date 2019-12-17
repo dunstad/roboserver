@@ -17,7 +17,8 @@ local adj = require('adjacent');
 local craft = require('craft');
 local computer = require('computer');
 local config = require('config');
-local raw = config.get(config.path).components.raw;
+local components = config.get(config.path).components;
+local raw = components and components.raw or false;
 local rawBool = (raw == "true" or raw == true) and true or false;
 
 function unpack (t, i)
