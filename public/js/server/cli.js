@@ -338,6 +338,7 @@ let commandToResponseMap = {
                 console.log(`  name: ${robotResponse.data.name}`);
                 socket.done = true;
             },
+        }, {
             name: 'command result',
             callback: (robotResponse, socket)=>{
                 console.log(`${robotResponse.robot}: ${robotResponse.data[1]}`);
@@ -395,6 +396,7 @@ let commandToResponseMap = {
                 console.log(`${robotResponse.robot}: ${robotResponse.data[0]} ${robotResponse.data[1]}`);
                 socket.done = true;
             },
+        }, {
             name: 'message', // hacky but stops the cli from hanging at least
             callback: (robotResponse, socket)=>{
                 console.log(`${robotResponse.robot} failed to serialize the command result`);
@@ -473,8 +475,10 @@ function sendCommand(commandName, commandParameters, robot) {
 
                     socket.done = false;
                     for (let handlerObject of commandToResponseMap[commandName].callbacks) {
+                        console.log(handlerObject.name)
                         socket.on(handlerObject.name, (robotResponse)=>{
                             handlerObject.callback(robotResponse, socket);
+                            console.log(socket.done)
                         });
                     }
                     
