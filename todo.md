@@ -4,6 +4,8 @@ test if command loop breaks when raw config is missing
 
 raw command never terminating in cli, server receiving command result though
 
+inventory commands should report total size
+
 getComponents should send more upgrade information
 
   component = require('component'); return component.list();
