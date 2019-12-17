@@ -414,7 +414,11 @@ let commandToResponseMap = {
         callbacks: [{
             name: 'available components',
             callback: (robotResponse, socket)=>{
-                console.log(`${robotResponse.robot}: ${JSON.stringify(robotResponse.data)}`);
+                console.log(`${robotResponse.robot}:`);
+                for (let componentAddress in robotResponse.data) {
+                    let componentType = robotResponse.data[componentAddress];
+                    console.log(`  ${componentType}`);
+                }
                 socket.done = true;
             },
         }],

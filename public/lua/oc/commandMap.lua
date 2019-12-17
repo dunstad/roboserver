@@ -89,7 +89,7 @@ M['sendPosition'] = function()
 end;
 
 M['sendComponents'] = function()
-  return tcp.write({['raw']=rawBool});
+  return tcp.write(component.list());
 end;
 
 M['message'] = function(message)

@@ -107,8 +107,8 @@ const validators = {
   }),
 
   components: ajv.compile({
-    "properties": {
-      "raw": {"type": "boolean",},
+    "patternProperties": {
+      "^.*$": {"type": "string",},
     },
     "additionalProperties": false,
   }),

@@ -1,41 +1,23 @@
-test relative coordinates for interact, inspect, dig/place
+* test relative coordinates for interact, inspect, dig/place
 
-test if command loop breaks when raw config is missing
+* test if command loop breaks when raw config is missing
 
-getComponents should send more upgrade information
+* test new sendComponents
 
-  component = require('component'); return component.list();
+* command to list and change settings
+  * cli code
+  * test client code
+  * robot code
 
-  data [ 'raw',
-    { '0c9a47e1-d211-4d73-ad9d-f3f88a6d0ee9': 'keyboard',
-      '25945f78-9f94-4bd5-9211-cb37b352ebf7': 'filesystem',
-      '2a2da751-3baa-4feb-9fa1-df76016ff390': 'inventory_controller',
-      '5d48c968-e6f5-474e-865f-524e803678a7': 'filesystem',
-      '5f6a65bd-98c1-4cf5-bbe5-3e0b8b23662d': 'internet',
-      '5fffe6b3-e619-4f4f-bc9f-3ddb028afe02': 'filesystem',
-      '73aedc53-517d-4844-9cb2-645c8d7667fc': 'screen',
-      '8be5872b-9a01-4403-b853-d88fe6f17fc3': 'eeprom',
-      '9d40d271-718e-45cc-9522-dc562320a78b': 'crafting',
-      'c8181ac9-9cc2-408e-b214-3acbce9fe1c6': 'chunkloader',
-      'c8fe2fde-acb0-4188-86ef-4340de011e25': 'robot',
-      'ce229fd1-d63d-4778-9579-33f05fd6af9a': 'gpu',
-      'fdc85abb-316d-4aca-a1be-b7f947016ba1': 'computer',
-      'ff1699a6-ae72-4f74-bf1c-88ac6901d56e': 'geolyzer' } ]
+* build by specifying block name rather than using current slot
+  * new parameters or a new command?
 
-build by specifying block name rather than using current slot
-  new parameters or a new command?
+* gather command, dig blocks matching gather list
 
-command to list and change settings
-  cli code
-  test client code
-  robot code
+* add wander to movement for when pathing fails
 
-gather command, dig blocks matching gather list
-
-add wander to movement for when pathing fails
-
-setting to allow destroying while moving, towering
-  list of blocks it's okay to destroy and tower with
+* setting to allow destroying while moving, towering
+  * list of blocks it's okay to destroy and tower with
 
 # later
 * fix test client scanArea, others
