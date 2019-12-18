@@ -6,7 +6,7 @@
 
 * test command to list and change settings
 
-* is the raw config actually preventing raw commands from being run?
+* test raw config prevents raw commands from running
 
 * build by specifying block name rather than using current slot
   * new parameters or a new command?

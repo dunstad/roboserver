@@ -4,11 +4,10 @@ function loadPackages()
   dta = require('doToArea');
   int = require('interact');
   sendScan = require('sendScan');
-  pos = require('trackPosition');
-  
+  pos = require('trackPosition');  
 end
-loadPackages();
 
+loadPackages();
 local scanDirection = require('scanDirection');
 local orient = require('trackOrientation');
 local mas = require('moveAndScan');
@@ -18,7 +17,6 @@ local craft = require('craft');
 local computer = require('computer');
 local config = require('config');
 local raw = config.get(config.path).raw;
-local rawBool = (raw == "true" or raw == true) and true or false;
 
 function unpack (t, i)
   i = i or 1;
