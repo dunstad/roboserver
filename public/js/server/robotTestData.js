@@ -1,15 +1,18 @@
 module.exports = {
 
-  host: '127.0.0.1',
-  port: 3001,
-  robotName: 'rob',
-  accountName: 'admin',
   dimension: 'overworld',
 
-  position: {
-    x: 4,
-    y: 4,
-    z: 4,
+  config: {
+    robotName: 'rob',
+    accountName: 'admin',
+    serverIP: '127.0.0.1',
+    serverPort: 8080,
+    tcpPort: 3001,
+    posX: 4,
+    posY: 4,
+    posZ: 4,
+    orient: 0,
+    raw: true,
   },
 
   internalInventory: {

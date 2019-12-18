@@ -423,6 +423,25 @@ let commandToResponseMap = {
             },
         }],
     },
+    config: {
+        callbacks: [{
+            name: 'config',
+            callback: (robotResponse, socket)=>{
+                console.log(`${robotResponse.robot}:`);
+                for (let optionName in robotResponse.data) {
+                    let optionValue = robotResponse.data[optionName];
+                    console.log(`  ${optionName}: ${optionValue}`);
+                }
+                socket.done = true;
+            },
+        }, {
+            name: 'command result',
+            callback: (robotResponse, socket)=>{
+                console.log(`${robotResponse.robot}: ${robotResponse.data[0]} ${robotResponse.data[1]}`);
+                socket.done = true;
+            },
+        }],
+    },
 }
 
 /**

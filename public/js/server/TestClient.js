@@ -32,7 +32,12 @@ class TestClient {
 		this.equipped;
 		this.map = new MapData();
 		this.map.setFromMapData(this.testData.map);
-		this.position = this.testData.position;
+		this.position = {
+			x: this.testData.config.posX,
+			y: this.testData.config.posY,
+			z: this.testData.config.posZ,
+		};
+		this.config = this.testData.config;
 		this.map.set(this.position.x, this.position.y, this.position.z, {"hardness": 2});		
 		this.components = this.testData.components;
 		
@@ -229,6 +234,21 @@ class TestClient {
 			sendComponents: ()=>{
 				let components = this.getComponents();
 				this.sendWithCost('available components', components);
+			},
+
+			config: (optionName, optionValue)=>{
+				if (optionName && optionValue) {
+					this.config[optionName] = optionValue;
+					this.sendWithCost('command result', ['config', true]);
+				}
+				else if (optionName) {
+					let result = {};
+					result[optionName] = this.config[optionName];
+					this.sendWithCost('config', result);
+				}
+				else {
+					this.sendWithCost('config', this.config);
+				}
 			},
 
 		};
@@ -506,6 +526,7 @@ class TestClient {
 			'dig success': validators.digSuccess,
 			'delete selection': validators.deleteSelection,
 			'block data': validators.blockData,
+			'config': validators.config,
 		};
 		keyToValidatorMap[key](value);
 	}
@@ -555,14 +576,14 @@ class TestClient {
 	 * so it can be checked in the unit tests.
 	 */
 	getID() {
-		return {robot: this.testData.robotName, account: this.testData.accountName};
+		return {robot: this.testData.config.robotName, account: this.testData.config.accountName};
 	}
 
 	/**
 	 * Used to identify the test client to the server and open the socket connection.
 	 */
 	connect() {
-		this.socket.connect(this.testData.port, this.testData.host);
+		this.socket.connect(this.testData.config.tcpPort, this.testData.config.serverIP);
 	}
 
 	/**

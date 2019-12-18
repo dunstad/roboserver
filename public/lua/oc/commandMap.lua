@@ -89,7 +89,24 @@ M['sendPosition'] = function()
 end;
 
 M['sendComponents'] = function()
-  return tcp.write(component.list());
+  return tcp.write({['available components']=component.list()});
+end;
+
+M['config'] = function(optionName, optionValue)
+  local result;
+  if optionName and optionValue then
+    this.config[optionName] = optionValue;
+    result = true;
+  end
+  elseif optionName then
+    local options = {};
+    options[optionName] = config.get(config.path)[optionName];
+    result = tcp.write({['config']=options});
+  end
+  else
+    result = tcp.write({['config']=config.get(config.path)});
+  end
+  return result;
 end;
 
 M['message'] = function(message)
