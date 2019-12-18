@@ -95,7 +95,7 @@ end;
 M['config'] = function(optionName, optionValue)
   local result;
   if optionName and optionValue then
-    this.config[optionName] = optionValue;
+    config.set({[optionName]=optionValue}, config.path);
     result = true;
   end
   elseif optionName then
