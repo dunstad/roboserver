@@ -1,7 +1,7 @@
 const net = require('net');
 const InventoryData = require('../shared/InventoryData');
 const MapData = require('../shared/MapData');
-const validators = require('../shared/fromRobotSchemas.js');
+const keyToValidatorMap = require('../shared/fromRobotSchemas.js').keyToValidatorMap;
 
 /**
  * Used to make sure the server is working properly. Attempts to replicate
@@ -76,7 +76,7 @@ class TestClient {
 				this.send('inventory data', inventoryMeta);
 
 				for (let slotNum in this.inventory.slots) {
-					let slotData = this.inventory.serializeSlot(slotNum);
+					let slotData = this.inventory.serializeSlot(parseInt(slotNum));
 					this.send('slot data', slotData);
 				}
 
@@ -166,7 +166,7 @@ class TestClient {
 				if (blockData.name == 'minecraft:chest') {
 					this.send('inventory data', this.testData.externalInventory.meta);
 					for (let slotNum in this.inventories[3].slots) {
-						let slot = this.inventories[3].serializeSlot(slotNum);
+						let slot = this.inventories[3].serializeSlot(parseInt(slotNum));
 						this.send('slot data', slot);
 					}
 				}
@@ -513,22 +513,7 @@ class TestClient {
 	 * @param {any} value 
 	 */
 	validate(key, value) {
-		let keyToValidatorMap = {
-			'inventory data': validators.inventoryMeta,
-			'slot data': validators.inventorySlot,
-			'command result': validators.commandResult,
-			'robot position': validators.position,
-			'available components': validators.components,
-			'map data': validators.geolyzerScan,
-			'id': validators.id,
-			'message': validators.message,
-			'power level': validators.powerLevel,
-			'dig success': validators.digSuccess,
-			'delete selection': validators.deleteSelection,
-			'block data': validators.blockData,
-			'config': validators.config,
-		};
-		keyToValidatorMap[key](value);
+		return keyToValidatorMap[key](value);
 	}
 
 	/**
@@ -538,7 +523,9 @@ class TestClient {
 	 */
 	send(key, value) {
 
-		this.validate(key, value);
+		if (!this.validate(key, value)) {
+			throw Error(`command ${key} failed to validate with value ${JSON.stringify(value)}`);
+		};
 
 		const data = {
 			[key]: value,

@@ -118,8 +118,8 @@ const validators = {
       "robotName": {"type": "string"},
       "accountName": {"type": "string"},
       "serverIP": {"type": "string"},
-      "serverPort": {"type": "string"},
-      "tcpPort": {"type": "string"},
+      "serverPort": {"type": "integer"},
+      "tcpPort": {"type": "integer"},
       "posX": {"type": "integer"},
       "posY": {"type": "integer"},
       "posZ": {"type": "integer"},
@@ -132,8 +132,8 @@ const validators = {
   commandResult: ajv.compile({
     "type": "array",
     "items": [
-      { "type": "boolean" },
       { "type": "string" },
+      { "type": ["boolean", "string"] },
     ],
     "additionalItems": false,
     "minItems": 2,
@@ -192,7 +192,26 @@ const validators = {
 
 };
 
+const keyToValidatorMap = {
+  'inventory data': validators.inventoryMeta,
+  'slot data': validators.inventorySlot,
+  'command result': validators.commandResult,
+  'robot position': validators.position,
+  'available components': validators.components,
+  'map data': validators.geolyzerScan,
+  'id': validators.id,
+  'message': validators.message,
+  'power level': validators.powerLevel,
+  'dig success': validators.digSuccess,
+  'delete selection': validators.deleteSelection,
+  'block data': validators.blockData,
+  'config': validators.config,
+};
+
 try {
-  module.exports = validators;
+  module.exports = {
+    validators: validators,
+    keyToValidatorMap: keyToValidatorMap,
+  };
 }
 catch (e) {;}
