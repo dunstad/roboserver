@@ -57,7 +57,12 @@ function main(server, app) {
     // relay commands to the tcp server
     socket.on('command', (data)=>{
       console.dir(data);
-      accounts.sendToRobot(socket.request.user.username, data.robot, data.command);
+      if (fromClientSchemas[data.command.name](data)) {
+        accounts.sendToRobot(socket.request.user.username, data.robot, data.command);
+      }
+      else {
+        socket.emit('message', `command validation failed: ${JSON.stringify(data.command)}`);
+      }
     });
 
   });
@@ -118,7 +123,7 @@ function main(server, app) {
           else {
 
             var errorString = `command ${key} failed to validate with value ${JSON.stringify(dataJSON[key])}`;
-            disconnectRobot(tcpSocket, errorString);
+            tcpSocket.write(JSON.stringify({name: 'message', parameters: [errorString]}) + delimiter);
 
           }
 

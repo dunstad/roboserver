@@ -53,7 +53,6 @@
 
 ## small
 * validate test data
-* validate incoming data (outgoing is already validated)
 * rework to use https://github.com/PrismarineJS/minecraft-data
 * add a go away forever button to the message banner
 * change gui based on what components the selected robot has
