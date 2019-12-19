@@ -8,10 +8,33 @@
 
 * test raw config prevents raw commands from running
 
-* build by specifying block name rather than using current slot
-  * new parameters or a new command?
+* remember command
+  * remember coordinates \[relative?\] \[name\] \[amount\]
+    * store all names as lowercase
+    * no name means inspect the block at the coords and remember that
+      * unless it has an inventory, then remember the items?
+      * doesn't work well for furnaces
+    * no amount means it's a block
+    * negative amounts mean subtract that many from what you remember
+  * tells the server where items or blocks are
+  * server should know the difference between items and blocks
+  * server should know how many of an item are at a location
+
+* locate command
+  * locate name \[amount\]
+    * store all names as lowercase
+    * no amount means it's a block
+  * check inventory first, then ask server
+  * server replies with coordinates of an inventory or block
+  * check location provided by server, update it, ask again if invalid
+  * if the server doesn't know, craft it
 
 * gather command, dig blocks matching gather list
+  * just use equipped tool first
+  * minecraft-data seems to provide harvestTools for blocks though
+
+* build by specifying block name rather than using current slot
+  * new parameters or a new command?
 
 * add wander to movement for when pathing fails
 
