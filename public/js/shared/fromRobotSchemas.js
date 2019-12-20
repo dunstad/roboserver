@@ -133,7 +133,7 @@ const validators = {
     "type": "array",
     "items": [
       { "type": "string" },
-      { "type": ["boolean", "string", "null"] },
+      { "type": ["number", "string", "boolean", "object", "array", "null"] },
     ],
     "additionalItems": false,
     "minItems": 1,
