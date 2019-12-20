@@ -133,7 +133,7 @@ const validators = {
     "type": "array",
     "items": [
       { "type": "string" },
-      { "type": ["boolean", "string"] },
+      { "type": ["boolean", "string", "null"] },
     ],
     "additionalItems": false,
     "minItems": 2,
@@ -150,7 +150,7 @@ const validators = {
   }),
 
   powerLevel: ajv.compile({
-    "type": "number",
+    "type": ["number", "null"],
     "minimum": 0,
     "maximum": 1,
   }),
