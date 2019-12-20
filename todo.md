@@ -1,3 +1,5 @@
+* fix inventorySlot and config not validating
+
 * test relative coordinates for interact, inspect, dig/place
 
 * test if command loop breaks when raw config is missing
