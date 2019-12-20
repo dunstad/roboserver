@@ -136,7 +136,7 @@ const validators = {
       { "type": ["boolean", "string", "null"] },
     ],
     "additionalItems": false,
-    "minItems": 2,
+    "minItems": 1,
     "maxItems": 2,
   }),
   
