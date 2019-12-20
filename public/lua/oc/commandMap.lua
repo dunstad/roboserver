@@ -101,12 +101,10 @@ M['config'] = function(optionName, optionValue)
   if optionName and optionValue then
     config.set({[optionName]=optionValue}, config.path);
     result = true;
-  end
   elseif optionName then
     local options = {};
     options[optionName] = config.get(config.path)[optionName];
     result = tcp.write({['config']=options});
-  end
   else
     result = tcp.write({['config']=config.get(config.path)});
   end
