@@ -150,9 +150,9 @@ const validators = {
   }),
 
   powerLevel: ajv.compile({
-    "type": ["number", "null"],
+    "type": ["number"],
     "minimum": 0,
-    "maximum": 1,
+    // no max because creative robots have Infinity power
   }),
 
   message: ajv.compile({
