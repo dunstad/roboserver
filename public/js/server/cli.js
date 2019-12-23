@@ -437,8 +437,10 @@ let commandToResponseMap = {
         }, {
             name: 'command result',
             callback: (robotResponse, socket)=>{
-                console.log(`${robotResponse.robot}: ${robotResponse.data[0]} ${robotResponse.data[1]}`);
-                socket.done = true;
+                if (!socket.done) { // this is only for setting config options
+                    console.log(`${robotResponse.robot}: ${robotResponse.data[0]} ${robotResponse.data[1]}`);
+                    socket.done = true;
+                }
             },
         }],
     },
