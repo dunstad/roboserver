@@ -2,11 +2,7 @@
 
 * test if command loop breaks when raw config is missing
 
-* test new sendComponents
-
-* test command to list and change settings
-
-* test raw config prevents raw commands from running
+* update robot commandMap, test raw config prevents raw commands from running
 
 * remember command
   * remember coordinates \[relative?\] \[name\] \[amount\]
