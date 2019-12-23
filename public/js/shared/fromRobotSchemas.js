@@ -65,7 +65,7 @@ const validators = {
         "required": ["name", "label", "hasTag", "size", "maxSize", "damage", "maxDamage"],
       },
     },
-    "required": ["side", "slotNum", "contents"],
+    "required": ["side", "slotNum"],
     "additionalProperties": false,
   }),
 
