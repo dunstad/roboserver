@@ -133,10 +133,10 @@ const validators = {
     "type": "array",
     "items": [
       { "type": "string" },
-      { "type": ["boolean", "string"] },
+      { "type": ["number", "string", "boolean", "object", "array", "null"] },
     ],
     "additionalItems": false,
-    "minItems": 2,
+    "minItems": 1,
     "maxItems": 2,
   }),
   
@@ -150,9 +150,9 @@ const validators = {
   }),
 
   powerLevel: ajv.compile({
-    "type": "number",
+    "type": ["number"],
     "minimum": 0,
-    "maximum": 1,
+    // no max because creative robots have Infinity power
   }),
 
   message: ajv.compile({

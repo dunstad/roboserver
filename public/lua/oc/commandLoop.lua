@@ -69,6 +69,6 @@ while continueLoop do
   local success, message = pcall(executeCommand);
   if not success then
     print(message);
-    reconnect():
+    reconnect();
   end
 end
