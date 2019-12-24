@@ -1,8 +1,6 @@
-* test relative coordinates for interact, inspect, dig/place
-
-* test if command loop breaks when raw config is missing
-
 * update robot commandMap, test raw config prevents raw commands from running
+
+* fix z axis displaying backwards in scanArea
 
 * remember command
   * remember coordinates \[relative?\] \[name\] \[amount\]
