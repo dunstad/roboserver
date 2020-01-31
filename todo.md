@@ -1,6 +1,7 @@
 * update robot commandMap, test raw config prevents raw commands from running
 
 * fix z axis displaying backwards in scanArea
+  * in XZ for sure, what about YZ?
 
 * remember command
   * remember coordinates \[relative?\] \[name\] \[amount\]
