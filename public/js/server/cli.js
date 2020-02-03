@@ -150,7 +150,7 @@ let commandToResponseMap = {
                     for (let z = 0; z < socket.mapData.d; z++) {
                         terrainMap[y].push([]);
                         if (y == 2) {
-                            topDown.unshift([]);
+                            topDown.push([]);
                         }
                         for (let x = 0; x < socket.mapData.w; x++) {
     
@@ -164,7 +164,7 @@ let commandToResponseMap = {
                                 frontBack[y].push(letterFromHardness(socket.mapData.data[index]));
                             }
                             if (y == 2) {
-                                topDown[0].push(letterFromHardness(socket.mapData.data[index]));
+                                topDown[topDown.length - 1].push(letterFromHardness(socket.mapData.data[index]));
                             }
                             if (z == 3) {
                                 leftRight[y].push(letterFromHardness(socket.mapData.data[index]));
@@ -182,7 +182,7 @@ let commandToResponseMap = {
                     let secondRow = leftRight[rowIndex].reduce((a, b)=>a+' '+b);
                     let thirdRow = frontBack[rowIndex].reduce((a, b)=>a+' '+b);
 
-                    let firstString = `${String(rowIndex - 4).padStart(2)} ${firstRow}    `;
+                    let firstString = `${String(rowIndex - 3).padStart(2)} ${firstRow}    `;
                     let secondString = `${String(rowIndex - 2).padStart(2)} ${secondRow}    `;
                     let thirdString = `${String(rowIndex - 2).padStart(2)} ${thirdRow}`;
                     console.log(`${firstString}${secondString}${thirdString}`);
