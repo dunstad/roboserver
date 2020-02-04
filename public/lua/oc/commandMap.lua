@@ -10,8 +10,6 @@ local pos = require('trackPosition');
 
 tcp = require('tcp'); -- if this is local, reloading modules fails in commandLoop
 local config = require('config');
-local raw = config.get(config.path).raw;
-local rawBool = (raw == "true" or raw == true) and true or false;
 
 local M = {};
 
@@ -79,6 +77,8 @@ function runInTerminal(commandText)
 end
 
 M['raw'] = function(commandString)
+  local raw = config.get(config.path).raw;
+  local rawBool = (raw == "true" or raw == true) and true or false;
   local result;
   if rawBool then
     local status;
