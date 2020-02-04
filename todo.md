@@ -1,6 +1,3 @@
-* test raw config prevents raw commands from running
-  * figure out why raw command returns nothing for real robots
-
 * remember command
   * remember coordinates \[relative?\] \[name\] \[amount\]
     * store all names as lowercase

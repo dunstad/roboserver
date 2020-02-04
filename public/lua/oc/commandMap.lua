@@ -79,11 +79,13 @@ function runInTerminal(commandText)
 end
 
 M['raw'] = function(commandString)
+  local result;
   if rawBool then
+    local status;
     local command = load(commandString, nil, 't', _ENV);
-    local status, result = pcall(command);
+    status, result = pcall(command);
   else
-    local result = false;
+    result = false;
   end
   return result;
 end;
