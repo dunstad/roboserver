@@ -69,6 +69,7 @@ while continueLoop do
   local success, message = pcall(executeCommand);
   if not success then
     print(message);
+    tcp.write({['message']=message});
     reconnect();
   end
 end
