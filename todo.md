@@ -17,6 +17,7 @@
 * delete the message banner
 
 # 1.1
+* packages.json needs updating on this branch, master is better
 
 * locate command
   * locate name \[amount\]
