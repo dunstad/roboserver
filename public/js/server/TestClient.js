@@ -237,7 +237,7 @@ class TestClient {
 			},
 
 			config: (optionName, optionValue)=>{
-				if (optionName && optionValue) {
+				if (optionName && (optionValue !== undefined)) {
 					this.config[optionName] = optionValue;
 					this.sendWithCost('command result', ['config', true]);
 				}

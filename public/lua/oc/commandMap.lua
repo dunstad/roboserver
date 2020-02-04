@@ -98,7 +98,7 @@ end;
 
 M['config'] = function(optionName, optionValue)
   local result;
-  if optionName and optionValue then
+  if optionName and (optionValue ~= nil) then
     config.set({[optionName]=optionValue}, config.path);
     result = true;
   elseif optionName then
