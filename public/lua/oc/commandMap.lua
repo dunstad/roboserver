@@ -117,4 +117,8 @@ M['message'] = function(message)
   return print(message);
 end;
 
+M['remember'] = function(x, y, z, relative, scanLevel)
+  return 'remember test!';
+end;
+
 return M;

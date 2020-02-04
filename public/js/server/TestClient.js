@@ -251,6 +251,10 @@ class TestClient {
 				}
 			},
 
+			remember: (x, y, z, relative, scanLevel)=>{
+				this.sendWithCost('message', 'remember test!');
+			},
+
 		};
 
 		this.socket.on('data', (rawMessages)=>{

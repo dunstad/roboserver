@@ -1,14 +1,11 @@
 * remember command
-  * remember coordinates \[relative?\] \[name\] \[amount\]
-    * store all names as lowercase
-    * no name means inspect the block at the coords and remember that
-      * unless it has an inventory, then remember the items?
-      * doesn't work well for furnaces
-    * no amount means it's a block
-    * negative amounts mean subtract that many from what you remember
-  * tells the server where items or blocks are
-  * server should know the difference between items and blocks
-  * server should know how many of an item are at a location
+  * remember coordinates \[relative\]
+    * data for the robot to send
+      * coordinates
+      * block name
+      * if present, total inventory contents
+        * slot number, item name, stack size
+  * tells the server where items and blocks are
 
 * locate command
   * locate name \[amount\]

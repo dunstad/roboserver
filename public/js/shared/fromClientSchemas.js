@@ -94,6 +94,7 @@ const commandSchemas = {
   sendPosition: [],
   sendComponents: [],
   config: [['string', 'null'], ['string', 'integer', 'boolean', 'null']],
+  remember: [moveParams],
 }
 
 const validators = {};

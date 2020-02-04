@@ -444,6 +444,11 @@ let commandToResponseMap = {
             },
         }],
     },
+    remember: {
+        callbacks: [
+            // i think it's time to refactor some of these to be reusable
+        ],
+    },
 }
 
 /**
