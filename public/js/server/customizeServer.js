@@ -1,4 +1,6 @@
 var accounts = new (require('./SocketToAccountMap'))();
+var keyToValidatorMap = require('../shared/fromRobotSchemas').keyToValidatorMap;
+var fromClientSchemas = require('../shared/fromClientSchemas');
 
 const delimiter = '\n';
 
@@ -12,6 +14,7 @@ function main(server, app) {
 
   var io = require('socket.io')(server);
   var config = require('../config/config');
+  var request = require('request');
 
   var passportSocketIo = require('passport.socketio');
   io.use(passportSocketIo.authorize({
@@ -47,12 +50,21 @@ function main(server, app) {
     socket.on('disconnect', function () {
       accounts.removeClient(socket.request.user.username, socket);
       console.log(socket.request.user.username + " account disconnected");
+      request.get(`http://${socket.request.headers.host}/logout`);
+      console.log(socket.request.user.username + " account logged out");
     });
 
     // relay commands to the tcp server
     socket.on('command', (data)=>{
       console.dir(data);
-      accounts.sendToRobot(socket.request.user.username, data.robot, data.command);
+      if (fromClientSchemas[data.command.name](data)) {
+        accounts.sendToRobot(socket.request.user.username, data.robot, data.command);
+      }
+      else {
+        let errorString = `command validation failed: ${JSON.stringify(data.command)}`;
+        console.error('client ' + errorString);
+        socket.emit('message', errorString);
+      }
     });
 
   });
@@ -83,27 +95,41 @@ function main(server, app) {
   		// separate tcp data into various messages
       for (var dataJSON of dataJSONList) {
         for (var key in dataJSON) {
-          if (key == 'id') {
-            tcpSocket.id = dataJSON[key];
-            if (accounts.getRobot(tcpSocket.id.account, tcpSocket.id.robot)) {
-              var errorString = 'a robot called ' + tcpSocket.id.robot +
-                ' is already connected to account ' + tcpSocket.id.account;
-              disconnectRobot(tcpSocket, errorString);
+
+          if (keyToValidatorMap[key](dataJSON[key])) {
+
+            if (key == 'id') {
+              tcpSocket.id = dataJSON[key];
+              if (accounts.getRobot(tcpSocket.id.account, tcpSocket.id.robot)) {
+                var errorString = 'a robot called ' + tcpSocket.id.robot +
+                  ' is already connected to account ' + tcpSocket.id.account;
+                disconnectRobot(tcpSocket, errorString);
+              }
+              else {
+                accounts.setRobot(tcpSocket.id.account, tcpSocket.id.robot, tcpSocket);
+                console.log("robot " + tcpSocket.id.robot + " identified for account " + tcpSocket.id.account);
+              }
+            }
+            else if (tcpSocket.id && tcpSocket.id.account && tcpSocket.id.robot) {
+              console.log('key', key)
+              console.log('data', dataJSON[key])
+              accounts.sendToClients(tcpSocket.id.account, key, {data: dataJSON[key], robot: tcpSocket.id.robot});
             }
             else {
-              accounts.setRobot(tcpSocket.id.account, tcpSocket.id.robot, tcpSocket);
-              console.log("robot " + tcpSocket.id.robot + " identified for account " + tcpSocket.id.account);
+              var errorString = 'unidentified robots cannot send messages';
+              disconnectRobot(tcpSocket, errorString);
             }
+
           }
-          else if (tcpSocket.id && tcpSocket.id.account && tcpSocket.id.robot) {
-            console.log('key', key)
-            console.log('data', dataJSON[key])
-            accounts.sendToClients(tcpSocket.id.account, key, {data: dataJSON[key], robot: tcpSocket.id.robot});
-          }
+
           else {
-            var errorString = 'unidentified robots cannot send messages';
-            disconnectRobot(tcpSocket, errorString);
+
+            var errorString = `command ${key} failed to validate with value ${JSON.stringify(dataJSON[key])}`;
+            console.error('robot ' + errorString);
+            tcpSocket.write(JSON.stringify({name: 'message', parameters: [errorString]}) + delimiter);
+
           }
+
         }
       }
 

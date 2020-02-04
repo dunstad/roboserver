@@ -16,7 +16,7 @@ local filenames = {
   'interact.lua',
   'craft.lua',
   'config.lua',
-  'config.txt',
+  -- 'config.txt', -- overwriting the config when updating isn't nice
 };
 
 local M = {};

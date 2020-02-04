@@ -31,6 +31,14 @@ function makeCommandValidator(ajv, innerSchema, id, validators) {
 }
 
 /**
+ * Used to determine minimum array size by counting optional arguments.
+ * @param {Array[]} typeList 
+ */
+function countNull(typeList) {
+  return typeList.reduce((a, b)=>{return a + (b.indexOf('null')!=-1)}, 0);
+}
+
+/**
  * Used to make creating command schemas easier, since they're all very similar.
  * @param {string} name 
  * @param {string[]} parameters 
@@ -59,7 +67,7 @@ function makeCommandSchema(name, parameters) {
       "type": "array",
       "items": parameters.map((s)=>{return {type: s}}),
       "additionalItems": false,
-      "minItems": parameters.length,
+      "minItems": parameters.length - countNull(parameters),
       "maxItems": parameters.length,
     };
   }
@@ -67,21 +75,25 @@ function makeCommandSchema(name, parameters) {
   return schema;
 }
 
+let doToAreaParams = Array(6).fill('integer').concat([['boolean', 'null']]).concat(Array(2).fill(['integer', 'null']));
+let moveParams = Array(3).fill('integer').concat([['boolean', 'null'], ['integer', 'null']]);
+
 const commandSchemas = {
-  scanArea: ['integer'],
+  scanArea: ['integer', ['integer', 'null']],
   viewInventory: [],
   equip: [],
-  dig: Array(8).fill('integer'),
-  place: Array(8).fill('integer'),
-  move: Array(4).fill('integer'),
-  interact: Array(4).fill('integer'),
-  inspect: Array(4).fill('integer'),
+  dig: doToAreaParams,
+  place: doToAreaParams,
+  move: moveParams,
+  interact: moveParams,
+  inspect: moveParams,
   select: ['integer'],
   transfer: Array(5).fill('integer'),
   craft: ['string'],
   raw: ['string'],
   sendPosition: [],
   sendComponents: [],
+  config: [['string', 'null'], ['string', 'integer', 'boolean', 'null']],
 }
 
 const validators = {};

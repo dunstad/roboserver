@@ -150,7 +150,7 @@ let commandToResponseMap = {
                     for (let z = 0; z < socket.mapData.d; z++) {
                         terrainMap[y].push([]);
                         if (y == 2) {
-                            topDown.unshift([]);
+                            topDown.push([]);
                         }
                         for (let x = 0; x < socket.mapData.w; x++) {
     
@@ -164,7 +164,7 @@ let commandToResponseMap = {
                                 frontBack[y].push(letterFromHardness(socket.mapData.data[index]));
                             }
                             if (y == 2) {
-                                topDown[0].push(letterFromHardness(socket.mapData.data[index]));
+                                topDown[topDown.length - 1].push(letterFromHardness(socket.mapData.data[index]));
                             }
                             if (z == 3) {
                                 leftRight[y].push(letterFromHardness(socket.mapData.data[index]));
@@ -182,7 +182,7 @@ let commandToResponseMap = {
                     let secondRow = leftRight[rowIndex].reduce((a, b)=>a+' '+b);
                     let thirdRow = frontBack[rowIndex].reduce((a, b)=>a+' '+b);
 
-                    let firstString = `${String(rowIndex - 4).padStart(2)} ${firstRow}    `;
+                    let firstString = `${String(rowIndex - 3).padStart(2)} ${firstRow}    `;
                     let secondString = `${String(rowIndex - 2).padStart(2)} ${secondRow}    `;
                     let thirdString = `${String(rowIndex - 2).padStart(2)} ${thirdRow}`;
                     console.log(`${firstString}${secondString}${thirdString}`);
@@ -196,8 +196,8 @@ let commandToResponseMap = {
             },
         }],
         errorStrings: {
-            usage: 'scanLevel',
-            example: '1',
+            usage: 'scanLevel [times]',
+            example: '1 1',
         }
     },
     viewInventory: {
@@ -220,7 +220,8 @@ let commandToResponseMap = {
             name: 'command result',
             callback: (robotResponse, socket)=>{
                 console.log(`${robotResponse.robot}:`);
-                console.log(`side: ${socket.side}`);
+                console.log(`  slots: ${socket.slotCount}`);
+                console.log(`  side: ${socket.side}`);
                 for (let slotNum in socket.slots) {
                     let selected = slotNum == socket.selected ? ' *' : '';
                     let contents = socket.slots[slotNum];
@@ -252,8 +253,8 @@ let commandToResponseMap = {
             },
         }],
         errorStrings: {
-            usage: 'x1 y1 z1 x2 y2 z2 selectionIndex scanLevel',
-            example: '2 2 2 0 2 0 0 0',
+            usage: 'x1 y1 z1 x2 y2 z2 [relative] [selectionIndex] [scanLevel]',
+            example: '2 2 2 0 2 0 false 0 0',
         }
     },
     place: {
@@ -265,8 +266,8 @@ let commandToResponseMap = {
             },
         }],
         errorStrings: {
-            usage: 'x1 y1 z1 x2 y2 z2 selectionIndex scanLevel',
-            example: '2 3 2 0 3 0 0 0',
+            usage: 'x1 y1 z1 x2 y2 z2 [relative] [selectionIndex] [scanLevel]',
+            example: '2 3 2 0 3 0 false 0 0',
         }
     },
     move: {
@@ -286,8 +287,8 @@ let commandToResponseMap = {
             },
         }],
         errorStrings: {
-            usage: 'x y z scanLevel',
-            example: 'x y z 0',
+            usage: 'x y z [relative] [scanLevel]',
+            example: 'x y z false 0',
         }
     },
     interact: {
@@ -311,7 +312,8 @@ let commandToResponseMap = {
             callback: (robotResponse, socket)=>{
                 if (socket.slots) {
                     console.log(`${robotResponse.robot}:`);
-                    console.log(`side: ${socket.side}`);
+                    console.log(`  slots: ${socket.slotCount}`);
+                    console.log(`  side: ${socket.side}`);
                     for (let slotNum in socket.slots) {
                         let selected = slotNum == socket.selected ? ' *' : '';
                         let contents = socket.slots[slotNum];
@@ -325,8 +327,8 @@ let commandToResponseMap = {
             },
         }],
         errorStrings: {
-            usage: 'x y z scanLevel',
-            example: '2 2 2 0',
+            usage: 'x y z [relative] [scanLevel]',
+            example: '2 2 2 false 0',
         }
     },
     inspect: {
@@ -334,14 +336,20 @@ let commandToResponseMap = {
             name: 'block data',
             callback: (robotResponse, socket)=>{
                 console.log(`${robotResponse.robot}:`);
-                console.log(`  hardness: ${robotResponse.data.hardness}`);
+                console.log(`  hardness: ${Math.round(robotResponse.data.hardness * 100) / 100}`);
                 console.log(`  name: ${robotResponse.data.name}`);
+                socket.done = true;
+            },
+        }, {
+            name: 'command result',
+            callback: (robotResponse, socket)=>{
+                console.log(`${robotResponse.robot}: ${robotResponse.data[1]}`);
                 socket.done = true;
             },
         }],
         errorStrings: {
-            usage: 'x y z scanLevel',
-            example: '2 2 2 0',
+            usage: 'x y z [relative] [scanLevel]',
+            example: '2 2 2 false 0',
         }
     },
     select: {
@@ -390,6 +398,12 @@ let commandToResponseMap = {
                 console.log(`${robotResponse.robot}: ${robotResponse.data[0]} ${robotResponse.data[1]}`);
                 socket.done = true;
             },
+        }, {
+            name: 'message', // hacky but stops the cli from hanging at least
+            callback: (robotResponse, socket)=>{
+                console.log(`${robotResponse.robot} failed to serialize the command result`);
+                socket.done = true;
+            },
         }],
         errorStrings: {
             usage: 'someLuaCode',
@@ -400,8 +414,33 @@ let commandToResponseMap = {
         callbacks: [{
             name: 'available components',
             callback: (robotResponse, socket)=>{
-                console.log(`${robotResponse.robot}: ${JSON.stringify(robotResponse.data)}`);
+                console.log(`${robotResponse.robot}:`);
+                for (let componentAddress in robotResponse.data) {
+                    let componentType = robotResponse.data[componentAddress];
+                    console.log(`  ${componentType}`);
+                }
                 socket.done = true;
+            },
+        }],
+    },
+    config: {
+        callbacks: [{
+            name: 'config',
+            callback: (robotResponse, socket)=>{
+                console.log(`${robotResponse.robot}:`);
+                for (let optionName in robotResponse.data) {
+                    let optionValue = robotResponse.data[optionName];
+                    console.log(`  ${optionName}: ${optionValue}`);
+                }
+                socket.done = true;
+            },
+        }, {
+            name: 'command result',
+            callback: (robotResponse, socket)=>{
+                if (!socket.done) { // this is only for setting config options
+                    console.log(`${robotResponse.robot}: ${robotResponse.data[0]} ${robotResponse.data[1]}`);
+                    socket.done = true;
+                }
             },
         }],
     },
@@ -422,8 +461,18 @@ function sendCommand(commandName, commandParameters, robot) {
             command: {
                 name: commandName,
                 parameters: commandParameters.map((parameter)=>{
+                    let result = parameter;
                     let converted = parseInt(parameter);
-                    return isNaN(converted) ? parameter : converted;
+                    if (!isNaN(converted)) {
+                        result = converted;
+                    }
+                    else if (parameter.toLowerCase() ==  'true') {
+                        result = true;
+                    }
+                    else if (parameter.toLowerCase() ==  'false') {
+                        result = false;
+                    }
+                    return result;
                 }),
             },
             robot: robot,
@@ -460,7 +509,7 @@ function sendCommand(commandName, commandParameters, robot) {
                     
                     socket.on('power level', (robotResponse)=>{
                         if (socket.done) {
-                            socket.disconnect();
+                            socket.disconnect(true);
                             console.log(`power: ${Math.round(robotResponse.data * 100)}%`);
                             resolve(true);
                         }

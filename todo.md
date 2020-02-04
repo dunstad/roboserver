@@ -1,9 +1,39 @@
-fix test client scanArea, others
-  they shouldn't always be sending command results
+* remember command
+  * remember coordinates \[relative?\] \[name\] \[amount\]
+    * store all names as lowercase
+    * no name means inspect the block at the coords and remember that
+      * unless it has an inventory, then remember the items?
+      * doesn't work well for furnaces
+    * no amount means it's a block
+    * negative amounts mean subtract that many from what you remember
+  * tells the server where items or blocks are
+  * server should know the difference between items and blocks
+  * server should know how many of an item are at a location
 
-relative move command
+* locate command
+  * locate name \[amount\]
+    * store all names as lowercase
+    * no amount means it's a block
+  * check inventory first, then ask server
+  * server replies with coordinates of an inventory or block
+  * check location provided by server, update it, ask again if invalid
+  * if the server doesn't know, craft it
+
+* gather command, dig blocks matching gather list
+  * just use equipped tool first
+  * minecraft-data seems to provide harvestTools for blocks though
+
+* build by specifying block name rather than using current slot
+  * new parameters or a new command?
+
+* add wander to movement for when pathing fails
+
+* setting to allow destroying while moving, towering
+  * list of blocks it's okay to destroy and tower with
 
 # later
+* fix test client scanArea, others
+  * they shouldn't always be sending command results
 * firefox
   * fix can't click inventory button
   * fix search catches wasd
@@ -36,7 +66,6 @@ relative move command
 
 ## small
 * validate test data
-* validate incoming data (outgoing is already validated)
 * rework to use https://github.com/PrismarineJS/minecraft-data
 * add a go away forever button to the message banner
 * change gui based on what components the selected robot has

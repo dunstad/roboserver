@@ -56,6 +56,7 @@ function M.moveAndScan(direction, scanType, times)
     result = directionToMoveFunctionMap[direction]();
     pos.save();
     orient.save();
+    scanType = scanType or 0;
     scanTypeMap[scanType][direction](times);
   end
   return result;
@@ -95,7 +96,10 @@ function M.approachY(target, scanType, times)
 end
 
 -- attempt to go to coordinate until we get stuck
-function M.to(x, y, z, scanType, times)
+function M.to(x, y, z, relative, scanType, times)
+  if relative then
+    x, y, z = pos.toAbsolute(x, y, z);
+  end
   local start = {
     x = position.x,
     y = position.y,
@@ -112,7 +116,7 @@ function M.to(x, y, z, scanType, times)
     start.z == position.z then
     return false;
   else
-    return M.to(x, y, z, scanType, times);
+    return M.to(x, y, z, false, scanType, times);
   end
 end
 

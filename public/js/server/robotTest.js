@@ -1,5 +1,5 @@
 const testData = require('./robotTestData');
-const validators = require('../shared/fromRobotSchemas.js');
+const validators = require('../shared/fromRobotSchemas.js').validators;
 const assert = require('assert');
 const TestClient = require('./TestClient');
 const runTests = require('./runTests.js');

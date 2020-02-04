@@ -1,4 +1,4 @@
-let validators = require('./fromRobotSchemas.js');
+let validators = require('./fromRobotSchemas.js').validators;
 /**
  * Used to simulate an in-game inventory for the test client
  * and to represent the in-game inventory on the web client.

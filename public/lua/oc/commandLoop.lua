@@ -1,30 +1,52 @@
-function loadPackages()
+-- packages that use tcp
+function reloadPackages()
   tcp = require('tcp');
   commandMap = require('commandMap');
   dta = require('doToArea');
   int = require('interact');
   sendScan = require('sendScan');
-  pos = require('trackPosition');
-  
+  pos = require('trackPosition');  
 end
-loadPackages();
 
-local scanDirection = require('scanDirection');
-local orient = require('trackOrientation');
-local mas = require('moveAndScan');
-local robot = require('robot');
-local adj = require('adjacent');
-local craft = require('craft');
-local computer = require('computer');
-local config = require('config');
-local raw = config.get(config.path).components.raw;
-local rawBool = (raw == "true" or raw == true) and true or false;
+function reconnect(sleepTime)
+  tcp.close();
+  -- unloading 'computer' breaks stuff, it can't be required again for some reason
+  -- unload all packages that use tcp so they work after reconnecting
+  local loadedPackages = {'tcp', 'commandMap', 'doToArea', 'interact', 'sendScan', 'trackPosition'};
+  for index, p in pairs(loadedPackages) do
+    package.loaded[p] = nil;
+  end
+  -- wait for server to come back up
+  os.sleep(sleepTime or 5);
+  -- reconnect to server
+  reloadPackages();
+end
 
-function runInTerminal(commandText)
-  local file = assert(io.popen(commandText, 'r'));
-  local output = file:read('*all');
-  file:close();
-  return output;
+function loadSafely()
+  commandMap = require('commandMap');
+  dta = require('doToArea');
+  int = require('interact');
+  sendScan = require('sendScan');
+  pos = require('trackPosition'); 
+  scanDirection = require('scanDirection');
+  orient = require('trackOrientation');
+  mas = require('moveAndScan');
+  robot = require('robot');
+  adj = require('adjacent');
+  craft = require('craft');
+  computer = require('computer');
+  config = require('config');
+  raw = config.get(config.path).raw;
+end
+
+-- not much we can do if tcp fails
+-- it shouldn't change much though
+tcp = require('tcp');
+local success, message = pcall(loadSafely);
+if not success then
+  print(message);
+  tcp.write({['message']=message});
+  reconnect(15);
 end
 
 function unpack (t, i)
@@ -47,15 +69,7 @@ while continueLoop do
   local success, message = pcall(executeCommand);
   if not success then
     print(message);
-    tcp.close();
-    -- unloading 'computer' breaks stuff, it can't be required again for some reason
-    local loadedPackages = {'tcp', 'trackPosition', 'sendScan', 'doToArea', 'commandMap'};
-    for index, p in pairs(loadedPackages) do
-      package.loaded[p] = nil;
-    end
-    -- wait for server to come back up
-    os.sleep(5);
-    -- reconnect to server
-    loadPackages();
+    tcp.write({['message']=message});
+    reconnect();
   end
 end

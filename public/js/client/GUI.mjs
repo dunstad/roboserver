@@ -335,7 +335,7 @@ export class GUI {
 
             let startPointWorld = startPoint.world();
             let endPointWorld = endPoint.world();
-            let commandParameters = [startPointWorld.x, startPointWorld.y, startPointWorld.z, endPointWorld.x, endPointWorld.y, endPointWorld.z, selectionIndex, scanLevel];
+            let commandParameters = [startPointWorld.x, startPointWorld.y, startPointWorld.z, endPointWorld.x, endPointWorld.y, endPointWorld.z, scanLevel, selectionIndex];
             this.sendCommand(commandName, commandParameters);
 
             this.selectStart.clear();

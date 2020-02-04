@@ -38,6 +38,10 @@ function M.get()
   return position;
 end
 
+function M.toAbsolute(x, y, z)
+  return x + position.x, y + position.y, z + position.z;
+end
+
 -- how to change coordinates based on orientation
 -- 0: z+, south
 -- 1: x+, east

@@ -49,7 +49,7 @@ function M.toAdjacent(point, scanType, times)
   local success = false;
   for index, adjPoint in pairs(adjacentPoints) do
     if not success then
-      success = mas.to(adjPoint.x, adjPoint.y, adjPoint.z, scanType, times);
+      success = mas.to(adjPoint.x, adjPoint.y, adjPoint.z, false, scanType, times);
     end
   end
   M.facePoint(point);

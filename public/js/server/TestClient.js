@@ -1,7 +1,7 @@
 const net = require('net');
 const InventoryData = require('../shared/InventoryData');
 const MapData = require('../shared/MapData');
-const validators = require('../shared/fromRobotSchemas.js');
+const keyToValidatorMap = require('../shared/fromRobotSchemas.js').keyToValidatorMap;
 
 /**
  * Used to make sure the server is working properly. Attempts to replicate
@@ -32,7 +32,12 @@ class TestClient {
 		this.equipped;
 		this.map = new MapData();
 		this.map.setFromMapData(this.testData.map);
-		this.position = this.testData.position;
+		this.position = {
+			x: this.testData.config.posX,
+			y: this.testData.config.posY,
+			z: this.testData.config.posZ,
+		};
+		this.config = this.testData.config;
 		this.map.set(this.position.x, this.position.y, this.position.z, {"hardness": 2});		
 		this.components = this.testData.components;
 		
@@ -57,12 +62,12 @@ class TestClient {
 
 		this.commandMap = {
 
-			scanArea: (scanLevel)=>{
+			scanArea: (scanLevel, times)=>{
 				for (let i = -2; i <= 5; i++) {
 					let scan = this.geolyzerScan(-3, -3, i, 8, 8, 1);
 					this.send('map data', scan);
 				}
-				this.sendWithCost('command result', [true, 'area scanned']);
+				this.sendWithCost('command result', ['map data', true]);
 			},
 
 			viewInventory: ()=>{
@@ -71,11 +76,11 @@ class TestClient {
 				this.send('inventory data', inventoryMeta);
 
 				for (let slotNum in this.inventory.slots) {
-					let slotData = this.inventory.serializeSlot(slotNum);
+					let slotData = this.inventory.serializeSlot(parseInt(slotNum));
 					this.send('slot data', slotData);
 				}
 
-				this.sendWithCost('command result', [true, 'all slot data sent']);
+				this.sendWithCost('command result', ['inventory data', true]);
 
 			},
 
@@ -89,31 +94,56 @@ class TestClient {
 				let slotData = this.inventory.serializeSlot(this.inventory.selected);
 				this.send('slot data', slotData);
 
-				this.sendWithCost('command result', [true, {label: 'test object', size: 4}]);
+				this.sendWithCost('command result', ['equip', {label: 'test object', size: 4}]);
 
 			},
 			
-			dig: (x1, y1, z1, x2, y2, z2, selectionIndex, scanLevel)=>{
+			dig: (x1, y1, z1, x2, y2, z2, relative, scanLevel, selectionIndex,)=>{
+				if (relative) {
+					x1 += this.position.x;
+					y1 += this.position.y;
+					z1 += this.position.z;
+					x2 += this.position.x;
+					y2 += this.position.y;
+					z2 += this.position.z;
+				}
 				let points = this.getBoxPoints(x1, y1, z1, x2, y2, z2);
 				for (let point of points) {
 					this.dig(point.x, point.y, point.z);
 					this.send('dig success', point);
 				}
-				this.send('delete selection', selectionIndex);
-				this.sendWithCost('command result', [true, 'digging done']);
+				if (selectionIndex !== undefined) {
+					this.send('delete selection', selectionIndex);
+				}
+				this.sendWithCost('command result', ['dig', true]);
 			},
 			
-			place: (x1, y1, z1, x2, y2, z2, selectionIndex, scanLevel)=>{
+			place: (x1, y1, z1, x2, y2, z2, relative, scanLevel, selectionIndex,)=>{
+				if (relative) {
+					x1 += this.position.x;
+					y1 += this.position.y;
+					z1 += this.position.z;
+					x2 += this.position.x;
+					y2 += this.position.y;
+					z2 += this.position.z;
+				}
 				let points = this.getBoxPoints(x1, y1, z1, x2, y2, z2);
 				for (let point of points) {
 					let blockData = this.place(point.x, point.y, point.z);
 					this.send('block data', blockData);
 				}
-				this.send('delete selection', selectionIndex);
-				this.sendWithCost('command result', [true, 'placing done']);
+				if (selectionIndex !== undefined) {
+					this.send('delete selection', selectionIndex);
+				}
+				this.sendWithCost('command result', ['place', true]);
 			},
 			
-			move: (x, y, z, scanLevel)=>{
+			move: (x, y, z, relative, scanLevel)=>{
+				if (relative) {
+					x += this.position.x;
+					y += this.position.y;
+					z += this.position.z;
+				}
 				let result = this.move(x, y, z);
 				if (result) {
 					this.commandMap.scanArea();
@@ -126,26 +156,36 @@ class TestClient {
 				}
 			},
 			
-			interact: (x, y, z, scanLevel)=>{
+			interact: (x, y, z, relative, scanLevel)=>{
+				if (relative) {
+					x += this.position.x;
+					y += this.position.y;
+					z += this.position.z;
+				}
 				let blockData = this.inspect(x, y, z);
 				if (blockData.name == 'minecraft:chest') {
 					this.send('inventory data', this.testData.externalInventory.meta);
 					for (let slotNum in this.inventories[3].slots) {
-						let slot = this.inventories[3].serializeSlot(slotNum);
+						let slot = this.inventories[3].serializeSlot(parseInt(slotNum));
 						this.send('slot data', slot);
 					}
 				}
-				this.sendWithCost('command result', [true, 'interact complete']);
+				this.sendWithCost('command result', ['interact', true]);
 			},
 			
-			inspect: (x, y, z, scanLevel)=>{
+			inspect: (x, y, z, relative, scanLevel)=>{
+				if (relative) {
+					x += this.position.x;
+					y += this.position.y;
+					z += this.position.z;
+				}
 				let blockData = this.inspect(x, y, z);
 				this.sendWithCost('block data', blockData);
 			},
 			
 			select: (slotNum)=>{
 				this.select(slotNum);
-				this.sendWithCost('command result', [true, 'select complete']);
+				this.sendWithCost('command result', ['select', true]);
 			},
 
 			transfer: (fromSlotIndex, fromSide, toSlotIndex, toSide, amount)=>{
@@ -169,20 +209,20 @@ class TestClient {
 					let toSlotData = toInv.serializeSlot(toSlotIndex);
 					this.send('slot data', toSlotData);
 					
-					this.sendWithCost('command result', [true, "transfer successful"]);
+					this.sendWithCost('command result', ['transfer', true]);
 				}
 				else {
-					this.sendWithCost('command result', [false, "transfer failed"]);
+					this.sendWithCost('command result', ['transfer', false]);
 				}
 			
 			},
 			
 			craft: (itemName)=>{
-				this.sendWithCost('command result', [false, 'crafting not implemented']);
+				this.sendWithCost('command result', ['craft', 'crafting not implemented']);
 			},
 			
 			raw: (commandString)=>{
-				let resultData = [true, 'received command: ' + commandString];
+				let resultData = ['raw', 'received command: ' + commandString];
 				this.sendWithCost('command result', resultData);
 			},
 			
@@ -194,6 +234,21 @@ class TestClient {
 			sendComponents: ()=>{
 				let components = this.getComponents();
 				this.sendWithCost('available components', components);
+			},
+
+			config: (optionName, optionValue)=>{
+				if (optionName && (optionValue !== undefined)) {
+					this.config[optionName] = optionValue;
+					this.sendWithCost('command result', ['config', true]);
+				}
+				else if (optionName) {
+					let result = {};
+					result[optionName] = this.config[optionName];
+					this.sendWithCost('config', result);
+				}
+				else {
+					this.sendWithCost('config', this.config);
+				}
 			},
 
 		};
@@ -458,21 +513,7 @@ class TestClient {
 	 * @param {any} value 
 	 */
 	validate(key, value) {
-		let keyToValidatorMap = {
-			'inventory data': validators.inventoryMeta,
-			'slot data': validators.inventorySlot,
-			'command result': validators.commandResult,
-			'robot position': validators.position,
-			'available components': validators.components,
-			'map data': validators.geolyzerScan,
-			'id': validators.id,
-			'message': validators.message,
-			'power level': validators.powerLevel,
-			'dig success': validators.digSuccess,
-			'delete selection': validators.deleteSelection,
-			'block data': validators.blockData,
-		};
-		keyToValidatorMap[key](value);
+		return keyToValidatorMap[key](value);
 	}
 
 	/**
@@ -482,7 +523,9 @@ class TestClient {
 	 */
 	send(key, value) {
 
-		this.validate(key, value);
+		if (!this.validate(key, value)) {
+			throw Error(`command ${key} failed to validate with value ${JSON.stringify(value)}`);
+		};
 
 		const data = {
 			[key]: value,
@@ -520,14 +563,14 @@ class TestClient {
 	 * so it can be checked in the unit tests.
 	 */
 	getID() {
-		return {robot: this.testData.robotName, account: this.testData.accountName};
+		return {robot: this.testData.config.robotName, account: this.testData.config.accountName};
 	}
 
 	/**
 	 * Used to identify the test client to the server and open the socket connection.
 	 */
 	connect() {
-		this.socket.connect(this.testData.port, this.testData.host);
+		this.socket.connect(this.testData.config.tcpPort, this.testData.config.serverIP);
 	}
 
 	/**

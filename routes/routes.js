@@ -21,6 +21,12 @@ router.get('/login', function(req, res) {
   res.render('login.ejs', {error: false, active: 'login'});
 });
 
+router.get('/logout', function(req, res){
+  req.logout();
+  req.session.destroy(console.error);
+  res.redirect('/login');
+});
+
 function makeLogInOrRedirect(req, res, next) {
   return (err, user, info)=>{
     if (err) { return next(err); }

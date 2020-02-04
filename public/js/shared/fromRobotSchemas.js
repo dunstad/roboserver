@@ -65,7 +65,7 @@ const validators = {
         "required": ["name", "label", "hasTag", "size", "maxSize", "damage", "maxDamage"],
       },
     },
-    "required": ["side", "slotNum", "contents"],
+    "required": ["side", "slotNum"],
     "additionalProperties": false,
   }),
 
@@ -107,7 +107,23 @@ const validators = {
   }),
 
   components: ajv.compile({
+    "patternProperties": {
+      "^.*$": {"type": "string",},
+    },
+    "additionalProperties": false,
+  }),
+
+  config: ajv.compile({
     "properties": {
+      "robotName": {"type": "string"},
+      "accountName": {"type": "string"},
+      "serverIP": {"type": "string"},
+      "serverPort": {"type": "integer"},
+      "tcpPort": {"type": "integer"},
+      "posX": {"type": "integer"},
+      "posY": {"type": "integer"},
+      "posZ": {"type": "integer"},
+      "orient": {"type": "integer"},
       "raw": {"type": "boolean",},
     },
     "additionalProperties": false,
@@ -116,11 +132,11 @@ const validators = {
   commandResult: ajv.compile({
     "type": "array",
     "items": [
-      { "type": "boolean" },
       { "type": "string" },
+      { "type": ["number", "string", "boolean", "object", "array", "null"] },
     ],
     "additionalItems": false,
-    "minItems": 2,
+    "minItems": 1,
     "maxItems": 2,
   }),
   
@@ -134,9 +150,9 @@ const validators = {
   }),
 
   powerLevel: ajv.compile({
-    "type": "number",
+    "type": ["number"],
     "minimum": 0,
-    "maximum": 1,
+    // no max because creative robots have Infinity power
   }),
 
   message: ajv.compile({
@@ -176,7 +192,26 @@ const validators = {
 
 };
 
+const keyToValidatorMap = {
+  'inventory data': validators.inventoryMeta,
+  'slot data': validators.inventorySlot,
+  'command result': validators.commandResult,
+  'robot position': validators.position,
+  'available components': validators.components,
+  'map data': validators.geolyzerScan,
+  'id': validators.id,
+  'message': validators.message,
+  'power level': validators.powerLevel,
+  'dig success': validators.digSuccess,
+  'delete selection': validators.deleteSelection,
+  'block data': validators.blockData,
+  'config': validators.config,
+};
+
 try {
-  module.exports = validators;
+  module.exports = {
+    validators: validators,
+    keyToValidatorMap: keyToValidatorMap,
+  };
 }
 catch (e) {;}

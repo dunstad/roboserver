@@ -1,4 +1,4 @@
-let validators = require('./fromRobotSchemas.js');
+let validators = require('./fromRobotSchemas.js').validators;
 /**
  * An organized way to store map data.
  */
