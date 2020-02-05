@@ -5,6 +5,36 @@ const validators = require('../shared/fromClientSchemas.js');
 
 let validationErrorString = 'Command failed to validate.';
 
+let printCommandResult = (robotResponse, socket)=>{
+    console.log(`${robotResponse.robot}: ${robotResponse.data[1]}`);
+    socket.done = true;
+};
+
+let handleInventoryData = (robotResponse, socket)=>{
+    socket.selected = robotResponse.data.selected;
+    socket.slotCount = robotResponse.data.size;
+    socket.side = robotResponse.data.side;
+    socket.slots = {};
+};
+
+let handleSlotData = (robotResponse, socket)=>{
+    if (robotResponse.data.contents) {
+        socket.slots[robotResponse.data.slotNum] = robotResponse.data.contents;
+    }
+};
+
+let printInventory = (robotResponse, socket)=>{
+    console.log(`${robotResponse.robot}:`);
+    console.log(`  slots: ${socket.slotCount}`);
+    console.log(`  side: ${socket.side}`);
+    for (let slotNum in socket.slots) {
+        let selected = slotNum == socket.selected ? ' *' : '';
+        let contents = socket.slots[slotNum];
+        console.log(`${String(slotNum).padStart(2)}. ${contents.label} (${contents.size})${selected}`);
+    }
+    socket.done = true;
+};
+
 let commandToResponseMap = {
     sendPosition: {
         callbacks: [{
@@ -203,32 +233,13 @@ let commandToResponseMap = {
     viewInventory: {
         callbacks: [{
             name: 'inventory data',
-            callback: (robotResponse, socket)=>{
-                socket.selected = robotResponse.data.selected;
-                socket.slotCount = robotResponse.data.size;
-                socket.side = robotResponse.data.side;
-                socket.slots = {};
-            },
+            callback: handleInventoryData,
         }, {
             name: 'slot data',
-            callback: (robotResponse, socket)=>{
-                if (robotResponse.data.contents) {
-                    socket.slots[robotResponse.data.slotNum] = robotResponse.data.contents;
-                }
-            },
+            callback: handleSlotData,
         }, {
             name: 'command result',
-            callback: (robotResponse, socket)=>{
-                console.log(`${robotResponse.robot}:`);
-                console.log(`  slots: ${socket.slotCount}`);
-                console.log(`  side: ${socket.side}`);
-                for (let slotNum in socket.slots) {
-                    let selected = slotNum == socket.selected ? ' *' : '';
-                    let contents = socket.slots[slotNum];
-                    console.log(`${String(slotNum).padStart(2)}. ${contents.label} (${contents.size})${selected}`);
-                }
-                socket.done = true;
-            },
+            callback: printInventory,
         }],
     },
     equip: {
@@ -247,10 +258,7 @@ let commandToResponseMap = {
     dig: {
         callbacks: [{
             name: 'command result',
-            callback: (robotResponse, socket)=>{
-                console.log(`${robotResponse.robot}: ${robotResponse.data[1]}`);
-                socket.done = true;
-            },
+            callback: printCommandResult,
         }],
         errorStrings: {
             usage: 'x1 y1 z1 x2 y2 z2 [relative] [selectionIndex] [scanLevel]',
@@ -260,10 +268,7 @@ let commandToResponseMap = {
     place: {
         callbacks: [{
             name: 'command result',
-            callback: (robotResponse, socket)=>{
-                console.log(`${robotResponse.robot}: ${robotResponse.data[1]}`);
-                socket.done = true;
-            },
+            callback: printCommandResult,
         }],
         errorStrings: {
             usage: 'x1 y1 z1 x2 y2 z2 [relative] [selectionIndex] [scanLevel]',
@@ -294,36 +299,20 @@ let commandToResponseMap = {
     interact: {
         callbacks: [{
             name: 'inventory data',
-            callback: (robotResponse, socket)=>{
-                socket.selected = robotResponse.data.selected;
-                socket.slotCount = robotResponse.data.size;
-                socket.side = robotResponse.data.side;
-                socket.slots = {};
-            },
+            callback: handleInventoryData,
         }, {
             name: 'slot data',
-            callback: (robotResponse, socket)=>{
-                if (robotResponse.data.contents) {
-                    socket.slots[robotResponse.data.slotNum] = robotResponse.data.contents;
-                }
-            },
+            callback: handleSlotData,
         }, {
             name: 'command result',
             callback: (robotResponse, socket)=>{
                 if (socket.slots) {
-                    console.log(`${robotResponse.robot}:`);
-                    console.log(`  slots: ${socket.slotCount}`);
-                    console.log(`  side: ${socket.side}`);
-                    for (let slotNum in socket.slots) {
-                        let selected = slotNum == socket.selected ? ' *' : '';
-                        let contents = socket.slots[slotNum];
-                        console.log(`${String(slotNum).padStart(2)}. ${contents.label} (${contents.size})${selected}`);
-                    }
+                    printInventory(robotResponse, socket);
                 }
                 else {
                     console.log(`${robotResponse.robot}: ${robotResponse.data[1]}`);
+                    socket.done = true;
                 }
-                socket.done = true;
             },
         }],
         errorStrings: {
@@ -342,10 +331,7 @@ let commandToResponseMap = {
             },
         }, {
             name: 'command result',
-            callback: (robotResponse, socket)=>{
-                console.log(`${robotResponse.robot}: ${robotResponse.data[1]}`);
-                socket.done = true;
-            },
+            callback: printCommandResult,
         }],
         errorStrings: {
             usage: 'x y z [relative] [scanLevel]',
@@ -355,10 +341,7 @@ let commandToResponseMap = {
     select: {
         callbacks: [{
             name: 'command result',
-            callback: (robotResponse, socket)=>{
-                console.log(`${robotResponse.robot}: ${robotResponse.data[1]}`);
-                socket.done = true;
-            },
+            callback: printCommandResult,
         }],
         errorStrings: {
             usage: 'slotNum',
@@ -368,10 +351,7 @@ let commandToResponseMap = {
     transfer: {
         callbacks: [{
             name: 'command result',
-            callback: (robotResponse, socket)=>{
-                console.log(`${robotResponse.robot}: ${robotResponse.data[1]}`);
-                socket.done = true;
-            },
+            callback: printCommandResult,
         }],
         errorStrings: {
             usage: 'fromSlot fromSide toSlot toSide amount',
@@ -381,10 +361,7 @@ let commandToResponseMap = {
     craft: {
         callbacks: [{
             name: 'command result',
-            callback: (robotResponse, socket)=>{
-                console.log(`${robotResponse.robot}: ${robotResponse.data[1]}`);
-                socket.done = true;
-            },
+            callback: printCommandResult,
         }],
         errorStrings: {
             usage: 'itemName',
