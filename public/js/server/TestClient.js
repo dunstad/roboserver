@@ -180,7 +180,8 @@ class TestClient {
 					z += this.position.z;
 				}
 				let blockData = this.inspect(x, y, z);
-				this.sendWithCost('block data', blockData);
+				this.send('block data', blockData);
+				this.sendWithCost('command result', ['inspect', true]);
 			},
 			
 			select: (slotNum)=>{
@@ -252,7 +253,7 @@ class TestClient {
 			},
 
 			remember: (x, y, z, relative, scanLevel)=>{
-				this.sendWithCost('message', 'remember test!');
+				this.sendWithCost('command result', ['remember', true]);
 			},
 
 		};

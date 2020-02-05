@@ -35,6 +35,12 @@ let printInventory = (robotResponse, socket)=>{
     socket.done = true;
 };
 
+let handleBlockData = (robotResponse, socket)=>{
+    console.log(`${robotResponse.robot}:`);
+    console.log(`  hardness: ${Math.round(robotResponse.data.hardness * 100) / 100}`);
+    console.log(`  name: ${robotResponse.data.name}`);
+};
+
 let commandToResponseMap = {
     sendPosition: {
         callbacks: [{
@@ -323,12 +329,7 @@ let commandToResponseMap = {
     inspect: {
         callbacks: [{
             name: 'block data',
-            callback: (robotResponse, socket)=>{
-                console.log(`${robotResponse.robot}:`);
-                console.log(`  hardness: ${Math.round(robotResponse.data.hardness * 100) / 100}`);
-                console.log(`  name: ${robotResponse.data.name}`);
-                socket.done = true;
-            },
+            callback: handleBlockData,
         }, {
             name: 'command result',
             callback: printCommandResult,
@@ -422,9 +423,23 @@ let commandToResponseMap = {
         }],
     },
     remember: {
-        callbacks: [
-            // i think it's time to refactor some of these to be reusable
-        ],
+        callbacks: [{
+                name: 'block data',
+                callback: handleBlockData,
+            }, {
+                name: 'inventory data',
+                callback: handleInventoryData,
+            }, {
+                name: 'slot data',
+                callback: handleSlotData,
+            }, {
+                name: 'command result',
+                callback: printCommandResult,
+        }],
+        errorStrings: {
+            usage: 'x y z [relative] [scanLevel]',
+            example: '2 2 2 false 0',
+        }
     },
 }
 

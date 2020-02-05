@@ -1,7 +1,6 @@
 * remember command
   * remember coordinates \[relative\]
     * data for the robot to send
-      * coordinates
       * block name
       * if present, total inventory contents
         * slot number, item name, stack size
