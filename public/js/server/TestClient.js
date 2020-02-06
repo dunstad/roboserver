@@ -253,6 +253,25 @@ class TestClient {
 			},
 
 			remember: (x, y, z, relative, scanLevel)=>{
+				if (relative) {
+					x += this.position.x;
+					y += this.position.y;
+					z += this.position.z;
+				}
+
+				// inspect
+				let blockData = this.inspect(x, y, z);
+				this.send('block data', blockData);
+
+				// interact
+				if (blockData.name == 'minecraft:chest') {
+					this.send('inventory data', this.testData.externalInventory.meta);
+					for (let slotNum in this.inventories[3].slots) {
+						let slot = this.inventories[3].serializeSlot(parseInt(slotNum));
+						this.send('slot data', slot);
+					}
+				}
+
 				this.sendWithCost('command result', ['remember', true]);
 			},
 

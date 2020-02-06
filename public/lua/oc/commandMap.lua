@@ -118,7 +118,11 @@ M['message'] = function(message)
 end;
 
 M['remember'] = function(x, y, z, relative, scanLevel)
-  return 'remember test!';
+  local inspectResult = int.inspect(x, y, z, relative, scanLevel);
+  -- this will flip switches and things
+  -- not the best thing, but not worth fixing yet
+  local interactResult = int.interact(x, y, z, relative, scanLevel);
+  return inspectResult and interactResult;
 end;
 
 return M;

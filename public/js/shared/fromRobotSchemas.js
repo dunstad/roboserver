@@ -190,10 +190,6 @@ const validators = {
     "required": ["name", "hardness", "point"],
   }),
 
-  remember: ajv.compile({
-    // todo
-  }),
-
 };
 
 const keyToValidatorMap = {

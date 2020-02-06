@@ -434,7 +434,7 @@ let commandToResponseMap = {
                 callback: handleSlotData,
             }, {
                 name: 'command result',
-                callback: printCommandResult,
+                callback: printInventory,
         }],
         errorStrings: {
             usage: 'x y z [relative] [scanLevel]',
