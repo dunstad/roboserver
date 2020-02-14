@@ -58,6 +58,11 @@ function main(server, app) {
     socket.on('command', (data)=>{
       console.dir(data);
       if (fromClientSchemas[data.command.name](data)) {
+        // start remembering blocks and/or items to be sent soon
+        if (data.command.name == 'remember') {
+          accounts.getRobot(socket.request.user.username, data.robot).remember = true;
+          console.log('start remembering!');
+        }
         accounts.sendToRobot(socket.request.user.username, data.robot, data.command);
       }
       else {
@@ -114,6 +119,12 @@ function main(server, app) {
               console.log('key', key)
               console.log('data', dataJSON[key])
               // 'remember' command code goes here
+              if (accounts.getRobot(tcpSocket.id.account, tcpSocket.id.robot).remember) {
+                if (key == 'command result') {
+                  accounts.getRobot(tcpSocket.id.account, tcpSocket.id.robot).remember = false;
+                  console.log('stop remembering!');
+                }
+              }
               accounts.sendToClients(tcpSocket.id.account, key, {data: dataJSON[key], robot: tcpSocket.id.robot});
             }
             else {
