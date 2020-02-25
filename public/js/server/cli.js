@@ -24,13 +24,15 @@ let handleSlotData = (robotResponse, socket)=>{
 };
 
 let printInventory = (robotResponse, socket)=>{
-    console.log(`${robotResponse.robot}:`);
-    console.log(`  slots: ${socket.slotCount}`);
-    console.log(`  side: ${socket.side}`);
-    for (let slotNum in socket.slots) {
-        let selected = slotNum == socket.selected ? ' *' : '';
-        let contents = socket.slots[slotNum];
-        console.log(`${String(slotNum).padStart(2)}. ${contents.label} (${contents.size})${selected}`);
+    if (socket.slots) {
+        console.log(`${robotResponse.robot}:`);
+        console.log(`  slots: ${socket.slotCount}`);
+        console.log(`  side: ${socket.side}`);
+        for (let slotNum in socket.slots) {
+            let selected = slotNum == socket.selected ? ' *' : '';
+            let contents = socket.slots[slotNum];
+            console.log(`${String(slotNum).padStart(2)}. ${contents.label} (${contents.size})${selected}`);
+        }
     }
     socket.done = true;
 };

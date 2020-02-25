@@ -2,6 +2,11 @@ var accounts = new (require('./SocketToAccountMap'))();
 var keyToValidatorMap = require('../shared/fromRobotSchemas').keyToValidatorMap;
 var fromClientSchemas = require('../shared/fromClientSchemas');
 
+
+var InventoryData = require('../shared/InventoryData');
+var MapData = require('../shared/MapData');
+var map = new MapData();
+
 const delimiter = '\n';
 
 /**
@@ -60,7 +65,7 @@ function main(server, app) {
       if (fromClientSchemas[data.command.name](data)) {
         // start remembering blocks and/or items to be sent soon
         if (data.command.name == 'remember') {
-          accounts.getRobot(socket.request.user.username, data.robot).remember = true;
+          accounts.getRobot(socket.request.user.username, data.robot).remember = {};
           console.log('start remembering!');
         }
         accounts.sendToRobot(socket.request.user.username, data.robot, data.command);
@@ -119,9 +124,35 @@ function main(server, app) {
               console.log('key', key)
               console.log('data', dataJSON[key])
               // 'remember' command code goes here
-              if (accounts.getRobot(tcpSocket.id.account, tcpSocket.id.robot).remember) {
+              if (tcpSocket.remember) {
+                if (key == 'inventory data') {
+                  map.get(
+                    tcpSocket.remember.point.x,
+                    tcpSocket.remember.point.y,
+                    tcpSocket.remember.point.z,
+                  ).inventory = new InventoryData(dataJSON[key]);
+                  console.log(`remembering inventory of size ${dataJSON[key].size}`);
+                }
+                if (key == 'slot data') {
+                  map.get(
+                    tcpSocket.remember.point.x,
+                    tcpSocket.remember.point.y,
+                    tcpSocket.remember.point.z,
+                  ).inventory.setSlot(dataJSON[key]);
+                  console.log(`remembering ${dataJSON[key].contents.label} in slot ${dataJSON[key].slotNum}`);
+                }
+                if (key == 'block data') {
+                  map.set(
+                    dataJSON[key].point.x,
+                    dataJSON[key].point.y,
+                    dataJSON[key].point.z,
+                    dataJSON[key],
+                  );
+                  tcpSocket.remember = dataJSON[key];
+                  console.log(`remembering ${dataJSON[key].name}`);
+                }
                 if (key == 'command result') {
-                  accounts.getRobot(tcpSocket.id.account, tcpSocket.id.robot).remember = false;
+                  tcpSocket.remember = false;
                   console.log('stop remembering!');
                 }
               }

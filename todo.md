@@ -1,10 +1,4 @@
-* remember command
-  * remember coordinates \[relative\]
-    * data for the robot to send
-      * block name
-      * if present, total inventory contents
-        * slot number, item name, stack size
-  * tells the server where items and blocks are
+* see if remember code works with real bots
 
 * locate command
   * locate name \[amount\]
