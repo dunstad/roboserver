@@ -95,6 +95,7 @@ const commandSchemas = {
   sendComponents: [],
   config: [['string', 'null'], ['string', 'integer', 'boolean', 'null']],
   remember: moveParams,
+  locate: ['string', ['integer', 'null']],
 }
 
 const validators = {};

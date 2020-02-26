@@ -275,6 +275,12 @@ class TestClient {
 				this.sendWithCost('command result', ['remember', true]);
 			},
 
+			locate: (name, amount)=>{
+
+				this.sendWithCost('command result', ['locate', true]);
+
+			},
+
 		};
 
 		this.socket.on('data', (rawMessages)=>{

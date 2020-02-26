@@ -236,7 +236,7 @@ let commandToResponseMap = {
         errorStrings: {
             usage: 'scanLevel [times]',
             example: '1 1',
-        }
+        },
     },
     viewInventory: {
         callbacks: [{
@@ -271,7 +271,7 @@ let commandToResponseMap = {
         errorStrings: {
             usage: 'x1 y1 z1 x2 y2 z2 [relative] [selectionIndex] [scanLevel]',
             example: '2 2 2 0 2 0 false 0 0',
-        }
+        },
     },
     place: {
         callbacks: [{
@@ -281,7 +281,7 @@ let commandToResponseMap = {
         errorStrings: {
             usage: 'x1 y1 z1 x2 y2 z2 [relative] [selectionIndex] [scanLevel]',
             example: '2 3 2 0 3 0 false 0 0',
-        }
+        },
     },
     move: {
         callbacks: [{
@@ -302,7 +302,7 @@ let commandToResponseMap = {
         errorStrings: {
             usage: 'x y z [relative] [scanLevel]',
             example: 'x y z false 0',
-        }
+        },
     },
     interact: {
         callbacks: [{
@@ -326,7 +326,7 @@ let commandToResponseMap = {
         errorStrings: {
             usage: 'x y z [relative] [scanLevel]',
             example: '2 2 2 false 0',
-        }
+        },
     },
     inspect: {
         callbacks: [{
@@ -339,7 +339,7 @@ let commandToResponseMap = {
         errorStrings: {
             usage: 'x y z [relative] [scanLevel]',
             example: '2 2 2 false 0',
-        }
+        },
     },
     select: {
         callbacks: [{
@@ -349,7 +349,7 @@ let commandToResponseMap = {
         errorStrings: {
             usage: 'slotNum',
             example: '2',
-        }
+        },
     },
     transfer: {
         callbacks: [{
@@ -359,7 +359,7 @@ let commandToResponseMap = {
         errorStrings: {
             usage: 'fromSlot fromSide toSlot toSide amount',
             example: '2 -1 10 -1 7',
-        }
+        },
     },
     craft: {
         callbacks: [{
@@ -369,7 +369,7 @@ let commandToResponseMap = {
         errorStrings: {
             usage: 'itemName',
             example: '"Wooden Pickaxe"',
-        }
+        },
     },
     raw: {
         callbacks: [{
@@ -388,7 +388,7 @@ let commandToResponseMap = {
         errorStrings: {
             usage: 'someLuaCode',
             example: '"cat /bin/sh.lua"',
-        }
+        },
     },
     sendComponents: {
         callbacks: [{
@@ -423,6 +423,10 @@ let commandToResponseMap = {
                 }
             },
         }],
+        errorStrings: {
+            usage: 'optionName [value]',
+            example: '"raw" "true"',
+        },
     },
     remember: {
         callbacks: [{
@@ -441,7 +445,17 @@ let commandToResponseMap = {
         errorStrings: {
             usage: 'x y z [relative] [scanLevel]',
             example: '2 2 2 false 0',
-        }
+        },
+    },
+    locate: {
+        callbacks: [{
+            name: 'command result',
+            callback: printCommandResult,
+        }],
+        errorStrings: {
+            usage: 'name [amount]',
+            example: '"Dirt" 1',
+        },
     },
 }
 
