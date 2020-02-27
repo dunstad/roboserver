@@ -277,7 +277,7 @@ class TestClient {
 
 			locate: (name, amount)=>{
 
-				this.sendWithCost('command result', ['locate', true]);
+				this.sendWithCost('command result', ['locate', false]);
 
 			},
 

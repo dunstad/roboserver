@@ -68,6 +68,10 @@ function main(server, app) {
           accounts.getRobot(socket.request.user.username, data.robot).remember = {};
           console.log('start remembering!');
         }
+        else if (data.command.name == 'locate') {
+          console.log('locating!', data.command.parameters)
+          accounts.getRobot(socket.request.user.username, data.robot).locate = data.command.parameters;
+        }
         accounts.sendToRobot(socket.request.user.username, data.robot, data.command);
       }
       else {
@@ -155,6 +159,46 @@ function main(server, app) {
                   tcpSocket.remember = false;
                   console.log('stop remembering!');
                 }
+              }
+              else if (tcpSocket.locate && !dataJSON[key][1]) {
+
+                // find the thing we were trying to locate in the map
+                // tcpSocket.locate;
+                console.log('searching map');
+                for (let x in map.map) {
+                  for (let y in map.map[x]) {
+                    for (let z in map.map[x][y]) {
+                      
+                      let block = map.get(x, y, z);
+                      console.log(block);
+                      // searching for items
+                      if (tcpSocket.locate.length == 2) {
+                        if (block.inventory) {
+                          for (let slotNum in block.inventory.slots) {
+                            let slot = block.inventory.slots[slotNum];
+                            console.log(slot);
+                            let nameMatches = slot.label.toLowerCase() == tcpSocket.locate[0].toLowerCase();
+                            let amountMatches = slot.size >= tcpSocket.locate[1];
+                            if (nameMatches && amountMatches) {
+                              console.log('match found!');
+                            }
+                          }
+                        }
+                      }
+                      // searching for blocks
+                      else {
+                        // todo: need a block name to label map (minecraft:dirt to Dirt)
+                        if (block.name.toLowerCase().indexOf(tcpSocket.locate[0].toLowerCase()) != -1) {
+                          console.log('match found!');
+                        }
+                      }
+                      
+                    }
+                  }
+                }
+
+                tcpSocket.locate = false;
+
               }
               accounts.sendToClients(tcpSocket.id.account, key, {data: dataJSON[key], robot: tcpSocket.id.robot});
             }
