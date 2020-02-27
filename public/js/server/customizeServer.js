@@ -113,6 +113,7 @@ function main(server, app) {
           if (keyToValidatorMap[key](dataJSON[key])) {
 
             if (key == 'id') {
+
               tcpSocket.id = dataJSON[key];
               if (accounts.getRobot(tcpSocket.id.account, tcpSocket.id.robot)) {
                 var errorString = 'a robot called ' + tcpSocket.id.robot +
@@ -123,11 +124,14 @@ function main(server, app) {
                 accounts.setRobot(tcpSocket.id.account, tcpSocket.id.robot, tcpSocket);
                 console.log("robot " + tcpSocket.id.robot + " identified for account " + tcpSocket.id.account);
               }
+
             }
+
             else if (tcpSocket.id && tcpSocket.id.account && tcpSocket.id.robot) {
+
               console.log('key', key)
               console.log('data', dataJSON[key])
-              // 'remember' command code goes here
+              
               if (tcpSocket.remember) {
                 if (key == 'inventory data') {
                   map.get(
@@ -160,10 +164,11 @@ function main(server, app) {
                   console.log('stop remembering!');
                 }
               }
+
               else if (tcpSocket.locate && !dataJSON[key][1]) {
 
-                // find the thing we were trying to locate in the map
-                // tcpSocket.locate;
+                let match = false;
+
                 console.log('searching map');
                 for (let x in map.map) {
                   for (let y in map.map[x]) {
@@ -181,6 +186,7 @@ function main(server, app) {
                             let amountMatches = slot.size >= tcpSocket.locate[1];
                             if (nameMatches && amountMatches) {
                               console.log('match found!');
+                              match = block.point;
                             }
                           }
                         }
@@ -190,6 +196,7 @@ function main(server, app) {
                         // todo: need a block name to label map (minecraft:dirt to Dirt)
                         if (block.name.toLowerCase().indexOf(tcpSocket.locate[0].toLowerCase()) != -1) {
                           console.log('match found!');
+                          match = block.point;
                         }
                       }
                       
@@ -198,9 +205,12 @@ function main(server, app) {
                 }
 
                 tcpSocket.locate = false;
+                dataJSON[key][1] = match;
 
               }
+
               accounts.sendToClients(tcpSocket.id.account, key, {data: dataJSON[key], robot: tcpSocket.id.robot});
+
             }
             else {
               var errorString = 'unidentified robots cannot send messages';

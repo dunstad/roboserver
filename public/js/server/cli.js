@@ -450,7 +450,16 @@ let commandToResponseMap = {
     locate: {
         callbacks: [{
             name: 'command result',
-            callback: printCommandResult,
+            callback: (robotResponse, socket)=>{
+                console.log(`${robotResponse.robot}:`);
+                if (robotResponse.data[1]) {
+                    console.log(`  located at ${robotResponse.data[1].x} ${robotResponse.data[1].y} ${robotResponse.data[1].z}`);
+                }
+                else {
+                    console.log('  failed to locate');
+                }
+                socket.done = true;
+            },
         }],
         errorStrings: {
             usage: 'name [amount]',
