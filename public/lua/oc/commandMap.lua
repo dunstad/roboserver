@@ -125,4 +125,22 @@ M['remember'] = function(x, y, z, relative, scanLevel)
   return inspectResult and interactResult;
 end;
 
+M['locate'] = function(name, amount)
+  local result = false;
+  -- only try finding items in our inventory
+  if amount then
+    local size = robot.inventorySize();
+    for slotNum = 1, size do
+      local contents = inv.getStackInInternalSlot(slotNum);
+      local amountMatch = contents.size >= amount;
+      local nameMatch = name:lower() == contents.label:lower();
+      if nameMatch and amountMatch then
+        result = true;
+        break;
+      end
+    end
+  end
+  return result;
+end;
+
 return M;
