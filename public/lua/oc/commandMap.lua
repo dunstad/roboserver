@@ -131,12 +131,14 @@ M['locate'] = function(name, amount)
   if amount then
     local size = robot.inventorySize();
     for slotNum = 1, size do
-      local contents = inv.getStackInInternalSlot(slotNum);
-      local amountMatch = contents.size >= amount;
-      local nameMatch = name:lower() == contents.label:lower();
-      if nameMatch and amountMatch then
-        result = true;
-        break;
+      if robot.count(slotNum) > 0 then
+        local contents = inv.getStackInInternalSlot(slotNum);
+        local amountMatch = contents.size >= amount;
+        local nameMatch = name:lower() == contents.label:lower();
+        if nameMatch and amountMatch then
+          result = pos.get();
+          break;
+        end
       end
     end
   end
