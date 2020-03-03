@@ -1,13 +1,11 @@
-* see if remember code works with real bots
+* test building a house with a real bot
+  * reprioritize features based on how that goes
 
-* locate command
-  * locate name \[amount\]
-    * store all names as lowercase
-    * no amount means it's a block
-  * check inventory first, then ask server
-  * server replies with coordinates of an inventory or block
-  * check location provided by server, update it, ask again if invalid
-  * if the server doesn't know, craft it
+* add documentation to cli for commands that need it
+  * locate command
+    * locate name \[amount\]
+      * no amount means it's a block
+    * server replies with coordinates of an inventory or block
 
 * gather command, dig blocks matching gather list
   * just use equipped tool first
