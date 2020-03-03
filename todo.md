@@ -1,5 +1,15 @@
 * test building a house with a real bot
   * reprioritize features based on how that goes
+    * accidentally doing absolute instead of relative coordinates sucks...
+    * allow specifying only one coordinate for dig and place?
+    * difficult to identify flat ground, at least on XZ show 1 layer of depth
+    * bots could be smarter about automatically stacking items
+    * i wouldn't mind having a bigger scan for exploring
+    * still can't specify which robot receives commands in cli
+    * digging can take a really long time with no feedback
+    * saplings and other plants don't seem to show up in scanArea
+    * don't know the name of the item i want to craft
+    * can only craft one at a time
 
 * add documentation to cli for commands that need it
   * locate command
