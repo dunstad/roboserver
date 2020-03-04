@@ -267,6 +267,13 @@ let commandToResponseMap = {
         callbacks: [{
             name: 'command result',
             callback: printCommandResult,
+        }, {
+            name: 'dig success',
+            callback: (robotResponse, socket)=>{
+                if (!socket.blocksDug) {socket.blocksDug = 0;}
+                socket.blocksDug += 1;
+                console.log(`blocks dug: ${socket.blocksDug}`);
+            },
         }],
         errorStrings: {
             usage: 'x1 y1 z1 x2 y2 z2 [relative] [selectionIndex] [scanLevel]',
