@@ -233,10 +233,10 @@ let commandToResponseMap = {
                 }
 
                 // merge the two top down layers
-                let topDown = [];
+                let topDown = Array(topDownLayers[0].length).fill([]);
                 for (let rowIndex = 0; rowIndex < topDownLayers[0].length; rowIndex++) {
                     topDown.push([]);
-                    for (let colIndex = 0; colIndex < topDownLayers[0][rowIndex].length; colIndex++) {
+                    for (let colIndex = 0; colIndex < topDownLayers[0].length; colIndex++) {
                         if (topDownLayers[0][rowIndex][colIndex] != letterFromHardness(0)) {
                             topDown[rowIndex].push(topDownLayers[0][rowIndex][colIndex]);
                         }
@@ -248,23 +248,46 @@ let commandToResponseMap = {
                 }
 
                 console.log(`${robotResponse.robot}:`);
-                console.log(` ${'Z'.padEnd((topDown.length + 1) * 2)}    ${'Y'.padEnd((topDown.length + 1) * 2)}    Y`);
-                for (let rowIndex = topDown.length - 1; rowIndex >= 0; rowIndex--) {
-
-                    let firstRow = topDown[rowIndex].reduce((a, b)=>a+' '+b);
-                    let secondRow = leftRight[rowIndex].reduce((a, b)=>a+' '+b);
-                    let thirdRow = frontBack[rowIndex].reduce((a, b)=>a+' '+b);
-
-                    let firstString = `${String(rowIndex - 3).padStart(2)} ${firstRow}    `;
-                    let secondString = `${String(rowIndex - 2).padStart(2)} ${secondRow}    `;
-                    let thirdString = `${String(rowIndex - 2).padStart(2)} ${thirdRow}`;
-                    console.log(`${firstString}${secondString}${thirdString}`);
+                if (mapDataObject.n == 512) {
+                    console.log(` ${'Z'.padEnd((topDown.length + 1) * 2)}    ${'Y'.padEnd((topDown.length + 1) * 2)}    Y`);
+                    for (let rowIndex = topDown.length - 1; rowIndex >= 0; rowIndex--) {
+    
+                        let firstRow = topDown[rowIndex].reduce((a, b)=>a+' '+b);
+                        let secondRow = leftRight[rowIndex].reduce((a, b)=>a+' '+b);
+                        let thirdRow = frontBack[rowIndex].reduce((a, b)=>a+' '+b);
+    
+                        let firstString = `${String(rowIndex - robotScanCoordZ).padStart(2)} ${firstRow}    `;
+                        let secondString = `${String(rowIndex - robotScanCoordY).padStart(2)} ${secondRow}    `;
+                        let thirdString = `${String(rowIndex - robotScanCoordY).padStart(2)} ${thirdRow}`;
+                        console.log(`${firstString}${secondString}${thirdString}`);
+                    }
+                    let colString = '  ';
+                    for (let colIndex = 0; colIndex < topDown.length; colIndex++) {
+                        colString += `${String(colIndex - robotScanCoordX).padStart(2)}`;
+                    }
+                    console.log(`${colString} X  ${colString} X  ${colString} Z`)
                 }
-                let colString = '  ';
-                for (let colIndex = 0; colIndex < topDown.length; colIndex++) {
-                    colString += `${String(colIndex - 3).padStart(2)}`;
+                else {
+                    console.log(topDown)
+                    console.log(' Z');
+                    for (let rowIndex = topDown.length - 1; rowIndex >= 0; rowIndex--) {
+
+                        let firstRow = '';
+                        for (let character of topDown[rowIndex]) {
+                            firstRow += character;
+                        }
+    
+                        // let firstRow = topDown[rowIndex].reduce((a, b)=>a+' '+b);
+    
+                        let firstString = `${String(rowIndex - robotScanCoordZ).padStart(3)} ${firstRow}`;
+                        console.log(`${firstString}`);
+                    }
+                    let colString = '  ';
+                    for (let colIndex = 0; colIndex < topDown.length; colIndex++) {
+                        colString += `${String(colIndex - robotScanCoordX).padStart(3)}`;
+                    }
+                    console.log(`${colString} X`)
                 }
-                console.log(`${colString} X  ${colString} X  ${colString} Z`)
                 socket.done = true;
             },
         }],
