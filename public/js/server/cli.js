@@ -233,7 +233,7 @@ let commandToResponseMap = {
                 }
 
                 // merge the two top down layers
-                let topDown = Array(topDownLayers[0].length).fill([]);
+                let topDown = [];
                 for (let rowIndex = 0; rowIndex < topDownLayers[0].length; rowIndex++) {
                     topDown.push([]);
                     for (let colIndex = 0; colIndex < topDownLayers[0].length; colIndex++) {
