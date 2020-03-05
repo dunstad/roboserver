@@ -177,6 +177,20 @@ let commandToResponseMap = {
                     return hardnessToLetterMap[closestMatch].letter;
                 };
 
+                let robotScanCoordX;
+                let robotScanCoordY;
+                let robotScanCoordZ;
+                if (mapDataObject.n == 512) {
+                    robotScanCoordX = 3;
+                    robotScanCoordY = 2;
+                    robotScanCoordZ = 3;
+                }
+                else {
+                    robotScanCoordX = 32;
+                    robotScanCoordY = 1;
+                    robotScanCoordZ = 32;
+                }
+
                 let terrainMap = [];
                 let topDownLayers = [[], []];
                 let leftRight = [];
@@ -187,10 +201,10 @@ let commandToResponseMap = {
                     frontBack.push([]);
                     for (let z = 0; z < socket.mapData.d; z++) {
                         terrainMap[y].push([]);
-                        if (y == 2) {
+                        if (y == robotScanCoordY) {
                             topDownLayers[0].push([]);
                         }
-                        if (y == 1) {
+                        if (y == (robotScanCoordY - 1)) {
                             topDownLayers[1].push([]);
                         }
                         for (let x = 0; x < socket.mapData.w; x++) {
@@ -201,16 +215,16 @@ let commandToResponseMap = {
 
                             terrainMap[y][z].push(letterFromHardness(socket.mapData.data[index]));
 
-                            if (x == 3) {
+                            if (x == robotScanCoordX) {
                                 frontBack[y].push(letterFromHardness(socket.mapData.data[index]));
                             }
-                            if (y == 2) {
+                            if (y == robotScanCoordY) {
                                 topDownLayers[0][topDownLayers[0].length - 1].push(letterFromHardness(socket.mapData.data[index]));
                             }
-                            if (y == 1) {
+                            if (y == (robotScanCoordY - 1)) {
                                 topDownLayers[1][topDownLayers[1].length - 1].push(letterFromHardness(socket.mapData.data[index]));
                             }
-                            if (z == 3) {
+                            if (z == robotScanCoordZ) {
                                 leftRight[y].push(letterFromHardness(socket.mapData.data[index]));
                             }
 

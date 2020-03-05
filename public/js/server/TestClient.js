@@ -63,9 +63,15 @@ class TestClient {
 		this.commandMap = {
 
 			scanArea: (scanLevel, times)=>{
-				for (let i = -2; i <= 5; i++) {
-					let scan = this.geolyzerScan(-3, -3, i, 8, 8, 1);
-					this.send('map data', scan);
+				if (scanLevel == 1) {
+					for (let i = -2; i <= 5; i++) {
+						this.geolyzerScan(-3, -3, i, 8, 8, 1);
+					}
+				}
+				else if (scanLevel == 2) {
+					for (let i = -1; i <= 7; i++) {
+						this.geolyzerPlane(i);
+					}
 				}
 				this.sendWithCost('command result', ['map data', true]);
 			},
@@ -519,8 +525,24 @@ class TestClient {
 			}
 		}
 
+		this.send('map data', newScan);
 		return newScan;
 
+	}
+
+	/**
+	 * Used to send map data as the geolyzer would, but in a plane shape.
+	 * @param {number} y 
+	 */
+	geolyzerPlane(y) {
+		for (let x = -32; x <= 32; x++) {
+			this.geolyzerScan(x, -32, y, 1, 64, 1);
+		}
+		// max shape volume is 64, but we can scan from -32 to 32, inclusive
+		// that's 65, so we have one row we miss in the previous loop to scan
+		// still missing one cube after this final row, but oh well
+		this.geolyzerScan(-32, 32, y, 64, 1, 1);
+		return true;
 	}
 
 	/**
