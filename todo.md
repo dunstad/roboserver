@@ -1,10 +1,8 @@
 * accidentally doing absolute instead of relative coordinates sucks...
   * default to relative, use string "absolute" instead of a boolean
-* saplings and other plants don't seem to show up in scanArea
-  * maybe the hardness map needs a .1-ish entry?
-* difficult to identify flat ground, at least on XZ show 1 layer of depth
 * allow specifying only one coordinate for dig and place?
 * i wouldn't mind having a bigger scan for exploring
+* saplings and other plants impede movement and are invisible to the geolyzer
 * bots could be smarter about automatically stacking items
 * can only craft one at a time
 * still can't specify which robot receives commands in cli

@@ -178,7 +178,7 @@ let commandToResponseMap = {
                 };
 
                 let terrainMap = [];
-                let topDown = [];
+                let topDownLayers = [[], []];
                 let leftRight = [];
                 let frontBack = [];
                 for (let y = 0; y < (socket.mapData.data.n / (socket.mapData.w * socket.mapData.d)); y++) {
@@ -188,7 +188,10 @@ let commandToResponseMap = {
                     for (let z = 0; z < socket.mapData.d; z++) {
                         terrainMap[y].push([]);
                         if (y == 2) {
-                            topDown.push([]);
+                            topDownLayers[0].push([]);
+                        }
+                        if (y == 1) {
+                            topDownLayers[1].push([]);
                         }
                         for (let x = 0; x < socket.mapData.w; x++) {
     
@@ -202,12 +205,30 @@ let commandToResponseMap = {
                                 frontBack[y].push(letterFromHardness(socket.mapData.data[index]));
                             }
                             if (y == 2) {
-                                topDown[topDown.length - 1].push(letterFromHardness(socket.mapData.data[index]));
+                                topDownLayers[0][topDownLayers[0].length - 1].push(letterFromHardness(socket.mapData.data[index]));
+                            }
+                            if (y == 1) {
+                                topDownLayers[1][topDownLayers[1].length - 1].push(letterFromHardness(socket.mapData.data[index]));
                             }
                             if (z == 3) {
                                 leftRight[y].push(letterFromHardness(socket.mapData.data[index]));
                             }
 
+                        }
+                    }
+                }
+
+                // merge the two top down layers
+                let topDown = [];
+                for (let rowIndex = 0; rowIndex < topDownLayers[0].length; rowIndex++) {
+                    topDown.push([]);
+                    for (let colIndex = 0; colIndex < topDownLayers[0][rowIndex].length; colIndex++) {
+                        if (topDownLayers[0][rowIndex][colIndex] != letterFromHardness(0)) {
+                            topDown[rowIndex].push(topDownLayers[0][rowIndex][colIndex]);
+                        }
+                        else {
+                            // gray colored
+                            topDown[rowIndex].push(`\x1b[1;30m${topDownLayers[1][rowIndex][colIndex]}\x1b[0m`);
                         }
                     }
                 }
