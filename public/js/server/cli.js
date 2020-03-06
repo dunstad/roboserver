@@ -200,7 +200,7 @@ let commandToResponseMap = {
                     socket.mapData.d = 64;
                     robotScanCoordX = 32;
                     robotScanCoordY = 1;
-                    robotScanCoordZ = 33;
+                    robotScanCoordZ = 32;
                 }
 
                 let topDownLayers = [[], []];

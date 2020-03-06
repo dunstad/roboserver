@@ -1,7 +1,6 @@
 * accidentally doing absolute instead of relative coordinates sucks...
   * default to relative, use string "absolute" instead of a boolean
 * allow specifying only one coordinate for dig and place?
-* i wouldn't mind having a bigger scan for exploring
 * saplings and other plants impede movement and are invisible to the geolyzer
 * bots could be smarter about automatically stacking items
 * can only craft one at a time
