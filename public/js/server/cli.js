@@ -65,8 +65,15 @@ let commandToResponseMap = {
                         data: [],
                     };
                 }
-                for (let i = 1; i <= robotResponse.data.data.n; i++) {
-                    socket.mapData.data.push(robotResponse.data.data[i]);
+                // skip the 65th scan, it's easier than weaving it in between the rest
+                if (!socket.skipped && socket.mapData.data.length % (65 * 64) == 0) {
+                    socket.skipped = true
+                }
+                else {
+                    socket.skipped = false;
+                    for (let i = 1; i <= robotResponse.data.data.n; i++) {
+                        socket.mapData.data.push(robotResponse.data.data[i]);
+                    }
                 }
             },
         }, {
@@ -173,6 +180,7 @@ let commandToResponseMap = {
                 let robotScanCoordX;
                 let robotScanCoordY;
                 let robotScanCoordZ;
+                console.log(socket.mapData.data.length)
                 if (socket.mapData.data.length == 512) {
                     socket.mapData.w = 8;
                     socket.mapData.d = 8;
@@ -182,7 +190,7 @@ let commandToResponseMap = {
                 }
                 else {
                     socket.mapData.w = 65;
-                    socket.mapData.d = 65;
+                    socket.mapData.d = 64;
                     robotScanCoordX = 32;
                     robotScanCoordY = 1;
                     robotScanCoordZ = 32;
@@ -270,7 +278,7 @@ let commandToResponseMap = {
                         let firstRow = topDown[rowIndex].reduce((a, b)=>a+'  '+b);
     
                         let firstString = `${String(rowIndex - robotScanCoordZ).padStart(3)} ${firstRow}`;
-                        // console.log(`${firstString}`);
+                        console.log(`${firstString}`);
                     }
                     let colString = '  ';
                     for (let colIndex = 0; colIndex < topDown.length; colIndex++) {
