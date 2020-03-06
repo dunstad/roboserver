@@ -68,8 +68,8 @@ let commandToResponseMap = {
                 // skip the 65th scan for level 2, it's easier than weaving it in between the rest
                 if (!socket.skipped &&
                     socket.mapData.data.length % (65 * 64) == 0 &&
-                    socket.mapData.w == 1) {
-                    socket.skipped = true
+                    robotResponse.data.w == 64) {
+                    socket.skipped = true;
                 }
                 else {
                     socket.skipped = false;
@@ -188,7 +188,6 @@ let commandToResponseMap = {
                 let robotScanCoordX;
                 let robotScanCoordY;
                 let robotScanCoordZ;
-                console.log(socket.mapData.data.length)
                 if (socket.mapData.data.length == 512) {
                     socket.mapData.w = 8;
                     socket.mapData.d = 8;
@@ -201,19 +200,16 @@ let commandToResponseMap = {
                     socket.mapData.d = 64;
                     robotScanCoordX = 32;
                     robotScanCoordY = 1;
-                    robotScanCoordZ = 32;
+                    robotScanCoordZ = 33;
                 }
 
-                let terrainMap = [];
                 let topDownLayers = [[], []];
                 let leftRight = [];
                 let frontBack = [];
                 for (let y = 0; y < (socket.mapData.data.length / (socket.mapData.w * socket.mapData.d)); y++) {
-                    terrainMap.push([]);
                     leftRight.push([]);
                     frontBack.push([]);
                     for (let z = 0; z < socket.mapData.d; z++) {
-                        terrainMap[y].push([]);
                         if (y == robotScanCoordY) {
                             topDownLayers[0].push([]);
                         }
@@ -223,9 +219,8 @@ let commandToResponseMap = {
                         for (let x = 0; x < socket.mapData.w; x++) {
     
                             // this is how the geolyzer reports 3d data in a 1d array
-                            let index = x + z*socket.mapData.w + y*socket.mapData.w*socket.mapData.d;
+                            let index = x + z*socket.mapData.d + y*socket.mapData.w*socket.mapData.d;
 
-                            terrainMap[y][z].push(letterFromHardness(socket.mapData.data[index]));
 
                             if (x == robotScanCoordX) {
                                 frontBack[y].push(letterFromHardness(socket.mapData.data[index]));
