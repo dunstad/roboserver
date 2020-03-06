@@ -62,9 +62,6 @@ let commandToResponseMap = {
             callback: (robotResponse, socket)=>{
                 if (!socket.mapData) {
                     socket.mapData = {
-                        // these only work when every map piece is a whole plane
-                        w: robotResponse.data.w,
-                        d: robotResponse.data.d,
                         data: [],
                     };
                 }
@@ -75,12 +72,6 @@ let commandToResponseMap = {
         }, {
             name: 'command result',
             callback: (robotResponse, socket)=>{
-
-                mapDataObject = {n: socket.mapData.data.length};
-                for (let i = 0; i < socket.mapData.data.length; i++) {
-                    mapDataObject[i + 1] = socket.mapData.data[i];
-                }
-                socket.mapData.data = mapDataObject;
 
                 hardnessToLetterMap = {
                     // bedrock
@@ -182,14 +173,16 @@ let commandToResponseMap = {
                 let robotScanCoordX;
                 let robotScanCoordY;
                 let robotScanCoordZ;
-                if (mapDataObject.n == 512) {
+                if (socket.mapData.data.length == 512) {
+                    socket.mapData.w = 8;
+                    socket.mapData.d = 8;
                     robotScanCoordX = 3;
                     robotScanCoordY = 2;
                     robotScanCoordZ = 3;
                 }
                 else {
-                    socket.mapData.w = 64;
-                    socket.mapData.d = 64;
+                    socket.mapData.w = 65;
+                    socket.mapData.d = 65;
                     robotScanCoordX = 32;
                     robotScanCoordY = 1;
                     robotScanCoordZ = 32;
@@ -199,7 +192,7 @@ let commandToResponseMap = {
                 let topDownLayers = [[], []];
                 let leftRight = [];
                 let frontBack = [];
-                for (let y = 0; y < (socket.mapData.data.n / (socket.mapData.w * socket.mapData.d)); y++) {
+                for (let y = 0; y < (socket.mapData.data.length / (socket.mapData.w * socket.mapData.d)); y++) {
                     terrainMap.push([]);
                     leftRight.push([]);
                     frontBack.push([]);
@@ -214,8 +207,7 @@ let commandToResponseMap = {
                         for (let x = 0; x < socket.mapData.w; x++) {
     
                             // this is how the geolyzer reports 3d data in a 1d array
-                            // also lua is indexed from 1
-                            let index = (x + 1) + z*socket.mapData.w + y*socket.mapData.w*socket.mapData.d;
+                            let index = x + z*socket.mapData.w + y*socket.mapData.w*socket.mapData.d;
 
                             terrainMap[y][z].push(letterFromHardness(socket.mapData.data[index]));
 
@@ -252,7 +244,7 @@ let commandToResponseMap = {
                 }
 
                 console.log(`${robotResponse.robot}:`);
-                if (mapDataObject.n == 512) {
+                if (socket.mapData.data.length == 512) {
                     console.log(` ${'Z'.padEnd((topDown.length + 1) * 2)}    ${'Y'.padEnd((topDown.length + 1) * 2)}    Y`);
                     for (let rowIndex = topDown.length - 1; rowIndex >= 0; rowIndex--) {
     
@@ -278,7 +270,7 @@ let commandToResponseMap = {
                         let firstRow = topDown[rowIndex].reduce((a, b)=>a+'  '+b);
     
                         let firstString = `${String(rowIndex - robotScanCoordZ).padStart(3)} ${firstRow}`;
-                        console.log(`${firstString}`);
+                        // console.log(`${firstString}`);
                     }
                     let colString = '  ';
                     for (let colIndex = 0; colIndex < topDown.length; colIndex++) {
