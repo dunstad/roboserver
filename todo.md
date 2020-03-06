@@ -1,9 +1,9 @@
 * accidentally doing absolute instead of relative coordinates sucks...
   * default to relative, use string "absolute" instead of a boolean
 * allow specifying only one coordinate for dig and place?
-* saplings and other plants impede movement and are invisible to the geolyzer
 * bots could be smarter about automatically stacking items
 * can only craft one at a time
+* saplings and other plants impede movement and are invisible to the geolyzer
 * still can't specify which robot receives commands in cli
 * don't know the name of the item i want to craft
 
