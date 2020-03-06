@@ -65,8 +65,10 @@ let commandToResponseMap = {
                         data: [],
                     };
                 }
-                // skip the 65th scan, it's easier than weaving it in between the rest
-                if (!socket.skipped && socket.mapData.data.length % (65 * 64) == 0) {
+                // skip the 65th scan for level 2, it's easier than weaving it in between the rest
+                if (!socket.skipped &&
+                    socket.mapData.data.length % (65 * 64) == 0 &&
+                    socket.mapData.w == 1) {
                     socket.skipped = true
                 }
                 else {
@@ -164,17 +166,23 @@ let commandToResponseMap = {
                 };
 
                 let letterFromHardness = (hardness)=>{
-                    hardness = hardness || 0;
-                    let closestMatch = 999; // arbitrarily high number
-                    let oldDifference = Math.abs(closestMatch - hardness);
-                    for (let key in hardnessToLetterMap) {
-                        let newDifference = Math.abs(key - hardness);
-                        if (newDifference < oldDifference) {
-                            closestMatch = key;
-                            oldDifference = newDifference;
-                        }
+                    let result;
+                    if (hardness === undefined) {
+                        result = '?';
                     }
-                    return hardnessToLetterMap[closestMatch].letter;
+                    else {
+                        let closestMatch = 999; // arbitrarily high number
+                        let oldDifference = Math.abs(closestMatch - hardness);
+                        for (let key in hardnessToLetterMap) {
+                            let newDifference = Math.abs(key - hardness);
+                            if (newDifference < oldDifference) {
+                                closestMatch = key;
+                                oldDifference = newDifference;
+                            }
+                        }
+                        result = hardnessToLetterMap[closestMatch].letter;
+                    }
+                    return result;
                 };
 
                 let robotScanCoordX;
@@ -238,9 +246,9 @@ let commandToResponseMap = {
 
                 // merge the two top down layers
                 let topDown = [];
-                for (let rowIndex = 0; rowIndex < topDownLayers[0].length; rowIndex++) {
+                for (let rowIndex = 0; rowIndex < socket.mapData.d; rowIndex++) {
                     topDown.push([]);
-                    for (let colIndex = 0; colIndex < topDownLayers[0].length; colIndex++) {
+                    for (let colIndex = 0; colIndex < socket.mapData.w; colIndex++) {
                         if (topDownLayers[0][rowIndex][colIndex] != letterFromHardness(0)) {
                             topDown[rowIndex].push(topDownLayers[0][rowIndex][colIndex]);
                         }
@@ -254,7 +262,7 @@ let commandToResponseMap = {
                 console.log(`${robotResponse.robot}:`);
                 if (socket.mapData.data.length == 512) {
                     console.log(` ${'Z'.padEnd((topDown.length + 1) * 2)}    ${'Y'.padEnd((topDown.length + 1) * 2)}    Y`);
-                    for (let rowIndex = topDown.length - 1; rowIndex >= 0; rowIndex--) {
+                    for (let rowIndex = socket.mapData.d - 1; rowIndex >= 0; rowIndex--) {
     
                         let firstRow = topDown[rowIndex].reduce((a, b)=>a+' '+b);
                         let secondRow = leftRight[rowIndex].reduce((a, b)=>a+' '+b);
@@ -266,14 +274,14 @@ let commandToResponseMap = {
                         console.log(`${firstString}${secondString}${thirdString}`);
                     }
                     let colString = '  ';
-                    for (let colIndex = 0; colIndex < topDown.length; colIndex++) {
+                    for (let colIndex = 0; colIndex < socket.mapData.w; colIndex++) {
                         colString += `${String(colIndex - robotScanCoordX).padStart(2)}`;
                     }
                     console.log(`${colString} X  ${colString} X  ${colString} Z`)
                 }
                 else {
                     console.log(' Z');
-                    for (let rowIndex = topDown.length - 1; rowIndex >= 0; rowIndex--) {
+                    for (let rowIndex = socket.mapData.d - 1; rowIndex >= 0; rowIndex--) {
     
                         let firstRow = topDown[rowIndex].reduce((a, b)=>a+'  '+b);
     
@@ -281,7 +289,7 @@ let commandToResponseMap = {
                         console.log(`${firstString}`);
                     }
                     let colString = '  ';
-                    for (let colIndex = 0; colIndex < topDown.length; colIndex++) {
+                    for (let colIndex = 0; colIndex < socket.mapData.w; colIndex++) {
                         colString += `${String(colIndex - robotScanCoordX).padStart(3)}`;
                     }
                     console.log(`${colString} X`)
