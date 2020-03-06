@@ -62,6 +62,7 @@ let commandToResponseMap = {
             callback: (robotResponse, socket)=>{
                 if (!socket.mapData) {
                     socket.mapData = {
+                        // these only work when every map piece is a whole plane
                         w: robotResponse.data.w,
                         d: robotResponse.data.d,
                         data: [],
@@ -165,6 +166,7 @@ let commandToResponseMap = {
                 };
 
                 let letterFromHardness = (hardness)=>{
+                    hardness = hardness || 0;
                     let closestMatch = 999; // arbitrarily high number
                     let oldDifference = Math.abs(closestMatch - hardness);
                     for (let key in hardnessToLetterMap) {
@@ -186,6 +188,8 @@ let commandToResponseMap = {
                     robotScanCoordZ = 3;
                 }
                 else {
+                    socket.mapData.w = 64;
+                    socket.mapData.d = 64;
                     robotScanCoordX = 32;
                     robotScanCoordY = 1;
                     robotScanCoordZ = 32;
@@ -268,16 +272,10 @@ let commandToResponseMap = {
                     console.log(`${colString} X  ${colString} X  ${colString} Z`)
                 }
                 else {
-                    console.log(topDown)
                     console.log(' Z');
                     for (let rowIndex = topDown.length - 1; rowIndex >= 0; rowIndex--) {
-
-                        let firstRow = '';
-                        for (let character of topDown[rowIndex]) {
-                            firstRow += character;
-                        }
     
-                        // let firstRow = topDown[rowIndex].reduce((a, b)=>a+' '+b);
+                        let firstRow = topDown[rowIndex].reduce((a, b)=>a+'  '+b);
     
                         let firstString = `${String(rowIndex - robotScanCoordZ).padStart(3)} ${firstRow}`;
                         console.log(`${firstString}`);
