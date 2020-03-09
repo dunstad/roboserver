@@ -224,8 +224,8 @@ class TestClient {
 			
 			},
 			
-			craft: (itemName)=>{
-				this.sendWithCost('command result', ['craft', 'crafting not implemented']);
+			craft: (itemName, amount)=>{
+				this.sendWithCost('command result', ['craft', 'crafting not implemented!']);
 			},
 			
 			raw: (commandString)=>{

@@ -65,8 +65,13 @@ M['transfer'] = function(fromSlot, fromSide, toSlot, toSide, amount)
   return int.transfer(fromSlot, fromSide, toSlot, toSide, amount);
 end;
 
-M['craft'] = function(itemName)
-  return craft.craft(itemName);
+M['craft'] = function(itemName, amount)
+  amount = amount or 1;
+  local result;
+  for i = 1, amount do
+    result = craft.craft(itemName);
+  end
+  return result;
 end;
 
 function runInTerminal(commandText)

@@ -89,7 +89,7 @@ const commandSchemas = {
   inspect: moveParams,
   select: ['integer'],
   transfer: Array(5).fill('integer'),
-  craft: ['string'],
+  craft: ['string', ['integer', 'null']],
   raw: ['string'],
   sendPosition: [],
   sendComponents: [],

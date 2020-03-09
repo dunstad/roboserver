@@ -433,8 +433,8 @@ let commandToResponseMap = {
             callback: printCommandResult,
         }],
         errorStrings: {
-            usage: 'itemName',
-            example: '"Wooden Pickaxe"',
+            usage: 'itemName [amount]',
+            example: '"Wooden Pickaxe" 2',
         },
     },
     raw: {
