@@ -75,7 +75,7 @@ function makeCommandSchema(name, parameters) {
   return schema;
 }
 
-let doToAreaParams = Array(6).fill('integer').concat([['boolean', 'null']]).concat(Array(2).fill(['integer', 'null']));
+let doToAreaParams = Array(3).fill('integer').concat(Array(3).fill(['integer', 'null'])).concat([['boolean', 'null']]).concat(Array(2).fill(['integer', 'null']));
 let moveParams = Array(3).fill('integer').concat([['boolean', 'null'], ['integer', 'null']]);
 
 const commandSchemas = {

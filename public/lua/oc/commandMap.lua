@@ -38,10 +38,16 @@ M['equip'] = function()
 end;
 
 M['dig'] = function(x1, y1, z1, x2, y2, z2, relative, scanLevel, selectionIndex)
+  x2 = x2 or x1;
+  y2 = y2 or y1;
+  z2 = z2 or z1;
   return dta.digArea(x1, y1, z1, x2, y2, z2, relative, scanLevel, selectionIndex);
 end;
 
 M['place'] = function(x1, y1, z1, x2, y2, z2, relative, scanLevel, selectionIndex)
+  x2 = x2 or x1;
+  y2 = y2 or y1;
+  z2 = z2 or z1;
   return dta.placeArea(x1, y1, z1, x2, y2, z2, relative, scanLevel, selectionIndex);
 end;
 

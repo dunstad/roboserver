@@ -105,6 +105,9 @@ class TestClient {
 			},
 			
 			dig: (x1, y1, z1, x2, y2, z2, relative, scanLevel, selectionIndex,)=>{
+				x2 = x2 || x1;
+				y2 = y2 || y1;
+				z2 = z2 || z1;
 				if (relative) {
 					x1 += this.position.x;
 					y1 += this.position.y;
@@ -125,6 +128,9 @@ class TestClient {
 			},
 			
 			place: (x1, y1, z1, x2, y2, z2, relative, scanLevel, selectionIndex,)=>{
+				x2 = x2 || x1;
+				y2 = y2 || y1;
+				z2 = z2 || z1;
 				if (relative) {
 					x1 += this.position.x;
 					y1 += this.position.y;

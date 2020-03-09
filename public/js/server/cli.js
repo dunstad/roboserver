@@ -335,7 +335,7 @@ let commandToResponseMap = {
             },
         }],
         errorStrings: {
-            usage: 'x1 y1 z1 x2 y2 z2 [relative] [selectionIndex] [scanLevel]',
+            usage: 'x1 y1 z1 [x2 y2 z2] [relative] [selectionIndex] [scanLevel]',
             example: '2 2 2 0 2 0 false 0 0',
         },
     },
@@ -345,7 +345,7 @@ let commandToResponseMap = {
             callback: printCommandResult,
         }],
         errorStrings: {
-            usage: 'x1 y1 z1 x2 y2 z2 [relative] [selectionIndex] [scanLevel]',
+            usage: 'x1 y1 z1 [x2 y2 z2] [relative] [selectionIndex] [scanLevel]',
             example: '2 3 2 0 3 0 false 0 0',
         },
     },
