@@ -76,27 +76,33 @@ function M.countInInventory(label)
 	return total;
 end
 
-function M.firstAvailableSlot(stackInfo)
+-- fills existing stacks before empty slots
+-- does not partially fill, e.g. stacks of
+-- 63 and 2 will not become 64 and 1
+function M.bestAvailableSlot(stackInfo)
   local availableSlot = 0;
-	for i = 1, invSize do
-    if availableSlot == 0 then
-      if not craftingSlots[i] then
-        if not (robot.count(i) > 0)  then
+  local existingOpenStack = nil;
+  for i = 1, invSize do
+    if not craftingSlots[i] then
+      if not (robot.count(i) > 0)  then
+        if availableSlot == 0 then
           availableSlot = i;
-        else
+        end
+      else
+        if not existingOpenStack then
           if stackInfo then
             local slotInfo = inv.getStackInInternalSlot(i);
             local sameName = stackInfo.label == slotInfo.label;
             local stackFits = stackInfo.size + slotInfo.size <= slotInfo.maxSize;
             if sameName and stackFits then
-              availableSlot = i;
+              existingOpenStack = i;
             end
           end
         end
       end
     end
 	end
-	return availableSlot;
+	return existingOpenStack or availableSlot;
 end
 
 function M.clearCraftingGrid()
@@ -107,7 +113,7 @@ function M.clearCraftingGrid()
       if robot.count(slot) > 0 then
         local slotInfo = inv.getStackInInternalSlot(slot);
         robot.select(slot);
-        local firstSlot = M.firstAvailableSlot(slotInfo);
+        local firstSlot = M.bestAvailableSlot(slotInfo);
         robot.transferTo(firstSlot);
         int.sendSlotData(side, firstSlot);
       end
