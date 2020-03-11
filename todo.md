@@ -5,6 +5,10 @@
 * test if items stack better during crafting process
 * test crafting multiple things in one command
 * saplings and other plants impede movement and are invisible to the geolyzer
+  * add wander to movement for when pathing fails
+  * or do some proper pathfinding
+  * or make a list of things it's okay to break while moving
+    * fail move, inspect block, and break it
 * still can't specify which robot receives commands in cli
 * don't know the name of the item i want to craft
 
@@ -20,9 +24,6 @@
 
 * build by specifying block name rather than using current slot
   * new parameters or a new command?
-
-* add wander to movement for when pathing fails
-  * or do some proper pathfinding
 
 * setting to allow destroying while moving, towering
   * list of blocks it's okay to destroy and tower with
