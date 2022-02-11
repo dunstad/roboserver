@@ -14,7 +14,7 @@
     "package-all": "electron-packager . --overwrite --all --icon=public/assets/placeholder_icon.icns --prune=true --out=release-builds"
   },
   "dependencies": {
-    "ajv": "^6.10.2",
+    "ajv": "^6.12.3",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.15.2",
     "cookie-parser": "~1.4.3",
